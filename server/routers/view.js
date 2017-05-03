@@ -1,7 +1,7 @@
 const pug = require('pug')
 const ejs = require('ejs')
 const path = require('path')
-
+const fs = require('fs');
 const VueSSR = require('vue-ssr')
 // const vueRender = require('../vue-ssr/renderer')
 const serverConfig = require('../../build/webpack.server')
@@ -18,13 +18,14 @@ const indexRenderer = new VueSSR({
 })
 
 function render(view, data) {
-    return ejs.compile(path.join(__dirname, '../views/' + view + '.ejs'), {
-        cache: true
-    })(data)
+    return ejs.render(fs.readFileSync(path.join(__dirname, '../views/' + view + '.ejs'), 'utf8'), data);
 }
 
 function index(req, res) {
-    const template = render('index', { title: 'doracms', bundle: 'index' })
+    const template = render('index', {
+        title: 'doracms',
+        bundle: 'index'
+    })
     indexRenderer.render(req, res, template)
 }
 

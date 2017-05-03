@@ -9,7 +9,17 @@ router.get('/article', View.index)
 router.get('/tag', View.index)
 
 router.get('/login', function (req, res) {
-  res.render('login', { title: 'login', bundle: 'login'})
+  res.render('login', {
+    title: 'login',
+    bundle: 'login'
+  })
+})
+
+router.get('/manage', function (req, res) {
+  res.render('manage', {
+    title: 'manage',
+    bundle: 'manage'
+  })
 })
 
 module.exports = router

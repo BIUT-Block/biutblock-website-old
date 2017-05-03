@@ -16,19 +16,27 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.vue$/,
-            loader: 'vue-loader'
-        }, {
-            test: /\.js$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/
-        }, {
-            test: /\.(png|jpg|gif|svg|ttf|woff|eot)$/,
-            loader: 'file-loader',
-            query: {
-                name: 'file/[name].[ext]'
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }, {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            }, {
+                test: /\\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\\.(eot|woff|woff2|ttf)([\\?]?.*)$/,
+                loader: "file"
+            }, {
+                test: /\.(png|jpg|gif|svg|ttf|woff|eot)$/,
+                loader: 'file-loader',
+                query: {
+                    name: 'file/[name].[ext]'
+                }
             }
-        }]
+        ]
     },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
