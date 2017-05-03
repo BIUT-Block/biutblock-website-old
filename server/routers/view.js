@@ -1,4 +1,5 @@
 const pug = require('pug')
+const ejs = require('ejs')
 const path = require('path')
 
 const VueSSR = require('vue-ssr')
@@ -17,7 +18,7 @@ const indexRenderer = new VueSSR({
 })
 
 function render(view, data) {
-    return pug.compileFile(path.join(__dirname, '../views/' + view + '.pug'), {
+    return ejs.compile(path.join(__dirname, '../views/' + view + '.ejs'), {
         cache: true
     })(data)
 }
