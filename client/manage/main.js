@@ -3,14 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-default/index.css'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 // 自定义全局组件Loading
 import Loading from './components/loading'
 import store from './store/index.js'
 Vue.config.productionTip = false
 
-// Vue.use(ElementUI);
+Vue.use(ElementUI);
 Vue.use(Loading);
 /* eslint-disable no-new */
 const app = new Vue({

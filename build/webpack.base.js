@@ -15,25 +15,29 @@ module.exports = {
         extensions: ['.js', '.vue']
     },
     module: {
-        rules: [{
+        loaders: [
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader'
-            }, {
+            },
+            {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/
-            }, {
-                test: /\\.css$/,
+            },
+            {
+                test: /\.css$/,
                 loader: 'style-loader!css-loader'
             },
             {
-                test: /\\.(eot|woff|woff2|ttf)([\\?]?.*)$/,
-                loader: "file"
-            }, {
-                test: /\.(png|jpg|gif|svg|ttf|woff|eot)$/,
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
                 loader: 'file-loader',
                 query: {
-                    name: 'file/[name].[ext]'
+                    name: '[name].[ext]?[hash]'
                 }
             }
         ]
