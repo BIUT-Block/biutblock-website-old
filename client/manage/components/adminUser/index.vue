@@ -12,35 +12,40 @@
         </el-row>
         <el-row class="dr-datatable">
             <el-col :span="24">
+                <ToolBar></ToolBar>
                 <DataTable></DataTable>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-import DataTable from './DataTable.vue';
-export default {
-    name: 'news',
-    data() {
-        return {
-            news: [
-                '11111111',
-                '22222222',
-                '333333',
-                '444444',
-            ]
-        }
-    },
-    components: {
-        'DataTable': {
-            template: DataTable
+    import DataTable from './dataTable.vue';
+    import ToolBar from './toolBar.vue';
+    export default {
+        name: 'news',
+        data() {
+            return {
+                news: [
+                    '11111111',
+                    '22222222',
+                    '333333',
+                    '444444',
+                ]
+            }
+        },
+        components: {
+            DataTable,
+            ToolBar
         }
     }
-}
 </script>
 
 <style lang="">
-.adminUser {
-    padding: 15px;
-}
+    .adminUser {
+        padding: 15px;
+    }
+
+    .dr-breadcrumb {
+        margin: 0px auto 10px;
+    }
 </style>
