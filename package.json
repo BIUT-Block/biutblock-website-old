@@ -1,6 +1,7 @@
 {
   "name": "doracms2",
   "description": "doracms",
+  "version": "2.0.0",
   "author": "dora <admin@html-js.cn>",
   "scripts": {
     "start": "cross-env NODE_ENV=production node app",

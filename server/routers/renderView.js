@@ -2,8 +2,7 @@ const pug = require('pug')
 const ejs = require('ejs')
 const path = require('path')
 const fs = require('fs');
-const VueSSR = require('vue-ssr')
-// const vueRender = require('../vue-ssr/renderer')
+const VueSSR = require('../vue-ssr/renderer')
 const serverConfig = require('../../build/webpack.server')
 
 const indexRenderer = new VueSSR({

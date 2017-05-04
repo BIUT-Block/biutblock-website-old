@@ -6,12 +6,16 @@ global.NODE_ENV = process.env.NODE_ENV || 'production'
 const PORT = 8080
 const isDev = NODE_ENV === 'development';
 const app = express()
-const router = require('./server/routers/router')
-
+// const router = require('./server/routers/router');
+const foreground = require('./server/routers/foreground');
+const manage = require('./server/routers/manage');
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
 
-app.use(router)
+// app.use(router);
+// 后台管理
+app.use('/', foreground);
+app.use('/manage', manage);
 
 if (isDev) {
     // local variables for all views
