@@ -6,7 +6,7 @@ const router = express.Router()
 router.get('/', function (req, res) {
 
   res.render('manage', {
-    title: 'manage',
+    title: 'DoraCMS后台管理',
     bundle: 'manage'
   })
 })

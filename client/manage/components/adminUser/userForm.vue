@@ -1,7 +1,6 @@
 <template>
     <div class="dr-adminUserForm">
-        {{show}} {{dialogTableVisible}}
-        <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+        <el-dialog title="填写用户信息" :visible.sync="dialogState.show">
             <el-form :model="form">
                 <el-form-item label="活动名称" :label-width="formLabelWidth">
                     <el-input v-model="form.name" auto-complete="off"></el-input>
@@ -14,35 +13,37 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                <el-button @click="close">取 消</el-button>
+                <el-button type="primary" @click="confirm">确 定</el-button>
             </div>
         </el-dialog>
     </div>
 </template>
 <script>
-    export default {
-        props: ['show'],
-        data() {
-            return {
-                dialogTableVisible: true,
-                dialogFormVisible: true,
-                form: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
-                },
-                formLabelWidth: '120px'
-            }
+export default {
+    props: ['dialogState'],
+    data() {
+        return {
+            form: {
+                name: '',
+                region: '',
+                date1: '',
+                date2: '',
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+            },
+            formLabelWidth: '120px'
+        }
+    },
+    methods: {
+        close() {
+            this.dialogState.show = false;
         },
-        mounted() {
-            console.log('------', this.show)
-            // this.dialogTableVisible = this.show;
+        confirm() {
+            this.dialogState.show = false;
         }
     }
+}
 </script>
