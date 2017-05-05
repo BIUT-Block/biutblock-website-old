@@ -6,7 +6,8 @@ const state = {
     adminUser: {
         formState: {
             show: false
-        }
+        },
+        userList: {}
     }
 }
 
@@ -19,6 +20,9 @@ const mutations = {
     },
     [types.ADMINUSERFORMSTATE](state, formState) {
         state.adminUser.formState = formState;
+    },
+    [types.ADMINUSERLIST](state, userlist) {
+        state.adminUser.userList = userlist
     }
 }
 

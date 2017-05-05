@@ -28,56 +28,50 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            tableData3: [{
-                name: '王小虎',
-                userName: 'doracms',
-                phoneNum: '17663894999',
-                email: 'admin@admin.com',
-                group: '超级管理员'
-            }],
-            multipleSelection: []
-        }
-    },
-
-    methods: {
-        handleClick() {
-            alert('ok')
-        },
-        toggleSelection(rows) {
-            if (rows) {
-                rows.forEach(row => {
-                    this.$refs.multipleTable.toggleRowSelection(row);
-                });
-            } else {
-                this.$refs.multipleTable.clearSelection();
+    export default {
+        data() {
+            return {
+                tableData3: this.$store.getters.adminUserList.docs,
+                multipleSelection: []
             }
         },
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        editUserInfo() {
-            this.$store.dispatch('showAdminUserForm')
-        },
-        deleteUser() {
-            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
+
+        methods: {
+            handleClick() {
+                alert('ok')
+            },
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            editUserInfo() {
+                this.$store.dispatch('showAdminUserForm')
+            },
+            deleteUser() {
+                this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
                 });
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
+            }
         }
     }
-}
 </script>

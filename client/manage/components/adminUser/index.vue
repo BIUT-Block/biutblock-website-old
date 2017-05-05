@@ -21,42 +21,56 @@
     </div>
 </template>
 <script>
-import UserForm from './userForm'
-import DataTable from './dataTable.vue';
-import ToolBar from './toolBar.vue';
-import Pagination from '../common/Pagination.vue';
-export default {
-    name: 'news',
-    data() {
-        return {
-            news: [
-                '11111111',
-                '22222222',
-                '333333',
-                '444444',
-            ]
-        }
-    },
-    components: {
-        DataTable,
-        ToolBar,
-        UserForm,
-        Pagination
-    },
-    computed: {
-        formState() {
-            return this.$store.getters.adminUserFormState
+    import UserForm from './userForm'
+    import DataTable from './dataTable.vue';
+    import ToolBar from './toolBar.vue';
+    import Pagination from '../common/Pagination.vue';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
+
+    export default {
+        name: 'news',
+        data() {
+            return {
+                news: [
+                    '11111111',
+                    '22222222',
+                    '333333',
+                    '444444',
+                ]
+            }
+        },
+        components: {
+            DataTable,
+            ToolBar,
+            UserForm,
+            Pagination
+        },
+        methods: mapActions([
+
+        ]),
+        computed: {
+            // ...mapGetters([
+            //     'adminUserList'
+            // ]),
+            formState() {
+                return this.$store.getters.adminUserFormState
+            }
+        },
+        created() {
+            this.$store.dispatch('getAdminUserList')
         }
     }
-}
 </script>
 
 <style lang="">
-.adminUser {
-    padding: 15px;
-}
+    .adminUser {
+        padding: 15px;
+    }
 
-.dr-breadcrumb {
-    margin: 0px auto 10px;
-}
+    .dr-breadcrumb {
+        margin: 0px auto 10px;
+    }
 </style>
