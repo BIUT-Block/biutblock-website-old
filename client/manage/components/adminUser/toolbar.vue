@@ -5,11 +5,9 @@
             <el-input size="small" placeholder="请填写关键字" icon="search" v-model="input2" :on-icon-click="handleIconClick">
             </el-input>
         </div>
-        <UserForm :dialogState="formState"></UserForm>
     </div>
 </template>
 <script>
-import UserForm from './userForm'
 export default {
     data() {
         return {
@@ -24,11 +22,11 @@ export default {
             console.log(ev);
         },
         addUser() {
-            this.formState.show = true;
+            this.$store.dispatch('showAdminUserForm')
         }
     },
     components: {
-        UserForm
+
     }
 
 }

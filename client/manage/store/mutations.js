@@ -2,7 +2,12 @@ import * as types from './types.js'
 import getters from './getters';
 
 const state = {
-    count: 20
+    count: 20,
+    adminUser: {
+        formState: {
+            show: false
+        }
+    }
 }
 
 const mutations = {
@@ -11,6 +16,9 @@ const mutations = {
     },
     [types.DECREMENT](state) {
         state.count--
+    },
+    [types.ADMINUSERFORMSTATE](state, formState) {
+        state.adminUser.formState = formState;
     }
 }
 

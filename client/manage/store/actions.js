@@ -16,5 +16,11 @@ export default {
     },
     handleSelect: ({ commit }) => {
         console.log(commit);
+    },
+    showAdminUserForm: ({ commit }) => {
+        commit(types.ADMINUSERFORMSTATE, { show: true })
+    },
+    hideAdminUserForm: ({ commit }) => {
+        commit(types.ADMINUSERFORMSTATE, { show: false })
     }
 }
