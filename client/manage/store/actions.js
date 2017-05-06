@@ -32,9 +32,11 @@ export default {
     },
     showAdminUserForm: ({
         commit
-    }) => {
+    }, edit = false, formData = {}) => {
         commit(types.ADMINUSERFORMSTATE, {
-            show: true
+            show: true,
+            edit,
+            formData
         })
     },
     hideAdminUserForm: ({
@@ -47,31 +49,9 @@ export default {
     getAdminUserList({
         commit
     }) {
-        // axios.get('http://127.0.0.1:3000/manager/adminUser/getList', {})
-        //     .then(response => {
-        //         resolve(response.data);
-        //     }, err => {
-        //         reject(err);
-        //     })
-        //     .catch((error) => {
-        //         reject(error)
-        //     })
-        // axios.get('/user', {
-        //         params: {
-        //             ID: 12345
-        //         }
-        //     })
-        //     .then(function (response) {
-        //         console.log(response);
-        //         commit(types.ADMINUSERLIST, response.data)
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-
         services.adminUserList().then((result) => {
-            console.log('--------------', result);
             commit(types.ADMINUSERLIST, result)
         })
     }
+
 }

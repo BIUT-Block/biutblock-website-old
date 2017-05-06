@@ -14,8 +14,8 @@
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <ToolBar></ToolBar>
-                <DataTable></DataTable>
-                <Pagination></Pagination>
+                <DataTable :dataList="adminUserList.docs"></DataTable>
+                <Pagination :pageInfo="adminUserList.pageInfo"></Pagination>
             </el-col>
         </el-row>
     </div>
@@ -52,14 +52,14 @@
 
         ]),
         computed: {
-            // ...mapGetters([
-            //     'adminUserList'
-            // ]),
+            ...mapGetters([
+                'adminUserList'
+            ]),
             formState() {
                 return this.$store.getters.adminUserFormState
             }
         },
-        created() {
+        mounted() {
             this.$store.dispatch('getAdminUserList')
         }
     }

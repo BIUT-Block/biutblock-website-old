@@ -8,37 +8,37 @@
     </div>
 </template>
 <script>
-export default {
-    data() {
-        return {
-            formState: {
-                show: false
-            },
-            input2: ''
-        }
-    },
-    methods: {
-        handleIconClick(ev) {
-            console.log(ev);
+    export default {
+        data() {
+            return {
+                formState: {
+                    show: false
+                },
+                input2: ''
+            }
         },
-        addUser() {
-            this.$store.dispatch('showAdminUserForm')
+        methods: {
+            handleIconClick(ev) {
+                console.log(ev);
+            },
+            addUser() {
+                this.$store.dispatch('showAdminUserForm')
+            }
+        },
+        components: {
+
         }
-    },
-    components: {
 
     }
-
-}
 </script>
 <style>
-.dr-toolbar {
-    margin: 10px auto;
-    text-align: left;
-}
+    .dr-toolbar {
+        margin: 10px auto;
+        text-align: left;
+    }
 
-.dr-searchInput {
-    width: 200px;
-    float: right;
-}
+    .dr-searchInput {
+        width: 200px;
+        float: right;
+    }
 </style>

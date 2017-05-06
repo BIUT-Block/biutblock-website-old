@@ -18,8 +18,14 @@ module.exports = {
             group: 1
         }, {
             limit: 10,
-            skip: 10 * (page - 1)
+            skip: 10 * (page - 1),
+            sort: {
+                date: -1
+            }
         });
     },
+    getAdminUserCount(){
+        return models.AdminUser.count();
+    }
 
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table align="center" ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table align="center" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column prop="userName" label="用户名" width="120">
@@ -29,6 +29,9 @@
 
 <script>
     export default {
+        props: {
+            dataList: Array
+        },
         data() {
             return {
                 tableData3: this.$store.getters.adminUserList.docs,

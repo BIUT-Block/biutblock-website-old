@@ -1,32 +1,37 @@
 <template>
     <div class="block dr-pagination">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageInfo.current" :page-sizes="[
+                    pageInfo.pageSize,
+                    pageInfo.pageSize * 2,
+                    pageInfo.pageSize * 3
+                ]" :page-size="pageInfo.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageInfo.totalItems">
         </el-pagination>
     </div>
 </template>
 <style lang="">
-.dr-pagination {
-    text-align: center;
-    margin: 15px auto;
-}
+    .dr-pagination {
+        text-align: center;
+        margin: 15px auto;
+    }
 </style>
 <script>
-export default {
-    methods: {
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+    export default {
+        props: {
+            pageInfo: Object
         },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+        methods: {
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+            }
+        },
+        data() {
+
+            return {
+
+            };
         }
-    },
-    data() {
-        return {
-            currentPage1: 5,
-            currentPage2: 5,
-            currentPage3: 5,
-            currentPage4: 4
-        };
     }
-}
 </script>

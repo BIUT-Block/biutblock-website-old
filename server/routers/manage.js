@@ -13,22 +13,28 @@ router.get('/', function (req, res) {
 })
 
 router.get('/adminUser/getList', (req, res) => {
-  query.getAdminUserListByPage(1).then(function (userList) {
+
+  let totalItems = 1;
+  query.getAdminUserCount().then((count) => {
+    totalItems = count;
+    return query.getAdminUserListByPage(1);
+  }).then((userList) => {
     res.send({
       state: 'success',
       docs: userList,
       pageInfo: {
-        totalItems: userList.length,
+        totalItems,
         current: 1,
         pageSize: 10,
       }
     })
   })
+
 })
 
 
 router.post('/adminUser/addOne', (req, res) => {
-
+  
   let userName = req.body.userName;
   let email = req.body.email;
   let phoneNum = req.body.phoneNum;

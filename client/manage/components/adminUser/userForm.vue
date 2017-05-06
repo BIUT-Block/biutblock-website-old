@@ -1,33 +1,33 @@
 <template>
     <div class="dr-adminUserForm">
         <el-dialog size="small" title="填写用户信息" :visible.sync="dialogState.show">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="用户名" prop="userName">
-                    <el-input size="small" v-model="ruleForm.name"></el-input>
+                    <el-input size="small" v-model="dialogState.formData.userName"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
-                    <el-input size="small" v-model="ruleForm.name"></el-input>
+                    <el-input size="small" v-model="dialogState.formData.name"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input size="small" type="password" v-model="ruleForm.name"></el-input>
+                    <el-input size="small" type="password" v-model="dialogState.formData.password"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="confirmPassword">
-                    <el-input size="small" type="password" v-model="ruleForm.name"></el-input>
+                    <el-input size="small" type="password" v-model="dialogState.formData.confirmPassword"></el-input>
                 </el-form-item>
                 <el-form-item label="用户组" prop="group">
-                    <el-select size="small" v-model="ruleForm.region" placeholder="请选择活动区域">
+                    <el-select size="small" v-model="dialogState.formData.group" placeholder="请选择活动区域">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="电话" prop="phoneNum">
-                    <el-input size="small" v-model="ruleForm.name"></el-input>
+                    <el-input size="small" v-model="dialogState.formData.phoneNum"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
-                    <el-input size="small" v-model="ruleForm.name"></el-input>
+                    <el-input size="small" v-model="dialogState.formData.email"></el-input>
                 </el-form-item>
                 <el-form-item label="备注" prop="comments">
-                    <el-input size="small" type="textarea" v-model="ruleForm.desc"></el-input>
+                    <el-input size="small" type="textarea" v-model="dialogState.formData.comments"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -38,8 +38,12 @@
     </div>
 </template>
 <script>
+    import services from '../../store/services.js';
+
     export default {
-        props: ['dialogState'],
+        props: {
+            dialogState: Object
+        },
         data() {
             return {
                 ruleForm: {
@@ -48,7 +52,7 @@
                     password: '',
                     confirmPassword: '',
                     group: [],
-                    email: [],
+                    email: '',
                     comments: '',
                     phoneNum: ''
                 },
@@ -103,19 +107,30 @@
         },
         methods: {
             close() {
-                // this.dialogState.show = false;
                 this.$store.dispatch('hideAdminUserForm')
 
             },
             confirm() {
-                // this.dialogState.show = false;
                 this.$store.dispatch('hideAdminUserForm')
 
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        console.log('---formdatas--', this.dialogState.formData);
+                        let params = this.dialogState.formData;
+                        services.addAdminUser(params).then((result) => {
+                            if (result.state === 'success') {
+                                this.$store.dispatch('hideAdminUserForm');
+                                this.$store.dispatch('getAdminUserList');
+                                this.$message({
+                                    message: '添加成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message.error('出错啦！');
+                            }
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;

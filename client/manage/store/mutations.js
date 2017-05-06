@@ -1,13 +1,31 @@
 import * as types from './types.js'
 import getters from './getters';
-
+import _ from 'lodash';
 const state = {
     count: 20,
     adminUser: {
         formState: {
-            show: false
+            show: false,
+            edit: false,
+            formData: {
+                name: '',
+                userName: '',
+                password: '',
+                confirmPassword: '',
+                group: [],
+                email: '',
+                comments: '',
+                phoneNum: ''
+            }
         },
-        userList: {}
+        userList: {
+            pageInfo: {},
+            docs: []
+        },
+        addUser: {
+            state: '',
+            err: {}
+        }
     }
 }
 
@@ -19,7 +37,9 @@ const mutations = {
         state.count--
     },
     [types.ADMINUSERFORMSTATE](state, formState) {
-        state.adminUser.formState = formState;
+        state.adminUser.formState.show = formState.show;
+        state.adminUser.formState.edit = formState.edit;
+        !_.isEmpty(formState.formData) && (state.adminUser.formState.formData = formState.formData);
     },
     [types.ADMINUSERLIST](state, userlist) {
         state.adminUser.userList = userlist

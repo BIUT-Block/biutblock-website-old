@@ -1,4 +1,7 @@
 const express = require('express')
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path')
 const http = require('http')
 global.NODE_ENV = process.env.NODE_ENV || 'production'
@@ -12,7 +15,14 @@ const manage = require('./server/routers/manage');
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
 
-// app.use(router);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(cookieParser());
+app.use(session({
+    secret: 'keyboard cat'
+}))
 // 后台管理
 app.use('/', foreground);
 app.use('/manage', manage);
