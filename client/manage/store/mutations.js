@@ -12,7 +12,7 @@ const state = {
                 userName: '',
                 password: '',
                 confirmPassword: '',
-                group: [],
+                group: '',
                 email: '',
                 comments: '',
                 phoneNum: ''
@@ -39,7 +39,21 @@ const mutations = {
     [types.ADMINUSERFORMSTATE](state, formState) {
         state.adminUser.formState.show = formState.show;
         state.adminUser.formState.edit = formState.edit;
-        !_.isEmpty(formState.formData) && (state.adminUser.formState.formData = formState.formData);
+        if (!_.isEmpty(formState.formData)) {
+            state.adminUser.formState.formData = formState.formData
+        } else {
+            state.adminUser.formState.formData = {
+                name: '',
+                userName: '',
+                password: '',
+                confirmPassword: '',
+                group: '',
+                email: '',
+                comments: '',
+                phoneNum: ''
+            }
+        }
+
     },
     [types.ADMINUSERLIST](state, userlist) {
         state.adminUser.userList = userlist

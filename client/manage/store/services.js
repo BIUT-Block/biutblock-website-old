@@ -13,12 +13,20 @@ export function reqJsonData(url, params = {}, method = 'post') {
 }
 export default {
 
-    adminUserList() {
-        return reqJsonData('manage/adminUser/getList', {}, 'get')
+    adminUserList(params) {
+        return reqJsonData('manage/adminUser/getList', params, 'get')
     },
 
     addAdminUser(params) {
         return reqJsonData('manage/adminUser/addOne', params)
+    },
+
+    updateAdminUser(params) {
+        return reqJsonData('manage/adminUser/updateOne', params)
+    },
+
+    deleteAdminUser(params) {
+        return reqJsonData('manage/adminUser/deleteUser', params)
     }
 
 }

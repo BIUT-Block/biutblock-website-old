@@ -31,15 +31,10 @@
     } from 'vuex'
 
     export default {
-        name: 'news',
+        name: 'index',
         data() {
             return {
-                news: [
-                    '11111111',
-                    '22222222',
-                    '333333',
-                    '444444',
-                ]
+
             }
         },
         components: {

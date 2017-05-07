@@ -32,11 +32,14 @@ export default {
     },
     showAdminUserForm: ({
         commit
-    }, edit = false, formData = {}) => {
+    }, params = {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINUSERFORMSTATE, {
             show: true,
-            edit,
-            formData
+            edit: params.edit,
+            formData: params.formData
         })
     },
     hideAdminUserForm: ({
@@ -48,8 +51,8 @@ export default {
     },
     getAdminUserList({
         commit
-    }) {
-        services.adminUserList().then((result) => {
+    }, params = {}) {
+        services.adminUserList(params).then((result) => {
             commit(types.ADMINUSERLIST, result)
         })
     }

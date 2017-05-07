@@ -5,7 +5,8 @@ const models = require("../models");
 module.exports = {
 
     getAdminUserListByPage({
-        page = 1
+        current = '1',
+        pageSize = '10'
     }) {
         return models.AdminUser.find({}, {
             id: 1,
@@ -17,14 +18,14 @@ module.exports = {
             phoneNum: 1,
             group: 1
         }, {
-            limit: 10,
-            skip: 10 * (page - 1),
+            limit: Number(pageSize),
+            skip: 10 * (Number(current) - 1),
             sort: {
                 date: -1
             }
         });
     },
-    getAdminUserCount(){
+    getAdminUserCount() {
         return models.AdminUser.count();
     }
 

@@ -15,8 +15,8 @@
             </el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
-                    <el-button size="mini" type="primary" @click="editUserInfo">编辑</el-button>
-                    <el-button size="mini" type="danger" @click="deleteUser">删除</el-button>
+                    <el-button size="mini" @click="editUserInfo(scope.$index, dataList)">编辑</el-button>
+                    <el-button size="mini" type="danger" @click="deleteUser(scope.$index, dataList)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+    import services from '../../store/services.js';
     export default {
         props: {
             dataList: Array
@@ -40,9 +41,6 @@
         },
 
         methods: {
-            handleClick() {
-                alert('ok')
-            },
             toggleSelection(rows) {
                 if (rows) {
                     rows.forEach(row => {
@@ -55,19 +53,31 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
-            editUserInfo() {
-                this.$store.dispatch('showAdminUserForm')
+            editUserInfo(index, rows) {
+                this.$store.dispatch('showAdminUserForm', {
+                    edit: true,
+                    formData: rows[index]
+                });
             },
-            deleteUser() {
+            deleteUser(index, rows) {
                 this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
+                    return services.deleteAdminUser({
+                        ids: rows[index]._id
                     });
+                }).then((result) => {
+                    if (result.state === 'success') {
+                        this.$store.dispatch('getAdminUserList');
+                        this.$message({
+                            message: '删除成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error('出错啦！');
+                    }
                 }).catch(() => {
                     this.$message({
                         type: 'info',

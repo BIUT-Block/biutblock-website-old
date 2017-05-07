@@ -22,9 +22,15 @@
         methods: {
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
+                this.$store.dispatch('getAdminUserList', {
+                    pageSize: val
+                });
             },
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
+                this.$store.dispatch('getAdminUserList', {
+                    current: val
+                });
             }
         },
         data() {
