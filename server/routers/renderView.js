@@ -1,4 +1,3 @@
-const pug = require('pug')
 const ejs = require('ejs')
 const path = require('path')
 const fs = require('fs');

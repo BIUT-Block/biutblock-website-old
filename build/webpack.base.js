@@ -15,8 +15,7 @@ module.exports = {
         extensions: ['.js', '.vue']
     },
     module: {
-        loaders: [
-            {
+        loaders: [{
                 test: /\.vue$/,
                 loader: 'vue-loader'
             },
@@ -28,6 +27,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.(scss|sass)$/,
+                loader: 'style-loader!css-loader!sass-loader'
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
