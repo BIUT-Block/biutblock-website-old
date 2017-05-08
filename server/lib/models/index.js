@@ -9,3 +9,4 @@ mongoose.connect("mongodb://localhost/test");
 
 
 exports.AdminUser = require('./AdminUser');
+exports.AdminGroup = require('./AdminGroup');

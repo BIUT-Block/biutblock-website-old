@@ -5,6 +5,7 @@ const Topic = require('./Topic');
 const User = require('./User');
 const UserRecorder = require('./UserRecorder');
 const AdminUser = require('./AdminUser');
+const AdminGroup = require('./AdminGroup');
 
 // tingodb
 const domain = new Domain();
@@ -13,6 +14,7 @@ domain.register(Message)
     .register(Topic)
     .register(User)
     .register(AdminUser)
+    .register(AdminGroup)
     .register(UserRecorder);
 
 domain.get('UserRecorder', 'recorderid').then((result) => {

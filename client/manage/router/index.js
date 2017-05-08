@@ -4,6 +4,7 @@ import Hello from '../components/Hello'
 import Home from '../components/Home'
 import News from '../components/News'
 import AdminUser from '../components/adminUser/index'
+import AdminGroup from '../components/adminGroup/index'
 
 
 Vue.use(Router)
@@ -17,6 +18,10 @@ export default new Router({
     {
       path: '/adminUser',
       component: AdminUser
+    },
+    {
+      path: '/adminGroup',
+      component: AdminGroup
     }
     // {
     //   path: '/home',

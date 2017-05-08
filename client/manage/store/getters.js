@@ -4,5 +4,8 @@ export default {
     },
 
     adminUserFormState: state => state.adminUser.formState,
-    adminUserList: state => state.adminUser.userList
+    adminUserList: state => state.adminUser.userList,
+    adminGroupFormState: state => state.adminGroup.formState,
+    adminGroupRoleFormState: state => state.adminGroup.roleFormState,
+    adminGroupList: state => state.adminGroup.roleList
 }

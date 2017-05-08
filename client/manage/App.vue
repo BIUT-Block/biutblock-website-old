@@ -25,12 +25,14 @@
                     <el-menu-item index="1-1">
                       <router-link to="/adminUser">用户管理</router-link>
                     </el-menu-item>
-                    <el-menu-item index="1-2">角色管理</el-menu-item>
+                    <el-menu-item index="1-2">
+                      <router-link to="/adminGroup">角色管理</router-link>
+                    </el-menu-item>
                     <el-menu-item index="1-3">资源管理</el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
                 <!--<el-menu-item index="2"><i class="el-icon-menu"></i>导航二</el-menu-item>
-                                                <el-menu-item index="3"><i class="el-icon-setting"></i>导航三</el-menu-item>-->
+                                                    <el-menu-item index="3"><i class="el-icon-setting"></i>导航三</el-menu-item>-->
               </el-menu>
             </el-col>
           </el-row>
@@ -105,7 +107,8 @@ body {
 .dora-slider .el-menu--dark {
   position: fixed;
   height: 100vh;
-  width: 200px
+  width: 200px;
+  border-radius: 0;
 }
 
 .dora-slider .el-menu-item a:link,
@@ -125,10 +128,4 @@ body {
 .dora-header .el-menu--horizontal .el-submenu {
   float: right;
 }
-
-
-/*ul li {
-  list-style-type: none;
-  display: inline-block
-}*/
 </style>

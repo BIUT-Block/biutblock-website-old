@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var shortid = require('shortid');
 var Schema = mongoose.Schema;
 
-//mongoose.connect("mongodb://localhost/doracms")
 
 var AdminGroupSchema = new Schema({
     _id: {
@@ -14,14 +13,15 @@ var AdminGroupSchema = new Schema({
         unique: true,
         'default': shortid.generate
     },
-    name:  String,
-    power : String,
+    name: String,
+    power: String,
+    enable: { type: Boolean, default: false }, //是否有效
     date: { type: Date, default: Date.now },
-    comments : String
+    comments: String
 });
 
 
-var AdminGroup = mongoose.model("AdminGroup",AdminGroupSchema);
+var AdminGroup = mongoose.model("AdminGroup", AdminGroupSchema);
 
 module.exports = AdminGroup;
 

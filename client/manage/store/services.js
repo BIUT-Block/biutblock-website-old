@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import reqwest from 'reqwest';
 export function reqJsonData(url, params = {}, method = 'post') {
-    console.log('555---', params)
+    console.log('reqParams', params)
     return reqwest({
         url: 'http://127.0.0.1:8080/' + url,
         method: method,
@@ -27,6 +27,23 @@ export default {
 
     deleteAdminUser(params) {
         return reqJsonData('manage/adminUser/deleteUser', params)
+    },
+
+    adminGroupList(params) {
+        return reqJsonData('manage/adminGroup/getList', params, 'get')
+    },
+
+    addAdminGroup(params) {
+        return reqJsonData('manage/adminGroup/addOne', params)
+    },
+
+    updateAdminGroup(params) {
+        return reqJsonData('manage/adminGroup/updateOne', params)
+    },
+
+    deleteAdminGroup(params) {
+        return reqJsonData('manage/adminGroup/deleteUser', params)
     }
+
 
 }

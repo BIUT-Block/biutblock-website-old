@@ -44,6 +44,7 @@ router.get('/adminUser/getList', (req, res) => {
 router.post('/adminUser/addOne', (req, res) => {
 
   let userName = req.body.userName;
+  let name = req.body.name;
   let email = req.body.email;
   let phoneNum = req.body.phoneNum;
   let password = req.body.password;
@@ -51,6 +52,7 @@ router.post('/adminUser/addOne', (req, res) => {
   let group = req.body.group;
 
   domain.create("AdminUser", {
+    name,
     userName,
     email,
     password,
@@ -89,6 +91,88 @@ router.post('/adminUser/updateOne', (req, res) => {
 })
 
 router.post('/adminUser/deleteUser', (req, res) => {
+
+  console.log('-------', req.body, '------', req.params);
+  const targetId = req.body.ids;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+
+/**
+ * 角色管理
+ */
+router.get('/adminGroup/getList', (req, res) => {
+
+  let current = req.query.current;
+  let pageSize = req.query.pageSize;
+  let totalItems = 1;
+  query.getAdminGroupCount().then((count) => {
+    totalItems = count;
+    return query.getAdminGroupListByPage({
+      current,
+      pageSize
+    });
+  }).then((roleList) => {
+    res.send({
+      state: 'success',
+      docs: roleList,
+      pageInfo: {
+        totalItems,
+        current: Number(current) || 1,
+        pageSize: Number(pageSize) || 10
+      }
+    })
+  })
+
+})
+
+
+router.post('/adminGroup/addOne', (req, res) => {
+
+  let name = req.body.name;
+  let comments = req.body.comments;
+  let enable = req.body.enable;
+
+  domain.create("AdminGroup", {
+    name,
+    comments,
+    enable
+  }).then((json) => {
+    res.send({
+      state: 'success',
+      id: json.id
+    });
+  }).catch((err) => {
+    res.send({
+      state: 'error',
+      err
+    });
+  })
+
+})
+
+router.post('/adminGroup/updateOne', (req, res) => {
+
+  console.log('-------', req.body, '------', req.params);
+  const targetId = req.body._id;
+  let userName = req.body.userName;
+  let email = req.body.email;
+  let phoneNum = req.body.phoneNum;
+  let password = req.body.password;
+  let confirm = req.body.confirm;
+  let group = req.body.group;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+router.post('/adminGroup/deleteUser', (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;

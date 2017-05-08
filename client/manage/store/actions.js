@@ -33,9 +33,9 @@ export default {
     showAdminUserForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINUSERFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -54,6 +54,51 @@ export default {
     }, params = {}) {
         services.adminUserList(params).then((result) => {
             commit(types.ADMINUSERLIST, result)
+        })
+    },
+    showAdminGroupForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.ADMINGROUP_FORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideAdminGroupForm: ({
+        commit
+    }) => {
+        commit(types.ADMINGROUP_FORMSTATE, {
+            show: false
+        })
+    },
+    showAdminGroupRoleForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.ADMINGROUP_ROLEFORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideAdminGroupRoleForm: ({
+        commit
+    }) => {
+        commit(types.ADMINGROUP_ROLEFORMSTATE, {
+            show: false
+        })
+    },
+    getAdminGroupList({
+        commit
+    }, params = {}) {
+        services.adminGroupList(params).then((result) => {
+            commit(types.ADMINGROUP_LIST, result)
         })
     }
 

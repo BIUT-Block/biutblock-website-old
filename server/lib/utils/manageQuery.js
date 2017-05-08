@@ -27,6 +27,27 @@ module.exports = {
     },
     getAdminUserCount() {
         return models.AdminUser.count();
+    },
+    getAdminGroupListByPage({
+        current = '1',
+        pageSize = '10'
+    }) {
+        return models.AdminGroup.find({}, {
+            id: 1,
+            name:1,
+            comments:1,
+            enable:1,
+            power:1
+        }, {
+            limit: Number(pageSize),
+            skip: 10 * (Number(current) - 1),
+            sort: {
+                date: -1
+            }
+        });
+    },
+    getAdminGroupCount() {
+        return models.AdminGroup.count();
     }
 
 }
