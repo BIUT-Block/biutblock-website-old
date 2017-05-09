@@ -18,12 +18,13 @@ module.exports = {
             phoneNum: 1,
             group: 1
         }, {
-            limit: Number(pageSize),
-            skip: 10 * (Number(current) - 1),
-            sort: {
-                date: -1
-            }
-        });
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            }).populate({ path: 'group', select: "name _id" })
+            .exec();
     },
     getAdminUserCount() {
         return models.AdminUser.count();
@@ -34,17 +35,17 @@ module.exports = {
     }) {
         return models.AdminGroup.find({}, {
             id: 1,
-            name:1,
-            comments:1,
-            enable:1,
-            power:1
+            name: 1,
+            comments: 1,
+            enable: 1,
+            power: 1
         }, {
-            limit: Number(pageSize),
-            skip: 10 * (Number(current) - 1),
-            sort: {
-                date: -1
-            }
-        });
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            });
     },
     getAdminGroupCount() {
         return models.AdminGroup.count();

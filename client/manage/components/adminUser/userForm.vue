@@ -16,8 +16,8 @@
                 </el-form-item>
                 <el-form-item label="用户组" prop="group">
                     <el-select size="small" v-model="dialogState.formData.group" placeholder="请选择用户组">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
+                        <el-option key="index" v-for="(group,index) in groups" :label="group.name" :value="group._id"></el-option>
+    
                     </el-select>
                 </el-form-item>
                 <el-form-item label="电话" prop="phoneNum">
@@ -42,7 +42,8 @@ import services from '../../store/services.js';
 import _ from 'lodash';
 export default {
     props: {
-        dialogState: Object
+        dialogState: Object,
+        groups: Array
     },
     data() {
         let validateConfirmPassword = (rule, value, callback) => {

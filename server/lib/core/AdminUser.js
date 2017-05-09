@@ -9,12 +9,13 @@ class AdminUser extends Actor {
     constructor(data) {
         super({
             enable: true,
-            name: data.userName,
+            name: data.name,
             password: data.password,
             phoneNum: data.phoneNum,
             userName: data.userName,
             email: data.email,
-            group: data.group
+            group: data.group,
+            comments: data.comments
         })
     }
 
@@ -112,6 +113,9 @@ class AdminUser extends Actor {
                 break;
             case "updateGroup":
                 this._data.group = event.data;
+                break;
+            case "updateComments":
+                this._data.comments = event.comments;
                 break;
             case "enable":
                 this._data.enable = true;

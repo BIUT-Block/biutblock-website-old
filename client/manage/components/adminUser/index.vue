@@ -1,6 +1,6 @@
 <template>
     <div class="adminUser">
-        <UserForm :dialogState="formState"></UserForm>
+        <UserForm :dialogState="formState" :groups="adminGroupList.docs"></UserForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <ToolBar></ToolBar>
@@ -38,14 +38,16 @@ export default {
     ]),
     computed: {
         ...mapGetters([
-            'adminUserList'
+            'adminUserList',
+            'adminGroupList'
         ]),
         formState() {
             return this.$store.getters.adminUserFormState
         }
     },
     mounted() {
-        this.$store.dispatch('getAdminUserList')
+        this.$store.dispatch('getAdminUserList');
+        this.$store.dispatch('getAdminGroupList');
     }
 }
 </script>

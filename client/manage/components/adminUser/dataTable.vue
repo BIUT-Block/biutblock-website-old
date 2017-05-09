@@ -5,7 +5,7 @@
             </el-table-column>
             <el-table-column prop="userName" label="用户名" width="120">
             </el-table-column>
-            <el-table-column prop="group" label="用户类型" width="120">
+            <el-table-column prop="group.name" label="用户类型" width="120">
             </el-table-column>
             <el-table-column prop="name" label="姓名" show-overflow-tooltip>
             </el-table-column>
@@ -55,9 +55,11 @@ export default {
             this.multipleSelection = val;
         },
         editUserInfo(index, rows) {
+            let rowData = rows[index];
+            rowData.group = rows[index].group._id;
             this.$store.dispatch('showAdminUserForm', {
                 edit: true,
-                formData: rows[index]
+                formData: rowData
             });
         },
         deleteUser(index, rows) {
