@@ -12,37 +12,43 @@ module.exports = {
         chunkFilename: 'client/[name].js'
     },
     resolve: {
-        extensions: ['.js', '.vue']
+        extensions: ['.js', '.vue'],
+        alias: {
+            '@': path.join(__dirname, '..', 'client'),
+            'scss_vars': '@/manage/assets/styles/vars.scss'
+        }
     },
     module: {
         loaders: [{
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            },
-            {
-                test: /\.(scss|sass)$/,
-                loader: 'style-loader!css-loader!sass-loader'
-            },
-            {
-                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-                loader: 'file-loader'
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
-                loader: 'file-loader',
-                query: {
-                    name: '[name].[ext]?[hash]'
-                }
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+                loaders: {
+                    scss: 'style-loader!css-loader!sass-loader',
+                    sass: 'style-loader!css-loader!sass-loader?indentedSyntax',
+                },
             }
+        },
+        {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/
+        },
+        {
+            test: /\.css$/,
+            loader: 'style-loader!css-loader'
+        },
+        {
+            test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+            loader: 'file-loader'
+        },
+        {
+            test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+            loader: 'file-loader',
+            query: {
+                name: '[name].[ext]?[hash]'
+            }
+        }
         ]
     },
     plugins: [

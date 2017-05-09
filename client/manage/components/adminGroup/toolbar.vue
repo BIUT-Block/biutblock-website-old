@@ -33,8 +33,9 @@ export default {
 </script>
 <style>
 .dr-toolbar {
-    margin: 10px auto;
-    text-align: left;
+    background: #f2f2f2;
+    padding: 10px;
+    margin: 10px 0;
 }
 
 .dr-searchInput {
