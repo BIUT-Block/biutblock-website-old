@@ -5,8 +5,6 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css';
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 import 'font-awesome/css/font-awesome.min.css'
 
 // 自定义全局组件Loading
@@ -15,7 +13,6 @@ import store from './store/index.js'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
-Vue.use(iView);
 Vue.use(Loading);
 /* eslint-disable no-new */
 const app = new Vue({
