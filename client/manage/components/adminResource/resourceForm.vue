@@ -2,8 +2,9 @@
     <div class="dr-AdminResourceForm">
         <el-dialog size="small" title="填写用户信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-                <el-form-item label="资源名称" prop="name">
-                    <el-input size="small" v-model="dialogState.formData.name"></el-input>
+                <p v-show="dialogState.type==='children'">父</p>
+                <el-form-item label="资源名称" prop="label">
+                    <el-input size="small" v-model="dialogState.formData.label"></el-input>
                 </el-form-item>
                 <el-form-item label="资源描述" prop="comments">
                     <el-input size="small" v-model="dialogState.formData.comments"></el-input>

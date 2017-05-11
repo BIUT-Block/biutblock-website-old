@@ -104,11 +104,13 @@ export default {
     showAdminResourceForm: ({
         commit
     }, params = {
+            type: 'root',
             edit: false,
             formData: {}
         }) => {
         commit(types.ADMINRESOURCE_FORMSTATE, {
             show: true,
+            type: params.type,
             edit: params.edit,
             formData: params.formData
         })

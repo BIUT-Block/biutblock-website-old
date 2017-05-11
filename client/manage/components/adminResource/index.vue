@@ -4,7 +4,7 @@
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <ToolBar></ToolBar>
-                <ResourceTree></ResourceTree>
+                <ResourceTree :treeData="adminResourceList.docs"></ResourceTree>
             </el-col>
         </el-row>
     </div>
@@ -35,7 +35,7 @@ export default {
     ]),
     computed: {
         ...mapGetters([
-            'adminGroupList'
+            'adminResourceList'
         ]),
         formState() {
             return this.$store.getters.adminResourceFormState

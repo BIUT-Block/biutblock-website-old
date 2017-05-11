@@ -6,7 +6,7 @@ class AdminResource extends Actor {
 
     constructor(data) {
         super({
-            name: data.name,
+            label: data.label,
             type: data.type,
             children: data.children,
             sortId: data.sortId,
@@ -17,8 +17,8 @@ class AdminResource extends Actor {
 
     * update(data, service) {
         let error;
-        if (data.name) {
-            service.apply('updateName', data.name);
+        if (data.label) {
+            service.apply('updateLabel', data.label);
         }
         if (data.comments) {
             service.apply('updateComments', data.comments);
@@ -39,8 +39,8 @@ class AdminResource extends Actor {
     when(event) {
         super.when(event);
         switch (event.name) {
-            case "updateName":
-                this._data.name = event.data;
+            case "updateLabel":
+                this._data.label = event.data;
                 break;
             case "updateComments":
                 this._data.comments = event.data;

@@ -7,7 +7,7 @@ module.exports = (domain) => {
     domain.on('*', (event) => {
 
         let Model = models[event.actorType];
-        console.log('--readdb--', event.name, event.data);
+        // console.log('--readdb--', event.name, event.data);
         if (event.name === 'create') {
             Model.create(event.data);
         } else if (envent.name === 'remove') {

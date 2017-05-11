@@ -216,14 +216,14 @@ router.get('/adminResource/getList', (req, res) => {
 
 router.post('/adminResource/addOne', (req, res) => {
 
-  let name = req.body.name;
+  let label = req.body.label;
   let type = req.body.type;
   let children = req.body.children || [];
   let sortId = req.body.sortId;
   let comments = req.body.comments;
   console.log('--', req.body)
   domain.create("AdminResource", {
-    name,
+    label,
     type,
     children,
     sortId,
@@ -246,9 +246,9 @@ router.post('/adminResource/updateOne', (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body._id;
-  let name = req.body.name;
+  let label = req.body.label;
   let type = req.body.type;
-  let parentId = req.body.parentId;
+  let children = req.body.children;
   let sortId = req.body.sortId;
   let comments = req.body.comments;
 

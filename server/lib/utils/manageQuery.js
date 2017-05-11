@@ -56,7 +56,7 @@ module.exports = {
     }) {
         return models.AdminResource.find({}, {
             id: 1,
-            name: 1,
+            label: 1,
             comments: 1,
             type: 1,
             parentId: 1,

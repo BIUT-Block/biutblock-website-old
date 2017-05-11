@@ -7,10 +7,13 @@
   let id = 1000;
 
   export default {
+    props:{
+        treeData:Array
+    },
     data() {
       return {
         data2: [{
-          id: 1,
+          id: '1',
           label: '一级 1',
           children: [{
             id: 4,
@@ -53,7 +56,13 @@
 
     methods: {
       append(store, data) {
-        store.append({ id: id++, label: 'testtest', children: [] }, data);
+        // store.append({ id: id++, label: 'testtest', children: [] }, data);
+        console.log(data);
+        this.$store.dispatch('showAdminResourceForm', {
+                edit: false,
+                type:'children',
+                formData:data
+            });
       },
 
       remove(store, data) {

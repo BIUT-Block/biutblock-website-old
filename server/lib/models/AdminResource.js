@@ -13,7 +13,7 @@ var AdminResourceSchema = new Schema({
         unique: true,
         'default': shortid.generate
     },
-    name: String,
+    label: String,
     type: String,
     children: [{ type: String, ref: 'AdminResource' }],
     sortId: String,

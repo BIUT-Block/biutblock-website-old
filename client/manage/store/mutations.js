@@ -55,10 +55,11 @@ const state = {
     },
     adminResource: {
         formState: {
+            type: 'root',
             show: false,
             edit: false,
             formData: {
-                name: '',
+                label: '',
                 type: '',
                 children: [],
                 sortId: '',
@@ -137,11 +138,12 @@ const mutations = {
     [types.ADMINRESOURCE_FORMSTATE](state, formState) {
         state.adminResource.formState.show = formState.show;
         state.adminResource.formState.edit = formState.edit;
+        state.adminResource.formState.type = formState.type;
         if (!_.isEmpty(formState.formData)) {
             state.adminResource.formState.formData = formState.formData
         } else {
             state.adminResource.formState.formData = {
-                name: '',
+                label: '',
                 type: '',
                 children: [],
                 sortId: '',
