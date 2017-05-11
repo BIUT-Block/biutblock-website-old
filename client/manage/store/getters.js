@@ -7,5 +7,7 @@ export default {
     adminUserList: state => state.adminUser.userList,
     adminGroupFormState: state => state.adminGroup.formState,
     adminGroupRoleFormState: state => state.adminGroup.roleFormState,
-    adminGroupList: state => state.adminGroup.roleList
+    adminGroupList: state => state.adminGroup.roleList,
+    adminResourceFormState: state => state.adminResource.formState,
+    adminResourceList: state => state.adminResource.resourceList,
 }

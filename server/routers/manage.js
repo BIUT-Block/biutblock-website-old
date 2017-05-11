@@ -183,4 +183,90 @@ router.post('/adminGroup/deleteUser', (req, res) => {
 
 })
 
+
+/**
+ * 资源管理
+ * 
+ */
+
+router.get('/adminResource/getList', (req, res) => {
+
+  let current = req.query.current;
+  let pageSize = req.query.pageSize;
+  let totalItems = 1;
+  query.getAdminResourceLCount().then((count) => {
+    totalItems = count;
+    return query.getAdminResourceListByPage({
+      current,
+      pageSize
+    });
+  }).then((roleList) => {
+    res.send({
+      state: 'success',
+      docs: roleList,
+      pageInfo: {
+        totalItems,
+        current: Number(current) || 1,
+        pageSize: Number(pageSize) || 10
+      }
+    })
+  })
+
+})
+
+router.post('/adminResource/addOne', (req, res) => {
+
+  let name = req.body.name;
+  let type = req.body.type;
+  let children = req.body.children || [];
+  let sortId = req.body.sortId;
+  let comments = req.body.comments;
+  console.log('--', req.body)
+  domain.create("AdminResource", {
+    name,
+    type,
+    children,
+    sortId,
+    comments
+  }).then((json) => {
+    res.send({
+      state: 'success',
+      id: json.id
+    });
+  }).catch((err) => {
+    res.send({
+      state: 'error',
+      err
+    });
+  })
+
+})
+
+router.post('/adminResource/updateOne', (req, res) => {
+
+  console.log('-------', req.body, '------', req.params);
+  const targetId = req.body._id;
+  let name = req.body.name;
+  let type = req.body.type;
+  let parentId = req.body.parentId;
+  let sortId = req.body.sortId;
+  let comments = req.body.comments;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+router.post('/adminResource/deleteUser', (req, res) => {
+
+  console.log('-------', req.body, '------', req.params);
+  const targetId = req.body.ids;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
 module.exports = router

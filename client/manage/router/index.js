@@ -5,7 +5,8 @@ import Home from '../components/Home'
 import News from '../components/News'
 import AdminUser from '../components/adminUser/index'
 import AdminGroup from '../components/adminGroup/index'
-import App from '../App'
+import AdminResource from '../components/adminResource/index'
+// import App from '../App'
 
 
 Vue.use(Router)
@@ -26,6 +27,11 @@ export default new Router({
         path: '/adminGroup',
         component: AdminGroup,
         name: '角色管理'
+      },
+      {
+        path: '/adminResource',
+        component: AdminResource,
+        name: '资源管理'
       }
       ]
     }

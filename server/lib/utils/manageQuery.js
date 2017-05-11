@@ -49,6 +49,28 @@ module.exports = {
     },
     getAdminGroupCount() {
         return models.AdminGroup.count();
+    },
+    getAdminResourceListByPage({
+        current = '1',
+        pageSize = '10'
+    }) {
+        return models.AdminResource.find({}, {
+            id: 1,
+            name: 1,
+            comments: 1,
+            type: 1,
+            parentId: 1,
+            sortId: 1
+        }, {
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            });
+    },
+    getAdminResourceLCount() {
+        return models.AdminResource.count();
     }
 
 }

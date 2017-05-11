@@ -3,7 +3,7 @@ import reqwest from 'reqwest';
 export function reqJsonData(url, params = {}, method = 'post') {
     console.log('reqParams', params)
     return reqwest({
-        url: 'http://127.0.0.1:8080/' + url,
+        url: 'http://127.0.0.1:8081/' + url,
         method: method,
         data: {
             ...params,
@@ -43,6 +43,22 @@ export default {
 
     deleteAdminGroup(params) {
         return reqJsonData('manage/adminGroup/deleteUser', params)
+    },
+
+    adminResourceList(params) {
+        return reqJsonData('manage/adminResource/getList', params, 'get')
+    },
+
+    addAdminResource(params) {
+        return reqJsonData('manage/adminResource/addOne', params)
+    },
+
+    updateAdminResource(params) {
+        return reqJsonData('manage/adminResource/updateOne', params)
+    },
+
+    deleteAdminResource(params) {
+        return reqJsonData('manage/adminResource/deleteUser', params)
     }
 
 

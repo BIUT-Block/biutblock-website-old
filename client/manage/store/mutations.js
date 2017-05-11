@@ -52,6 +52,27 @@ const state = {
             state: '',
             err: {}
         }
+    },
+    adminResource: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {
+                name: '',
+                type: '',
+                children: [],
+                sortId: '',
+                comments: ''
+            }
+        },
+        resourceList: {
+            pageInfo: {},
+            docs: []
+        },
+        addResource: {
+            state: '',
+            err: {}
+        }
     }
 }
 
@@ -112,6 +133,25 @@ const mutations = {
     },
     [types.ADMINGROUP_LIST](state, rolelist) {
         state.adminGroup.roleList = rolelist
+    },
+    [types.ADMINRESOURCE_FORMSTATE](state, formState) {
+        state.adminResource.formState.show = formState.show;
+        state.adminResource.formState.edit = formState.edit;
+        if (!_.isEmpty(formState.formData)) {
+            state.adminResource.formState.formData = formState.formData
+        } else {
+            state.adminResource.formState.formData = {
+                name: '',
+                type: '',
+                children: [],
+                sortId: '',
+                comments: ''
+            }
+        }
+
+    },
+    [types.ADMINRESOURCE_LIST](state, resourceList) {
+        state.adminResource.resourceList = resourceList
     }
 }
 

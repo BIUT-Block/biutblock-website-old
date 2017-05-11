@@ -7,12 +7,13 @@ module.exports = (domain) => {
     domain.on('*', (event) => {
 
         let Model = models[event.actorType];
+        console.log('--readdb--', event.name, event.data);
         if (event.name === 'create') {
             Model.create(event.data);
         } else if (envent.name === 'remove') {
             Model.remove({ id: event.actorId })
         } else {
-            console.log('--------', event.actorId, '------', event.data,'------',event.name);
+            console.log('--------', event.actorId, '------', event.data, '------', event.name);
             if (event.actorType === 'AdminUser') {
                 let data = {};
                 switch (event.name) {

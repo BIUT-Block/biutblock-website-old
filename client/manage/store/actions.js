@@ -100,6 +100,32 @@ export default {
         services.adminGroupList(params).then((result) => {
             commit(types.ADMINGROUP_LIST, result)
         })
+    },
+    showAdminResourceForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.ADMINRESOURCE_FORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideAdminResourceForm: ({
+        commit
+    }) => {
+        commit(types.ADMINRESOURCE_FORMSTATE, {
+            show: false
+        })
+    },
+    getAdminResourceList({
+        commit
+    }, params = {}) {
+        services.adminResourceList(params).then((result) => {
+            commit(types.ADMINRESOURCE_LIST, result)
+        })
     }
 
 }
