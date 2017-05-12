@@ -14,9 +14,9 @@ var AdminResourceSchema = new Schema({
         'default': shortid.generate
     },
     label: String,
-    type: String,
+    type: String, // 0为父级
     children: [{ type: String, ref: 'AdminResource' }],
-    sortId: String,
+    sortId: { type: Number, default: 0 },
     date: { type: Date, default: Date.now },
     comments: String
 });

@@ -2,9 +2,16 @@
     <div class="dr-AdminResourceForm">
         <el-dialog size="small" title="填写用户信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-                <p v-show="dialogState.type==='children'">父</p>
+    
+                <el-form-item v-show="dialogState.type==='children'" label="父对象" prop="label">
+                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parent.label"></el-input>
+                </el-form-item>
+    
                 <el-form-item label="资源名称" prop="label">
                     <el-input size="small" v-model="dialogState.formData.label"></el-input>
+                </el-form-item>
+                <el-form-item label="排序" prop="label">
+                    <el-input-number v-model="dialogState.formData.sortId" @change="handleChange" :min="1" :max="50"></el-input-number>
                 </el-form-item>
                 <el-form-item label="资源描述" prop="comments">
                     <el-input size="small" v-model="dialogState.formData.comments"></el-input>
@@ -50,6 +57,9 @@ export default {
         };
     },
     methods: {
+        handleChange(value) {
+            console.log(value);
+        },
         confirm() {
             this.$store.dispatch('hideAdminResourceForm')
         },
@@ -58,6 +68,7 @@ export default {
                 if (valid) {
                     console.log('---formdatas--', this);
                     let params = this.dialogState.formData;
+                    params.type = this.dialogState.type === 'root' ? '0' : '1';
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateAdminResource(params).then((result) => {

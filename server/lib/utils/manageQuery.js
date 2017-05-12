@@ -54,20 +54,21 @@ module.exports = {
         current = '1',
         pageSize = '10'
     }) {
-        return models.AdminResource.find({}, {
+        return models.AdminResource.find({ 'type': '0' }, {
             id: 1,
             label: 1,
             comments: 1,
             type: 1,
-            parentId: 1,
+            children: 1,
             sortId: 1
         }, {
                 limit: Number(pageSize),
                 skip: 10 * (Number(current) - 1),
                 sort: {
-                    date: -1
+                    sortId: -1
                 }
-            });
+            }).populate({ path: 'children', select: "label _id" })
+            .exec();;
     },
     getAdminResourceLCount() {
         return models.AdminResource.count();

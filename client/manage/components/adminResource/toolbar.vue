@@ -3,7 +3,7 @@
         <el-button size="small" type="primary" icon="plus" @click="addResource">添加主菜单</el-button>
         <div class="dr-searchInput">
             <!--<el-input size="small" placeholder="角色名,模糊搜索" icon="search" v-model="input2" :on-icon-click="handleIconClick">
-                </el-input>-->
+                    </el-input>-->
         </div>
     </div>
 </template>
@@ -22,7 +22,7 @@ export default {
             console.log(ev);
         },
         addResource() {
-            this.$store.dispatch('showAdminResourceForm')
+            this.$store.dispatch('showAdminResourceForm', { type: 'root' })
         }
     },
     components: {

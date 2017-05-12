@@ -62,8 +62,12 @@ const state = {
                 label: '',
                 type: '',
                 children: [],
-                sortId: '',
-                comments: ''
+                sortId: 0,
+                comments: '',
+                parent: {
+                    id: '',
+                    label: ''
+                }
             }
         },
         resourceList: {
@@ -146,8 +150,12 @@ const mutations = {
                 label: '',
                 type: '',
                 children: [],
-                sortId: '',
-                comments: ''
+                sortId: 0,
+                comments: '',
+                parent: {
+                    id: '',
+                    label: ''
+                }
             }
         }
 
