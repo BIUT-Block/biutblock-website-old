@@ -61,7 +61,8 @@ const state = {
             formData: {
                 label: '',
                 type: '',
-                children: [],
+                api: '',
+                parentId: '',
                 sortId: 0,
                 comments: '',
                 parent: {
@@ -143,21 +144,45 @@ const mutations = {
         state.adminResource.formState.show = formState.show;
         state.adminResource.formState.edit = formState.edit;
         state.adminResource.formState.type = formState.type;
-        if (!_.isEmpty(formState.formData)) {
-            state.adminResource.formState.formData = formState.formData
-        } else {
-            state.adminResource.formState.formData = {
-                label: '',
-                type: '',
-                children: [],
-                sortId: 0,
-                comments: '',
-                parent: {
-                    id: '',
-                    label: ''
-                }
+        state.adminResource.formState.formData = Object.assign({
+            label: '',
+            type: '',
+            api: '',
+            parentId: '',
+            sortId: 0,
+            comments: '',
+            parent: {
+                id: '',
+                label: ''
             }
-        }
+        }, formState.formData);
+        // if (!_.isEmpty(formState.formData)) {
+        //     state.adminResource.formState.formData = Object.assign({
+        //         label: '',
+        //         type: '',
+        //         api: '',
+        //         parentId: '',
+        //         sortId: 0,
+        //         comments: '',
+        //         parent: {
+        //             id: '',
+        //             label: ''
+        //         }
+        //     },formState.formData)
+        // } else {
+        //     state.adminResource.formState.formData = {
+        //         label: '',
+        //         type: '',
+        //         api: '',
+        //         parentId: '',
+        //         sortId: 0,
+        //         comments: '',
+        //         parent: {
+        //             id: '',
+        //             label: ''
+        //         }
+        //     }
+        // }
 
     },
     [types.ADMINRESOURCE_LIST](state, resourceList) {

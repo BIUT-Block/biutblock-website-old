@@ -1,14 +1,25 @@
 <template>
     <div class="dr-AdminResourceForm">
-        <el-dialog size="small" title="填写用户信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
+        <el-dialog size="small" title="填写资源信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-    
-                <el-form-item v-show="dialogState.type==='children'" label="父对象" prop="label">
-                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parent.label"></el-input>
+                {{dialogState.formData}}
+                <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
+                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
                 </el-form-item>
-    
+
                 <el-form-item label="资源名称" prop="label">
                     <el-input size="small" v-model="dialogState.formData.label"></el-input>
+                </el-form-item>
+                <el-form-item label="类型" prop="label">
+                    <el-select v-model="dialogState.formData.type" placeholder="请选择">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="资源地址" prop="label">
+                    <el-input size="small" v-model="dialogState.formData.api">
+                        <template slot="prepend">/manage/</template>
+                    </el-input>
                 </el-form-item>
                 <el-form-item label="排序" prop="label">
                     <el-input-number v-model="dialogState.formData.sortId" @change="handleChange" :min="1" :max="50"></el-input-number>
@@ -25,90 +36,99 @@
     </div>
 </template>
 <script>
-import services from '../../store/services.js';
-import _ from 'lodash';
-export default {
-    props: {
-        dialogState: Object
-    },
-    data() {
-        return {
-            rules: {
-                name: [{
-                    message: '请输入资源名称',
-                    trigger: 'blur'
+    import services from '../../store/services.js';
+    import _ from 'lodash';
+    export default {
+        props: {
+            dialogState: Object
+        },
+        data() {
+            return {
+                rules: {
+                    name: [{
+                            message: '请输入资源名称',
+                            trigger: 'blur'
+                        },
+                        {
+                            pattern: /[\u4e00-\u9fa5]/,
+                            message: '2-6个中文字符',
+                            trigger: 'blur'
+                        }
+                    ],
+                    comments: [{
+                        message: '请填写备注',
+                        trigger: 'blur'
+                    }, {
+                        min: 5,
+                        max: 30,
+                        message: '请输入5-30个字符',
+                        trigger: 'blur'
+                    }]
                 },
-                {
-                    pattern: /[\u4e00-\u9fa5]/,
-                    message: '2-6个中文字符',
-                    trigger: 'blur'
-                }
-                ],
-                comments: [{
-                    message: '请填写备注',
-                    trigger: 'blur'
+                options: [{
+                    value: '0',
+                    label: '基础菜单'
                 }, {
-                    min: 5,
-                    max: 30,
-                    message: '请输入5-30个字符',
-                    trigger: 'blur'
+                    value: '1',
+                    label: '操作和功能'
                 }]
-            }
-        };
-    },
-    methods: {
-        handleChange(value) {
-            console.log(value);
+            };
         },
-        confirm() {
-            this.$store.dispatch('hideAdminResourceForm')
-        },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    console.log('---formdatas--', this);
-                    let params = this.dialogState.formData;
-                    params.type = this.dialogState.type === 'root' ? '0' : '1';
-                    // 更新
-                    if (this.dialogState.edit) {
-                        services.updateAdminResource(params).then((result) => {
-                            if (result.state === 'success') {
-                                this.$store.dispatch('hideAdminResourceForm');
-                                this.$store.dispatch('getAdminResourceList');
-                                this.$message({
-                                    message: '更新成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        });
+        methods: {
+            handleChange(value) {
+                console.log(value);
+            },
+            confirm() {
+                this.$store.dispatch('hideAdminResourceForm')
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log('---formdatas--', this);
+                        let params = this.dialogState.formData;
+                        // params.parentId = this.dialogState.type === 'root' ? '0' : this.dialogState.formData
+                        //     .parent
+                        //     ._id;
+                        // 更新
+                        if (this.dialogState.edit) {
+                            services.updateAdminResource(params).then((result) => {
+                                if (result.state === 'success') {
+                                    this.$store.dispatch('hideAdminResourceForm');
+                                    this.$store.dispatch('getAdminResourceList');
+                                    this.$message({
+                                        message: '更新成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            });
+                        } else {
+                            // 新增
+                            services.addAdminResource(params).then((result) => {
+                                if (result.state === 'success') {
+                                    this.$store.dispatch('hideAdminResourceForm');
+                                    this.$store.dispatch('getAdminResourceList');
+                                    this.$message({
+                                        message: '添加成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            })
+                        }
+
                     } else {
-                        // 新增
-                        services.addAdminResource(params).then((result) => {
-                            if (result.state === 'success') {
-                                this.$store.dispatch('hideAdminResourceForm');
-                                this.$store.dispatch('getAdminResourceList');
-                                this.$message({
-                                    message: '添加成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        })
+                        console.log('error submit!!');
+                        return false;
                     }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
 
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
         }
-
     }
-}
 </script>

@@ -14,10 +14,17 @@ var AdminResourceSchema = new Schema({
         'default': shortid.generate
     },
     label: String,
-    type: String, // 0为父级
-    children: [{ type: String, ref: 'AdminResource' }],
-    sortId: { type: Number, default: 0 },
-    date: { type: Date, default: Date.now },
+    type: String, // 0为普通菜单 1为功能菜单
+    api: String, // 资源路径
+    parentId: String,
+    sortId: {
+        type: Number,
+        default: 0
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
     comments: String
 });
 
@@ -25,4 +32,3 @@ var AdminResourceSchema = new Schema({
 var AdminResource = mongoose.model("AdminResource", AdminResourceSchema);
 
 module.exports = AdminResource;
-

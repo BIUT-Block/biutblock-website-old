@@ -60,11 +60,20 @@ export default {
       console.log('---', data);
       // data.parent = data;
       let formData = {};
-      formData.parent = data;
+      formData.parentId = data._id;
       this.$store.dispatch('showAdminResourceForm', {
         edit: false,
         type: 'children',
         formData: formData
+      });
+    },
+
+    edit(store, data){
+      console.log('----',data)
+      this.$store.dispatch('showAdminResourceForm', {
+        edit: true,
+        type: 'children',
+        formData: data
       });
     },
 
@@ -80,7 +89,7 @@ export default {
           </span>
           <span style="float: right; margin-right: 20px">
             <el-button size="mini" on-click={() => this.append(store, data)}>添加</el-button>
-            <el-button size="mini" on-click={() => this.append(store, data)}>编辑</el-button>
+            <el-button size="mini" on-click={() => this.edit(store, data)}>编辑</el-button>
             <el-button size="mini" on-click={() => this.remove(store, data)}>删除</el-button>
           </span>
         </span>);

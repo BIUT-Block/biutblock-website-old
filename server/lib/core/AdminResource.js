@@ -8,7 +8,8 @@ class AdminResource extends Actor {
         super({
             label: data.label,
             type: data.type,
-            children: data.children,
+            api: data.api,
+            parentId: data.parentId,
             sortId: data.sortId,
             comments: data.comments
         })
@@ -23,14 +24,17 @@ class AdminResource extends Actor {
         if (data.comments) {
             service.apply('updateComments', data.comments);
         }
-        if (data.children) {
-            service.apply('updateChildren', data.children);
+        if (data.parentId) {
+            service.apply('updateParentId', data.parentId);
         }
         if (data.sortId) {
             service.apply('updateSortId', data.sortId);
         }
         if (data.type) {
             service.apply('updateType', data.type);
+        }
+        if (data.api) {
+            service.apply('updateApi', data.api);
         }
 
         if (error) throw error;
@@ -48,11 +52,14 @@ class AdminResource extends Actor {
             case "updateType":
                 this._data.type = event.data;
                 break;
+            case "updateApi":
+                this._data.api = event.data;
+                break;
             case "updateSortId":
                 this._data.sortId = event.data;
                 break;
-            case "updateChildren":
-                this._data.children = event.data;
+            case "updateParentId":
+                this._data.parentId = event.data;
                 break;
         }
     }

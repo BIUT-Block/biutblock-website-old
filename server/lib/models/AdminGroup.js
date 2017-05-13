@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 var Schema = mongoose.Schema;
-
+var AdminResource = require('./AdminResource');
 
 var AdminGroupSchema = new Schema({
     _id: {
@@ -14,9 +14,18 @@ var AdminGroupSchema = new Schema({
         'default': shortid.generate
     },
     name: String,
-    power: String,
-    enable: { type: Boolean, default: false }, //是否有效
-    date: { type: Date, default: Date.now },
+    power: [{
+        type: String,
+        ref: "AdminResource"
+    }],
+    enable: {
+        type: Boolean,
+        default: false
+    }, //是否有效
+    date: {
+        type: Date,
+        default: Date.now
+    },
     comments: String
 });
 
@@ -24,4 +33,3 @@ var AdminGroupSchema = new Schema({
 var AdminGroup = mongoose.model("AdminGroup", AdminGroupSchema);
 
 module.exports = AdminGroup;
-

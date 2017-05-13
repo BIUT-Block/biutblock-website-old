@@ -1,7 +1,7 @@
 <template>
     <div class="adminUser">
         <RoleForm :dialogState="formState"></RoleForm>
-        <PowerForm :roleState="roleState"></PowerForm>
+        <PowerForm :roleState="roleState" :treeData="adminResourceList.docs"></PowerForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <ToolBar></ToolBar>
@@ -41,7 +41,8 @@ export default {
     ]),
     computed: {
         ...mapGetters([
-            'adminGroupList'
+            'adminGroupList',
+            'adminResourceList'
         ]),
         formState() {
             return this.$store.getters.adminGroupFormState
@@ -51,7 +52,8 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('getAdminGroupList')
+        this.$store.dispatch('getAdminGroupList');
+        this.$store.dispatch('getAdminResourceList')
     }
 }
 </script>

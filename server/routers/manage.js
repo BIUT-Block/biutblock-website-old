@@ -172,7 +172,7 @@ router.post('/adminGroup/updateOne', (req, res) => {
 
 })
 
-router.post('/adminGroup/deleteUser', (req, res) => {
+router.post('/adminGroup/deleteGroup', (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;
@@ -218,14 +218,16 @@ router.post('/adminResource/addOne', (req, res) => {
 
   let label = req.body.label;
   let type = req.body.type;
-  let children = req.body.children || [];
+  let api = req.body.api;
+  let parentId = req.body.parentId;
   let sortId = req.body.sortId;
   let comments = req.body.comments;
   console.log('--', req.body)
   domain.create("AdminResource", {
     label,
     type,
-    children,
+    api,
+    parentId,
     sortId,
     comments
   }).then((json) => {
@@ -248,7 +250,7 @@ router.post('/adminResource/updateOne', (req, res) => {
   const targetId = req.body._id;
   let label = req.body.label;
   let type = req.body.type;
-  let children = req.body.children;
+  let parentId = req.body.parentId;
   let sortId = req.body.sortId;
   let comments = req.body.comments;
 
@@ -258,7 +260,7 @@ router.post('/adminResource/updateOne', (req, res) => {
 
 })
 
-router.post('/adminResource/deleteUser', (req, res) => {
+router.post('/adminResource/deleteResource', (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;

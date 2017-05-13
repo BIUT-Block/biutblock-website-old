@@ -2,6 +2,39 @@ import * as types from './types.js';
 // import axios from 'axios';
 import reqwest from 'reqwest';
 import services from './services.js';
+import _ from 'lodash';
+
+/**
+ * 渲染树形目录数据
+ */
+export function renderTreeData(result) {
+    let newResult = result;
+    let treeData = newResult.docs;
+    let delAtArr = [];
+    let childArr = _.filter(treeData, (doc) => {
+        return doc.parentId != '0'
+    });
+
+    for (let i = 0; i < childArr.length; i++) {
+        let child = childArr[i];
+        for (let j = 0; j < treeData.length; j++) {
+            let treeItem = treeData[j];
+            treeItem.children = treeItem.children || [];
+            if (treeItem._id == child.parentId) {
+                treeItem.children.push(child);
+                // 记录需要删除的索引
+                delAtArr.push(_.indexOf(treeData, child));
+                break;
+            }
+        }
+    }
+
+    newResult.docs = _.filter(treeData, (doc) => {
+        return doc.parentId == '0'
+    });
+    return newResult;
+}
+
 export default {
     increment: ({
         commit
@@ -33,9 +66,9 @@ export default {
     showAdminUserForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINUSERFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -59,9 +92,9 @@ export default {
     showAdminGroupForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINGROUP_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -78,9 +111,9 @@ export default {
     showAdminGroupRoleForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINGROUP_ROLEFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -104,10 +137,10 @@ export default {
     showAdminResourceForm: ({
         commit
     }, params = {
-            type: 'root',
-            edit: false,
-            formData: {}
-        }) => {
+        type: 'root',
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINRESOURCE_FORMSTATE, {
             show: true,
             type: params.type,
@@ -126,7 +159,8 @@ export default {
         commit
     }, params = {}) {
         services.adminResourceList(params).then((result) => {
-            commit(types.ADMINRESOURCE_LIST, result)
+            let treeData = renderTreeData(result);
+            commit(types.ADMINRESOURCE_LIST, treeData)
         })
     }
 

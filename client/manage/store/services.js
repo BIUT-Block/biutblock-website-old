@@ -42,7 +42,7 @@ export default {
     },
 
     deleteAdminGroup(params) {
-        return reqJsonData('manage/adminGroup/deleteUser', params)
+        return reqJsonData('manage/adminGroup/deleteGroup', params)
     },
 
     adminResourceList(params) {
@@ -58,7 +58,7 @@ export default {
     },
 
     deleteAdminResource(params) {
-        return reqJsonData('manage/adminResource/deleteUser', params)
+        return reqJsonData('manage/adminResource/deleteResource', params)
     }
 
 
