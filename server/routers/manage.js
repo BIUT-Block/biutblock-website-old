@@ -284,7 +284,7 @@ router.get('/contentCategory/getList', (req, res) => {
   let totalItems = 1;
   query.getContentCategoryCount().then((count) => {
     totalItems = count;
-    return query.getcontentCategoryListByPage({
+    return query.getContentCategoryListByPage({
       current,
       pageSize
     });
@@ -316,7 +316,7 @@ router.post('/contentCategory/addOne', (req, res) => {
   domain.create("ContentCategory", {
     name,
     keywords,
-    state,
+    enable,
     parentId,
     sortId,
     sortPath,

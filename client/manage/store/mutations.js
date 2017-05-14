@@ -182,14 +182,14 @@ const mutations = {
 
     },
     [types.ADMINRESOURCE_LIST](state, resourceList) {
-        state.ADMINRESOURCE.resourceList = resourceList
+        state.adminResource.resourceList = resourceList
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
         state.contentCategory.formState.show = formState.show;
         state.contentCategory.formState.edit = formState.edit;
         state.contentCategory.formState.type = formState.type;
         state.contentCategory.formState.formData = Object.assign({
-            label: '',
+            name: '',
             enable: false,
             defaultUrl: '',
             parentId: '',

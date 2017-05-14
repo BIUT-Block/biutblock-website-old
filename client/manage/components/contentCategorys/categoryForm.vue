@@ -2,17 +2,16 @@
     <div class="dr-AdminResourceForm">
         <el-dialog size="small" title="填写分类信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-                {{dialogState.formData}}
                 <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
                     <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
                 </el-form-item>
                 <el-form-item label="类别名称" prop="label">
-                    <el-input size="small" v-model="dialogState.formData.label"></el-input>
+                    <el-input size="small" v-model="dialogState.formData.name"></el-input>
                 </el-form-item>
                 <el-form-item label="有效" prop="enable">
                     <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
                 </el-form-item>
-                <el-form-item label="Url" prop="label">
+                <el-form-item label="SeoUrl" prop="label">
                     <el-input size="small" v-model="dialogState.formData.defaultUrl"></el-input>
                 </el-form-item>
                 <el-form-item label="排序" prop="sortId">
@@ -76,7 +75,7 @@
                 console.log(value);
             },
             confirm() {
-                this.$store.dispatch('hideAdminResourceForm')
+                this.$store.dispatch('hideContentCategoryForm')
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -88,10 +87,10 @@
                         //     ._id;
                         // 更新
                         if (this.dialogState.edit) {
-                            services.updateAdminResource(params).then((result) => {
+                            services.updateContentCategory(params).then((result) => {
                                 if (result.state === 'success') {
-                                    this.$store.dispatch('hideAdminResourceForm');
-                                    this.$store.dispatch('getAdminResourceList');
+                                    this.$store.dispatch('hideContentCategoryForm');
+                                    this.$store.dispatch('getContentCategoryList');
                                     this.$message({
                                         message: '更新成功',
                                         type: 'success'
@@ -102,10 +101,10 @@
                             });
                         } else {
                             // 新增
-                            services.addAdminResource(params).then((result) => {
+                            services.addContentCategory(params).then((result) => {
                                 if (result.state === 'success') {
-                                    this.$store.dispatch('hideAdminResourceForm');
-                                    this.$store.dispatch('getAdminResourceList');
+                                    this.$store.dispatch('hideContentCategoryForm');
+                                    this.$store.dispatch('getContentCategoryList');
                                     this.$message({
                                         message: '添加成功',
                                         type: 'success'

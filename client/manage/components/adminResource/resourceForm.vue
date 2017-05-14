@@ -2,7 +2,6 @@
     <div class="dr-AdminResourceForm">
         <el-dialog size="small" title="填写资源信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-                {{dialogState.formData}}
                 <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
                     <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
                 </el-form-item>
@@ -10,18 +9,18 @@
                 <el-form-item label="资源名称" prop="label">
                     <el-input size="small" v-model="dialogState.formData.label"></el-input>
                 </el-form-item>
-                <el-form-item label="类型" prop="label">
+                <el-form-item label="类型" prop="type">
                     <el-select v-model="dialogState.formData.type" placeholder="请选择">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="资源地址" prop="label">
+                <el-form-item label="资源地址" prop="api">
                     <el-input size="small" v-model="dialogState.formData.api">
                         <template slot="prepend">/manage/</template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="排序" prop="label">
+                <el-form-item label="排序" prop="sortId">
                     <el-input-number size="small" v-model="dialogState.formData.sortId" @change="handleChange" :min="1" :max="50"></el-input-number>
                 </el-form-item>
                 <el-form-item label="资源描述" prop="comments">

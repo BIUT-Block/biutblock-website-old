@@ -49,10 +49,6 @@ var ContentCategorySchema = new Schema({
     comments: String
 });
 
-//TODO 改虚拟属性是为了兼容旧版本数据库
-ContentCategorySchema.virtual('label').get(function () {
-    return this.name;
-});
 
 ContentCategorySchema.statics = {
 
