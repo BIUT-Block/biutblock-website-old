@@ -73,8 +73,31 @@ module.exports = {
             }
         });
     },
-    getAdminResourceLCount() {
+    getAdminResourceCount() {
         return models.AdminResource.count();
+    },
+    getContentCategoryListByPage({
+        current = '1',
+        pageSize = '10'
+    }) {
+        return models.ContentCategory.find({}, {
+            id: 1,
+            name: 1,
+            comments: 1,
+            keywords: 1,
+            enable: 1,
+            parentId: 1,
+            sortId: 1,
+            sortPath: 1,
+            defaultUrl: 1
+        }, {
+            sort: {
+                sortId: 1
+            }
+        });
+    },
+    getContentCategoryCount() {
+        return models.ContentCategory.count();
     }
 
 }

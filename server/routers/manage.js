@@ -194,7 +194,7 @@ router.get('/adminResource/getList', (req, res) => {
   let current = req.query.current;
   let pageSize = req.query.pageSize;
   let totalItems = 1;
-  query.getAdminResourceLCount().then((count) => {
+  query.getAdminResourceCount().then((count) => {
     totalItems = count;
     return query.getAdminResourceListByPage({
       current,
@@ -261,6 +261,99 @@ router.post('/adminResource/updateOne', (req, res) => {
 })
 
 router.post('/adminResource/deleteResource', (req, res) => {
+
+  console.log('-------', req.body, '------', req.params);
+  const targetId = req.body.ids;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+
+/**
+ * 文档类别管理
+ * 
+ */
+
+router.get('/contentCategory/getList', (req, res) => {
+
+  let current = req.query.current;
+  let pageSize = req.query.pageSize;
+  let totalItems = 1;
+  query.getContentCategoryCount().then((count) => {
+    totalItems = count;
+    return query.getcontentCategoryListByPage({
+      current,
+      pageSize
+    });
+  }).then((roleList) => {
+    res.send({
+      state: 'success',
+      docs: roleList,
+      pageInfo: {
+        totalItems,
+        current: Number(current) || 1,
+        pageSize: Number(pageSize) || 10
+      }
+    })
+  })
+
+})
+
+router.post('/contentCategory/addOne', (req, res) => {
+
+  let name = req.body.name;
+  let keywords = req.body.keywords;
+  let sortId = req.body.sortId;
+  let parentId = req.body.parentId;
+  let enable = req.body.enable;
+  let defaultUrl = req.body.defaultUrl;
+  let sortPath = req.body.sortPath;
+  let comments = req.body.comments;
+  console.log('--', req.body);
+  domain.create("ContentCategory", {
+    name,
+    keywords,
+    state,
+    parentId,
+    sortId,
+    sortPath,
+    defaultUrl,
+    comments
+  }).then((json) => {
+    res.send({
+      state: 'success',
+      id: json.id
+    });
+  }).catch((err) => {
+    res.send({
+      state: 'error',
+      err
+    });
+  })
+
+})
+
+router.post('/contentCategory/updateOne', (req, res) => {
+
+  let name = req.body.name;
+  let keywords = req.body.keywords;
+  let sortId = req.body.sortId;
+  let parentId = req.body.parentId;
+  let enable = req.body.enable;
+  let defaultUrl = req.body.defaultUrl;
+  let sortPath = req.body.sortPath;
+  let comments = req.body.comments;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+router.post('/contentCategory/deleteResource', (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;

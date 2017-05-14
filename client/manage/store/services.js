@@ -59,7 +59,24 @@ export default {
 
     deleteAdminResource(params) {
         return reqJsonData('manage/adminResource/deleteResource', params)
+    },
+
+    contentCategoryList(params) {
+        return reqJsonData('manage/contentCategory/getList', params, 'get')
+    },
+
+    addContentCategory(params) {
+        return reqJsonData('manage/contentCategory/addOne', params)
+    },
+
+    updateContentCategory(params) {
+        return reqJsonData('manage/contentCategory/updateOne', params)
+    },
+
+    deleteContentCategory(params) {
+        return reqJsonData('manage/contentCategory/deleteCategory', params)
     }
+
 
 
 }

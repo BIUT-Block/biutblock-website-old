@@ -162,6 +162,35 @@ export default {
             let treeData = renderTreeData(result);
             commit(types.ADMINRESOURCE_LIST, treeData)
         })
+    },
+    showContentCategoryForm: ({
+        commit
+    }, params = {
+        type: 'root',
+        edit: false,
+        formData: {}
+    }) => {
+        commit(types.CONTENTCATEGORYS_FORMSTATE, {
+            show: true,
+            type: params.type,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideContentCategoryForm: ({
+        commit
+    }) => {
+        commit(types.CONTENTCATEGORYS_FORMSTATE, {
+            show: false
+        })
+    },
+    getContentCategoryList({
+        commit
+    }, params = {}) {
+        services.contentCategoryList(params).then((result) => {
+            let treeData = renderTreeData(result);
+            commit(types.CONTENTCATEGORYS_LIST, treeData)
+        })
     }
 
 }

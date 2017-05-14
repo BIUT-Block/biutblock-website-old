@@ -79,6 +79,29 @@ const state = {
             state: '',
             err: {}
         }
+    },
+    contentCategory: {
+        formState: {
+            type: 'root',
+            show: false,
+            edit: false,
+            formData: {
+                label: '',
+                enable: false,
+                defaultUrl: '',
+                parentId: '',
+                sortId: 0,
+                comments: ''
+            }
+        },
+        categoryList: {
+            pageInfo: {},
+            docs: []
+        },
+        addContentCategory: {
+            state: '',
+            err: {}
+        }
     }
 }
 
@@ -156,37 +179,27 @@ const mutations = {
                 label: ''
             }
         }, formState.formData);
-        // if (!_.isEmpty(formState.formData)) {
-        //     state.adminResource.formState.formData = Object.assign({
-        //         label: '',
-        //         type: '',
-        //         api: '',
-        //         parentId: '',
-        //         sortId: 0,
-        //         comments: '',
-        //         parent: {
-        //             id: '',
-        //             label: ''
-        //         }
-        //     },formState.formData)
-        // } else {
-        //     state.adminResource.formState.formData = {
-        //         label: '',
-        //         type: '',
-        //         api: '',
-        //         parentId: '',
-        //         sortId: 0,
-        //         comments: '',
-        //         parent: {
-        //             id: '',
-        //             label: ''
-        //         }
-        //     }
-        // }
 
     },
     [types.ADMINRESOURCE_LIST](state, resourceList) {
-        state.adminResource.resourceList = resourceList
+        state.ADMINRESOURCE.resourceList = resourceList
+    },
+    [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
+        state.contentCategory.formState.show = formState.show;
+        state.contentCategory.formState.edit = formState.edit;
+        state.contentCategory.formState.type = formState.type;
+        state.contentCategory.formState.formData = Object.assign({
+            label: '',
+            enable: false,
+            defaultUrl: '',
+            parentId: '',
+            sortId: 0,
+            comments: ''
+        }, formState.formData);
+
+    },
+    [types.CONTENTCATEGORYS_LIST](state, categoryList) {
+        state.contentCategory.categoryList = categoryList
     }
 }
 
