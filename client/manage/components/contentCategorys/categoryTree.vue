@@ -21,9 +21,6 @@ export default {
 
   methods: {
     append(store, data) {
-      // store.append({ id: id++, label: 'testtest', children: [] }, data);
-      console.log('---', data);
-      // data.parent = data;
       let formData = {};
       formData.parentId = data._id;
       this.$store.dispatch('showContentCategoryForm', {
