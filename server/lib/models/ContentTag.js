@@ -13,14 +13,14 @@ var ContentTagsSchema = new Schema({
         unique: true,
         'default': shortid.generate
     },
-    name:  String,
-    alias : String, //别名
+    name: String,
+    alias: String, //别名
     date: { type: Date, default: Date.now },
-    comments : String
+    comments: String
 });
 
 
-var ContentTags = mongoose.model("ContentTags",ContentTagsSchema);
+var ContentTags = mongoose.model("ContentTags", ContentTagsSchema);
 
 module.exports = ContentTags;
 

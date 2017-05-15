@@ -11,5 +11,7 @@ export default {
     adminResourceFormState: state => state.adminResource.formState,
     adminResourceList: state => state.adminResource.resourceList,
     contentCategoryFormState: state => state.contentCategory.formState,
-    contentCategoryList: state => state.contentCategory.categoryList
+    contentCategoryList: state => state.contentCategory.categoryList,
+    contentFormState: state => state.content.formState,
+    contentList: state => state.content.contentList
 }

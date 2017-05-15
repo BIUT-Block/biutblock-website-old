@@ -75,6 +75,22 @@ export default {
 
     deleteContentCategory(params) {
         return reqJsonData('manage/contentCategory/deleteCategory', params)
+    },
+
+    contentList(params) {
+        return reqJsonData('manage/content/getList', params, 'get')
+    },
+
+    addcontent(params) {
+        return reqJsonData('manage/content/addOne', params)
+    },
+
+    updatecontent(params) {
+        return reqJsonData('manage/content/updateOne', params)
+    },
+
+    deletecontent(params) {
+        return reqJsonData('manage/content/deleteCategory', params)
     }
 
 

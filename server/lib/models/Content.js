@@ -36,7 +36,6 @@ var ContentSchema = new Schema({
     likeUserIds : String, // 喜欢该文章的用户ID集合
     from : { type: String, default: '1' }, // 来源 1为原创 2为转载
 
-
 //    插件信息相关属性
     repositoryPath : String, // git 知识库路径
     downPath : String, // git 项目下载地址

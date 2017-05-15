@@ -102,6 +102,39 @@ const state = {
             state: '',
             err: {}
         }
+    },
+    content: {
+        formState: {
+            edit: false,
+            formData: {
+                title: '',
+                stitle: '',
+                type: '',
+                category: '',
+                sortPath: '',
+                tags: '',
+                keywords: '',
+                sImg: '',
+                discription: '',
+                author: {},
+                state: true,
+                isTop: 0,
+                clickNum: 0,
+                comments: {},
+                commentNum: 0,
+                likeNum: 0,
+                likeUserIds: '',
+                from: ''
+            }
+        },
+        contentList: {
+            pageInfo: {},
+            docs: []
+        },
+        addContent: {
+            state: '',
+            err: {}
+        }
     }
 }
 
@@ -185,10 +218,10 @@ const mutations = {
         state.adminResource.resourceList = resourceList
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
-        state.contentCategory.formState.show = formState.show;
-        state.contentCategory.formState.edit = formState.edit;
-        state.contentCategory.formState.type = formState.type;
-        state.contentCategory.formState.formData = Object.assign({
+        state.content.formState.show = formState.show;
+        state.content.formState.edit = formState.edit;
+        state.content.formState.type = formState.type;
+        state.content.formState.formData = Object.assign({
             name: '',
             enable: false,
             defaultUrl: '',
@@ -199,7 +232,35 @@ const mutations = {
 
     },
     [types.CONTENTCATEGORYS_LIST](state, categoryList) {
-        state.contentCategory.categoryList = categoryList
+        state.content.categoryList = categoryList
+    },
+    [types.CONTENT_FORMSTATE](state, formState) {
+        console.log('---CONTENT_FORMSTATE--', formState);
+        state.content.formState.edit = formState.edit;
+        state.content.formState.formData = Object.assign({
+            title: '',
+            stitle: '',
+            type: '',
+            category: '',
+            sortPath: '',
+            tags: '',
+            keywords: '',
+            sImg: '',
+            discription: '',
+            author: {},
+            state: true,
+            isTop: 0,
+            clickNum: 0,
+            comments: {},
+            commentNum: 0,
+            likeNum: 0,
+            likeUserIds: '',
+            from: ''
+        }, formState.formData);
+        debugger;
+    },
+    [types.CONTENT_LIST](state, contentList) {
+        state.content.contentList = contentList
     }
 }
 

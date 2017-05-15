@@ -66,9 +66,9 @@ export default {
     showAdminUserForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINUSERFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -92,9 +92,9 @@ export default {
     showAdminGroupForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINGROUP_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -111,9 +111,9 @@ export default {
     showAdminGroupRoleForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINGROUP_ROLEFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -137,10 +137,10 @@ export default {
     showAdminResourceForm: ({
         commit
     }, params = {
-        type: 'root',
-        edit: false,
-        formData: {}
-    }) => {
+            type: 'root',
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINRESOURCE_FORMSTATE, {
             show: true,
             type: params.type,
@@ -166,10 +166,10 @@ export default {
     showContentCategoryForm: ({
         commit
     }, params = {
-        type: 'root',
-        edit: false,
-        formData: {}
-    }) => {
+            type: 'root',
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.CONTENTCATEGORYS_FORMSTATE, {
             show: true,
             type: params.type,
@@ -190,6 +190,25 @@ export default {
         services.contentCategoryList(params).then((result) => {
             let treeData = renderTreeData(result);
             commit(types.CONTENTCATEGORYS_LIST, treeData)
+        })
+    },
+
+    showContentForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.CONTENT_FORMSTATE, {
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    getContentList({
+        commit
+    }, params = {}) {
+        services.contentList(params).then((result) => {
+            commit(types.CONTENT_LIST, result)
         })
     }
 

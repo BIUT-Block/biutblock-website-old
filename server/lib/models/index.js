@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/test");
+// mongoose.connect("mongodb://doramart:doramart520@ds143071.mlab.com:43071/doracms");
 
 // exports.Topic = require('./Topic');
 // exports.Reply = require('./Reply');
@@ -13,4 +14,4 @@ exports.AdminGroup = require('./AdminGroup');
 exports.AdminResource = require('./AdminResource');
 exports.ContentCategory = require('./ContentCategory');
 exports.Content = require('./Content');
-exports.ContentTags = require('./ContentTags');
+exports.ContentTag = require('./ContentTag');

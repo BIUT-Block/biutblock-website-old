@@ -115,7 +115,7 @@ class AdminUser extends Actor {
                 this._data.group = event.data;
                 break;
             case "updateComments":
-                this._data.comments = event.comments;
+                this._data.comments = event.data;
                 break;
             case "enable":
                 this._data.enable = true;

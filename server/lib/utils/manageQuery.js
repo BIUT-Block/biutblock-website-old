@@ -9,15 +9,15 @@ module.exports = {
         pageSize = '10'
     }) {
         return models.AdminUser.find({}, {
-                id: 1,
-                userName: 1,
-                password: 1,
-                name: 1,
-                email: 1,
-                date: 1,
-                phoneNum: 1,
-                group: 1
-            }, {
+            id: 1,
+            userName: 1,
+            password: 1,
+            name: 1,
+            email: 1,
+            date: 1,
+            phoneNum: 1,
+            group: 1
+        }, {
                 limit: Number(pageSize),
                 skip: 10 * (Number(current) - 1),
                 sort: {
@@ -43,12 +43,12 @@ module.exports = {
             enable: 1,
             power: 1
         }, {
-            limit: Number(pageSize),
-            skip: 10 * (Number(current) - 1),
-            sort: {
-                date: -1
-            }
-        });
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            });
     },
     getAdminGroupCount() {
         return models.AdminGroup.count();
@@ -66,12 +66,12 @@ module.exports = {
             parentId: 1,
             sortId: 1
         }, {
-            // limit: Number(pageSize),
-            // skip: 10 * (Number(current) - 1),
-            sort: {
-                sortId: 1
-            }
-        });
+                // limit: Number(pageSize),
+                // skip: 10 * (Number(current) - 1),
+                sort: {
+                    sortId: 1
+                }
+            });
     },
     getAdminResourceCount() {
         return models.AdminResource.count();
@@ -91,13 +91,44 @@ module.exports = {
             sortPath: 1,
             defaultUrl: 1
         }, {
-            sort: {
-                sortId: 1
-            }
-        });
+                sort: {
+                    sortId: 1
+                }
+            });
     },
     getContentCategoryCount() {
         return models.ContentCategory.count();
+    },
+    getContentListByPage({
+        current = '1',
+        pageSize = '10'
+    }) {
+        return models.Content.find({}, {
+            id: 1,
+            title: 1,
+            type: 1,
+            category: 1,
+            author: 1,
+            state: 1,
+            isTop: 1,
+            clickNum: 1,
+            commentNum: 1,
+            likeNum: 1,
+            from: 1
+        }, {
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            }).populate([
+                { path: 'author', select: 'name -_id' },
+                { path: 'category', select: 'name _id' }
+            ])
+            .exec();
+    },
+    getContentCount() {
+        return models.Content.count();
     }
 
 }
