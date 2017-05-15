@@ -124,7 +124,7 @@ const state = {
                 commentNum: 0,
                 likeNum: 0,
                 likeUserIds: '',
-                from: ''
+                from: '1'
             }
         },
         contentList: {
@@ -255,7 +255,7 @@ const mutations = {
             commentNum: 0,
             likeNum: 0,
             likeUserIds: '',
-            from: ''
+            from: '1'
         }, formState.formData);
         debugger;
     },
