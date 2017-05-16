@@ -8,29 +8,29 @@
     </div>
 </template>
 <script>
-    export default {
-        data() {
-            return {
-                formState: {
-                    show: false
-                },
-                input2: ''
-            }
-        },
-        methods: {
-            handleIconClick(ev) {
-                console.log(ev);
+export default {
+    data() {
+        return {
+            formState: {
+                show: false
             },
-            addContent() {
-                this.$store.dispatch('showContentForm');
-                this.$router.push('/content/add');       
-            }
-        },
-        components: {
-
+            input2: ''
         }
+    },
+    methods: {
+        handleIconClick(ev) {
+            console.log(ev);
+        },
+        addContent() {
+            this.$store.dispatch('showContentForm');
+            this.$router.push('/addContent');
+        }
+    },
+    components: {
 
     }
+
+}
 </script>
 <style>
 .dr-toolbar {

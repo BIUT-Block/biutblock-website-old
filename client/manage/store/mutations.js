@@ -218,10 +218,10 @@ const mutations = {
         state.adminResource.resourceList = resourceList
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
-        state.content.formState.show = formState.show;
-        state.content.formState.edit = formState.edit;
-        state.content.formState.type = formState.type;
-        state.content.formState.formData = Object.assign({
+        state.contentCategory.formState.show = formState.show;
+        state.contentCategory.formState.edit = formState.edit;
+        state.contentCategory.formState.type = formState.type;
+        state.contentCategory.formState.formData = Object.assign({
             name: '',
             enable: false,
             defaultUrl: '',
@@ -232,7 +232,7 @@ const mutations = {
 
     },
     [types.CONTENTCATEGORYS_LIST](state, categoryList) {
-        state.content.categoryList = categoryList
+        state.contentCategory.categoryList = categoryList
     },
     [types.CONTENT_FORMSTATE](state, formState) {
         console.log('---CONTENT_FORMSTATE--', formState);

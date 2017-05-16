@@ -41,7 +41,7 @@ export default new Router({
     path: '/',
     component: Home,
     name: '文档管理',
-    iconCls: 'fa fa-file-text', //图标样式class
+    iconCls: 'fa fa-file-text',
     children: [{
       path: 'contentCategory',
       component: ContentCategorys,
@@ -50,11 +50,13 @@ export default new Router({
     {
       path: 'content',
       component: Content,
-      name: '文档管理',
-      children: [
-        { path: 'add', component: ContentForm },
-        { path: 'edit/:id', component: ContentForm }
-      ]
+      name: '文档管理'
+    },
+    {
+      path: 'addContent',
+      component: ContentForm,
+      name: '文档添加',
+      hidden: true
     },
     {
       path: 'contentTags',

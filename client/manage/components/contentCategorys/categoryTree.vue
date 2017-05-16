@@ -4,7 +4,6 @@
 </template>
 
 <script>
-let id = 1000;
 
 export default {
   props: {
@@ -30,8 +29,8 @@ export default {
       });
     },
 
-    edit(store, data){
-      console.log('----',data)
+    edit(store, data) {
+      console.log('----', data)
       this.$store.dispatch('showContentCategoryForm', {
         edit: true,
         type: 'children',

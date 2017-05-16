@@ -5,7 +5,7 @@
             </el-table-column>
             <el-table-column prop="title" label="标题" width="120">
             </el-table-column>
-            <el-table-column prop="date" label="创建时间" width="80">
+            <el-table-column prop="date" label="创建时间" width="100">
             </el-table-column>
             <el-table-column prop="category.name" label="类别" show-overflow-tooltip>
             </el-table-column>
