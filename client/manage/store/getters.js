@@ -13,5 +13,7 @@ export default {
     contentCategoryFormState: state => state.contentCategory.formState,
     contentCategoryList: state => state.contentCategory.categoryList,
     contentFormState: state => state.content.formState,
-    contentList: state => state.content.contentList
+    contentList: state => state.content.contentList,
+    contentTagFormState: state => state.contentTag.formState,
+    contentTagList: state => state.contentTag.tagList
 }

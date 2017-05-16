@@ -8,6 +8,8 @@ const AdminUser = require('./AdminUser');
 const AdminGroup = require('./AdminGroup');
 const AdminResource = require('./AdminResource');
 const ContentCategory = require('./ContentCategory');
+const Content = require('./Content');
+const ContentTag = require('./ContentTag');
 
 // tingodb
 const domain = new Domain();
@@ -19,9 +21,9 @@ domain.register(Message)
     .register(AdminGroup)
     .register(AdminResource)
     .register(ContentCategory)
+    .register(ContentTag)
+    .register(Content)
     .register(UserRecorder);
-// console.log('---', AdminResource);
-// .register(AdminResource);
 
 domain.get('UserRecorder', 'recorderid').then((result) => {
     if (!result) {

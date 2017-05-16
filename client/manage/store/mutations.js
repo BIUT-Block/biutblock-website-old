@@ -110,9 +110,9 @@ const state = {
                 title: '',
                 stitle: '',
                 type: '',
-                category: '',
+                categories: [],
                 sortPath: '',
-                tags: '',
+                tags: [],
                 keywords: '',
                 sImg: '',
                 discription: '',
@@ -132,6 +132,25 @@ const state = {
             docs: []
         },
         addContent: {
+            state: '',
+            err: {}
+        }
+    },
+    contentTag: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {
+                name: '',
+                alias: '',
+                comments: ''
+            }
+        },
+        tagList: {
+            pageInfo: {},
+            docs: []
+        },
+        addTag: {
             state: '',
             err: {}
         }
@@ -235,15 +254,14 @@ const mutations = {
         state.contentCategory.categoryList = categoryList
     },
     [types.CONTENT_FORMSTATE](state, formState) {
-        console.log('---CONTENT_FORMSTATE--', formState);
         state.content.formState.edit = formState.edit;
         state.content.formState.formData = Object.assign({
             title: '',
             stitle: '',
             type: '',
-            category: '',
+            categories: [],
             sortPath: '',
-            tags: '',
+            tags: [],
             keywords: '',
             sImg: '',
             discription: '',
@@ -261,6 +279,20 @@ const mutations = {
     },
     [types.CONTENT_LIST](state, contentList) {
         state.content.contentList = contentList
+    },
+    [types.CONTENTTAG_FORMSTATE](state, formState) {
+        state.contentTag.formState.show = formState.show;
+        state.contentTag.formState.edit = formState.edit;
+        state.contentTag.formState.type = formState.type;
+        state.contentTag.formState.formData = Object.assign({
+            name: '',
+            alias: '',
+            comments: ''
+        }, formState.formData);
+
+    },
+    [types.CONTENTTAG_LIST](state, tagList) {
+        state.contentTag.tagList = tagList
     }
 }
 

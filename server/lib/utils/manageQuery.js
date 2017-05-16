@@ -107,7 +107,9 @@ module.exports = {
             id: 1,
             title: 1,
             type: 1,
-            category: 1,
+            tags: 1,
+            date: 1,
+            categories: 1,
             author: 1,
             state: 1,
             isTop: 1,
@@ -123,12 +125,34 @@ module.exports = {
                 }
             }).populate([
                 { path: 'author', select: 'name -_id' },
-                { path: 'category', select: 'name _id' }
+                { path: 'categories', select: 'name _id' },
+                { path: 'tags', select: 'name alias _id' }
             ])
             .exec();
     },
     getContentCount() {
         return models.Content.count();
+    },
+
+    getContentTagListByPage({
+        current = '1',
+        pageSize = '10'
+    }) {
+        return models.ContentTag.find({}, {
+            id: 1,
+            name: 1,
+            alias: 1,
+            comments: 1
+        }, {
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            });
+    },
+    getContentTagCount() {
+        return models.ContentTag.count();
     }
 
 }

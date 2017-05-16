@@ -1,16 +1,17 @@
 <template>
-    <div class="content">
+    <div class="adminUser">
+        <TagForm :dialogState="formState"></TagForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <ToolBar></ToolBar>
-                <DataTable :dataList="contentList.docs"></DataTable>
-                <Pagination :pageInfo="contentList.pageInfo"></Pagination>
+                <DataTable :dataList="contentTagList.docs"></DataTable>
+                <Pagination :pageInfo="contentTagList.pageInfo"></Pagination>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-
+import TagForm from './tagForm'
 import DataTable from './dataTable.vue';
 import ToolBar from './toolBar.vue';
 import Pagination from '../common/Pagination.vue';
@@ -29,7 +30,7 @@ export default {
     components: {
         DataTable,
         ToolBar,
-        // ContentForm,
+        TagForm,
         Pagination
     },
     methods: mapActions([
@@ -37,11 +38,14 @@ export default {
     ]),
     computed: {
         ...mapGetters([
-            'contentList'
-        ])
+            'contentTagList'
+        ]),
+        formState() {
+            return this.$store.getters.contentTagFormState
+        }
     },
     mounted() {
-        this.$store.dispatch('getContentList');
+        this.$store.dispatch('getContentTagList');
     }
 }
 </script>

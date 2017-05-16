@@ -399,9 +399,9 @@ router.post('/content/addOne', (req, res) => {
   let title = req.body.title;
   let stitle = req.body.stitle;
   let type = req.body.type;
-  let category = req.body.category;
+  let categories = req.body['categories[]'];
   let sortPath = req.body.sortPath;
-  let tags = req.body.tags;
+  let tags = req.body['tags[]'];
   let keywords = req.body.keywords;
   let sImg = req.body.sImg;
   let author = req.body.author;
@@ -410,15 +410,19 @@ router.post('/content/addOne', (req, res) => {
   let from = req.body.from;
   let discription = req.body.discription;
   let comments = req.body.comments;
-  console.log('--', req.body);
+
   domain.create("Content", {
-    name,
+    title,
+    stitle,
     keywords,
-    enable,
-    parentId,
-    sortId,
+    state,
+    type,
+    categories,
+    tags,
+    sImg,
     sortPath,
-    defaultUrl,
+    from,
+    discription,
     comments
   }).then((json) => {
     res.send({
@@ -458,6 +462,83 @@ router.post('/content/updateOne', (req, res) => {
 })
 
 router.post('/content/deleteResource', (req, res) => {
+
+  const targetId = req.body.ids;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+/**
+ * tag管理
+ */
+router.get('/contentTag/getList', (req, res) => {
+
+  let current = req.query.current;
+  let pageSize = req.query.pageSize;
+  let totalItems = 1;
+  query.getContentTagCount().then((count) => {
+    totalItems = count;
+    return query.getContentTagListByPage({
+      current,
+      pageSize
+    });
+  }).then((userList) => {
+    res.send({
+      state: 'success',
+      docs: userList,
+      pageInfo: {
+        totalItems,
+        current: Number(current) || 1,
+        pageSize: Number(pageSize) || 10
+      }
+    })
+  })
+
+})
+
+
+router.post('/contentTag/addOne', (req, res) => {
+
+
+  let name = req.body.name;
+  let alias = req.body.alias;
+  let comments = req.body.comments;
+
+  domain.create("ContentTag", {
+    name,
+    alias,
+    comments
+  }).then((json) => {
+    res.send({
+      state: 'success',
+      id: json.id
+    });
+  }).catch((err) => {
+    res.send({
+      state: 'error',
+      err
+    });
+  })
+
+})
+
+router.post('/contentTag/updateOne', (req, res) => {
+
+  const targetId = req.body._id;
+  let name = req.body.name;
+  let alias = req.body.alias;
+  let comments = req.body.comments;
+
+  res.send({
+    state: 'success'
+  });
+
+})
+
+router.post('/contentTag/deleteTag', (req, res) => {
 
   const targetId = req.body.ids;
 

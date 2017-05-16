@@ -1,6 +1,7 @@
 <template>
     <div class="dr-contentForm">
-        <el-form :model="formState" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+        {{formState.formData}}
+        <el-form :model="formState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="标题" prop="title">
                 <el-input size="small" v-model="formState.formData.title"></el-input>
             </el-form-item>
@@ -14,26 +15,21 @@
             <el-form-item label="发布" prop="state">
                 <el-switch on-text="是" off-text="否" v-model="formState.formData.state"></el-switch>
             </el-form-item>
-            <el-form-item label="TAG标签" prop="tags">
+            <el-form-item label="tag标签" prop="tags">
                 <el-select size="small" v-model="formState.formData.tags" multiple filterable allow-create placeholder="请选择文章标签">
-                    <el-option v-for="item in formState.formData.tags" :key="item._id" :label="item.name" :value="item.name">
+                    <el-option v-for="item in contentTagList.docs" :key="item._id" :label="item.name" :value="item._id">
                     </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="缩略图" prop="sImg">
-                <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview" :on-remove="handleRemove"
-                    :file-list="fileList2" list-type="picture">
+                <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList2" list-type="picture">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="文章类别" prop="category">
-                <el-select size="small" v-model="formState.formData.category" placeholder="请选择">
-                    <el-option-group v-for="group in options3" :key="group.label" :label="group.label">
-                        <el-option v-for="item in group.options" :key="item.label" :label="item.label" :value="item.label">
-                        </el-option>
-                    </el-option-group>
-                </el-select>
+            <el-form-item label="文章类别" prop="categories">
+                <el-cascader size="small" expand-trigger="hover" :options="contentCategoryList.docs" v-model="formState.formData.categories" @change="handleChangeCategory" :props="categoryProps">
+                </el-cascader>
             </el-form-item>
             <el-form-item label="关键字" prop="keywords">
                 <el-input size="small" v-model="formState.formData.keywords"></el-input>
@@ -53,130 +49,136 @@
 </template>
 
 <style>
-    .dr-contentForm {
-        margin: 15px 0;
-        width: 60%;
-    }
+.dr-contentForm {
+    margin: 15px 0;
+    width: 60%;
+}
 </style>
 
 <script>
-    import services from '../../store/services.js';
-    import _ from 'lodash';
-    export default {
-        props: {
-            dialogState: Object,
-            groups: Array
-        },
-        data() {
-            return {
-                fileList2: [],
-                options3: [{
-                    label: '热门城市',
-                    options: [{
-                        value: 'Shanghai',
-                        label: '上海'
-                    }, {
-                        value: 'Beijing',
-                        label: '北京'
-                    }]
-                }, {
-                    label: '城市名',
-                    options: [{
-                        value: 'Chengdu',
-                        label: '成都'
-                    }, {
-                        value: 'Shenzhen',
-                        label: '深圳'
-                    }, {
-                        value: 'Guangzhou',
-                        label: '广州'
-                    }, {
-                        value: 'Dalian',
-                        label: '大连'
-                    }]
-                }],
-                options: [{
-                    value: '选项1',
-                    label: '黄金糕'
-                }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                }, {
-                    value: '选项3',
-                    label: '蚵仔煎'
-                }, {
-                    value: '选项4',
-                    label: '龙须面'
-                }, {
-                    value: '选项5',
-                    label: '北京烤鸭'
-                }],
-                rules: {
-
+import services from '../../store/services.js';
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+export default {
+    props: {
+        formState: Object,
+        groups: Array
+    },
+    data() {
+        return {
+            categoryProps: {
+                value: '_id',
+                label: 'name',
+                children: 'children'
+            },
+            fileList2: [],
+            selectedOptions2: [],
+            rules: {
+                title: [{
+                    required: true,
+                    message: '请输入文档标题',
+                    trigger: 'blur'
+                },
+                {
+                    min: 5, max: 50, message: '5-50个非特殊字符', trigger: 'blur'
                 }
-            };
+                ],
+                stitle: [{
+                    required: true,
+                    message: '请输入简短标题',
+                    trigger: 'blur'
+                },
+                {
+                    min: 5, max: 40, message: '5-40个非特殊字符', trigger: 'blur'
+                }
+                ],
+                category: [{
+                    required: true,
+                    message: '请选择文档文档类别',
+                    trigger: 'blur'
+                }],
+                keywords: [{
+                    required: true,
+                    message: '请输入关键字',
+                    trigger: 'blur'
+                }],
+                discription: [{
+                    required: true,
+                    message: '请输入内容摘要',
+                    trigger: 'blur'
+                },
+                { min: 5, max: 100, message: '5-100个非特殊字符', trigger: 'blur' }]
+            }
+        };
+    },
+    methods: {
+        handleChangeCategory(value) {
+            console.log(value);
         },
-        methods: {
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreview(file) {
-                console.log(file);
-            },
-            confirm() {
-                this.$store.dispatch('hideAdminUserForm')
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        console.log('---formdatas--', this);
-                        let params = this.dialogState.formData;
-                        // 更新
-                        if (this.dialogState.edit) {
-                            services.updateAdminUser(params).then((result) => {
-                                if (result.state === 'success') {
-                                    this.$store.dispatch('hideAdminUserForm');
-                                    this.$store.dispatch('getAdminUserList');
-                                    this.$message({
-                                        message: '更新成功',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    this.$message.error('出错啦！');
-                                }
-                            });
-                        } else {
-                            // 新增
-                            services.addAdminUser(params).then((result) => {
-                                if (result.state === 'success') {
-                                    this.$store.dispatch('hideAdminUserForm');
-                                    this.$store.dispatch('getAdminUserList');
-                                    this.$message({
-                                        message: '添加成功',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    this.$message.error('出错啦！');
-                                }
-                            })
-                        }
-
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    console.log('---formdatas--', this);
+                    let params = this.formState.formData;
+                    // 更新
+                    if (this.formState.edit) {
+                        services.updateContent(params).then((result) => {
+                            if (result.state === 'success') {
+                                this.$router.push('/content');
+                                this.$message({
+                                    message: '更新成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message.error('出错啦！');
+                            }
+                        });
                     } else {
-                        console.log('error submit!!');
-                        return false;
+                        // 新增
+                        services.addContent(params).then((result) => {
+                            if (result.state === 'success') {
+                                this.$router.push('/content');
+                                this.$message({
+                                    message: '添加成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message.error('出错啦！');
+                            }
+                        })
                     }
-                });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            }
 
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
         },
-        computed: {
-            formState() {
-                console.log('---99', this.$store.getters.contentFormState);
-                return this.$store.getters.contentFormState
-            }
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
         }
+
+    },
+    computed: {
+        ...mapGetters([
+            'contentCategoryList',
+            'contentTagList'
+        ]),
+        formState() {
+            return this.$store.getters.contentFormState
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getContentCategoryList');
+        this.$store.dispatch('getContentTagList');
     }
+}
 </script>

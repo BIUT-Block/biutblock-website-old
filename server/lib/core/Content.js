@@ -10,6 +10,7 @@ class Content extends Actor {
             stitle: data.stitle,
             type: data.type,
             category: data.category,
+            categories: data.categories,
             sortPath: data.sortPath,
             tags: data.tags,
             keywords: data.keywords,
@@ -52,8 +53,8 @@ class Content extends Actor {
         if (data.type) {
             service.apply('updateType', data.type);
         }
-        if (data.category) {
-            service.apply('updateCategory', data.category);
+        if (data.categories) {
+            service.apply('updateCategory', data.categories);
         }
         if (data.tags) {
             service.apply('updateTags', data.tags);
@@ -109,7 +110,7 @@ class Content extends Actor {
                 this._data.type = event.data;
                 break;
             case "updateCategory":
-                this._data.category = event.data;
+                this._data.categories = event.data;
                 break;
             case "updateTags":
                 this._data.tags = event.data;

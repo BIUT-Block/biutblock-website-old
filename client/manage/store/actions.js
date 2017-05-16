@@ -210,6 +210,33 @@ export default {
         services.contentList(params).then((result) => {
             commit(types.CONTENT_LIST, result)
         })
+    },
+
+    showContentTagForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.CONTENTTAG_FORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideContentTagForm: ({
+        commit
+    }) => {
+        commit(types.CONTENTTAG_FORMSTATE, {
+            show: false
+        })
+    },
+    getContentTagList({
+        commit
+    }, params = {}) {
+        services.contentTagList(params).then((result) => {
+            commit(types.CONTENTTAG_LIST, result)
+        })
     }
 
 }

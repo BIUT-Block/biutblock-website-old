@@ -3,27 +3,31 @@
         <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="title" label="标题" width="120">
+            <el-table-column prop="title" label="标题" width="200">
             </el-table-column>
             <el-table-column prop="date" label="创建时间" width="100">
             </el-table-column>
-            <el-table-column prop="category.name" label="类别" show-overflow-tooltip>
+            <el-table-column prop="categories" label="类别" show-overflow-tooltip>
+                <template scope="scope">{{scope.row.categories[scope.row.categories.length-1].name}}</template>
             </el-table-column>
             <el-table-column prop="from" label="来源" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="type" label="类型" show-overflow-tooltip>
+                <template scope="scope">{{scope.row.from === '1'?'原创':'转载'}}</template>
             </el-table-column>
             <el-table-column prop="isTop" label="推荐" show-overflow-tooltip>
+                <template scope="scope">
+                    <i class="fa fa-check" style="color:#13CE66" v-show="scope.row.isTop===1"></i>
+                </template>
             </el-table-column>
             <el-table-column prop="clickNum" label="点击" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="commentNum" label="评论数" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="state" label="显示" show-overflow-tooltip>
+                <template scope="scope">{{scope.row.state}}</template>
             </el-table-column>
             <el-table-column prop="author.name" label="作者" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="150">
+            <el-table-column label="操作" width="150" fixed="right">
                 <template scope="scope">
                     <el-button size="mini" @click="editContentInfo(scope.$index, dataList)">编辑</el-button>
                     <el-button size="mini" type="danger" @click="deleteContent(scope.$index, dataList)">删除</el-button>

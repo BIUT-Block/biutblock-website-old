@@ -81,16 +81,32 @@ export default {
         return reqJsonData('manage/content/getList', params, 'get')
     },
 
-    addcontent(params) {
+    addContent(params) {
         return reqJsonData('manage/content/addOne', params)
     },
 
-    updatecontent(params) {
+    updateContent(params) {
         return reqJsonData('manage/content/updateOne', params)
     },
 
-    deletecontent(params) {
+    deleteContent(params) {
         return reqJsonData('manage/content/deleteCategory', params)
+    },
+
+    contentTagList(params) {
+        return reqJsonData('manage/contentTag/getList', params, 'get')
+    },
+
+    addContentTag(params) {
+        return reqJsonData('manage/contentTag/addOne', params)
+    },
+
+    updateContentTag(params) {
+        return reqJsonData('manage/contentTag/updateOne', params)
+    },
+
+    deleteContentTag(params) {
+        return reqJsonData('manage/contentTag/deleteTag', params)
     }
 
 

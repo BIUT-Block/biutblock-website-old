@@ -6,10 +6,10 @@ import News from '../components/News'
 import AdminUser from '../components/adminUser/index'
 import AdminGroup from '../components/adminGroup/index'
 import AdminResource from '../components/adminResource/index'
-import ContentCategorys from '../components/contentCategorys/index'
+import ContentCategory from '../components/contentCategory/index'
 import Content from '../components/content/index'
 import ContentForm from '../components/content/contentForm'
-// import App from '../App'
+import ContentTag from '../components/contentTag/index'
 
 
 Vue.use(Router)
@@ -44,7 +44,7 @@ export default new Router({
     iconCls: 'fa fa-file-text',
     children: [{
       path: 'contentCategory',
-      component: ContentCategorys,
+      component: ContentCategory,
       name: '文档类别'
     },
     {
@@ -60,7 +60,7 @@ export default new Router({
     },
     {
       path: 'contentTags',
-      component: AdminResource,
+      component: ContentTag,
       name: '标签管理'
     }
     ]
