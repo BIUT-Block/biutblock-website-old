@@ -22,13 +22,15 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="缩略图" prop="sImg">
-                <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList2" list-type="picture">
+                <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview" :on-remove="handleRemove"
+                    :file-list="fileList2" list-type="picture">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
             </el-form-item>
             <el-form-item label="文章类别" prop="categories">
-                <el-cascader size="small" expand-trigger="hover" :options="contentCategoryList.docs" v-model="formState.formData.categories" @change="handleChangeCategory" :props="categoryProps">
+                <el-cascader size="small" expand-trigger="hover" :options="contentCategoryList.docs" v-model="formState.formData.categories"
+                    @change="handleChangeCategory" :props="categoryProps">
                 </el-cascader>
             </el-form-item>
             <el-form-item label="关键字" prop="keywords">
@@ -49,136 +51,147 @@
 </template>
 
 <style>
-.dr-contentForm {
-    margin: 15px 0;
-    width: 60%;
-}
+    .dr-contentForm {
+        margin: 15px 0;
+        width: 60%;
+    }
 </style>
 
 <script>
-import services from '../../store/services.js';
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
-export default {
-    props: {
-        formState: Object,
-        groups: Array
-    },
-    data() {
-        return {
-            categoryProps: {
-                value: '_id',
-                label: 'name',
-                children: 'children'
+    import services from '../../store/services.js';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
+    export default {
+        props: {
+            groups: Array
+        },
+        data() {
+            return {
+                categoryProps: {
+                    value: '_id',
+                    label: 'name',
+                    children: 'children'
+                },
+                fileList2: [],
+                selectedOptions2: [],
+                rules: {
+                    title: [{
+                            required: true,
+                            message: '请输入文档标题',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 50,
+                            message: '5-50个非特殊字符',
+                            trigger: 'blur'
+                        }
+                    ],
+                    stitle: [{
+                            required: true,
+                            message: '请输入简短标题',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 40,
+                            message: '5-40个非特殊字符',
+                            trigger: 'blur'
+                        }
+                    ],
+                    category: [{
+                        required: true,
+                        message: '请选择文档文档类别',
+                        trigger: 'blur'
+                    }],
+                    keywords: [{
+                        required: true,
+                        message: '请输入关键字',
+                        trigger: 'blur'
+                    }],
+                    discription: [{
+                            required: true,
+                            message: '请输入内容摘要',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 100,
+                            message: '5-100个非特殊字符',
+                            trigger: 'blur'
+                        }
+                    ]
+                }
+            };
+        },
+        methods: {
+            handleChangeCategory(value) {
+                console.log(value);
             },
-            fileList2: [],
-            selectedOptions2: [],
-            rules: {
-                title: [{
-                    required: true,
-                    message: '请输入文档标题',
-                    trigger: 'blur'
-                },
-                {
-                    min: 5, max: 50, message: '5-50个非特殊字符', trigger: 'blur'
-                }
-                ],
-                stitle: [{
-                    required: true,
-                    message: '请输入简短标题',
-                    trigger: 'blur'
-                },
-                {
-                    min: 5, max: 40, message: '5-40个非特殊字符', trigger: 'blur'
-                }
-                ],
-                category: [{
-                    required: true,
-                    message: '请选择文档文档类别',
-                    trigger: 'blur'
-                }],
-                keywords: [{
-                    required: true,
-                    message: '请输入关键字',
-                    trigger: 'blur'
-                }],
-                discription: [{
-                    required: true,
-                    message: '请输入内容摘要',
-                    trigger: 'blur'
-                },
-                { min: 5, max: 100, message: '5-100个非特殊字符', trigger: 'blur' }]
-            }
-        };
-    },
-    methods: {
-        handleChangeCategory(value) {
-            console.log(value);
-        },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePreview(file) {
-            console.log(file);
-        },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    console.log('---formdatas--', this);
-                    let params = this.formState.formData;
-                    // 更新
-                    if (this.formState.edit) {
-                        services.updateContent(params).then((result) => {
-                            if (result.state === 'success') {
-                                this.$router.push('/content');
-                                this.$message({
-                                    message: '更新成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        });
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log('---formdatas--', this);
+                        let params = this.formState.formData;
+                        // 更新
+                        if (this.formState.edit) {
+                            services.updateContent(params).then((result) => {
+                                if (result.state === 'success') {
+                                    this.$router.push('/content');
+                                    this.$message({
+                                        message: '更新成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            });
+                        } else {
+                            // 新增
+                            services.addContent(params).then((result) => {
+                                if (result.state === 'success') {
+                                    this.$router.push('/content');
+                                    this.$message({
+                                        message: '添加成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            })
+                        }
+
                     } else {
-                        // 新增
-                        services.addContent(params).then((result) => {
-                            if (result.state === 'success') {
-                                this.$router.push('/content');
-                                this.$message({
-                                    message: '添加成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        })
+                        console.log('error submit!!');
+                        return false;
                     }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
 
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
         },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
+        computed: {
+            ...mapGetters([
+                'contentCategoryList',
+                'contentTagList'
+            ]),
+            formState() {
+                return this.$store.getters.contentFormState
+            }
+        },
+        mounted() {
+            this.$store.dispatch('getContentCategoryList');
+            this.$store.dispatch('getContentTagList');
         }
-
-    },
-    computed: {
-        ...mapGetters([
-            'contentCategoryList',
-            'contentTagList'
-        ]),
-        formState() {
-            return this.$store.getters.contentFormState
-        }
-    },
-    mounted() {
-        this.$store.dispatch('getContentCategoryList');
-        this.$store.dispatch('getContentTagList');
     }
-}
 </script>

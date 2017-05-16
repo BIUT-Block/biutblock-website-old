@@ -1,12 +1,13 @@
 <template>
     <div>
-        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%"
+            @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column prop="title" label="标题" width="200">
             </el-table-column>
-            <el-table-column prop="date" label="创建时间" width="100">
-                <template scope="scope">{{scope.row.date}}</template>
+            <el-table-column prop="date" label="创建时间" width="180">
+                <template scope="scope">{{scope.row.date | formatDate(scope.row.date)}}</template>
             </el-table-column>
             <el-table-column prop="categories" label="类别" show-overflow-tooltip>
                 <template scope="scope">{{scope.row.categories[scope.row.categories.length-1].name}}</template>
@@ -28,10 +29,11 @@
             </el-table-column>
             <el-table-column prop="author.name" label="作者" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="150" fixed="right">
+            <el-table-column label="操作" width="150">
                 <template scope="scope">
-                    <el-button size="mini" @click="editContentInfo(scope.$index, dataList)">编辑</el-button>
-                    <el-button size="mini" type="danger" @click="deleteContent(scope.$index, dataList)">删除</el-button>
+                    <el-button size="mini" type="primary" @click="editContentInfo(scope.$index, dataList)"><i class="fa fa-edit"></i></el-button>
+                    <el-button size="mini" @click="deleteContent(scope.$index, dataList)"><i class="fa fa-thumbs-o-up"></i></el-button>
+                    <el-button size="mini" @click="deleteContent(scope.$index, dataList)"><i class="fa fa-trash-o"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -39,74 +41,69 @@
 </template>
 
 <script>
-import services from '../../store/services.js';
-import moment from 'moment';
-export default {
-    props: {
-        dataList: Array
-    },
-    data() {
-        return {
-            loading: false,
-            multipleSelection: []
-        }
-    },
-
-    methods: {
-        toggleSelection(rows) {
-            if (rows) {
-                rows.forEach(row => {
-                    this.$refs.multipleTable.toggleRowSelection(row);
-                });
-            } else {
-                this.$refs.multipleTable.clearSelection();
+    import services from '../../store/services.js';
+    import moment from 'moment';
+    export default {
+        props: {
+            dataList: Array
+        },
+        data() {
+            return {
+                loading: false,
+                multipleSelection: []
             }
         },
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        editContentInfo(index, rows) {
-            let rowData = rows[index];
-            rowData.group = rows[index].group._id;
-            // this.$store.dispatch('showContentForm', {
-            //     edit: true,
-            //     formData: rowData
-            // });
-            this.$router.push('/content/edit/111');
-        },
-        deleteContent(index, rows) {
-            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                return services.deleteContent({
-                    ids: rows[index]._id
-                });
-            }).then((result) => {
-                if (result.state === 'success') {
-                    this.$store.dispatch('getContentList');
-                    this.$message({
-                        message: '删除成功',
-                        type: 'success'
+
+        methods: {
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
                     });
                 } else {
-                    this.$message.error('出错啦！');
+                    this.$refs.multipleTable.clearSelection();
                 }
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            editContentInfo(index, rows) {
+                let rowData = rows[index];
+                this.$store.dispatch('showContentForm', {
+                    edit: true,
+                    formData: rowData
                 });
-            });
-        }
-    },
-    computed: {
-        formatDate() {
-            // moment.locale('zh-cn');
-            // return moment(date).startOf('hour').fromNow();
-            return 'cc'
+                this.$router.push('/editContent/' + rowData._id);
+            },
+            deleteContent(index, rows) {
+                this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    return services.deleteContent({
+                        ids: rows[index]._id
+                    });
+                }).then((result) => {
+                    if (result.state === 'success') {
+                        this.$store.dispatch('getContentList');
+                        this.$message({
+                            message: '删除成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error('出错啦！');
+                    }
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            }
+        },
+        computed: {
+
         }
     }
-}
 </script>

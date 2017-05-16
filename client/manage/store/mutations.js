@@ -275,7 +275,7 @@ const mutations = {
             likeUserIds: '',
             from: '1'
         }, formState.formData);
-        debugger;
+
     },
     [types.CONTENT_LIST](state, contentList) {
         state.content.contentList = contentList
