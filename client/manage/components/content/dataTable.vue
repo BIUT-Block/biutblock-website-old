@@ -6,6 +6,7 @@
             <el-table-column prop="title" label="标题" width="200">
             </el-table-column>
             <el-table-column prop="date" label="创建时间" width="100">
+                <template scope="scope">{{scope.row.date}}</template>
             </el-table-column>
             <el-table-column prop="categories" label="类别" show-overflow-tooltip>
                 <template scope="scope">{{scope.row.categories[scope.row.categories.length-1].name}}</template>
@@ -39,6 +40,7 @@
 
 <script>
 import services from '../../store/services.js';
+import moment from 'moment';
 export default {
     props: {
         dataList: Array
@@ -97,6 +99,13 @@ export default {
                     message: '已取消删除'
                 });
             });
+        }
+    },
+    computed: {
+        formatDate() {
+            // moment.locale('zh-cn');
+            // return moment(date).startOf('hour').fromNow();
+            return 'cc'
         }
     }
 }
