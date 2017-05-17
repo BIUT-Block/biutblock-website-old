@@ -5,8 +5,6 @@
             </el-table-column>
             <el-table-column prop="name" label="名称" width="120">
             </el-table-column>
-            <el-table-column prop="alias" label="别名">
-            </el-table-column>
             <el-table-column prop="comments" label="备注">
             </el-table-column>
             <el-table-column label="操作" width="150">

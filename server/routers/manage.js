@@ -394,6 +394,17 @@ router.get('/content/getList', (req, res) => {
 
 })
 
+router.get('/content/getContent', (req, res) => {
+
+  let targetId = req.query.id;
+  query.getContentById(targetId).then((content) => {
+    res.send({
+      state: 'success',
+      doc: content
+    })
+  })
+})
+
 router.post('/content/addOne', (req, res) => {
 
   let title = req.body.title;

@@ -280,6 +280,9 @@ const mutations = {
     [types.CONTENT_LIST](state, contentList) {
         state.content.contentList = contentList
     },
+    [types.CONTENT_ONE](state, content) {
+        state.content.content = content
+    },
     [types.CONTENTTAG_FORMSTATE](state, formState) {
         state.contentTag.formState.show = formState.show;
         state.contentTag.formState.edit = formState.edit;

@@ -2,17 +2,18 @@ const path = require('path')
 const webpack = require('webpack')
 const webpackHotMiddlewareConfig = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
 const getEntries = require('./getEntries')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
     output: {
         path: path.resolve(__dirname, '../public'),
         publicPath: '/',
-        filename: 'client/[name].js',
-        chunkFilename: 'client/[name].js'
+        filename: 'client/js/[name].js',
+        chunkFilename: 'client/js/[name].js'
     },
     resolve: {
-        extensions: ['.js', '.vue'],
+        extensions: ['.js', '.vue', '.css', '.scss'],
         alias: {
             '@': path.join(__dirname, '..', 'client'),
             'scss_vars': '@/manage/assets/styles/vars.scss'
@@ -40,13 +41,13 @@ module.exports = {
         },
         {
             test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-            loader: 'file-loader'
+            loader: 'file-loader?importLoaders=1&limit=1000&name=client/css/fonts/[name]-[hash:8].[ext]'
         },
         {
-            test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+            test: /\.(jpe?g|png|gif)$/,
             loader: 'file-loader',
             query: {
-                name: '[name].[ext]?[hash]'
+                name: 'client/images/[name].[ext]?[hash]'
             }
         }
         ]

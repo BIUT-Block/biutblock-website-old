@@ -212,6 +212,14 @@ export default {
         })
     },
 
+    getOneContent({
+        commit
+    }, params = {}) {
+        services.contentInfo(params).then((result) => {
+            commit(types.CONTENT_ONE, result)
+        })
+    },
+
     showContentTagForm: ({
         commit
     }, params = {

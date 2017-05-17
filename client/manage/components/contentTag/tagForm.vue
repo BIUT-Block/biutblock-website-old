@@ -1,13 +1,9 @@
 <template>
     <div class="dr-contentTagForm">
-        <el-dialog size="small" title="填写用户信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
+        <el-dialog size="small" title="填写标签信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-    
                 <el-form-item label="名称" prop="name">
                     <el-input size="small" v-model="dialogState.formData.name"></el-input>
-                </el-form-item>
-                <el-form-item label="别名" prop="alias">
-                    <el-input size="small" type="password" v-model="dialogState.formData.alias"></el-input>
                 </el-form-item>
                 <el-form-item label="备注" prop="comments">
                     <el-input size="small" type="textarea" v-model="dialogState.formData.comments"></el-input>

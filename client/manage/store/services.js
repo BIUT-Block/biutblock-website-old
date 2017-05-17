@@ -81,6 +81,10 @@ export default {
         return reqJsonData('manage/content/getList', params, 'get')
     },
 
+    getOneContent(params) {
+        return reqJsonData('manage/content/getContent', params, 'get')
+    },
+
     addContent(params) {
         return reqJsonData('manage/content/addOne', params)
     },
