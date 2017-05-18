@@ -31,7 +31,7 @@
 
     }
 </script>
-<style>
+<style lang="scss">
     .dr-toolbar {
         margin: 10px auto;
         text-align: left;

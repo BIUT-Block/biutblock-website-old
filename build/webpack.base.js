@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const webpackHotMiddlewareConfig = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
 const getEntries = require('./getEntries')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
+const utils = require('./utils')
 module.exports = {
     context: path.resolve(__dirname, '../'),
     output: {
@@ -21,40 +21,41 @@ module.exports = {
     },
     module: {
         loaders: [{
-            test: /\.vue$/,
-            loader: 'vue-loader',
-            options: {
-                loaders: {
-                    scss: 'style-loader!css-loader!sass-loader',
-                    sass: 'style-loader!css-loader!sass-loader?indentedSyntax',
-                },
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: utils.vueCssLoader(),
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader?importLoaders=1&limit=1000&name=client/css/fonts/[name]-[hash:8].[ext]'
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                loader: 'file-loader',
+                query: {
+                    name: 'client/images/[name].[ext]?[hash]'
+                }
             }
-        },
-        {
-            test: /\.js$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/
-        },
-        {
-            test: /\.css$/,
-            loader: 'style-loader!css-loader'
-        },
-        {
-            test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-            loader: 'file-loader?importLoaders=1&limit=1000&name=client/css/fonts/[name]-[hash:8].[ext]'
-        },
-        {
-            test: /\.(jpe?g|png|gif)$/,
-            loader: 'file-loader',
-            query: {
-                name: 'client/images/[name].[ext]?[hash]'
-            }
-        }
         ]
     },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new ExtractTextPlugin({
+            filename: 'client/css/[name].css',
+            allChunks: true
+        })
     ],
 }

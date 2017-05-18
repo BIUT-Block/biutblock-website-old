@@ -4,11 +4,13 @@ const merge = require('webpack-merge')
 const baseConfig = require('./webpack.base')
 const getEntries = require('./getEntries')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const productionConf = merge(baseConfig, {
     entry: getEntries(),
-    stats: { children: false },
+    stats: {
+        children: false
+    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
@@ -21,27 +23,30 @@ const productionConf = merge(baseConfig, {
             }
         }),
         new OptimizeCssAssetsPlugin({
-          cssProcessor: require('cssnano'),
-          cssProcessorOptions: { discardComments: {removeAll: true } },
-          canPrint: true
-        }),
-        new webpack.LoaderOptionsPlugin({
-            vue: {
-                loaders: {
-                    postcss: [
-                        require('autoprefixer')({
-                            browsers: ['last 3 versions']
-                        })
-                    ],
-                    css: ExtractTextPlugin.extract({
-                        loader: "css-loader",
-                        fallback: "vue-style-loader"
-                    })
+            cssProcessor: require('cssnano'),
+            cssProcessorOptions: {
+                discardComments: {
+                    removeAll: true
                 }
-                
-            }
+            },
+            canPrint: true
         }),
-        new ExtractTextPlugin('css/[name].css')
+        // new webpack.LoaderOptionsPlugin({
+        //     vue: {
+        //         loaders: {
+        //             postcss: [
+        //                 require('autoprefixer')({
+        //                     browsers: ['last 3 versions']
+        //                 })
+        //             ],
+        //             css: ExtractTextPlugin.extract({
+        //                 loader: "css-loader",
+        //                 fallback: "vue-style-loader"
+        //             })
+        //         }
+
+        //     }
+        // }),
     ]
 })
 
