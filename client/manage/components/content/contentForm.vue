@@ -35,6 +35,7 @@
             </el-form-item>
             <el-form-item label="文档详情" prop="comments">
                 <!--<el-input size="small" type="textarea" v-model="formState.formData.comments"></el-input>-->
+                <WangEditor editorId="testme"></WangEditor>
             </el-form-item>
             <el-form-item class="dr-submitContent">
                 <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
@@ -48,7 +49,7 @@
 <style lang="scss">
 .dr-contentForm {
     margin: 15px 0;
-    width: 60%;
+    width: 80%;
     padding-bottom: 50px;
     .dr-submitContent {
         position: fixed;
@@ -64,6 +65,7 @@
 
 <script>
 import services from '../../store/services.js';
+import WangEditor from '../common/WangEditor.vue'
 import {
     mapGetters,
     mapActions
@@ -80,7 +82,6 @@ export default {
                 children: 'children'
             },
             fileList2: [],
-            selectedOptions2: [],
             rules: {
                 title: [{
                     required: true,
@@ -125,6 +126,9 @@ export default {
                 ]
             }
         };
+    },
+    components: {
+        WangEditor
     },
     methods: {
         handleChangeCategory(value) {

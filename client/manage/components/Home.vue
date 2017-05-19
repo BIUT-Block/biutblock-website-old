@@ -81,7 +81,7 @@
 export default {
     data() {
         return {
-            sysName: '',
+            sysName: 'DoraCMS',
             collapsed: false,
             sysUserName: 'dora',
             sysUserAvatar: require('../assets/images/logo.jpg'),
