@@ -1,5 +1,6 @@
 <template>
     <div class="dr-contentForm">
+        {{formState.formData}}
         <el-form :model="formState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="标题" prop="title">
                 <el-input size="small" v-model="formState.formData.title"></el-input>
@@ -21,13 +22,15 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="缩略图" prop="sImg">
-                <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList2" list-type="picture">
-                    <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                <el-upload class="avatar-uploader" action="http://127.0.0.1:8081/system/upload?type=images" :show-file-list="false" :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                    <img v-if="formState.formData.sImg" :src="formState.formData.sImg" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </el-form-item>
             <el-form-item label="文章类别" prop="categories">
-                <el-cascader size="small" expand-trigger="hover" :options="contentCategoryList.docs" v-model="formState.formData.categories" @change="handleChangeCategory" :props="categoryProps">
+                <el-cascader size="small" expand-trigger="hover" :options="contentCategoryList.docs" v-model="formState.formData.categories"
+                    @change="handleChangeCategory" :props="categoryProps">
                 </el-cascader>
             </el-form-item>
             <el-form-item label="内容摘要" prop="discription">
@@ -35,7 +38,7 @@
             </el-form-item>
             <el-form-item label="文档详情" prop="comments">
                 <!--<el-input size="small" type="textarea" v-model="formState.formData.comments"></el-input>-->
-                <WangEditor editorId="testme"></WangEditor>
+                <Ueditor :value="defaultMsg" :config="config" v-on:input="changeComments"></Ueditor>
             </el-form-item>
             <el-form-item class="dr-submitContent">
                 <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
@@ -47,181 +50,249 @@
 </template>
 
 <style lang="scss">
-.dr-contentForm {
-    margin: 15px 0;
-    width: 80%;
-    padding-bottom: 50px;
-    .dr-submitContent {
-        position: fixed;
-        padding: 10px 30px;
-        text-align: right;
-        right: 0;
-        bottom: 0;
-        background: none;
-        margin-bottom: 0;
+    .dr-contentForm {
+        margin: 15px 0;
+        width: 80%;
+        padding-bottom: 50px;
+        .dr-submitContent {
+            position: fixed;
+            padding: 10px 30px;
+            text-align: right;
+            right: 0;
+            bottom: 0;
+            background: none;
+            margin-bottom: 0;
+        }
+
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #20a0ff;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 200px;
+            height: 150px;
+            line-height: 150px;
+            text-align: center;
+        }
+        .avatar {
+            width: 200px;
+            height: 158px;
+            display: block;
+        }
     }
-}
 </style>
 
 <script>
-import services from '../../store/services.js';
-import WangEditor from '../common/WangEditor.vue'
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
-export default {
-    props: {
-        groups: Array
-    },
-    data() {
-        return {
-            categoryProps: {
-                value: '_id',
-                label: 'name',
-                children: 'children'
+    import services from '../../store/services.js';
+    import WangEditor from '../common/WangEditor.vue';
+    import Ueditor from '../common/Ueditor.vue';
+    import _ from 'lodash';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
+    export default {
+        props: {
+            groups: Array
+        },
+        data() {
+            return {
+                content: '',
+                defaultMsg: '初始文本',
+                config: {
+                    initialFrameWidth: null,
+                    initialFrameHeight: 320,
+                },
+                imageUrl: '',
+                categoryProps: {
+                    value: '_id',
+                    label: 'name',
+                    children: 'children'
+                },
+
+                rules: {
+                    title: [{
+                            required: true,
+                            message: '请输入文档标题',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 50,
+                            message: '5-50个非特殊字符',
+                            trigger: 'blur'
+                        }
+                    ],
+                    stitle: [{
+                            required: true,
+                            message: '请输入简短标题',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 40,
+                            message: '5-40个非特殊字符',
+                            trigger: 'blur'
+                        }
+                    ],
+                    categories: [{
+                        validator: (rule, value, callback) => {
+                            if (_.isEmpty(value)) {
+                                callback(new Error('请选择文档文档类别!'));
+                            } else {
+                                callback();
+                            }
+                        },
+                        trigger: 'blur'
+                    }],
+                    tags: [{
+                        validator: (rule, value, callback) => {
+                            if (_.isEmpty(value)) {
+                                callback(new Error('请选择标签!'));
+                            } else {
+                                callback();
+                            }
+                        },
+                        trigger: 'change'
+                    }],
+                    discription: [{
+                            required: true,
+                            message: '请输入内容摘要',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 100,
+                            message: '5-100个非特殊字符',
+                            trigger: 'blur'
+                        }
+                    ]
+                }
+            };
+        },
+        components: {
+            WangEditor,
+            Ueditor
+        },
+        methods: {
+            changeComments(params) {
+                console.log('ueditor', params);
             },
-            fileList2: [],
-            rules: {
-                title: [{
-                    required: true,
-                    message: '请输入文档标题',
-                    trigger: 'blur'
-                },
-                {
-                    min: 5,
-                    max: 50,
-                    message: '5-50个非特殊字符',
-                    trigger: 'blur'
+
+            handleAvatarSuccess(res, file) {
+                let imageUrl = 'http://127.0.0.1:8081' + res;
+                this.$store.dispatch('showContentForm', {
+                    edit: true,
+                    formData: Object.assign({}, this.formState.formData, {
+                        sImg: imageUrl
+                    })
+                });
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
                 }
-                ],
-                stitle: [{
-                    required: true,
-                    message: '请输入简短标题',
-                    trigger: 'blur'
-                },
-                {
-                    min: 5,
-                    max: 40,
-                    message: '5-40个非特殊字符',
-                    trigger: 'blur'
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
-                ],
-                categories: [{
-                    required: true,
-                    message: '请选择文档文档类别',
-                    trigger: 'blur'
-                }],
-                discription: [{
-                    required: true,
-                    message: '请输入内容摘要',
-                    trigger: 'blur'
-                },
-                {
-                    min: 5,
-                    max: 100,
-                    message: '5-100个非特殊字符',
-                    trigger: 'blur'
-                }
-                ]
+                return isJPG && isLt2M;
+            },
+            handleChangeCategory(value) {
+                console.log(value);
+            },
+            backToList() {
+                this.$router.push('/content');
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log('---formdatas--', this);
+                        let params = this.formState.formData;
+                        // 更新
+                        if (this.formState.edit) {
+                            services.updateContent(params).then((result) => {
+                                if (result.state === 'success') {
+                                    this.$router.push('/content');
+                                    this.$message({
+                                        message: '更新成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            });
+                        } else {
+                            // 新增
+                            services.addContent(params).then((result) => {
+                                if (result.state === 'success') {
+                                    this.$router.push('/content');
+                                    this.$message({
+                                        message: '添加成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            })
+                        }
+
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             }
-        };
-    },
-    components: {
-        WangEditor
-    },
-    methods: {
-        handleChangeCategory(value) {
-            console.log(value);
-        },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePreview(file) {
-            console.log(file);
-        },
-        backToList() {
-            this.$router.push('/content');
-        },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    console.log('---formdatas--', this);
-                    let params = this.formState.formData;
-                    // 更新
-                    if (this.formState.edit) {
-                        services.updateContent(params).then((result) => {
-                            if (result.state === 'success') {
-                                this.$router.push('/content');
-                                this.$message({
-                                    message: '更新成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        });
-                    } else {
-                        // 新增
-                        services.addContent(params).then((result) => {
-                            if (result.state === 'success') {
-                                this.$router.push('/content');
-                                this.$message({
-                                    message: '添加成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        })
-                    }
 
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
         },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
-        }
-
-    },
-    computed: {
-        ...mapGetters([
-            'contentCategoryList',
-            'contentTagList'
-        ]),
-        formState() {
-            return this.$store.getters.contentFormState
-        }
-    },
-    mounted() {
-        // 针对手动页面刷新
-        if (this.$route.params.id && !this.formState.formData.title) {
-            services.getOneContent(this.$route.params).then((result) => {
-                if (result.state === 'success') {
-                    if (result.doc) {
-                        this.$store.dispatch('showContentForm', {
-                            edit: true,
-                            formData: result.doc
-                        });
+        computed: {
+            ...mapGetters([
+                'contentCategoryList',
+                'contentTagList'
+            ]),
+            formState() {
+                return this.$store.getters.contentFormState
+            }
+        },
+        mounted() {
+            // 针对手动页面刷新
+            if (this.$route.params.id && !this.formState.formData.title) {
+                services.getOneContent(this.$route.params).then((result) => {
+                    if (result.state === 'success') {
+                        if (result.doc) {
+                            this.$store.dispatch('showContentForm', {
+                                edit: true,
+                                formData: result.doc
+                            });
+                        } else {
+                            this.$message({
+                                message: '参数非法,请重新操作！',
+                                type: 'warning',
+                                onClose: () => {
+                                    this.$router.push('/content');
+                                }
+                            });
+                        }
                     } else {
-                        this.$message({
-                            message: '参数非法,请重新操作！',
-                            type: 'warning',
-                            onClose: () => {
-                                this.$router.push('/content');
-                            }
-                        });
+                        this.$message.error('出错啦！');
                     }
-                } else {
-                    this.$message.error('出错啦！');
-                }
-            });
+                });
+            }
+            this.$store.dispatch('getContentCategoryList');
+            this.$store.dispatch('getContentTagList');
         }
-        this.$store.dispatch('getContentCategoryList');
-        this.$store.dispatch('getContentTagList');
     }
-}
 </script>

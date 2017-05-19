@@ -12,6 +12,7 @@ const app = express()
 // const router = require('./server/routers/router');
 const foreground = require('./server/routers/foreground');
 const manage = require('./server/routers/manage');
+const system = require('./server/routers/system');
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
 
@@ -27,6 +28,7 @@ app.use(session({
 // 后台管理
 app.use('/', foreground);
 app.use('/manage', manage);
+app.use('/system', system);
 
 if (isDev) {
     // local variables for all views
