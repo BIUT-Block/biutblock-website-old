@@ -15,5 +15,7 @@ export default {
     contentFormState: state => state.content.formState,
     contentList: state => state.content.contentList,
     contentTagFormState: state => state.contentTag.formState,
-    contentTagList: state => state.contentTag.tagList
+    contentTagList: state => state.contentTag.tagList,
+    regUserFormState: state => state.regUser.formState,
+    regUserList: state => state.regUser.userList,
 }

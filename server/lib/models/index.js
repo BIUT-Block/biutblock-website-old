@@ -10,6 +10,7 @@ mongoose.connect("mongodb://localhost/test");
 
 
 exports.AdminUser = require('./AdminUser');
+exports.User = require('./User');
 exports.AdminGroup = require('./AdminGroup');
 exports.AdminResource = require('./AdminResource');
 exports.ContentCategory = require('./ContentCategory');

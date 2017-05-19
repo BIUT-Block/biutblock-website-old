@@ -154,6 +154,25 @@ const state = {
             state: '',
             err: {}
         }
+    },
+    regUser: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {
+                name: '',
+                userName: '',
+                group: '',
+                email: '',
+                comments: '',
+                phoneNum: '',
+                enable: true
+            }
+        },
+        userList: {
+            pageInfo: {},
+            docs: []
+        }
     }
 }
 
@@ -296,7 +315,26 @@ const mutations = {
     },
     [types.CONTENTTAG_LIST](state, tagList) {
         state.contentTag.tagList = tagList
+    },
+    [types.REGUSERFORMSTATE](state, formState) {
+        state.regUser.formState.show = formState.show;
+        state.regUser.formState.edit = formState.edit;
+
+        state.regUser.formState.formData = Object.assign({
+            name: '',
+            userName: '',
+            group: '',
+            email: '',
+            comments: '',
+            phoneNum: '',
+            enable: true
+        }, formState.formData);
+
+    },
+    [types.REGUSERLIST](state, userlist) {
+        state.regUser.userList = userlist
     }
+
 }
 
 export default {

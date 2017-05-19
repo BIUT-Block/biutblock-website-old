@@ -245,6 +245,32 @@ export default {
         services.contentTagList(params).then((result) => {
             commit(types.CONTENTTAG_LIST, result)
         })
+    },
+    showRegUserForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.REGUSERFORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideRegUserForm: ({
+        commit
+    }) => {
+        commit(types.REGUSERFORMSTATE, {
+            show: false
+        })
+    },
+    getRegUserList({
+        commit
+    }, params = {}) {
+        services.regUserList(params).then((result) => {
+            commit(types.REGUSERLIST, result)
+        })
     }
 
 }

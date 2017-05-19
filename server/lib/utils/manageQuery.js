@@ -175,6 +175,30 @@ module.exports = {
     },
     getContentTagCount() {
         return models.ContentTag.count();
+    },
+
+    getRegUserListByPage({
+        current = '1',
+        pageSize = '10'
+    }) {
+        return models.User.find({}, {
+            id: 1,
+            userName: 1,
+            name: 1,
+            email: 1,
+            date: 1,
+            phoneNum: 1,
+            group: 1
+        }, {
+                limit: Number(pageSize),
+                skip: 10 * (Number(current) - 1),
+                sort: {
+                    date: -1
+                }
+            });
+    },
+    getRegUserCount() {
+        return models.User.count();
     }
 
 }

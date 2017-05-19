@@ -2,54 +2,41 @@ const Domain = require('cqrs');
 const Actor = require('cqrs').Actor;
 const validator = require('validator');
 const { validateEmail, validateName, validatePassword } = require('../utils/validators');
-// function validateEmail(email) {
-//     // console.log('----email',email && validator.isEmail(email)
-//     // && email.length < 100);
-//     return email && validator.isEmail(email)
-//         && email.length < 100
-// }
 
-// function validateName(loginname) {
-//     // console.log('------loginname',loginname && loginname && loginname.length < 25);
-//     return loginname && loginname.length > 2 && loginname.length < 25
-// }
-
-// function validatePassword(pwd) {
-//     // console.log('-------pwd------------------------', pwd.length < 100 & pwd.length > 6);
-//     return pwd.length < 100 & pwd.length > 6;
-// }
 
 class User extends Actor {
 
     constructor(data) {
         super({
             enable: true,
-            loginname: data.loginname,
+            name: data.name,
             password: data.password,
-            num: 0,
-            nickname: data.loginname,
-            email: data.email
+            phoneNum: data.phoneNum,
+            userName: data.userName,
+            email: data.email,
+            group: data.group,
+            comments: data.comments
         })
     }
 
-    static createBefor(data, service) {
-        return new Promise((resolve, reject) => {
-            service.get('UserRecorder', 'recorderid').then((record) => {
-                if (record.email_map[data.email] || record.loginname_map[data.loginname]) {
-                    reject('have error111');
-                } else {
-                    // console.log(data.email + '---------' + data.loginname + '-------' + data.password);
-                    if (validateEmail(data.email) && validateName(data.loginname)
-                        && validatePassword(data.password)) {
-                        resolve();
-                    } else {
-                        reject('have error222');
-                    }
+    // static createBefor(data, service) {
+    //     return new Promise((resolve, reject) => {
+    //         service.get('UserRecorder', 'recorderid').then((record) => {
+    //             if (record.email_map[data.email] || record.loginname_map[data.loginname]) {
+    //                 reject('have error111');
+    //             } else {
+    //                 // console.log(data.email + '---------' + data.loginname + '-------' + data.password);
+    //                 if (validateEmail(data.email) && validateName(data.loginname)
+    //                     && validatePassword(data.password)) {
+    //                     resolve();
+    //                 } else {
+    //                     reject('have error222');
+    //                 }
 
-                }
-            })
-        })
-    }
+    //             }
+    //         })
+    //     })
+    // }
 
     enable(data, service) {
         if (!this.json.enable) {
@@ -70,15 +57,15 @@ class User extends Actor {
     * update(data, service) {
         let error;
         let recorder = yield service.get('UserRecorder', 'recorderid');
-        if (data.nickname) {
-            if (recorder.nickname_map[data.nickname]) {
+        if (data.userName) {
+            if (recorder.userName_map[data.userName]) {
                 error = error || {};
-                error = { nickname: 'nickname已经使用' }
-            } else if (validateName(data.nickname)) {
-                service.apply('updateNickName', data.nickname);
+                error = { userName: 'userName已经使用' }
+            } else if (validateName(data.userName)) {
+                service.apply('updateUserName', data.userName);
             } else {
                 error = {
-                    nickname: '昵称长度不能大于25'
+                    userName: '昵称长度不能大于25'
                 }
             }
         }
@@ -105,6 +92,10 @@ class User extends Actor {
         }
     }
 
+    updateGroup(data, service) {
+        service.apply('updateGroup', data.group);
+    }
+
     when(event) {
         super.when(event);
         switch (event.name) {
@@ -114,11 +105,17 @@ class User extends Actor {
             case "updateEmail":
                 this._data.email = event.data;
                 break;
-            case "updateNickName":
-                this._data.nickname = event.data;
+            case "updateUserName":
+                this._data.userName = event.data;
                 break;
-            case "plus":
-                this._data.num += event.data;
+            case "updatePhoneNum":
+                this._data.phoneNum = event.data;
+                break;
+            case "updateGroup":
+                this._data.group = event.data;
+                break;
+            case "updateComments":
+                this._data.comments = event.data;
                 break;
             case "enable":
                 this._data.enable = true;

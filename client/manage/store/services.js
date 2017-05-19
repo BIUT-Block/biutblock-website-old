@@ -111,6 +111,18 @@ export default {
 
     deleteContentTag(params) {
         return reqJsonData('manage/contentTag/deleteTag', params)
+    },
+
+    regUserList(params) {
+        return reqJsonData('manage/regUser/getList', params, 'get')
+    },
+
+    updateRegUser(params) {
+        return reqJsonData('manage/regUser/updateOne', params)
+    },
+
+    deleteRegUser(params) {
+        return reqJsonData('manage/regUser/deleteUser', params)
     }
 
 
