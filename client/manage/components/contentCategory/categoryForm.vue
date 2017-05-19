@@ -42,12 +42,14 @@ export default {
         return {
             rules: {
                 name: [{
-                    message: '请输入资源名称',
+                    required: true,
+                    message: '请输入类别名称',
                     trigger: 'blur'
                 },
                 {
-                    pattern: /[\u4e00-\u9fa5]/,
-                    message: '2-6个中文字符',
+                    min: 2,
+                    max: 20,
+                    message: '2-20个非特殊字符',
                     trigger: 'blur'
                 }
                 ],

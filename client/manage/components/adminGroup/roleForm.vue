@@ -22,7 +22,8 @@
 </template>
 <script>
 import services from '../../store/services.js';
-import _ from 'lodash';
+import validatorUtil from '../../../../utils/validatorUtil.js'
+
 export default {
     props: {
         dialogState: Object
@@ -31,12 +32,17 @@ export default {
         return {
             rules: {
                 name: [{
-                    message: '请输入用户姓名',
+                    message: '请输入角色名称',
                     trigger: 'blur'
                 },
                 {
-                    pattern: /[\u4e00-\u9fa5]/,
-                    message: '2-6个中文字符',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkName(value, 2, 10)) {
+                            callback(new Error('2-10个中文字符!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }
                 ],

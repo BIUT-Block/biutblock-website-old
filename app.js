@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(session({
     secret: 'keyboard cat'
 }))
+
 // 后台管理
 app.use('/', foreground);
 app.use('/manage', manage);

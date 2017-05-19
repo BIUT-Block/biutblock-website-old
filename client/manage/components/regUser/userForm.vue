@@ -41,29 +41,43 @@ export default {
             rules: {
                 userName: [{
                     required: true,
-                    message: '请输入用户',
+                    message: '请输入用户名',
                     trigger: 'blur'
                 }, {
-                    pattern: /^[a-zA-Z][a-zA-Z0-9_]{4,11}$/,
-                    message: '5-12个英文字符',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkUserName(value)) {
+                            callback(new Error('5-12个英文字符!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 name: [{
+                    required: true,
                     message: '请输入用户姓名',
                     trigger: 'blur'
-                },
-                {
-                    pattern: /[\u4e00-\u9fa5]/,
-                    message: '2-6个中文字符',
+                }, {
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkName(value)) {
+                            callback(new Error('2-6个中文字符!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
-                }
-                ],
+                }],
                 phoneNum: [{
                     message: '请输入手机号',
                     trigger: 'blur'
                 }, {
-                    pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|18[0-9]|14[57])[0-9]{8}$/,
-                    message: '请填写正确的手机号码',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkPhoneNum(value)) {
+                            callback(new Error('请填写正确的手机号码!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 email: [{
@@ -71,8 +85,13 @@ export default {
                     message: '请填写邮箱',
                     trigger: 'blur'
                 }, {
-                    pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
-                    message: '请填写正确的邮箱',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkEmail(value)) {
+                            callback(new Error('请填写正确的邮箱!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 comments: [{

@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css';
 import 'font-awesome/css/font-awesome.min.css'
+import './assets/styles/public.css';
 import moment from 'moment';
 // 自定义全局组件Loading
 import Loading from './components/loading'

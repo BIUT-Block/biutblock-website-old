@@ -32,14 +32,5 @@
     }
 </script>
 <style lang="scss">
-    .dr-toolbar {
-        background: #f2f2f2;
-        padding: 10px;
-        margin: 10px 0;
-    }
 
-    .dr-searchInput {
-        width: 200px;
-        float: right;
-    }
 </style>

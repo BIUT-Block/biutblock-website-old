@@ -33,9 +33,9 @@ export default {
                     trigger: 'blur'
                 },
                 {
-                    min: 5,
-                    max: 30,
-                    message: '请输入5-30个字符',
+                    min: 1,
+                    max: 12,
+                    message: '请输入1-12个非特殊字符',
                     trigger: 'blur'
                 }
                 ],

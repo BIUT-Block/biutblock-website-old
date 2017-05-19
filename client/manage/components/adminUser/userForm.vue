@@ -39,49 +39,57 @@
 </template>
 <script>
 import services from '../../store/services.js';
-import _ from 'lodash';
+import validatorUtil from '../../../../utils/validatorUtil.js'
 export default {
     props: {
         dialogState: Object,
         groups: Array
     },
     data() {
-        let validateConfirmPassword = (rule, value, callback) => {
-            if (value !== this.dialogState.formData.password) {
-                callback(new Error('两次输入密码不一致!'));
-            } else {
-                callback();
-            }
-        };
+
         return {
             rules: {
                 userName: [{
                     required: true,
-                    message: '请输入用户',
+                    message: '请输入用户名',
                     trigger: 'blur'
                 }, {
-                    pattern: /^[a-zA-Z][a-zA-Z0-9_]{4,11}$/,
-                    message: '5-12个英文字符',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkUserName(value)) {
+                            callback(new Error('5-12个英文字符!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 name: [{
+                    required: true,
                     message: '请输入用户姓名',
                     trigger: 'blur'
-                },
-                {
-                    pattern: /[\u4e00-\u9fa5]/,
-                    message: '2-6个中文字符',
+                }, {
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkName(value)) {
+                            callback(new Error('2-6个中文字符!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }
                 ],
                 password: [{
-
                     required: true,
                     message: '请输入密码',
                     trigger: 'blur'
                 }, {
-                    pattern: /(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{5,}/,
-                    message: '6-12位，只能包含字母、数字和下划线',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkPwd(value)) {
+                            callback(new Error('6-12位，只能包含字母、数字和下划线!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 confirmPassword: [{
@@ -89,7 +97,13 @@ export default {
                     message: '请确认密码',
                     trigger: 'blur'
                 }, {
-                    validator: validateConfirmPassword,
+                    validator: (rule, value, callback) => {
+                        if (value !== this.dialogState.formData.password) {
+                            callback(new Error('两次输入密码不一致!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 group: [{
@@ -101,8 +115,13 @@ export default {
                     message: '请输入手机号',
                     trigger: 'blur'
                 }, {
-                    pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|18[0-9]|14[57])[0-9]{8}$/,
-                    message: '请填写正确的手机号码',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkPhoneNum(value)) {
+                            callback(new Error('请填写正确的手机号码!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 email: [{
@@ -110,8 +129,13 @@ export default {
                     message: '请填写邮箱',
                     trigger: 'blur'
                 }, {
-                    pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
-                    message: '请填写正确的邮箱',
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkEmail(value)) {
+                            callback(new Error('请填写正确的邮箱!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 comments: [{

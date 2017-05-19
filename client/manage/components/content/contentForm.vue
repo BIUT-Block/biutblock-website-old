@@ -111,11 +111,6 @@ export default {
                     message: '请选择文档文档类别',
                     trigger: 'blur'
                 }],
-                keywords: [{
-                    required: true,
-                    message: '请输入关键字',
-                    trigger: 'blur'
-                }],
                 discription: [{
                     required: true,
                     message: '请输入内容摘要',

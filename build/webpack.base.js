@@ -21,32 +21,32 @@ module.exports = {
     },
     module: {
         loaders: [{
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    loaders: utils.vueCssLoader(),
-                }
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            },
-            {
-                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-                loader: 'file-loader?importLoaders=1&limit=1000&name=client/css/fonts/[name]-[hash:8].[ext]'
-            },
-            {
-                test: /\.(jpe?g|png|gif)$/,
-                loader: 'file-loader',
-                query: {
-                    name: 'client/images/[name].[ext]?[hash]'
-                }
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+                loaders: utils.vueCssLoader(),
             }
+        },
+        {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/
+        },
+        {
+            test: /\.css$/,
+            loader: 'style-loader!css-loader'
+        },
+        {
+            test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+            loader: 'file-loader?importLoaders=1&limit=1000&name=client/css/fonts/[name]-[hash:8].[ext]'
+        },
+        {
+            test: /\.(jpe?g|png|gif)$/,
+            loader: 'file-loader',
+            query: {
+                name: 'client/images/[name].[ext]?[hash]'
+            }
+        }
         ]
     },
     plugins: [
