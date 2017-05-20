@@ -1,6 +1,6 @@
 <template>
     <div class="dr-contentForm">
-        {{formState.formData}}
+        {{formState}}
         <el-form :model="formState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="标题" prop="title">
                 <el-input size="small" v-model="formState.formData.title"></el-input>
@@ -38,7 +38,7 @@
             </el-form-item>
             <el-form-item label="文档详情" prop="comments">
                 <!--<el-input size="small" type="textarea" v-model="formState.formData.comments"></el-input>-->
-                <Ueditor @ready="editorReady" style="width: 500px;height: 440px;"></Ueditor>
+                <Ueditor @ready="editorReady"></Ueditor>
             </el-form-item>
             <el-form-item class="dr-submitContent">
                 <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
@@ -174,6 +174,18 @@
                             message: '5-100个非特殊字符',
                             trigger: 'blur'
                         }
+                    ],
+                    comments: [{
+                            required: true,
+                            message: '请输入内容详情',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 5,
+                            max: 100,
+                            message: '5-100个非特殊字符',
+                            trigger: 'blur'
+                        }
                     ]
                 }
             };
@@ -184,18 +196,27 @@
         },
         methods: {
             editorReady(instance) {
-                instance.setContent('');
-
+                if (this.formState.edit) {
+                    instance.setContent(this.formState.formData.comments);
+                } else {
+                    instance.setContent('');
+                }
                 instance.addListener('contentChange', () => {
                     this.content = instance.getContent();
                     console.log(this.content);
+                    this.$store.dispatch('showContentForm', {
+                        edit: false,
+                        formData: Object.assign({}, this.formState.formData, {
+                            comments: this.content
+                        })
+                    });
                 });
             },
 
             handleAvatarSuccess(res, file) {
                 let imageUrl = 'http://127.0.0.1:8081' + res;
                 this.$store.dispatch('showContentForm', {
-                    edit: true,
+                    edit: false,
                     formData: Object.assign({}, this.formState.formData, {
                         sImg: imageUrl
                     })

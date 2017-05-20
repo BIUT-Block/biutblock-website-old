@@ -19,7 +19,7 @@ const service = require('../../utils/service');
 const settings = require("../../utils/settings");
 
 /* GET users listing. */
-router.get('/upload', function (req, res, next) {
+router.post('/upload', function (req, res, next) {
 
     //    获取传入参数
     let params = url.parse(req.url, true);
@@ -79,17 +79,8 @@ router.get('/upload', function (req, res, next) {
         // if(settings.imgZip && (fileKey == 'ctTopImg' || fileKey == 'plugTopImg' || fileKey == 'userlogo')){
         //     res.end('/upload/smallimgs/'+newFileName);
         // }else{
-        // res.end('/upload/images/' + newFileName);
+        res.end('/upload/images/' + newFileName);
         // }
-
-        res.send({
-            "state": "SUCCESS",
-            "original": "80px - \u526f\u672c (2).jpg",
-            "size": "13252",
-            "title": "1465731377326075274.jpg",
-            "type": ".jpg",
-            "url": '/upload/images/' + newFileName
-        })
 
 
     });
@@ -100,16 +91,6 @@ router.get('/upload', function (req, res, next) {
     });
 });
 
-router.get('/testUpload', function (req, res) {
-    res.send({
-        "state": "SUCCESS",
-        "original": "80px - \u526f\u672c (2).jpg",
-        "size": "13252",
-        "title": "1465731377326075274.jpg",
-        "type": ".jpg",
-        "url": "/ueditor/jsp/upload/image/20160612/1465731377326075274.jpg"
-    })
-})
 
 
 module.exports = router;

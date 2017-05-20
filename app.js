@@ -1,6 +1,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const ueditor = require("ueditor")
 const session = require('express-session');
 const path = require('path')
 const http = require('http')
@@ -16,14 +17,42 @@ const system = require('./server/routers/system');
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
     secret: 'keyboard cat'
 }))
+
+// 集成ueditor
+app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
+    var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
+    var ActionType = req.query.action;
+    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
+        var file_url = imgDir; //默认上传地址为图片
+        /*其他上传格式的地址*/
+        if (ActionType === 'uploadfile') {
+            file_url = '/upload/file/ueditor/'; //附件保存地址
+        }
+        if (ActionType === 'uploadvideo') {
+            file_url = '/upload/video/ueditor/'; //视频保存地址
+        }
+        res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+        res.setHeader('Content-Type', 'text/html');
+    }
+    //客户端发起图片列表请求
+    else if (ActionType === 'listimage') {
+
+        res.ue_list(imgDir); // 客户端会列出 dir_url 目录下的所有图片
+    }
+    // 客户端发起其它请求
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.redirect('/ueditor/ueditor.config.json')
+    }
+}));
 
 // 后台管理
 app.use('/', foreground);

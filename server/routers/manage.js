@@ -410,9 +410,9 @@ router.post('/content/addOne', (req, res) => {
   let title = req.body.title;
   let stitle = req.body.stitle;
   let type = req.body.type;
-  let categories = req.body['categories[]'];
+  let categories = req.body.categories;
   let sortPath = req.body.sortPath;
-  let tags = req.body['tags[]'];
+  let tags = req.body.tags;
   let keywords = req.body.keywords;
   let sImg = req.body.sImg;
   let author = req.body.author;
@@ -421,6 +421,9 @@ router.post('/content/addOne', (req, res) => {
   let from = req.body.from;
   let discription = req.body.discription;
   let comments = req.body.comments;
+
+  console.log('--req.body--', req.body);
+  console.log('--categories--', categories);
 
   domain.create("Content", {
     title,
