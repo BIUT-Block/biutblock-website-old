@@ -19,7 +19,7 @@ const service = require('../../utils/service');
 const settings = require("../../utils/settings");
 
 /* GET users listing. */
-012400540210router.get('/upload', function (req, res, next) {
+router.get('/upload', function (req, res, next) {
 
     //    获取传入参数
     let params = url.parse(req.url, true);
