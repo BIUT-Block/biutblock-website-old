@@ -38,7 +38,7 @@
             </el-form-item>
             <el-form-item label="文档详情" prop="comments">
                 <!--<el-input size="small" type="textarea" v-model="formState.formData.comments"></el-input>-->
-                <Ueditor :value="defaultMsg" :config="config" v-on:input="changeComments"></Ueditor>
+                <Ueditor @ready="editorReady" style="width: 500px;height: 440px;"></Ueditor>
             </el-form-item>
             <el-form-item class="dr-submitContent">
                 <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
@@ -183,8 +183,13 @@
             Ueditor
         },
         methods: {
-            changeComments(params) {
-                console.log('ueditor', params);
+            editorReady(instance) {
+                instance.setContent('');
+
+                instance.addListener('contentChange', () => {
+                    this.content = instance.getContent();
+                    console.log(this.content);
+                });
             },
 
             handleAvatarSuccess(res, file) {
