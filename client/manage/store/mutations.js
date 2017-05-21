@@ -41,7 +41,10 @@ const state = {
             show: false,
             edit: true,
             formData: {
-                power: {}
+                name: '',
+                comments: '',
+                enable: false,
+                power: []
             }
         },
         roleList: {
@@ -222,14 +225,12 @@ const mutations = {
     [types.ADMINGROUP_ROLEFORMSTATE](state, formState) {
         state.adminGroup.roleFormState.show = formState.show;
         state.adminGroup.roleFormState.edit = formState.edit;
-        if (!_.isEmpty(formState.formData)) {
-            state.adminGroup.roleFormState.formData = formState.formData
-        } else {
-            state.adminGroup.roleFormState.formData = {
-                power: {}
-            }
-        }
-
+        state.adminGroup.roleFormState.formData = Object.assign({
+            name: '',
+            comments: '',
+            enable: false,
+            power: []
+        }, formState.formData);
     },
     [types.ADMINGROUP_LIST](state, rolelist) {
         state.adminGroup.roleList = rolelist

@@ -36,7 +36,6 @@
                 <el-input size="small" type="textarea" v-model="formState.formData.discription"></el-input>
             </el-form-item>
             <el-form-item label="文档详情" prop="comments">
-                <!--<el-input size="small" type="textarea" v-model="formState.formData.comments"></el-input>-->
                 <Ueditor @ready="editorReady"></Ueditor>
             </el-form-item>
             <el-form-item class="dr-submitContent">

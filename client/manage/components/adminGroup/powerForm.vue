@@ -1,22 +1,21 @@
 <template>
     <div class="dr-adminGroupForm">
         <el-dialog size="small" title="分配资源" :visible.sync="roleState.show">
-            <el-tree :data="treeData" show-checkbox node-key="id" ref="tree" highlight-current :props="defaultProps">
+            {{roleState.formData}}
+            <el-tree :data="treeData" :default-checked-keys="roleState.formData.power" show-checkbox node-key="_id" ref="tree" highlight-current
+                :props="defaultProps" @check-change="handleCheckChange">
             </el-tree>
 
-            <div class="buttons">
-                <el-button @click="getCheckedNodes">通过 node 获取</el-button>
-                <el-button @click="getCheckedKeys">通过 key 获取</el-button>
-                <el-button @click="setCheckedNodes">通过 node 设置</el-button>
-                <el-button @click="setCheckedKeys">通过 key 设置</el-button>
-                <el-button @click="resetChecked">清空</el-button>
-            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="savePower">确 定</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
 <script>
     import services from '../../store/services.js';
-
+    import _ from 'lodash';
     export default {
         props: {
             roleState: Object,
@@ -24,7 +23,6 @@
         },
         data() {
             return {
-
                 defaultProps: {
                     children: 'children',
                     label: 'label'
@@ -32,26 +30,24 @@
             };
         },
         methods: {
-            getCheckedNodes() {
-                console.log(this.$refs.tree.getCheckedNodes());
+            savePower() {
+                this.$store.dispatch('hideAdminGroupRoleForm');
             },
-            getCheckedKeys() {
-                console.log(this.$refs.tree.getCheckedKeys());
-            },
-            setCheckedNodes() {
-                this.$refs.tree.setCheckedNodes([{
-                    id: 5,
-                    label: '二级 2-1'
-                }, {
-                    id: 9,
-                    label: '三级 1-1-1'
-                }]);
-            },
-            setCheckedKeys() {
-                this.$refs.tree.setCheckedKeys([3]);
-            },
-            resetChecked() {
-                this.$refs.tree.setCheckedKeys([]);
+            handleCheckChange(data, checked, indeterminate) {
+                // console.log(data, checked, indeterminate);
+                let formData = this.roleState.formData;
+                if (checked) {
+                    _.uniq(formData.power.push(data._id));
+                } else {
+                    _.remove(formData.power, function (n) {
+                        return n === data._id;
+                    });
+                }
+                
+                this.$store.dispatch('showAdminGroupRoleForm', {
+                    edit: true,
+                    formData
+                });
             }
         }
     }
