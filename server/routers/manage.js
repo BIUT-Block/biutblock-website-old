@@ -475,7 +475,7 @@ router.post('/content/updateOne', (req, res) => {
 
 })
 
-router.post('/content/deleteResource', (req, res) => {
+router.post('/content/deleteContent', (req, res) => {
 
   const targetId = req.body.ids;
 

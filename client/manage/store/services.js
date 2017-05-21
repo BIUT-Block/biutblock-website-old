@@ -94,7 +94,7 @@ export default {
     },
 
     deleteContent(params) {
-        return reqJsonData('manage/content/deleteCategory', params)
+        return reqJsonData('manage/content/deleteContent', params)
     },
 
     contentTagList(params) {

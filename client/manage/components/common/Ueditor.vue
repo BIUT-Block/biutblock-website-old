@@ -23,12 +23,6 @@
     export default {
         props: {
             //配置可以传递进来
-            // ueditorConfig: {
-            //     UEDITOR_HOME_URL: "../../../../public/ueditor/",
-            //     imagePathFormat: "/upload",
-            //     initialFrameWidth: 600,
-            //     initialFrameHeight: 800
-            // }
         },
         data() {
             return {

@@ -1,6 +1,5 @@
 <template>
     <div class="dr-contentForm">
-        {{formState}}
         <el-form :model="formState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="标题" prop="title">
                 <el-input size="small" v-model="formState.formData.title"></el-input>
@@ -92,7 +91,6 @@
 
 <script>
     import services from '../../store/services.js';
-    import WangEditor from '../common/WangEditor.vue';
     import Ueditor from '../common/Ueditor.vue';
     import _ from 'lodash';
     import {
@@ -191,7 +189,6 @@
             };
         },
         components: {
-            WangEditor,
             Ueditor
         },
         methods: {
@@ -205,7 +202,7 @@
                     this.content = instance.getContent();
                     console.log(this.content);
                     this.$store.dispatch('showContentForm', {
-                        edit: false,
+                        edit: this.formState.edit,
                         formData: Object.assign({}, this.formState.formData, {
                             comments: this.content
                         })
@@ -216,7 +213,7 @@
             handleAvatarSuccess(res, file) {
                 let imageUrl = 'http://127.0.0.1:8081' + res;
                 this.$store.dispatch('showContentForm', {
-                    edit: false,
+                    edit: this.formState.edit,
                     formData: Object.assign({}, this.formState.formData, {
                         sImg: imageUrl
                     })
