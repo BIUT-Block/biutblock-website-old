@@ -34,7 +34,8 @@ const state = {
             formData: {
                 name: '',
                 comments: '',
-                enable: false
+                enable: false,
+                power: []
             }
         },
         roleFormState: {
@@ -123,7 +124,7 @@ const state = {
                 state: true,
                 isTop: 0,
                 clickNum: 0,
-                comments: {},
+                comments: '',
                 commentNum: 0,
                 likeNum: 0,
                 likeUserIds: '',
@@ -289,7 +290,7 @@ const mutations = {
             state: true,
             isTop: 0,
             clickNum: 0,
-            comments: {},
+            comments: '',
             commentNum: 0,
             likeNum: 0,
             likeUserIds: '',

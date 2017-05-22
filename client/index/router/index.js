@@ -32,6 +32,10 @@ const router = new Router({
         path: '/login',
         name: 'login',
         component: Login
+    }, {
+        path: '/dr-admin',
+        name: 'adminlogin',
+        component: Login
     }]
 })
 

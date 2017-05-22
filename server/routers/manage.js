@@ -353,7 +353,7 @@ router.post('/contentCategory/updateOne', (req, res) => {
 
 })
 
-router.post('/contentCategory/deleteResource', (req, res) => {
+router.post('/contentCategory/deleteCategory', (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;

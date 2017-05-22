@@ -1,5 +1,5 @@
 <template>
-  <el-tree :data="treeData" :props="defaultProps" node-key="id" default-expand-all :expand-on-click-node="false" :render-content="renderContent">
+  <el-tree :data="treeData" :props="defaultProps" node-key="id" default-expand-all :render-content="renderContent">
   </el-tree>
 </template>
 
@@ -33,8 +33,8 @@ export default {
       });
     },
 
-    edit(store, data){
-      console.log('----',data)
+    edit(store, data) {
+      console.log('----', data)
       this.$store.dispatch('showAdminResourceForm', {
         edit: true,
         type: 'children',

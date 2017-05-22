@@ -31,7 +31,7 @@ var ContentSchema = new Schema({
     state: { type: Boolean, default: true },  // 是否在前台显示，默认显示
     isTop: { type: Number, default: 0 },  // 是否推荐，默认不推荐 0为不推荐，1为推荐
     clickNum: { type: Number, default: 1 },
-    comments: {},
+    comments: String,
     commentNum: { type: Number, default: 0 }, // 评论数
     likeNum: { type: Number, default: 0 }, // 喜欢数
     likeUserIds: String, // 喜欢该文章的用户ID集合
