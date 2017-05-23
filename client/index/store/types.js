@@ -1,0 +1,4 @@
+export const SET_HEADER_NAV = 'SET_HEADER_NAV';
+export const SET_HEADER_STATE = 'SET_HEADER_STATE';
+
+

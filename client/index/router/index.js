@@ -7,10 +7,11 @@ const Home = require('../views/Home.vue')
 const Article = require('../views/Article.vue')
 const Tag = require('../views/Tag.vue')
 const Login = require('../views/Login.vue')
+const AdminLogin = require('../views/AdminLogin.vue')
 
 const router = new Router({
     mode: 'history',
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 }
     },
     routes: [{
@@ -35,7 +36,7 @@ const router = new Router({
     }, {
         path: '/dr-admin',
         name: 'adminlogin',
-        component: Login
+        component: AdminLogin
     }]
 })
 

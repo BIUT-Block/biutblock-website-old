@@ -13,25 +13,46 @@
   background-color: #fff;
   padding: 1rem;
 }
+
 @media all and (max-width: 768px) {
-    .content {
-        width: 100%;
-        padding: .5rem;
-        box-sizing: border-box;
-    }
+  .content {
+    width: 100%;
+    padding: .5rem;
+    box-sizing: border-box;
+  }
 }
 </style>
 <template>
   <div id="app">
-    <um-header></um-header>
-    <router-view class="view"></router-view>
+    <component :is="headerState.show"></component>
+    <router-view class="view">
+    </router-view>
   </div>
 </template>
 <script>
-import umHeader from './components/Header.vue'
+import {
+  mapGetters,
+  mapActions
+} from 'vuex';
+import Header from './components/common/header'
+
 export default {
+
+  data() {
+    return {}
+  },
+
   components: {
-    umHeader
+    myheader: Header,
+    slotTemp: {}
+  },
+  computed: {
+    ...mapGetters([
+      'headerState'
+    ])
+  },
+  methods: {
+
   }
 }
 </script>

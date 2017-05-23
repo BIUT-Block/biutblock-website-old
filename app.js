@@ -10,8 +10,6 @@ global.NODE_ENV = process.env.NODE_ENV || 'production'
 const PORT = 8081
 const isDev = NODE_ENV === 'development';
 const app = express()
-const history = require('connect-history-api-fallback');
-
 
 const foreground = require('./server/routers/foreground');
 const manage = require('./server/routers/manage');
@@ -56,13 +54,6 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, re
     }
 }));
 
-// 针对vue路由刷新404问题
-app.use(history({
-    rewrites: [
-        { from: /^\/login$/, to: '/home' },
-        { from: /^\/dr-admin$/, to: '/home' }
-    ]
-}));
 // 后台管理
 app.use('/', foreground);
 app.use('/manage', manage);

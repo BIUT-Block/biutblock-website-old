@@ -145,7 +145,7 @@
         </transition>
         <router-link class="header-logo" to="/home">
             <!-- <img src="../assets/logo.svg" class="header-logo-image"> -->
-            <span class="header-logo-content">Cov-X</span>
+            <span class="header-logo-content">DoraCMS</span>
         </router-link>
         <nav class="header-nav">
             <router-link class="header-nav-item" :to="nav.route" :key="index" v-for="(nav,index) in HeaderNav.navs">{{ nav.text }}</router-link>
