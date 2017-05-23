@@ -18,7 +18,7 @@ module.exports = function (webpackHotMiddlewareConfig, exceptList, server) {
                     entries[floder] = ['./client/' + floder + '/client-entry.js']
                 }
             }
-
+            
         }
     })
     return entries

@@ -4,7 +4,7 @@ const merge = require('webpack-merge')
 const baseConfig = require('./webpack.base')
 const getEntries = require('./getEntries')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const productionConf = merge(baseConfig, {
     entry: getEntries(),
@@ -31,22 +31,23 @@ const productionConf = merge(baseConfig, {
             },
             canPrint: true
         }),
-        // new webpack.LoaderOptionsPlugin({
-        //     vue: {
-        //         loaders: {
-        //             postcss: [
-        //                 require('autoprefixer')({
-        //                     browsers: ['last 3 versions']
-        //                 })
-        //             ],
-        //             css: ExtractTextPlugin.extract({
-        //                 loader: "css-loader",
-        //                 fallback: "vue-style-loader"
-        //             })
-        //         }
+        new webpack.LoaderOptionsPlugin({
+            vue: {
+                loaders: {
+                    postcss: [
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        })
+                    ],
+                    scss: ExtractTextPlugin.extract({
+                        loader: "css-loader!sass-loader",
+                        fallback: "vue-style-loader"
+                    })
+                }
 
-        //     }
-        // }),
+            }
+        }),
+        new ExtractTextPlugin('client/css/[name].css')
     ]
 })
 

@@ -13,7 +13,6 @@ spinner.start()
 
 var staticPath = __dirname + '/../public/'
 
-// rm('-rf', staticPath + 'css/')
 rm('-rf', staticPath + 'client/')
 
 webpack(webpackConfig, function (err, stats) {

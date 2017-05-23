@@ -8,23 +8,23 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'Login',
-  serverCacheKey: () => 'login',
-  methods: {
-    refresh() {
-      location.reload()
+  export default {
+    name: 'Login',
+    serverCacheKey: () => 'login',
+    methods: {
+      refresh() {
+        location.reload()
+      }
+    },
+    mounted() {
+      this.$store.dispatch('hideHeader')
     }
-  },
-  mounted() {
-    this.$store.dispatch('hideHeader')
   }
-}
 </script>
 
-<style>
-.login-form {
-  width: 150px;
-  margin: 0 auto;
-}
+<style lang="scss">
+  .login-form {
+    width: 150px;
+    margin: 0 auto;
+  }
 </style>
