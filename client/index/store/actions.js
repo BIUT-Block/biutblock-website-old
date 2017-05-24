@@ -17,6 +17,9 @@ export default {
     },
     hideHeader({ commit }) {
         commit(types.SET_HEADER_STATE, 'slotTemp')
+    },
+    adminLoginForm({ commit }, params = { formData: {} }) {
+        commit(types.ADMINLOGIN_FORM_STATE, { formData: params.formData })
     }
 
 }

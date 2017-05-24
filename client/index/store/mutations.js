@@ -23,6 +23,12 @@ const state = {
     },
     headerState: {
         show: 'myheader'
+    },
+    adminLoginForm: {
+        formData: {
+            userName: '',
+            password: ''
+        }
     }
 }
 
@@ -32,6 +38,12 @@ const mutations = {
     },
     [types.SET_HEADER_STATE](state, active) {
         state.headerState.show = active
+    },
+    [types.ADMINLOGIN_FORM_STATE](state, formState) {
+        state.adminLoginForm.formData = Object.assign({
+            userName: '',
+            password: ''
+        }, formState.formData);
     }
 }
 
