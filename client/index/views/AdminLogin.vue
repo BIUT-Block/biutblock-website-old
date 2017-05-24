@@ -1,20 +1,7 @@
 <template>
   <div class="dr-admin-login">
     <div class="login-form">
-      <el-form :model="adminLoginFormData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="用户名" prop="userName">
-          <el-input size="small" v-model="adminLoginFormData.userName"></el-input>
-        </el-form-item>
-  
-        <el-form-item label="密码" prop="password">
-          <el-input size="small" type="password" v-model="adminLoginFormData.password"></el-input>
-        </el-form-item>
-  
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
-      </el-form>
+      test
     </div>
   </div>
 </template>

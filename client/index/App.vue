@@ -1,6 +1,6 @@
 <style src="./assets/_ionicicon.css"></style>
 <style src="./assets/base.css"></style>
-<style src='../../node_modules/element-ui/lib/theme-default/index.css'></style>
+
 <style>
 .view {
   text-align: center;
