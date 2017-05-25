@@ -1,7 +1,18 @@
 <template>
   <div class="dr-admin-login">
     <div class="login-form">
-      test
+      <el-form :model="adminLoginFormData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="用户名" prop="userName">
+          <el-input size="small" v-model="adminLoginFormData.userName"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名" prop="userName">
+          <el-input size="small" v-model="adminLoginFormData.userName"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
@@ -53,7 +64,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log('---adminLoginFormDatas--', this);
+          console.log('---adminLoginadminLoginFormDatas--', this);
         } else {
           console.log('error submit!!');
           return false;
@@ -65,6 +76,7 @@ export default {
     }
   },
   mounted() {
+
     this.$store.dispatch('hideHeader')
   },
   computed: {
@@ -80,7 +92,8 @@ export default {
 
 <style lang="scss">
 .login-form {
-  width: 150px;
+  width: 400px;
   margin: 0 auto;
+  margin-top: 200px;
 }
 </style>

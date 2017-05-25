@@ -43,7 +43,7 @@ class VueSSR {
         this.HTML = null
         this.template = ''
         this.defaultHeadData = defaultHeadData || DEFAULT_HEAD_DATA
-        this.initRenderer()
+        // this.initRenderer()
     }
 
     headDataInject(context, html) {
@@ -59,17 +59,23 @@ class VueSSR {
         return createBundleRenderer(bundle, this.rendererOptions)
     }
 
-    initRenderer() {
+    initRenderer(resolve) {
+        console.log('--begin init render--');
         if (this.renderer) {
-            return this.renderer
+            resolve();
+            return this.renderer;
         }
 
         if (!isDev) {
             const bundlePath = path.join(this.webpackServerConfig.output.path, getFileName(this.webpackServerConfig, this.projectName))
             this.renderer = this.createRenderer(fs.readFileSync(bundlePath, 'utf-8'))
         } else {
+            console.log('--begin render1--');
             require('./bundle-loader')(this.webpackServerConfig, this.projectName, bundle => {
+                console.log('--begin render2--');
+
                 this.renderer = this.createRenderer(bundle)
+                resolve();
             })
         }
     }
@@ -107,10 +113,10 @@ class VueSSR {
         renderStream.on('data', chunk => {
             if (firstChunk) {
                 res.write(this.headDataInject(context, this.HTML.head))
-                if (context.initialState) {
+                if (context.state) {
                     res.write(
                         `<script>window.__INITIAL_STATE__=${
-                        serialize(context.initialState, { isJSON: true })
+                        serialize(context.state, { isJSON: true })
                         }</script>`
                     )
                 }
