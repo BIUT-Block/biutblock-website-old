@@ -24,7 +24,6 @@ function index(req, res) {
         title: 'doracms',
         bundle: 'index'
     })
-    console.log('--------begin to ---');
     new Promise((resolve, reject) => {
         indexRenderer.initRenderer(resolve, reject);
     }).then(() => {

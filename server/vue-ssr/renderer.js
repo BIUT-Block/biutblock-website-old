@@ -60,7 +60,6 @@ class VueSSR {
     }
 
     initRenderer(resolve) {
-        console.log('--begin init render--');
         if (this.renderer) {
             resolve();
             return this.renderer;
@@ -70,10 +69,7 @@ class VueSSR {
             const bundlePath = path.join(this.webpackServerConfig.output.path, getFileName(this.webpackServerConfig, this.projectName))
             this.renderer = this.createRenderer(fs.readFileSync(bundlePath, 'utf-8'))
         } else {
-            console.log('--begin render1--');
             require('./bundle-loader')(this.webpackServerConfig, this.projectName, bundle => {
-                console.log('--begin render2--');
-
                 this.renderer = this.createRenderer(bundle)
                 resolve();
             })

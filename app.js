@@ -12,6 +12,7 @@ const isDev = NODE_ENV === 'development';
 const app = express()
 
 const foreground = require('./server/routers/foreground');
+const restapi = require('./server/routers/api');
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 app.set('views', path.join(__dirname, 'server/views'))
@@ -56,6 +57,7 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, re
 
 // 后台管理
 app.use('/', foreground);
+app.use('/api', restapi);
 app.use('/manage', manage);
 app.use('/system', system);
 

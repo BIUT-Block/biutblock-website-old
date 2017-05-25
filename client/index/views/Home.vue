@@ -2,7 +2,10 @@
     <div>
         <div class="content home">
             it's home page
-            <div v-for="item in list">{{item}}</div>
+            <div v-for="item in displayedItems.docs">
+                <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
+    
+            </div>
             <button @click="addOne">add a 233</button>
             <comp-a></comp-a>
         </div>
@@ -14,18 +17,22 @@ import compA from '../components/compA.vue'
 export default {
     name: 'Home',
     serverCacheKey: () => 'home',
-    data () {
+    data() {
         return {
-            list: ['test', '233']
+            list: ['test', '233'],
+            displayedItems: this.$store.getters.contentList
         }
     },
     components: {
         compA
     },
     methods: {
-        addOne () {
+        addOne() {
             this.list.push('233')
         }
+    },
+    asyncData({ store }) {
+        return store.dispatch('indexContentList')
     }
 }
 </script>

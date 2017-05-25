@@ -374,13 +374,16 @@ router.get('/content/getList', (req, res) => {
   let current = req.query.current;
   let pageSize = req.query.pageSize;
   let totalItems = 1;
+  // console.log('-----begin to find content list---------');
   query.getContentCount().then((count) => {
+    // console.log('-----count---------', count);
     totalItems = count;
     return query.getContentListByPage({
       current,
       pageSize
     });
   }).then((contentList) => {
+    // console.log('-----contentList---------', contentList);
     res.send({
       state: 'success',
       docs: contentList,

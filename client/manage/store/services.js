@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import reqwest from 'reqwest';
 export function reqJsonData(url, params = {}, method = 'post') {
-    console.log('reqParams', params)
+    // console.log('reqParams', params)
     return reqwest({
         url: 'http://127.0.0.1:8081/' + url,
         method: method,

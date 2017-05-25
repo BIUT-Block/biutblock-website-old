@@ -5,8 +5,8 @@
         <el-form-item label="用户名" prop="userName">
           <el-input size="small" v-model="adminLoginFormData.userName"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="userName">
-          <el-input size="small" v-model="adminLoginFormData.userName"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input size="small" type="password" v-model="adminLoginFormData.password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>

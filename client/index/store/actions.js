@@ -20,6 +20,20 @@ export default {
     },
     adminLoginForm({ commit }, params = { formData: {} }) {
         commit(types.ADMINLOGIN_FORM_STATE, { formData: params.formData })
+    },
+    indexContentList({
+        commit
+    }, params = {}) {
+        return services.contentList(params).then((result) => {
+            commit(types.INDEX_CONTENT_LIST, result)
+        })
+    },
+    getContentDetails({
+        commit
+    }, params = {}) {
+        return services.getOneContent(params).then((result) => {
+            commit(types.CONTENT_DETAILS, result)
+        })
     }
 
 }

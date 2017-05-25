@@ -29,6 +29,13 @@ const state = {
             userName: '',
             password: ''
         }
+    },
+    content: {
+        contentList: {
+            pageInfo: {},
+            docs: []
+        },
+        contentDetails: {}
     }
 }
 
@@ -44,6 +51,12 @@ const mutations = {
             userName: '',
             password: ''
         }, formState.formData);
+    },
+    [types.INDEX_CONTENT_LIST](state, contentList) {
+        state.content.contentList = contentList
+    },
+    [types.CONTENT_DETAILS](state, contentDetails) {
+        state.content.contentDetails = contentDetails
     }
 }
 

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const query = require('../lib/utils/manageQuery');
 
 const RenderView = require('./renderView');
 
@@ -8,7 +9,7 @@ const RenderView = require('./renderView');
 // })
 router.get('/', RenderView.index)
 router.get('/home', RenderView.index)
-router.get('/article', RenderView.index)
+router.get('/details/:id', RenderView.index)
 router.get('/tag', RenderView.index)
 router.get('/dr-admin', RenderView.index)
 

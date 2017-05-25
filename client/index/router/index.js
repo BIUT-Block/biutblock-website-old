@@ -38,7 +38,8 @@ export function createRouter() {
             path: '/dr-admin',
             name: 'adminlogin',
             component: AdminLogin
-        }]
+        }, { path: '/details/:id', name: 'details', component: Article },
+        ]
     })
 
     router.beforeEach((to, from, next) => {
