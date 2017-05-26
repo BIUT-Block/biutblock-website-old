@@ -32,6 +32,7 @@ export default {
         }
     },
     asyncData({ store }) {
+        console.log('----begin to render--------')
         return store.dispatch('indexContentList')
     }
 }
