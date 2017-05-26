@@ -16,7 +16,7 @@ import RegUser from '../components/regUser/index'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/login',
@@ -95,3 +95,17 @@ export default new Router({
 
   ]
 })
+
+
+router.beforeEach((to, from, next) => {
+  // token 校验
+  // if (router.app.$store.state.token) {
+  // Axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token; // 全局设定header的token验证，注意Bearer后有个空格
+  //   next()
+  // } else {
+  next();
+  // window.location = '/dr-admin';
+  // }
+})
+
+export default router;

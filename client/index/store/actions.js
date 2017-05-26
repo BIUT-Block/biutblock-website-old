@@ -1,6 +1,4 @@
 import * as types from './types.js';
-// import axios from 'axios';
-import reqwest from 'reqwest';
 import services from './services.js';
 import _ from 'lodash';
 
@@ -25,14 +23,14 @@ export default {
         commit
     }, params = {}) {
         return services.contentList(params).then((result) => {
-            commit(types.INDEX_CONTENT_LIST, result)
+            commit(types.INDEX_CONTENT_LIST, result.data)
         })
     },
     getContentDetails({
         commit
     }, params = {}) {
         return services.getOneContent(params).then((result) => {
-            commit(types.CONTENT_DETAILS, result)
+            commit(types.CONTENT_DETAILS, result.data)
         })
     }
 

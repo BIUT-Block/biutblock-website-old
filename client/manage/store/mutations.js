@@ -3,6 +3,7 @@ import getters from './getters';
 import _ from 'lodash';
 const state = {
     count: 20,
+    token: sessionStorage.getItem('cms-token'),
     adminUser: {
         formState: {
             show: false,

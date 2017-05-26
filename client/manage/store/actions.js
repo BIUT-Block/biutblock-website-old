@@ -1,6 +1,4 @@
 import * as types from './types.js';
-// import axios from 'axios';
-import reqwest from 'reqwest';
 import services from './services.js';
 import _ from 'lodash';
 
@@ -86,7 +84,7 @@ export default {
         commit
     }, params = {}) {
         services.adminUserList(params).then((result) => {
-            commit(types.ADMINUSERLIST, result)
+            commit(types.ADMINUSERLIST, result.data)
         })
     },
     showAdminGroupForm: ({
@@ -131,7 +129,7 @@ export default {
         commit
     }, params = {}) {
         services.adminGroupList(params).then((result) => {
-            commit(types.ADMINGROUP_LIST, result)
+            commit(types.ADMINGROUP_LIST, result.data)
         })
     },
     showAdminResourceForm: ({
@@ -159,7 +157,7 @@ export default {
         commit
     }, params = {}) {
         services.adminResourceList(params).then((result) => {
-            let treeData = renderTreeData(result);
+            let treeData = renderTreeData(result.data);
             commit(types.ADMINRESOURCE_LIST, treeData)
         })
     },
@@ -188,7 +186,7 @@ export default {
         commit
     }, params = {}) {
         services.contentCategoryList(params).then((result) => {
-            let treeData = renderTreeData(result);
+            let treeData = renderTreeData(result.data);
             commit(types.CONTENTCATEGORYS_LIST, treeData)
         })
     },
@@ -208,7 +206,7 @@ export default {
         commit
     }, params = {}) {
         services.contentList(params).then((result) => {
-            commit(types.CONTENT_LIST, result)
+            commit(types.CONTENT_LIST, result.data)
         })
     },
 
@@ -216,7 +214,7 @@ export default {
         commit
     }, params = {}) {
         services.contentInfo(params).then((result) => {
-            commit(types.CONTENT_ONE, result)
+            commit(types.CONTENT_ONE, result.data)
         })
     },
 
@@ -243,7 +241,7 @@ export default {
         commit
     }, params = {}) {
         services.contentTagList(params).then((result) => {
-            commit(types.CONTENTTAG_LIST, result)
+            commit(types.CONTENTTAG_LIST, result.data)
         })
     },
     showRegUserForm: ({
@@ -269,7 +267,7 @@ export default {
         commit
     }, params = {}) {
         services.regUserList(params).then((result) => {
-            commit(types.REGUSERLIST, result)
+            commit(types.REGUSERLIST, result.data)
         })
     }
 

@@ -68,6 +68,7 @@ export default {
           let params = this.adminLoginFormData;
           services.adminDoLogin(params).then((result) => {
             if (result.state == 'success') {
+              sessionStorage.setItem('cms-token', result.token);
               window.location = '/manage';
             } else {
               this.$message({
