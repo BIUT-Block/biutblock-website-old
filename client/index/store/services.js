@@ -18,6 +18,10 @@ export default {
 
     getOneContent(params) {
         return reqJsonData('api/content/getContent', params, 'get')
+    },
+    
+    adminDoLogin(params) {
+        return reqJsonData('api/admin/doLogin', params)
     }
 
 }

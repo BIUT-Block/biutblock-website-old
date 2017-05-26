@@ -3,7 +3,7 @@
  */
 const validator = require("validator");
 
-export default {
+module.exports =  {
     // 校验用户名
     checkUserName(str) {
         return /^[a-zA-Z][a-zA-Z0-9_]{4,11}$/.test(str);

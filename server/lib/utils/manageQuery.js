@@ -32,6 +32,12 @@ module.exports = {
     getAdminUserCount() {
         return models.AdminUser.count();
     },
+    getAdminUserByParams(params) {
+        return models.AdminUser.findOne(params).populate([{
+            path: 'group',
+            select: 'power _id enable'
+        }]).exec();
+    },
     getAdminGroupListByPage({
         current = '1',
         pageSize = '10'
@@ -53,7 +59,7 @@ module.exports = {
     getAdminGroupCount() {
         return models.AdminGroup.count();
     },
-    
+
     getAdminResourceListByPage({
         current = '1',
         pageSize = '10'

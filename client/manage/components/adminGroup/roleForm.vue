@@ -22,7 +22,7 @@
 </template>
 <script>
 import services from '../../store/services.js';
-import validatorUtil from '../../../../utils/validatorUtil.js'
+const validatorUtil = require('../../../../utils/validatorUtil.js')
 
 export default {
     props: {

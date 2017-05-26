@@ -14,6 +14,10 @@
 
 <script>
 import compA from '../components/compA.vue'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 export default {
     name: 'Home',
     serverCacheKey: () => 'home',
@@ -27,12 +31,19 @@ export default {
         compA
     },
     methods: {
+        ...mapActions([
+            'indexContentList'
+        ]),
         addOne() {
             this.list.push('233')
         }
     },
+    // beforeMount() {
+    //     this.indexContentList().then(() => {
+
+    //     })
+    // },
     asyncData({ store }) {
-        console.log('----begin to render--------')
         return store.dispatch('indexContentList')
     }
 }

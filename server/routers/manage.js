@@ -3,6 +3,9 @@ const router = express.Router()
 
 const domain = require('../lib/core/index');
 const query = require('../lib/utils/manageQuery');
+const service = require('../../utils/service');
+const validatorUtil = require('../../utils/validatorUtil');
+const settings = require("../../utils/settings");
 
 router.get('/', function (req, res) {
 
@@ -47,7 +50,7 @@ router.post('/adminUser/addOne', (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let phoneNum = req.body.phoneNum;
-  let password = req.body.password;
+  let password = service.encrypt(req.body.password,settings.encrypt_key);
   let confirm = req.body.confirm;
   let group = req.body.group;
 

@@ -22,6 +22,16 @@ export default {
             contentDetails: this.$store.getters.contentDetails
         }
     },
+    // beforeMount() {
+    //     let contentId = this.$route.params.id;
+    //     let currentId = contentId.substr(0, contentId.length - 5)
+    //     this.getContentDetails({ id: currentId }).then(() => {
+
+    //     })
+    // },
+    ...mapActions([
+        'getContentDetails'
+    ]),
     asyncData({ store, route }) {
         let contentId = route.params.id;
         let currentId = contentId.substr(0, contentId.length - 5)
