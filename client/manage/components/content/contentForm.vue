@@ -292,6 +292,7 @@ export default {
         // 针对手动页面刷新
         if (this.$route.params.id && !this.formState.formData.title) {
             services.getOneContent(this.$route.params).then((result) => {
+                result = result.data;
                 if (result.state === 'success') {
                     if (result.doc) {
                         this.$store.dispatch('showContentForm', {
