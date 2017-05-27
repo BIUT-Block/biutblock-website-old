@@ -61,6 +61,21 @@ export default {
     }) => {
         console.log(commit);
     },
+    createToken: ({
+        commit
+    }, token) => {
+        commit(types.CREATE_TOKEN, token)
+    },
+    deleteToken: ({
+        commit
+    }) => {
+        commit(types.DELETE_TOKEN)
+    },
+    adminGroupPower: ({
+        commit
+    }, params = { power: [], state: true }) => {
+        commit(types.ADMING_GROUPPower, params)
+    },
     showAdminUserForm: ({
         commit
     }, params = {

@@ -67,8 +67,10 @@ export default {
         if (valid) {
           let params = this.adminLoginFormData;
           services.adminDoLogin(params).then((result) => {
+            result = result.data;
             if (result.state == 'success') {
               sessionStorage.setItem('cms-token', result.token);
+              sessionStorage.setItem('cms-adminPower', JSON.stringify(result.adminPower));
               window.location = '/manage';
             } else {
               this.$message({

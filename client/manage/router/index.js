@@ -12,7 +12,7 @@ import Content from '../components/content/index'
 import ContentForm from '../components/content/contentForm'
 import ContentTag from '../components/contentTag/index'
 import RegUser from '../components/regUser/index'
-
+import Axios from "axios";
 
 Vue.use(Router)
 
@@ -99,13 +99,12 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   // token 校验
-  // if (router.app.$store.state.token) {
-  // Axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.auth.token; // 全局设定header的token验证，注意Bearer后有个空格
-  //   next()
-  // } else {
-  next();
-  // window.location = '/dr-admin';
-  // }
+  if (router.app.$store) {
+    Axios.defaults.headers.common['Authorization'] = 'DoraCMS ' + router.app.$store.getters.token; // 全局设定header的token验证，注意Bearer后有个空格
+    next()
+  } else {
+    next();
+  }
 })
 
 export default router;

@@ -1,5 +1,5 @@
 <template>
-    <el-row class="container">
+    <el-row class="container" v-loading.body="loading">
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
                 {{collapsed?'':sysName}}
@@ -78,9 +78,15 @@
 </template>
 
 <script>
+import {
+    mapGetters,
+    mapActions
+} from 'vuex';
+import services from '../store/services.js'
 export default {
     data() {
         return {
+            loading: false,
             sysName: 'DoraCMS',
             collapsed: false,
             sysUserName: 'dora',
@@ -112,15 +118,19 @@ export default {
         logout: function () {
             var _this = this;
             this.$confirm('确认退出吗?', '提示', {
-                //type: 'warning'
+                type: 'warning'
             }).then(() => {
-                sessionStorage.removeItem('user');
-                _this.$router.push('/login');
+                services.logOut().then((result) => {
+                    if (result && result.data.state === 'success') {
+                        window.location = '/dr-admin';
+                        sessionStorage.removeItem('cms-token');
+                    } else {
+                        this.$message.error('服务异常,请稍后再试');
+                    }
+                });
             }).catch(() => {
 
             });
-
-
         },
         //折叠导航栏
         collapse: function () {
@@ -129,6 +139,16 @@ export default {
         showMenu(i, status) {
             this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ?
                 'block' : 'none';
+        },
+        sendLogOut() {
+            services.logOut().then((result) => {
+                if (result && result.data.state === 'success') {
+                    window.location = '/dr-admin';
+                    sessionStorage.removeItem('cms-token');
+                } else {
+                    this.$message.error('服务异常,请稍后再试');
+                }
+            });
         }
     },
     mounted() {
@@ -139,6 +159,36 @@ export default {
             this.sysUserAvatar = user.avatar || '@/images/logo.jpg';
         }
 
+    },
+    computed: {
+        ...mapGetters([
+            'token',
+            'adminGroupPower'
+        ])
+    },
+    watch: {
+        token() {
+            this.$confirm('您的登录已超时?', '提示', {
+                showCancelButton: false,
+                closeOnClickModal: false,
+                closeOnPressEscape: false,
+                confirmButtonText: '重新登录',
+                type: 'warning'
+            }).then(() => {
+                this.loading = true;
+                window.location = '/dr-admin'
+            }).catch(() => {
+                this.loading = true;
+                window.location = '/dr-admin'
+            });
+        },
+        adminGroupPower() {
+            this.$message({
+                showClose: true,
+                message: '对不起，您暂无权限执行该操作',
+                type: 'warning'
+            });
+        }
     }
 }
 </script>

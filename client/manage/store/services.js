@@ -11,6 +11,9 @@ export function reqJsonData(url, params = {}, method = 'post') {
 }
 export default {
 
+    logOut() {
+        return reqJsonData('manage/logout', {}, 'get')
+    },
     adminUserList(params) {
         return reqJsonData('manage/adminUser/getList', params, 'get')
     },

@@ -3,22 +3,29 @@ const router = express.Router()
 
 const domain = require('../lib/core/index');
 const query = require('../lib/utils/manageQuery');
-const service = require('../../utils/service');
-const validatorUtil = require('../../utils/validatorUtil');
-const settings = require("../../utils/settings");
+const { service, settings, authSession, authToken, authPower, validatorUtil } = require('../../utils');
 
-router.get('/', function (req, res) {
+router.get('/', authSession, function (req, res) {
 
   res.render('manage', {
     title: 'DoraCMS后台管理',
     bundle: 'manage'
   })
+
 })
+
+// 管理员退出
+router.get('/logout', function (req, res) {
+  req.session.adminlogined = false;
+  req.session.adminPower = '';
+  req.session.adminUserInfo = '';
+  res.send({ state: 'success' });
+});
 
 /**
  * 管理员管理
  */
-router.get('/adminUser/getList', (req, res) => {
+router.get('/adminUser/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -44,13 +51,13 @@ router.get('/adminUser/getList', (req, res) => {
 })
 
 
-router.post('/adminUser/addOne', (req, res) => {
+router.post('/adminUser/addOne', authToken, authPower, (req, res) => {
 
   let userName = req.body.userName;
   let name = req.body.name;
   let email = req.body.email;
   let phoneNum = req.body.phoneNum;
-  let password = service.encrypt(req.body.password,settings.encrypt_key);
+  let password = service.encrypt(req.body.password, settings.encrypt_key);
   let confirm = req.body.confirm;
   let group = req.body.group;
 
@@ -76,7 +83,7 @@ router.post('/adminUser/addOne', (req, res) => {
 
 })
 
-router.post('/adminUser/updateOne', (req, res) => {
+router.post('/adminUser/updateOne', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body._id;
@@ -93,7 +100,7 @@ router.post('/adminUser/updateOne', (req, res) => {
 
 })
 
-router.post('/adminUser/deleteUser', (req, res) => {
+router.post('/adminUser/deleteUser', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;
@@ -108,7 +115,7 @@ router.post('/adminUser/deleteUser', (req, res) => {
 /**
  * 角色管理
  */
-router.get('/adminGroup/getList', (req, res) => {
+router.get('/adminGroup/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -134,7 +141,7 @@ router.get('/adminGroup/getList', (req, res) => {
 })
 
 
-router.post('/adminGroup/addOne', (req, res) => {
+router.post('/adminGroup/addOne', authToken, authPower, (req, res) => {
 
   let name = req.body.name;
   let comments = req.body.comments;
@@ -158,7 +165,7 @@ router.post('/adminGroup/addOne', (req, res) => {
 
 })
 
-router.post('/adminGroup/updateOne', (req, res) => {
+router.post('/adminGroup/updateOne', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body._id;
@@ -175,7 +182,7 @@ router.post('/adminGroup/updateOne', (req, res) => {
 
 })
 
-router.post('/adminGroup/deleteGroup', (req, res) => {
+router.post('/adminGroup/deleteGroup', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;
@@ -192,7 +199,7 @@ router.post('/adminGroup/deleteGroup', (req, res) => {
  * 
  */
 
-router.get('/adminResource/getList', (req, res) => {
+router.get('/adminResource/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -217,7 +224,7 @@ router.get('/adminResource/getList', (req, res) => {
 
 })
 
-router.post('/adminResource/addOne', (req, res) => {
+router.post('/adminResource/addOne', authToken, authPower, (req, res) => {
 
   let label = req.body.label;
   let type = req.body.type;
@@ -247,7 +254,7 @@ router.post('/adminResource/addOne', (req, res) => {
 
 })
 
-router.post('/adminResource/updateOne', (req, res) => {
+router.post('/adminResource/updateOne', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body._id;
@@ -263,7 +270,7 @@ router.post('/adminResource/updateOne', (req, res) => {
 
 })
 
-router.post('/adminResource/deleteResource', (req, res) => {
+router.post('/adminResource/deleteResource', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;
@@ -280,7 +287,7 @@ router.post('/adminResource/deleteResource', (req, res) => {
  * 
  */
 
-router.get('/contentCategory/getList', (req, res) => {
+router.get('/contentCategory/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -305,7 +312,7 @@ router.get('/contentCategory/getList', (req, res) => {
 
 })
 
-router.post('/contentCategory/addOne', (req, res) => {
+router.post('/contentCategory/addOne', authToken, authPower, (req, res) => {
 
   let name = req.body.name;
   let keywords = req.body.keywords;
@@ -339,7 +346,7 @@ router.post('/contentCategory/addOne', (req, res) => {
 
 })
 
-router.post('/contentCategory/updateOne', (req, res) => {
+router.post('/contentCategory/updateOne', authToken, authPower, (req, res) => {
 
   let name = req.body.name;
   let keywords = req.body.keywords;
@@ -356,7 +363,7 @@ router.post('/contentCategory/updateOne', (req, res) => {
 
 })
 
-router.post('/contentCategory/deleteCategory', (req, res) => {
+router.post('/contentCategory/deleteCategory', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;
@@ -372,7 +379,7 @@ router.post('/contentCategory/deleteCategory', (req, res) => {
  * 
  */
 
-router.get('/content/getList', (req, res) => {
+router.get('/content/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -400,7 +407,7 @@ router.get('/content/getList', (req, res) => {
 
 })
 
-router.get('/content/getContent', (req, res) => {
+router.get('/content/getContent', authToken, authPower, (req, res) => {
 
   let targetId = req.query.id;
   query.getContentById(targetId).then((content) => {
@@ -411,7 +418,7 @@ router.get('/content/getContent', (req, res) => {
   })
 })
 
-router.post('/content/addOne', (req, res) => {
+router.post('/content/addOne', authToken, authPower, (req, res) => {
 
   let title = req.body.title;
   let stitle = req.body.stitle;
@@ -458,7 +465,7 @@ router.post('/content/addOne', (req, res) => {
 
 })
 
-router.post('/content/updateOne', (req, res) => {
+router.post('/content/updateOne', authToken, authPower, (req, res) => {
 
   let title = req.body.title;
   let stitle = req.body.stitle;
@@ -481,7 +488,7 @@ router.post('/content/updateOne', (req, res) => {
 
 })
 
-router.post('/content/deleteContent', (req, res) => {
+router.post('/content/deleteContent', authToken, authPower, (req, res) => {
 
   const targetId = req.body.ids;
 
@@ -494,7 +501,7 @@ router.post('/content/deleteContent', (req, res) => {
 /**
  * tag管理
  */
-router.get('/contentTag/getList', (req, res) => {
+router.get('/contentTag/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -520,7 +527,7 @@ router.get('/contentTag/getList', (req, res) => {
 })
 
 
-router.post('/contentTag/addOne', (req, res) => {
+router.post('/contentTag/addOne', authToken, authPower, (req, res) => {
 
 
   let name = req.body.name;
@@ -545,7 +552,7 @@ router.post('/contentTag/addOne', (req, res) => {
 
 })
 
-router.post('/contentTag/updateOne', (req, res) => {
+router.post('/contentTag/updateOne', authToken, authPower, (req, res) => {
 
   const targetId = req.body._id;
   let name = req.body.name;
@@ -558,7 +565,7 @@ router.post('/contentTag/updateOne', (req, res) => {
 
 })
 
-router.post('/contentTag/deleteTag', (req, res) => {
+router.post('/contentTag/deleteTag', authToken, authPower, (req, res) => {
 
   const targetId = req.body.ids;
 
@@ -572,7 +579,7 @@ router.post('/contentTag/deleteTag', (req, res) => {
 /**
  * 注册用户管理
  */
-router.get('/regUser/getList', (req, res) => {
+router.get('/regUser/getList', authToken, authPower, (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
@@ -598,7 +605,7 @@ router.get('/regUser/getList', (req, res) => {
 })
 
 
-router.post('/regUser/updateOne', (req, res) => {
+router.post('/regUser/updateOne', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body._id;
@@ -615,7 +622,7 @@ router.post('/regUser/updateOne', (req, res) => {
 
 })
 
-router.post('/regUser/deleteUser', (req, res) => {
+router.post('/regUser/deleteUser', authToken, authPower, (req, res) => {
 
   console.log('-------', req.body, '------', req.params);
   const targetId = req.body.ids;

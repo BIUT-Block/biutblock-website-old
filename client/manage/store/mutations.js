@@ -4,6 +4,10 @@ import _ from 'lodash';
 const state = {
     count: 20,
     token: sessionStorage.getItem('cms-token'),
+    adminGroupPower: {
+        power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
+        state: true
+    },
     adminUser: {
         formState: {
             show: false,
@@ -187,6 +191,21 @@ const mutations = {
     },
     [types.DECREMENT](state) {
         state.count--
+    },
+    [types.CREATE_TOKEN](state, token) {
+        state.token = token;
+        sessionStorage.setItem('cms-token', token);
+    },
+    [types.DELETE_TOKEN](state) {
+        state.token = null;
+        sessionStorage.setItem('cms-token', '');
+    },
+    [types.ADMING_GROUPPower](state, params) {
+        state.adminGroupPower = Object.assign({
+            power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
+            state: true
+        }, params);
+
     },
     [types.ADMINUSERFORMSTATE](state, formState) {
         state.adminUser.formState.show = formState.show;

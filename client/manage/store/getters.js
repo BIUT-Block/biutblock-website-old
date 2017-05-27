@@ -2,7 +2,8 @@ export default {
     count(state) {
         return state.count
     },
-
+    token: state => state.token,
+    adminGroupPower: state => state.adminGroupPower,
     adminUserFormState: state => state.adminUser.formState,
     adminUserList: state => state.adminUser.userList,
     adminGroupFormState: state => state.adminGroup.formState,
