@@ -20,6 +20,10 @@ export default {
 
     adminDoLogin(params) {
         return reqJsonData('api/admin/doLogin', params)
-    }
+    },
+
+    contentCategoryList(params) {
+        return reqJsonData('api/contentCategory/getList', params, 'get')
+    },
 
 }

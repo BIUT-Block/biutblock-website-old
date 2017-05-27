@@ -1,5 +1,5 @@
 export default {
-    HeaderNav: state => state.HeaderNav,
+    headerNav: state => state.headerNav,
     headerState: state => state.headerState,
     adminLoginFormData: state => state.adminLoginForm.formData,
     contentList: state => state.content.contentList,

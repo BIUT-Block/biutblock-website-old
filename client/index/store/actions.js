@@ -4,20 +4,41 @@ import _ from 'lodash';
 
 
 export default {
-    showHeaderNav({ commit }) {
+    showHeaderNav({
+        commit
+    }) {
         commit(types.SET_HEADER_NAV, true)
     },
-    hideHeaderNav({ commit }) {
+    hideHeaderNav({
+        commit
+    }) {
         commit(types.SET_HEADER_NAV, false)
     },
-    showHeader({ commit }) {
+    showHeader({
+        commit
+    }) {
         commit(types.SET_HEADER_STATE, 'myheader')
     },
-    hideHeader({ commit }) {
+    hideHeader({
+        commit
+    }) {
         commit(types.SET_HEADER_STATE, 'slotTemp')
     },
-    adminLoginForm({ commit }, params = { formData: {} }) {
-        commit(types.ADMINLOGIN_FORM_STATE, { formData: params.formData })
+    headerNav({
+        commit
+    }) {
+        return services.contentCategoryList(params).then((result) => {
+            commit(types.SET_HEADER_STATE, result.data)
+        })
+    },
+    adminLoginForm({
+        commit
+    }, params = {
+        formData: {}
+    }) {
+        commit(types.ADMINLOGIN_FORM_STATE, {
+            formData: params.formData
+        })
     },
     indexContentList({
         commit

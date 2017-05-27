@@ -4,7 +4,7 @@
  */
 const express = require('express')
 const router = express.Router()
-const query = require('../lib/utils/manageQuery');
+const query = require('../lib/utils/foregroundQuery');
 const service = require('../../utils/service');
 const validatorUtil = require('../../utils/validatorUtil');
 const settings = require("../../utils/settings");
@@ -55,7 +55,10 @@ router.post('/admin/doLogin', function (req, res) {
 
   if (validatorUtil.checkUserName(userName) && validatorUtil.checkPwd(password)) {
     console.log('begin to check');
-    query.getAdminUserByParams({ 'userName': userName, 'password': newPsd }).then((user) => {
+    query.getAdminUserByParams({
+      'userName': userName,
+      'password': newPsd
+    }).then((user) => {
       if (user) {
         req.session.adminPower = user.group.power;
         req.session.adminlogined = true;
@@ -83,5 +86,28 @@ router.post('/admin/doLogin', function (req, res) {
   }
 
 });
+
+
+router.get('/contentCategory/getList', (req, res) => {
+
+  let current = req.query.current;
+  let pageSize = req.query.pageSize;
+  let totalItems = 1;
+  query.getContentCategoryListByParams({
+    current,
+    pageSize
+  }).then((cateList) => {
+    console.log('--cateList--', cateList);
+    res.send({
+      state: 'success',
+      docs: cateList,
+      pageInfo: {
+        current: Number(current) || 1,
+        pageSize: Number(pageSize) || 10
+      }
+    })
+  })
+
+})
 
 module.exports = router
