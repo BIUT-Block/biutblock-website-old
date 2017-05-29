@@ -1,7 +1,12 @@
 import Vue from 'vue'
-import { createStore } from './store'
-import { createRouter } from './router'
+import {
+    createStore
+} from './store'
+import {
+    createRouter
+} from './router'
 import App from './App.vue'
+import Header from './components/common/header'
 import {
     sync
 } from 'vuex-router-sync'
@@ -33,5 +38,14 @@ export function createApp() {
     // expose the app, the router and the store.
     // note we are not mounting the app here, since bootstrapping will be
     // different depending on whether we are in a browser or on the server.
-    return { app, router, store }
+    let preFetchComponent = [
+        Header
+    ]
+
+    return {
+        app,
+        router,
+        store,
+        preFetchComponent
+    }
 }

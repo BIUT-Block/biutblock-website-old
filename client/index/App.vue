@@ -36,7 +36,7 @@
 </style>
 <template>
   <div id="app">
-    <component :is="headerState.show" :navs="navItems"></component>
+    <MyHeader></MyHeader>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -47,7 +47,7 @@
     mapGetters,
     mapActions
   } from 'vuex';
-  import Header from './components/common/header'
+  import MyHeader from './components/common/header'
   import SlotHeader from './components/common/header/slotHeader.vue'
   import services from './store/services'
   export default {
@@ -59,7 +59,7 @@
     },
 
     components: {
-      myheader: Header,
+      MyHeader,
       slotTemp: SlotHeader
     },
     computed: {
@@ -70,13 +70,13 @@
     methods: {
 
     },
-    beforeMount() {
-      services.contentCategoryList().then((cateList) => {
-        this.$nextTick(() => {
-          this.navItems = cateList.data.docs
-        })
-      })
-    }
+    // beforeMount() {
+    //   services.contentCategoryList().then((cateList) => {
+    //     this.$nextTick(() => {
+    //       this.navItems = cateList.data.docs
+    //     })
+    //   })
+    // }
 
 
   }

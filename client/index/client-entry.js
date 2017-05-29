@@ -17,7 +17,7 @@ Vue.mixin({
     }
 })
 
-const { app, router, store } = createApp()
+const { app, router, store, preFetchComponent } = createApp()
 
 if (window.__INITIAL_STATE__) {
     store.replaceState(window.__INITIAL_STATE__)
@@ -36,12 +36,13 @@ router.onReady(() => {
             return next()
         }
         // bar.start()
-        Promise.all(activated.map(c => {
+        Promise.all(preFetchComponent.concat(activated).map(c => {
             if (c.asyncData) {
                 return c.asyncData({ store, route: to })
             }
         })).then(() => {
             //   bar.finish()
+            console.log('-------store--------',store.state);
             next()
         }).catch(next)
     })

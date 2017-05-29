@@ -2,10 +2,7 @@ import * as types from './types.js'
 import getters from './getters';
 import _ from 'lodash';
 const state = {
-    headerNav: {
-        show: true,
-        navs: []
-    },
+    headerNav: [],
     headerState: {
         show: 'myheader'
     },
@@ -26,10 +23,7 @@ const state = {
 
 const mutations = {
     [types.SET_HEADER_NAV](state, navs) {
-        state.headerNav = Object.assign({
-            show: true,
-            navs: []
-        }, navs);
+        state.headerNav = navs.docs;
     },
     [types.SET_HEADER_STATE](state, active) {
         state.headerState.show = active

@@ -13,7 +13,10 @@ export function createRouter() {
     const router = new Router({
         mode: 'history',
         scrollBehavior(to, from, savedPosition) {
-            return { x: 0, y: 0 }
+            return {
+                x: 0,
+                y: 0
+            }
         },
         routes: [{
             path: '/',
@@ -38,16 +41,19 @@ export function createRouter() {
             path: '/dr-admin',
             name: 'adminlogin',
             component: AdminLogin
-        }, { path: '/details/:id', name: 'details', component: Article },
-        ]
+        }, {
+            path: '/details/:id',
+            name: 'details',
+            component: Article
+        }, ]
     })
 
     router.beforeEach((to, from, next) => {
-        router.app.$store.dispatch('hideHeaderNav')
+        router.app.$store.dispatch('hideHeaderNav');
+
         next()
     })
+    
 
     return router;
 }
-
-
