@@ -56,9 +56,9 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, re
 }));
 
 // 后台管理
+app.use('/manage', manage);
 app.use('/', foreground);
 app.use('/api', restapi);
-app.use('/manage', manage);
 app.use('/system', system);
 
 if (isDev) {

@@ -322,7 +322,7 @@ router.post('/contentCategory/addOne', authToken, authPower, (req, res) => {
   let defaultUrl = req.body.defaultUrl;
   let sortPath = req.body.sortPath;
   let comments = req.body.comments;
-  console.log('--', req.body);
+  // console.log('--', req.body);
   domain.create("ContentCategory", {
     name,
     keywords,
@@ -333,10 +333,18 @@ router.post('/contentCategory/addOne', authToken, authPower, (req, res) => {
     defaultUrl,
     comments
   }).then((json) => {
-    res.send({
-      state: 'success',
-      id: json.id
-    });
+    query.getContentCategoryListByPage({
+      current: 1,
+      pageSize: 100
+    }).then((result) => {
+      let jsonFile = process.cwd() + '/client/index/assets/cates.json';
+      service.writeFile(req, res, jsonFile, JSON.stringify(result), () => {
+        res.send({
+          state: 'success'
+        });
+      })
+    })
+
   }).catch((err) => {
     res.send({
       state: 'error',

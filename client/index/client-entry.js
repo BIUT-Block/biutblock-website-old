@@ -5,7 +5,6 @@ import 'es6-promise/auto'
 Vue.mixin({
     beforeRouteUpdate(to, from, next) {
         const { asyncData } = this.$options
-        console.log('---asyncData---', asyncData);
         if (asyncData) {
             asyncData({
                 store: this.$store,
@@ -42,7 +41,6 @@ router.onReady(() => {
             }
         })).then(() => {
             //   bar.finish()
-            console.log('-------store--------',store.state);
             next()
         }).catch(next)
     })

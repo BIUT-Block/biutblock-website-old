@@ -22,7 +22,7 @@ const state = {
 }
 
 const mutations = {
-    [types.SET_HEADER_NAV](state, navs) {
+    [types.GET_HEADER_NAV](state, navs) {
         state.headerNav = navs.docs;
     },
     [types.SET_HEADER_STATE](state, active) {

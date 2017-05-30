@@ -28,7 +28,7 @@ export default {
         commit
     }) {
         return services.contentCategoryList().then((result) => {
-            commit(types.SET_HEADER_NAV, result.data)
+            commit(types.GET_HEADER_NAV, result.data)
         })
     },
     adminLoginForm({

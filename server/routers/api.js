@@ -97,7 +97,6 @@ router.get('/contentCategory/getList', (req, res) => {
     current,
     pageSize
   }).then((cateList) => {
-    console.log('--cateList--', cateList);
     res.send({
       state: 'success',
       docs: cateList,

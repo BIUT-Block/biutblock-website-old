@@ -49,7 +49,7 @@ export function createRouter() {
     })
 
     router.beforeEach((to, from, next) => {
-        router.app.$store.dispatch('hideHeaderNav');
+        // router.app.$store.dispatch('hideHeaderNav');
 
         next()
     })

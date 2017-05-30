@@ -246,18 +246,18 @@ var system = {
             res.end(settings.system_illegal_param);
         }
     },
-    writeFile: function (req, res, path, content) {
+    writeFile: function (req, res, path, content, cb) {
         if (fs.existsSync(path)) {
             //写入文件
             var newContent = iconv.encode(content, 'utf-8');
+            console.log('-----newContent---', newContent);
             fs.writeFile(path, newContent, function (err) {
                 if (err) {
                     console.log(err)
                 } else {
                     console.log("----文件写入成功-----")
-                    res.end("success");
+                    cb();
                 }
-
             });
         }
     },

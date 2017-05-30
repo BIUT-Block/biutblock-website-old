@@ -7,9 +7,6 @@ const {
 
 const RenderView = require('./renderView');
 
-// router.get('/', () => {
-//   return RenderView.index;
-// })
 function vc(req, res, next) {
   var defaultUrl = req.params.defaultUrl;
   var url = defaultUrl.split('___')[1];
@@ -40,6 +37,13 @@ router.get('/login', function (req, res) {
   })
 })
 
-// router.get('/:defaultUrl', vc, RenderView.index);
+router.get('/:defaultUrl', (req, res, next) => {
+  var defaultUrl = req.params.defaultUrl;
+  var url = defaultUrl.split('___')[1];
+  console.log('---url---', url);
+  if (url) {
+    RenderView.index(req, res);
+  }
+});
 
 module.exports = router
