@@ -40,7 +40,6 @@ router.get('/login', function (req, res) {
 router.get('/:defaultUrl', (req, res, next) => {
   var defaultUrl = req.params.defaultUrl;
   var url = defaultUrl.split('___')[1];
-  console.log('---url---', url);
   if (url) {
     RenderView.index(req, res);
   }

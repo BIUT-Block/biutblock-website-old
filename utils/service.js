@@ -250,7 +250,6 @@ var system = {
         if (fs.existsSync(path)) {
             //写入文件
             var newContent = iconv.encode(content, 'utf-8');
-            console.log('-----newContent---', newContent);
             fs.writeFile(path, newContent, function (err) {
                 if (err) {
                     console.log(err)

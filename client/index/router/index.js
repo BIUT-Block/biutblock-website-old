@@ -8,7 +8,7 @@ const Article = require('../views/Article.vue')
 const Tag = require('../views/Tag.vue')
 const Login = require('../views/Login.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
-
+const SlotHeader = require('../components/common/header/slotHeader');
 export function createRouter() {
     const router = new Router({
         mode: 'history',
@@ -49,11 +49,24 @@ export function createRouter() {
     })
 
     router.beforeEach((to, from, next) => {
-        // router.app.$store.dispatch('hideHeaderNav');
-
         next()
     })
-    
 
+    let headerNav = require('../assets/cates.json');
+    let newRoters = [];
+    if (headerNav.length > 0) {
+        headerNav.map((item, index) => {
+            newRoters.push({
+                path: '/' + item.defaultUrl + '___' + item._id,
+                component: SlotHeader,
+                name: item.name,
+                iconCls: 'fa fa-id-card-o',
+                meta: {
+                    title: '测试Demo'
+                }
+            })
+        })
+        router.addRoutes(newRoters)
+    }
     return router;
 }

@@ -13,37 +13,12 @@ export default context => {
   return new Promise((resolve, reject) => {
     const s = isDev && Date.now()
     const { app, router, store, preFetchComponent } = createApp()
-    let fileData = fs.readFileSync(process.cwd() + '/client/index/assets/cates.json', 'utf8')
-    // console.log('-------test---------', JSON.parse(fileData));
-    let headerNav = JSON.parse(fileData);
-    let newRoters = [];
-    if (headerNav.length > 0) {
-      headerNav.map((item, index) => {
-        newRoters.push({
-          path: '/' + item.defaultUrl + '___' + item._id,
-          component: SlotHeader,
-          name: item.name,
-          iconCls: 'fa fa-id-card-o',
-          meta: {
-            title: '测试Demo'
-          }
-        })
-      })
-      router.addRoutes(newRoters)
-    }
 
     // set router's location
     router.push(context.url)
 
-    router.beforeEach((to, from, next) => {
-      console.log('---------beforeEach-------');
-      next();
-    })
-
     // wait until router has resolved possible async hooks
     router.onReady(() => {
-      console.log('---------onReady-------');
-
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
       if (!matchedComponents.length) {

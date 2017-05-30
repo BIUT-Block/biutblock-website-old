@@ -15,6 +15,8 @@ const foreground = require('./server/routers/foreground');
 const restapi = require('./server/routers/api');
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
+const renderCates = require('./utils/middleware/renderCates');
+
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
 
@@ -27,6 +29,7 @@ app.use(session({
     secret: 'keyboard cat'
 }))
 
+app.use(renderCates);
 // 集成ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
     var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
