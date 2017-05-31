@@ -4,7 +4,6 @@
             it's home page
             <div v-for="item in displayedItems.docs">
                 <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
-
             </div>
             <button @click="addOne">add a 233</button>
             <comp-a></comp-a>

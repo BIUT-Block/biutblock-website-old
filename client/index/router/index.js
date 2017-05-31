@@ -4,11 +4,14 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const Home = require('../views/Home.vue')
+const ItemList = require('../views/ItemList.vue')
 const Article = require('../views/Article.vue')
 const Tag = require('../views/Tag.vue')
 const Login = require('../views/Login.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const SlotHeader = require('../components/common/header/slotHeader');
+const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
+
 export function createRouter() {
     const router = new Router({
         mode: 'history',
@@ -24,7 +27,7 @@ export function createRouter() {
         }, {
             path: '/home',
             name: 'home',
-            component: Home
+            component: ItemList
         }, {
             path: '/article',
             name: 'article',
@@ -45,7 +48,7 @@ export function createRouter() {
             path: '/details/:id',
             name: 'details',
             component: Article
-        }, ]
+        },]
     })
 
     router.beforeEach((to, from, next) => {
@@ -58,11 +61,12 @@ export function createRouter() {
         headerNav.map((item, index) => {
             newRoters.push({
                 path: '/' + item.defaultUrl + '___' + item._id,
-                component: SlotHeader,
+                component: ItemList,
                 name: item.name,
                 iconCls: 'fa fa-id-card-o',
                 meta: {
-                    title: '测试Demo'
+                    title: item.name,
+                    typeId: item._id
                 }
             })
         })

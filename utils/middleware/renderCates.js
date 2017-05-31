@@ -7,17 +7,20 @@ const query = require('../../server/lib/utils/manageQuery');
 const {
     service
 } = require('../../utils');
+let writeState = false;
 module.exports = function (req, res, next) {
-
-    query.getContentCategoryListByPage({
-        current: 1,
-        pageSize: 100
-    }).then((result) => {
-        let jsonFile = process.cwd() + '/client/index/assets/cates.json';
-        service.writeFile(req, res, jsonFile, JSON.stringify(result), () => {
-            next();
+    if (writeState) {
+        next();
+    } else {
+        query.getContentCategoryListByPage({
+            current: 1,
+            pageSize: 100
+        }).then((result) => {
+            let jsonFile = process.cwd() + '/client/index/assets/cates.json';
+            service.writeFile(req, res, jsonFile, JSON.stringify(result), () => {
+                writeState = true;
+                next();
+            })
         })
-    })
-
-
+    }
 }

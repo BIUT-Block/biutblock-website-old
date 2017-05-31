@@ -69,15 +69,6 @@
     },
     methods: {
 
-    },
-    // beforeMount() {
-    //   services.contentCategoryList().then((cateList) => {
-    //     this.$nextTick(() => {
-    //       this.navItems = cateList.data.docs
-    //     })
-    //   })
-    // }
-
-
+    }
   }
 </script>

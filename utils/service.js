@@ -254,7 +254,7 @@ var system = {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log("----文件写入成功-----")
+                    console.log("write file success")
                     cb();
                 }
             });
