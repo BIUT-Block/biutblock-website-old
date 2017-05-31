@@ -14,12 +14,20 @@ router.get('/content/getList', (req, res) => {
 
   let current = req.query.current;
   let pageSize = req.query.pageSize;
+  let typeId = req.query.typeId;
+
   let totalItems = 1;
+  let queryObj = {};
+  if (typeId) {
+    queryObj.categories = typeId
+  }
+
   query.getContentCount().then((count) => {
     totalItems = count;
     return query.getContentListByPage({
       current,
-      pageSize
+      pageSize,
+      queryObj
     });
   }).then((contentList) => {
     res.send({

@@ -4,9 +4,11 @@ module.exports = {
 
     getContentListByPage({
         current = '1',
-        pageSize = '10'
+        pageSize = '10',
+        queryObj
     }) {
-        return models.Content.find({}, {
+        
+        return models.Content.find(queryObj, {
                 id: 1,
                 title: 1,
                 stitle: 1,
