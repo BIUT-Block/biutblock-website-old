@@ -9,12 +9,12 @@
                     <el-col :xs="1" :sm="1" :md="2" :lg="2">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="20" :lg="20">
-                        <el-row :gutter="0">
+                    <el-col :xs="22" :sm="22" :md="20" :lg="20" class="content-mainbody-left">
+                        <el-row :gutter="20">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
                                 <ItemList :contentList="contentList" />
                             </el-col>
-                            <el-col :xs="0" :sm="6" :md="6" :lg="6">
+                            <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
                                     <HotContents/>
                                     <Tag/>
