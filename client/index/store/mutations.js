@@ -18,12 +18,20 @@ const state = {
             docs: []
         },
         contentDetails: {}
+    },
+    contentTag: [],
+    hotContentList: {
+        pageInfo: {},
+        docs: []
     }
 }
 
 const mutations = {
     [types.GET_HEADER_NAV](state, navs) {
         state.headerNav = navs.docs;
+    },
+    [types.CONTENT_TAGS](state, tags) {
+        state.contentTag = tags.docs;
     },
     [types.SET_HEADER_STATE](state, active) {
         state.headerState.show = active
@@ -39,6 +47,9 @@ const mutations = {
     },
     [types.CONTENT_DETAILS](state, contentDetails) {
         state.content.contentDetails = contentDetails
+    },
+    [types.CONTENT_HOTITEMS](state, contentList) {
+        state.hotContentList = contentList
     }
 }
 

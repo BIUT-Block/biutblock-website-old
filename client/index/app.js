@@ -7,6 +7,9 @@ import {
 } from './router'
 import App from './App.vue'
 import Header from './components/common/header'
+import MyTag from './components/common/Tag.vue'
+import HotContents from './components/common/HotContents.vue'
+
 import {
     sync
 } from 'vuex-router-sync'
@@ -39,7 +42,9 @@ export function createApp() {
     // note we are not mounting the app here, since bootstrapping will be
     // different depending on whether we are in a browser or on the server.
     let preFetchComponent = [
-        Header
+        Header,
+        MyTag,
+        HotContents
     ]
 
     return {

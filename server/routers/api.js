@@ -43,6 +43,36 @@ router.get('/content/getList', (req, res) => {
 
 })
 
+// 查询简单的文档列表
+router.get('/content/getSimpleListByParams', (req, res) => {
+
+  let pageSize = req.query.pageSize;
+  let typeId = req.query.typeId;
+  let sortby = req.query.sortby;
+
+  let queryObj = {}, sortObj = {};
+  if (typeId) {
+    queryObj.categories = typeId
+  }
+  if (sortby) {
+    sortObj[queryObj] = -1
+  }
+  query.getSimpleContentListByParams({
+    pageSize,
+    queryObj,
+    sortObj
+  }).then((contentList) => {
+    res.send({
+      state: 'success',
+      docs: contentList,
+      pageInfo: {
+        pageSize: Number(pageSize) || 10
+      }
+    })
+  })
+
+})
+
 router.get('/content/getContent', (req, res) => {
 
   let targetId = req.query.id;
@@ -117,4 +147,20 @@ router.get('/contentCategory/getList', (req, res) => {
 
 })
 
+
+router.get('/contentTag/getList', (req, res) => {
+
+  let current = req.query.current;
+  let pageSize = req.query.pageSize;
+  query.getContentTagListByPage({
+    current,
+    pageSize
+  }).then((tagList) => {
+    res.send({
+      state: 'success',
+      docs: tagList
+    })
+  })
+
+})
 module.exports = router

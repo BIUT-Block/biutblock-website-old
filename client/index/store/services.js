@@ -14,6 +14,10 @@ export default {
         return reqJsonData('api/content/getList', params, 'get')
     },
 
+    getSimpleList(params) {
+        return reqJsonData('api/content/getSimpleListByParams', params, 'get')
+    },
+
     getOneContent(params) {
         return reqJsonData('api/content/getContent', params, 'get')
     },
@@ -24,6 +28,9 @@ export default {
 
     contentCategoryList(params) {
         return reqJsonData('api/contentCategory/getList', params, 'get')
+    },
+    contentTagList(params) {
+        return reqJsonData('api/contentTag/getList', params, 'get')
     },
 
 }

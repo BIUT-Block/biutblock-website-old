@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     padding: 0;
     margin: 0;
     background: #ffffff;
@@ -6,7 +7,45 @@ html, body {
     font-family: "Microsoft Yahei", "冬青黑体简体中文 w3";
 }
 
-a:link, a:active, a:visited {
+a:link,
+a:active,
+a:visited {
     text-decoration: none;
     color: #000;
+}
+
+a:hover {
+    color: #20A0FF
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+@media screen and (max-width:768px) {
+    body {}
+    .header .header-main {
+        padding-bottom: 0;
+    }
+    .header .header-main .header-logo {
+        text-align: center;
+    }
+    .header .header-main .header-nav {
+        border-left: none !important;
+        margin-left: 0 !important;
+    }
+    .content-item {
+        border-bottom: 1px dashed #f1f1f1 !important;
+    }
+    .content-tag {
+        display: none;
+    }
+    .contentImg {
+        display: none;
+    }
 }

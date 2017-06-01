@@ -31,11 +31,18 @@ export default {
             commit(types.GET_HEADER_NAV, result.data)
         })
     },
+    contentTag({
+        commit
+    }) {
+        return services.contentTagList().then((result) => {
+            commit(types.CONTENT_TAGS, result.data)
+        })
+    },
     adminLoginForm({
         commit
     }, params = {
-        formData: {}
-    }) {
+            formData: {}
+        }) {
         commit(types.ADMINLOGIN_FORM_STATE, {
             formData: params.formData
         })
@@ -52,6 +59,13 @@ export default {
     }, params = {}) {
         return services.getOneContent(params).then((result) => {
             commit(types.CONTENT_DETAILS, result.data)
+        })
+    },
+    getHotContentList({
+        commit
+    }, params = {}) {
+        return services.getSimpleList(params).then((result) => {
+            commit(types.CONTENT_HOTITEMS, result.data)
         })
     }
 

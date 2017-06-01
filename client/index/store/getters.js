@@ -3,5 +3,7 @@ export default {
     headerState: state => state.headerState,
     adminLoginFormData: state => state.adminLoginForm.formData,
     contentList: state => state.content.contentList,
-    contentDetails: state => state.content.contentDetails
+    contentDetails: state => state.content.contentDetails,
+    contentTag: state => state.contentTag,
+    hotContentList: state => state.hotContentList
 }

@@ -13,11 +13,11 @@
                     </el-col>
                     <el-col :xs="24" :sm="16" :md="16" :lg="18">
                         <nav class="header-nav">
-                            <ul>
-                                <li v-for="nav in headerNav">
+                            <el-row type="flex">
+                                <el-col v-for="(nav,index) in headerNav" :key="index">
                                     <router-link :to="{path: '/'+nav.defaultUrl+ '___'+nav._id}">{{nav.name}}</router-link>
-                                </li>
-                            </ul>
+                                </el-col>
+                            </el-row>
                         </nav>
                     </el-col>
                     <el-col :xs="0" :sm="4" :md="4" :lg="4">
@@ -111,10 +111,10 @@ export default {
             border-left: 1px solid #f1eee0;
             margin-left: 60px;
 
-            ul {
+            .el-row {
                 margin: 0;
                 padding: 0;
-                li {
+                .el-col {
                     list-style-type: none;
                     display: inline-block;
                     margin: 0 0 0 60px;

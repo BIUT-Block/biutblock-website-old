@@ -5,12 +5,12 @@ Vue.use(Router)
 
 const Home = require('../views/Home.vue')
 const ItemList = require('../views/ItemList.vue')
+const MainBody = require('../views/MainBody.vue')
 const Article = require('../views/Article.vue')
-const Tag = require('../views/Tag.vue')
+const Tag = require('../components/common/Tag.vue')
 const Login = require('../views/Login.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const SlotHeader = require('../components/common/header/slotHeader');
-const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
 
 export function createRouter() {
     const router = new Router({
@@ -27,7 +27,7 @@ export function createRouter() {
         }, {
             path: '/home',
             name: 'home',
-            component: ItemList
+            component: MainBody
         }, {
             path: '/article',
             name: 'article',
@@ -61,7 +61,7 @@ export function createRouter() {
         headerNav.map((item, index) => {
             newRoters.push({
                 path: '/' + item.defaultUrl + '___' + item._id,
-                component: ItemList,
+                component: MainBody,
                 name: item.name,
                 iconCls: 'fa fa-id-card-o',
                 meta: {
