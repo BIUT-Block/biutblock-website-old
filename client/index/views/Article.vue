@@ -3,8 +3,8 @@
         <div class="content home">
             <div class="readme">
                 <h2>{{contentDetails.doc.title}}</h2>
-                <p v-html="contentDetails.doc.comments">
-                </p>
+                <div v-html="contentDetails.doc.comments">
+                </div>
             </div>
         </div>
     </div>
