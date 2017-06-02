@@ -1,28 +1,30 @@
 <style lang='scss'>
-.contentContainer {}
+.contentContainer {
+    margin-top: 30px;
+}
 </style>
 <template>
     <div>
         <div class="contentContainer">
             <div>
                 <el-row :gutter="0">
-                    <el-col :xs="1" :sm="1" :md="2" :lg="2">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="1">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="20" :lg="20" class="content-mainbody-left">
-                        <el-row :gutter="20">
+                    <el-col :xs="22" :sm="22" :md="22" :lg="22" class="content-mainbody-left">
+                        <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
-                                <ItemList :contentList="contentList" />
+                                <ItemList :contentList="contentList" :typeId="typeId" />
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
-                                    <HotContents/>
                                     <Tag/>
+                                    <HotContents/>
                                 </div>
                             </el-col>
                         </el-row>
                     </el-col>
-                    <el-col :xs="1" :sm="1" :md="2" :lg="2">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="1">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
                 </el-row>
@@ -57,7 +59,13 @@ export default {
     computed: {
         ...mapGetters([
             'contentList'
-        ])
+        ]),
+        page() {
+            return Number(this.$store.state.route.params.page) || 1
+        },
+        typeId() {
+            return this.$store.state.route.meta.typeId || 'indexPage'
+        }
     },
     asyncData({
             store,
@@ -67,7 +75,7 @@ export default {
         if (route) {
             params.typeId = route.meta.typeId;
         }
-        console.log('-----route-----', params);
+        params.current = Number(route.params.page) || 1;
         return store.dispatch('indexContentList', params)
     }
 

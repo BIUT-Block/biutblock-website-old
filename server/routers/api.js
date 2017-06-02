@@ -18,11 +18,12 @@ router.get('/content/getList', (req, res) => {
 
   let totalItems = 1;
   let queryObj = {};
-  if (typeId) {
+  if (typeId && typeId != 'indexPage') {
     queryObj.categories = typeId
   }
 
-  query.getContentCount().then((count) => {
+  query.getContentCount(queryObj).then((count) => {
+    console.log('----count----', count);
     totalItems = count;
     return query.getContentListByPage({
       current,

@@ -1,17 +1,19 @@
 <template>
     <header class="header">
         <el-row :gutter="0" class="header-main">
-            <el-col :xs="1" :sm="1" :md="2" :lg="2">
+            <el-col :xs="1" :sm="1" :md="1" :lg="1">
                 <div class="grid-content bg-purple">&nbsp;</div>
             </el-col>
-            <el-col :xs="22" :sm="22" :md="20" :lg="20">
+            <el-col :xs="22" :sm="22" :md="22" :lg="22">
                 <el-row class="grid-content bg-purple-light">
-                    <el-col :xs="24" :sm="4" :md="4" :lg="2">
+                    <el-col :xs="24" :sm="4" :md="4" :lg="4">
                         <div class="header-logo">
-                            <img src="../../../assets/logo.png" />
+                            <router-link to="/">
+                                <img src="../../../assets/logo.png" />
+                            </router-link>
                         </div>
                     </el-col>
-                    <el-col :xs="24" :sm="16" :md="16" :lg="18">
+                    <el-col :xs="24" :sm="16" :md="16" :lg="16">
                         <nav class="header-nav">
                             <el-row type="flex">
                                 <el-col v-for="(nav,index) in headerNav" :key="index">
@@ -25,7 +27,7 @@
                     </el-col>
                 </el-row>
             </el-col>
-            <el-col :xs="1" :sm="1" :md="2" :lg="2">
+            <el-col :xs="1" :sm="1" :md="1" :lg="1">
                 <div class="grid-content bg-purple">&nbsp;</div>
             </el-col>
         </el-row>
@@ -107,17 +109,16 @@ export default {
         .header-nav {
             height: 40px;
             float: left;
-            margin-top: 10px;
-            border-left: 1px solid #f1eee0;
-            margin-left: 60px;
-
+            margin-top: 10px; // border-left: 1px solid #f1eee0;
+            margin-left: 30px;
+            width: 100%;
             .el-row {
                 margin: 0;
                 padding: 0;
                 .el-col {
                     list-style-type: none;
                     display: inline-block;
-                    margin: 0 0 0 60px;
+                    text-align: center
                 }
             }
         }

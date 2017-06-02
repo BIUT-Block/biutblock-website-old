@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const Home = require('../views/Home.vue')
+// const index = require('../views/index.vue')
 const ItemList = require('../views/ItemList.vue')
 const MainBody = require('../views/MainBody.vue')
 const Article = require('../views/Article.vue')
@@ -23,11 +23,18 @@ export function createRouter() {
         },
         routes: [{
             path: '/',
-            redirect: '/home'
+            name: 'index',
+            component: MainBody,
+            meta: {
+                typeId: 'indexPage',
+            }
         }, {
-            path: '/home',
-            name: 'home',
-            component: MainBody
+            path: '/page/:page(\\d+)?',
+            name: 'indexPage',
+            component: MainBody,
+            meta: {
+                typeId: 'indexPage',
+            }
         }, {
             path: '/article',
             name: 'article',
@@ -60,7 +67,7 @@ export function createRouter() {
     if (headerNav.length > 0) {
         headerNav.map((item, index) => {
             newRoters.push({
-                path: '/' + item.defaultUrl + '___' + item._id,
+                path: '/' + item.defaultUrl + '___' + item._id + '/:page(\\d+)?',
                 component: MainBody,
                 name: item.name,
                 iconCls: 'fa fa-id-card-o',

@@ -11,7 +11,7 @@ a:link,
 a:active,
 a:visited {
     text-decoration: none;
-    color: #000;
+    color: #3f3f3f;
 }
 
 a:hover {
@@ -25,6 +25,10 @@ ul {
 
 li {
     list-style-type: none;
+}
+
+.content-item:last-child {
+    border: none !important;
 }
 
 @media screen and (max-width:768px) {
@@ -46,6 +50,9 @@ li {
         display: none;
     }
     .contentImg {
+        display: none;
+    }
+    .content-mainbody-right {
         display: none;
     }
 }

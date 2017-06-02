@@ -44,7 +44,7 @@ module.exports = {
             .exec();
     },
     getSimpleContentListByParams({
-        pageSize, queryObj, sortObj
+        pageSize = 10, queryObj, sortObj
     }) {
         return models.Content.find(queryObj, {
             id: 1,
@@ -63,8 +63,8 @@ module.exports = {
         }])
             .exec();
     },
-    getContentCount() {
-        return models.Content.count();
+    getContentCount(queryObj) {
+        return models.Content.count(queryObj);
     },
     getAdminUserByParams(params) {
         return models.AdminUser.findOne(params).populate([{

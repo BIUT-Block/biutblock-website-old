@@ -5,7 +5,8 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-
+var moment = require('moment')
+moment.locale('zh-cn');
 var shortid = require('shortid');
 var ContentCategory = require('./ContentCategory');
 var ContentTag = require('./ContentTag');
@@ -62,8 +63,14 @@ ContentSchema.statics = {
 
 };
 
-
-
+ContentSchema.set('toJSON', { getters: true, virtuals: true });
+ContentSchema.set('toObject', { getters: true, virtuals: true });
+ContentSchema.path('date').get(function (v) {
+    return moment(v).format('YYYY-MM-DD');
+});
+ContentSchema.path('updateDate').get(function (v) {
+    return moment(v).format('YYYY-MM-DD');
+});
 var Content = mongoose.model("Content", ContentSchema);
 
 module.exports = Content;

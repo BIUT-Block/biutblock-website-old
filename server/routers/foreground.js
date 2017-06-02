@@ -17,8 +17,7 @@ function vc(req, res, next) {
   }
 }
 router.get('/', RenderView.index);
-
-router.get('/home', RenderView.index)
+router.get('/page/:page', RenderView.index)
 router.get('/details/:id', RenderView.index)
 router.get('/tag', RenderView.index)
 router.get('/add', RenderView.index)
@@ -37,7 +36,7 @@ router.get('/login', function (req, res) {
   })
 })
 
-router.get('/:defaultUrl', (req, res, next) => {
+router.get('/:defaultUrl/:page(\\d+)?', (req, res, next) => {
   var defaultUrl = req.params.defaultUrl;
   var url = defaultUrl.split('___')[1];
   if (url) {

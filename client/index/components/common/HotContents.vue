@@ -3,8 +3,8 @@
         <h3 class="content-title">热门文章</h3>
         <div class="content-list">
             <ul>
-                <li v-for="item in hotContentList.docs">
-                    <router-link :to="'/details/'+item._id+'.html'">{{item.stitle}}</router-link>
+                <li v-for="(item,index) in hotContentList.docs">
+                    <router-link :to="'/details/'+item._id+'.html'">{{index+1}}.&nbsp;{{item.stitle}}</router-link>
                 </li>
             </ul>
         </div>
@@ -28,6 +28,7 @@ export default {
 
 <style lang="scss">
 .hot-content-list {
+    margin-bottom: 40px;
     h3 {
         font-size: 14px;
         color: #fff;

@@ -40,6 +40,7 @@
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
+    <MyFooter></MyFooter>
   </div>
 </template>
 <script>
@@ -48,6 +49,7 @@ import {
   mapActions
 } from 'vuex';
 import MyHeader from './components/common/header'
+import MyFooter from './components/common/Footer'
 import SlotHeader from './components/common/header/slotHeader.vue'
 import services from './store/services'
 export default {
@@ -60,7 +62,8 @@ export default {
 
   components: {
     MyHeader,
-    slotTemp: SlotHeader
+    slotTemp: SlotHeader,
+    MyFooter
   },
   computed: {
     ...mapGetters([

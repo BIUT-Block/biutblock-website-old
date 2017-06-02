@@ -1,8 +1,11 @@
 <template>
-    <div>
-        <p class="content-tag">
-            <el-tag type="gray" v-for="(item,index) in tags" :key="index">{{item.name}}</el-tag>
-        </p>
+    <div class="content-tag">
+        <h3>标签云</h3>
+        <ul>
+            <li v-for="(item,index) in tags">
+                <router-link :to="'/tag/'+item.name">{{item.name}}</router-link>
+            </li>
+        </ul>
     </div>
 </template>
 <script>
@@ -23,8 +26,33 @@ export default {
 
 <style lang="scss">
 .content-tag {
-    .el-tag {
-        margin: 0 5px;
+    text-align: left;
+    margin-bottom: 40px;
+    h3 {
+        font-size: 16px;
+        color: #000;
+        font-weight: 100;
+        margin: 0;
+    }
+    ul {
+        li {
+            list-style-type: none;
+            display: inline-block;
+            margin: 0 20px 0 0;
+            a {
+                padding: 15px 0px;
+                display: inline-block;
+                color: #a2a2a2;
+                cursor: pointer;
+            }
+            a:link {
+                border-bottom: 2px dashed #ededed;
+            }
+            a:hover {
+                border-bottom: 2px dashed #20A0FF;
+                color: #20A0FF
+            }
+        }
     }
 }
 </style>
