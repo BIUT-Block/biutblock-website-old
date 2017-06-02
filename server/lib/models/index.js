@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/test");
+mongoose.connect("mongodb://localhost/doracms2");
 // mongoose.connect("mongodb://doramart:doramart520@ds143071.mlab.com:43071/doracms");
 
 // exports.Topic = require('./Topic');
