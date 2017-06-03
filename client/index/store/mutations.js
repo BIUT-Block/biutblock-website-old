@@ -12,13 +12,11 @@ const state = {
             password: ''
         }
     },
-    content: {
-        contentList: {
-            pageInfo: {},
-            docs: []
-        },
-        contentDetails: {}
+    contentList: {
+        pageInfo: {},
+        docs: []
     },
+    contentDetails: {},
     contentTag: [],
     hotContentList: {
         pageInfo: {},
@@ -43,10 +41,10 @@ const mutations = {
         }, formState.formData);
     },
     [types.INDEX_CONTENT_LIST](state, contentList) {
-        state.content.contentList = contentList
+        state.contentList = contentList
     },
     [types.CONTENT_DETAILS](state, contentDetails) {
-        state.content.contentDetails = contentDetails
+        state.contentDetails = contentDetails
     },
     [types.CONTENT_HOTITEMS](state, contentList) {
         state.hotContentList = contentList

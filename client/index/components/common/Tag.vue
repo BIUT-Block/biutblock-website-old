@@ -46,10 +46,10 @@ export default {
                 cursor: pointer;
             }
             a:link {
-                border-bottom: 2px dashed #ededed;
+                border-bottom: 1px dashed #ededed;
             }
             a:hover {
-                border-bottom: 2px dashed #20A0FF;
+                border-bottom: 1px dashed #20A0FF;
                 color: #20A0FF
             }
         }

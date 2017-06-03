@@ -4,8 +4,8 @@
 
 <style>
 .view {
-  text-align: center;
-  padding-top: 1rem;
+  /*text-align: center;*/
+  /*padding-top: 1rem;*/
 }
 
 .fade-enter-active,
@@ -20,7 +20,7 @@
 
 .content {
   display: inline-block;
-  width: 960px;
+  /*width: 960px;*/
   min-height: 100vh;
   background-color: #fff;
   padding: 1rem;

@@ -36,10 +36,6 @@ export function createRouter() {
                 typeId: 'indexPage',
             }
         }, {
-            path: '/article',
-            name: 'article',
-            component: Article
-        }, {
             path: '/tag',
             name: 'tag',
             component: Tag
@@ -55,7 +51,7 @@ export function createRouter() {
             path: '/details/:id',
             name: 'details',
             component: Article
-        },]
+        }]
     })
 
     router.beforeEach((to, from, next) => {

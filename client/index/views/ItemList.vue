@@ -3,7 +3,7 @@
     padding-bottom: 35px;
     margin-bottom: 40px;
     overflow: hidden;
-    border-bottom: 2px dashed #f1f1f1;
+    border-bottom: 1px dashed #f1f1f1;
     .contentImg {
         img {
             width: 100%;
@@ -56,7 +56,7 @@
             </el-row>
         </article>
         <div class="content-pagination">
-            <Pagination :pageInfo="contentList.pageInfo" :typeId="typeId"/>
+            <Pagination :pageInfo="contentList.pageInfo" :typeId="typeId" />
         </div>
     </div>
 </template>

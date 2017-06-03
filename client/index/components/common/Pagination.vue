@@ -27,6 +27,7 @@ export default {
 <style lang="scss">
 .content-pagination {
     margin: 30px 0;
+    text-align: center;
 }
 </style>
 
