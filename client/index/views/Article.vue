@@ -55,8 +55,12 @@ export default {
     },
     asyncData({ store, route }) {
         let contentId = route.params.id;
-        let currentId = contentId.substr(0, contentId.length - 5)
-        return store.dispatch('getContentDetails', { id: currentId })
+        let params = {};
+        if (contentId) {
+            let currentId = contentId.substr(0, contentId.length - 5);
+            params.id = currentId;
+        }
+        return store.dispatch('getContentDetails', params)
     }
 
 }

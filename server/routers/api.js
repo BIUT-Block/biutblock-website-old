@@ -23,7 +23,7 @@ router.get('/content/getList', (req, res) => {
   }
 
   query.getContentCount(queryObj).then((count) => {
-    console.log('----count----', count);
+    // console.log('----count----', count);
     totalItems = count;
     return query.getContentListByPage({
       current,

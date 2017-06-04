@@ -4,21 +4,21 @@ import {
 } from './app'
 import 'es6-promise/auto'
 
-Vue.mixin({
-    beforeRouteUpdate(to, from, next) {
-        const {
-            asyncData
-        } = this.$options
-        if (asyncData) {
-            asyncData({
-                store: this.$store,
-                route: to
-            }).then(next).catch(next)
-        } else {
-            next()
-        }
-    }
-})
+// Vue.mixin({
+//     beforeRouteUpdate(to, from, next) {
+//         const {
+//             asyncData
+//         } = this.$options
+//         if (asyncData) {
+//             asyncData({
+//                 store: this.$store,
+//                 route: to
+//             }).then(next).catch(next)
+//         } else {
+//             next()
+//         }
+//     }
+// })
 
 const {
     app,
@@ -38,8 +38,9 @@ router.onReady(() => {
         const prevMatched = router.getMatchedComponents(from)
         let diffed = false
         const activated = matched.filter((c, i) => {
-            return diffed || (diffed = (prevMatched[i] !== c)) || c.name === 'cmslistview'
+            return diffed || (diffed = (prevMatched[i] !== c)) || c.name === 'cmslistview' || c.name === 'cmsarticleview'
         })
+        console.log('-------begin to render--------', activated);
         if (!activated.length) {
             return next()
         }

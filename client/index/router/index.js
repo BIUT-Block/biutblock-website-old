@@ -49,7 +49,7 @@ export function createRouter() {
             component: AdminLogin
         }, {
             path: '/details/:id',
-            name: 'details',
+            name: 'article',
             component: Article
         }]
     })
