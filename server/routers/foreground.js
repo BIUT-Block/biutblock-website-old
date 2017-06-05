@@ -18,7 +18,7 @@ function vc(req, res, next) {
 }
 router.get('/', RenderView.index);
 router.get('/page/:page', RenderView.index)
-router.get('/details/:id', RenderView.index)
+router.get('/details/:id', RenderView.details)
 router.get('/tag', RenderView.index)
 router.get('/add', RenderView.index)
 router.get('/dr-admin', (req, res, next) => {

@@ -15,15 +15,11 @@ const indexRenderer = new VueSSR({
     webpackServer: serverConfig
 })
 
-function render(view, data) {
+function renderView(view, data) {
     return ejs.render(fs.readFileSync(path.join(__dirname, '../views/' + view + '.ejs'), 'utf8'), data);
 }
 
-function index(req, res) {
-    const template = render('index', {
-        title: 'doracms',
-        bundle: 'index'
-    })
+function renderData(req, res, template) {
     new Promise((resolve, reject) => {
         indexRenderer.initRenderer(resolve, reject);
     }).then(() => {
@@ -31,6 +27,23 @@ function index(req, res) {
     })
 }
 
+function index(req, res) {
+    const template = renderView('index', {
+        title: 'doracms',
+        bundle: 'index'
+    })
+    renderData(req, res, template);
+}
+
+function details(req, res) {
+    const template = renderView('details', {
+        title: '文档详情',
+        bundle: 'index'
+    })
+    renderData(req, res, template);
+}
+
 module.exports = {
-    index
+    index,
+    details
 }

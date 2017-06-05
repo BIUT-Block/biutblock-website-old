@@ -3,7 +3,10 @@ import {
     createApp
 } from './app'
 import 'es6-promise/auto'
+import ProgressBar from './components/common/ProgressBar.vue'
 
+const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+document.body.appendChild(bar.$el)
 // Vue.mixin({
 //     beforeRouteUpdate(to, from, next) {
 //         const {
@@ -44,7 +47,7 @@ router.onReady(() => {
         if (!activated.length) {
             return next()
         }
-        // bar.start()
+        bar.start()
         Promise.all(activated.map(c => {
             if (c.asyncData) {
                 return c.asyncData({
@@ -53,7 +56,7 @@ router.onReady(() => {
                 })
             }
         })).then(() => {
-            //   bar.finish()
+            bar.finish()
             next()
         }).catch(next)
     })
