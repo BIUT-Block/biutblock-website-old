@@ -4,7 +4,7 @@ body {
     margin: 0;
     background: #ffffff;
     -webkit-font-smoothing: antialiased;
-    font-family: "Microsoft Yahei", "冬青黑体简体中文 w3";
+    font-family: PingFang SC, Lantinghei SC, Helvetica Neue, Helvetica, Arial, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, STHeitiSC-Light, simsun, \\5B8B\4F53, WenQuanYi Zen Hei, WenQuanYi Micro Hei, "sans-serif";
 }
 
 a:link,

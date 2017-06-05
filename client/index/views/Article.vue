@@ -11,6 +11,15 @@
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
                                 <div>
                                     <h2>{{contentDetails.doc.title}}</h2>
+                                    <div class="content-author">
+                                        <ul>
+                                            <li>
+                                                <a>{{contentDetails.doc.author.name}}</a>
+                                            </li>
+                                            <li>{{contentDetails.doc.categories[contentDetails.doc.categories.length-1].name}}</li>
+                                            <li>阅:{{contentDetails.doc.clickNum}}</li>
+                                        </ul>
+                                    </div>
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
                                 </div>
@@ -78,6 +87,15 @@ export default {
     color: #3f3f3f;
     img {
         max-width: 100% !important;
+    }
+    .content-author {
+        color: #999999;
+        ul {
+            li {
+                display: inline-block;
+                margin: 20px 10px;
+            }
+        }
     }
 }
 </style>

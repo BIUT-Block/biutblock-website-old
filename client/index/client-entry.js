@@ -43,7 +43,6 @@ router.onReady(() => {
         const activated = matched.filter((c, i) => {
             return diffed || (diffed = (prevMatched[i] !== c)) || c.name === 'cmslistview' || c.name === 'cmsarticleview'
         })
-        console.log('-------begin to render--------', activated);
         if (!activated.length) {
             return next()
         }

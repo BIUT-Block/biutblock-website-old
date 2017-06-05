@@ -60,6 +60,9 @@ module.exports = {
         }).populate([{
             path: 'author',
             select: 'name -_id'
+        }, {
+            path: 'categories',
+            select: 'name _id'
         }])
             .exec();
     },
