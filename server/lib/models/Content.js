@@ -65,12 +65,12 @@ ContentSchema.statics = {
 
 ContentSchema.set('toJSON', { getters: true, virtuals: true });
 ContentSchema.set('toObject', { getters: true, virtuals: true });
-ContentSchema.path('date').get(function (v) {
-    return moment(v).format('YYYY-MM-DD');
-});
-ContentSchema.path('updateDate').get(function (v) {
-    return moment(v).format('YYYY-MM-DD');
-});
+// ContentSchema.path('date').get(function (v) {
+//     return moment(v).format('YYYY-MM-DD');
+// });
+// ContentSchema.path('updateDate').get(function (v) {
+//     return moment(v).format('YYYY-MM-DD');
+// });
 var Content = mongoose.model("Content", ContentSchema);
 
 module.exports = Content;

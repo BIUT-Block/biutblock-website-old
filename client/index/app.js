@@ -9,15 +9,17 @@ import App from './App.vue'
 import Header from './components/common/header'
 import MyTag from './components/common/Tag.vue'
 import HotContents from './components/common/HotContents.vue'
+import * as filters from '../../utils/filters'
 
 import {
     sync
 } from 'vuex-router-sync'
 import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-default/index.css';
-// require('../../node_modules/element-ui/lib/theme-default/index.css')
-// import 'font-awesome/css/font-awesome.min.css'
 
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+})
 
 
 export function createApp() {

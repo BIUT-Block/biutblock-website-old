@@ -49,7 +49,7 @@
                         <h3>
                             <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                         </h3>
-                        <time>{{item.date}}&nbsp;-&nbsp;阅&nbsp;{{item.clickNum}}</time>
+                        <time>{{item.date | formatDate}}&nbsp;-&nbsp;阅&nbsp;{{item.clickNum}}</time>
                     </div>
                     <div class="dis">{{item.discription}}</div>
                 </el-col>

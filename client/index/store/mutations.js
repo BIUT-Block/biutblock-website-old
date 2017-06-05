@@ -16,7 +16,9 @@ const state = {
         pageInfo: {},
         docs: []
     },
-    contentDetails: {},
+    contentDetails: {
+        doc: []
+    },
     contentTag: [],
     hotContentList: {
         pageInfo: {},
@@ -44,7 +46,7 @@ const mutations = {
         state.contentList = contentList
     },
     [types.CONTENT_DETAILS](state, contentDetails) {
-        state.contentDetails = contentDetails
+        state.contentDetails.doc = contentDetails.doc;
     },
     [types.CONTENT_HOTITEMS](state, contentList) {
         state.hotContentList = contentList

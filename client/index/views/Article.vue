@@ -39,7 +39,15 @@ import HotContents from '../components/common/HotContents.vue'
 
 export default {
     name: 'cmsarticleview',
-    serverCacheKey: () => 'tag',
+    serverCacheKey(cc) {
+        let articleState = this.__VUE_SSR_CONTEXT__.state;
+        let serverCacheKey = 'cmsarticleview';
+        if (articleState) {
+            let articleObj = articleState.mutations.contentDetails.doc;
+            serverCacheKey = articleObj._id + '::' + articleObj.updateDate
+        }
+        return serverCacheKey;
+    },
     components: {
         HotContents
     },
