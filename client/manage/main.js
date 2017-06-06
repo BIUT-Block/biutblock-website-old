@@ -26,9 +26,9 @@ Axios.interceptors.response.use(function (response) {
   // console.log('--response--', response);
   let res = response.data;
   if (res.state === 'error') {
-    if (res.err.indexOf('token') !== -1) {
+    if (res.err && res.err.indexOf('token') !== -1) {
       store.dispatch("deleteToken");
-    } else if (res.err.indexOf('adminGroupPower') !== -1) {
+    } else if (res.err && res.err.indexOf('adminGroupPower') !== -1) {
       store.dispatch("adminGroupPower", { state: false });
     }
     return response;

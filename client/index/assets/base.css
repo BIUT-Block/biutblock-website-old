@@ -46,7 +46,6 @@ pre {
 }
 
 @media screen and (max-width:768px) {
-    body {}
     .header .header-main {
         padding-bottom: 0;
     }

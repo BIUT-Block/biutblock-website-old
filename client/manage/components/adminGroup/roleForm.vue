@@ -70,7 +70,7 @@ export default {
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateAdminGroup(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminGroupForm');
                                 this.$store.dispatch('getAdminGroupList');
                                 this.$message({
@@ -84,7 +84,7 @@ export default {
                     } else {
                         // 新增
                         services.addAdminGroup(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminGroupForm');
                                 this.$store.dispatch('getAdminGroupList');
                                 this.$message({

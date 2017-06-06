@@ -16,3 +16,4 @@ exports.AdminResource = require('./AdminResource');
 exports.ContentCategory = require('./ContentCategory');
 exports.Content = require('./Content');
 exports.ContentTag = require('./ContentTag');
+exports.Message = require('./Message');

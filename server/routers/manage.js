@@ -3,6 +3,8 @@ const router = express.Router()
 
 const domain = require('../lib/core/index');
 const query = require('../lib/utils/manageQuery');
+const AdminUser = require('../lib/controller/adminUser');
+const AdminGroup = require('../lib/controller/adminGroup');
 const { service, settings, authSession, authToken, authPower, validatorUtil } = require('../../utils');
 
 router.get('/', authSession, function (req, res) {
@@ -25,173 +27,26 @@ router.get('/logout', function (req, res) {
 /**
  * 管理员管理
  */
-router.get('/adminUser/getList', authToken, authPower, (req, res) => {
-
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  query.getAdminUserCount().then((count) => {
-    totalItems = count;
-    return query.getAdminUserListByPage({
-      current,
-      pageSize
-    });
-  }).then((userList) => {
-    res.send({
-      state: 'success',
-      docs: userList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
-
-})
+router.get('/adminUser/getList', authToken, authPower, AdminUser.getAdminUsers)
 
 
-router.post('/adminUser/addOne', authToken, authPower, (req, res) => {
+router.post('/adminUser/addOne', authToken, authPower, AdminUser.addAdminUser)
 
-  let userName = req.body.userName;
-  let name = req.body.name;
-  let email = req.body.email;
-  let phoneNum = req.body.phoneNum;
-  let password = service.encrypt(req.body.password, settings.encrypt_key);
-  let confirm = req.body.confirm;
-  let group = req.body.group;
+router.post('/adminUser/updateOne', authToken, authPower, AdminUser.updateAdminUser)
 
-  domain.create("AdminUser", {
-    name,
-    userName,
-    email,
-    password,
-    phoneNum,
-    group
-  }).then((json) => {
-    req.session.loginer = json;
-    res.send({
-      state: 'success',
-      id: json.id
-    });
-  }).catch((err) => {
-    res.send({
-      state: 'error',
-      err
-    });
-  })
-
-})
-
-router.post('/adminUser/updateOne', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body._id;
-  let userName = req.body.userName;
-  let email = req.body.email;
-  let phoneNum = req.body.phoneNum;
-  let password = req.body.password;
-  let confirm = req.body.confirm;
-  let group = req.body.group;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/adminUser/deleteUser', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/adminUser/deleteUser', authToken, authPower, AdminUser.delAdminUser)
 
 
 /**
  * 角色管理
  */
-router.get('/adminGroup/getList', authToken, authPower, (req, res) => {
+router.get('/adminGroup/getList', authToken, authPower, AdminGroup.getAdminGroups)
 
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  query.getAdminGroupCount().then((count) => {
-    totalItems = count;
-    return query.getAdminGroupListByPage({
-      current,
-      pageSize
-    });
-  }).then((roleList) => {
-    res.send({
-      state: 'success',
-      docs: roleList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
+router.post('/adminGroup/addOne', authToken, authPower, AdminGroup.addAdminGroup)
 
-})
+router.post('/adminGroup/updateOne', authToken, authPower, AdminGroup.updateAdminGroup)
 
-
-router.post('/adminGroup/addOne', authToken, authPower, (req, res) => {
-
-  let name = req.body.name;
-  let comments = req.body.comments;
-  let enable = req.body.enable;
-
-  domain.create("AdminGroup", {
-    name,
-    comments,
-    enable
-  }).then((json) => {
-    res.send({
-      state: 'success',
-      id: json.id
-    });
-  }).catch((err) => {
-    res.send({
-      state: 'error',
-      err
-    });
-  })
-
-})
-
-router.post('/adminGroup/updateOne', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body._id;
-  let userName = req.body.userName;
-  let email = req.body.email;
-  let phoneNum = req.body.phoneNum;
-  let password = req.body.password;
-  let confirm = req.body.confirm;
-  let group = req.body.group;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/adminGroup/deleteGroup', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/adminGroup/deleteGroup', authToken, authPower, AdminGroup.delAdminGroup)
 
 
 /**

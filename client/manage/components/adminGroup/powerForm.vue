@@ -39,7 +39,7 @@ export default {
             let params = this.roleState.formData;
             params.power = currentArr;
             services.updateAdminGroup(params).then((result) => {
-                if (result.state === 'success') {
+                if (result.data.state === 'success') {
                     this.$store.dispatch('hideAdminGroupRoleForm');
                     this.$store.dispatch('getAdminGroupList');
                     this.$message({

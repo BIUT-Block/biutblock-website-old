@@ -55,6 +55,7 @@ export default {
             this.multipleSelection = val;
         },
         editUserInfo(index, rows) {
+            console.log('--rows---', rows);
             let rowData = rows[index];
             rowData.group = rows[index].group._id;
             this.$store.dispatch('showAdminUserForm', {
@@ -72,7 +73,7 @@ export default {
                     ids: rows[index]._id
                 });
             }).then((result) => {
-                if (result.state === 'success') {
+                if (result.data.state === 'success') {
                     this.$store.dispatch('getAdminUserList');
                     this.$message({
                         message: '删除成功',

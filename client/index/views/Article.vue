@@ -13,11 +13,15 @@
                                     <h2>{{contentDetails.doc.title}}</h2>
                                     <div class="content-author">
                                         <ul>
-                                            <li>
+                                            <li class="author-name">
                                                 <a>{{contentDetails.doc.author.name}}</a>
                                             </li>
-                                            <li>{{contentDetails.doc.categories[contentDetails.doc.categories.length-1].name}}</li>
-                                            <li>阅:{{contentDetails.doc.clickNum}}</li>
+                                            <li>
+                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.categories[contentDetails.doc.categories.length-1].name}}
+                                            </li>
+                                            <li>
+                                                <span class="dot">&nbsp;•&nbsp;</span>阅:{{contentDetails.doc.clickNum}}
+                                            </li>
                                         </ul>
                                     </div>
                                     <div v-html="contentDetails.doc.comments">
@@ -48,7 +52,7 @@ import HotContents from '../components/common/HotContents.vue'
 
 export default {
     name: 'cmsarticleview',
-    serverCacheKey(cc) {
+    serverCacheKey() {
         let articleState = this.__VUE_SSR_CONTEXT__.state;
         let serverCacheKey = 'cmsarticleview';
         if (articleState) {
@@ -91,9 +95,13 @@ export default {
     .content-author {
         color: #999999;
         ul {
+            li.author-name {
+                color: #20A0FF;
+            }
             li {
                 display: inline-block;
-                margin: 20px 10px;
+                margin: 0px;
+                font-size: 15px;
             }
         }
     }
