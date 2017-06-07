@@ -9,6 +9,7 @@ const service = require('../../utils/service');
 const validatorUtil = require('../../utils/validatorUtil');
 const settings = require("../../utils/settings");
 const jwt = require("jsonwebtoken");
+const { AdminUser, ContentCategory, Content, ContentTag, User, Message } = require('../lib/controller');
 
 router.get('/content/getList', (req, res) => {
 
@@ -86,7 +87,7 @@ router.get('/content/getContent', (req, res) => {
 })
 
 
-router.post('/admin/doLogin', function (req, res) {
+router.post('/admin/doLogin', function (req, res, next) {
   let userName = req.body.userName;
   let password = req.body.password;
   let vnum = req.body.vnum;
@@ -94,33 +95,29 @@ router.post('/admin/doLogin', function (req, res) {
 
   if (validatorUtil.checkUserName(userName) && validatorUtil.checkPwd(password)) {
     console.log('begin to check');
-    query.getAdminUserByParams({
-      'userName': userName,
-      'password': newPsd
-    }).then((user) => {
-      if (user) {
-        req.session.adminPower = user.group.power;
-        req.session.adminlogined = true;
-        req.session.adminUserInfo = user;
-        console.log('--req.session---', req.session);
-        const token = jwt.sign({
-          userName,
-          password,
-          exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 //1 hours
-        }, settings.jwt.secret);
-        res.send({
-          state: 'success',
-          token,
-          adminPower: req.session.adminPower
-        });
-      } else {
-        console.log("登录失败");
-        res.send({
-          state: 'error',
-          err: "用户名或密码错误"
-        });
-      }
-    })
+    let user = AdminUser.getAdminUserByParams(req, res, next);
+    if (user) {
+      req.session.adminPower = user.group.power;
+      req.session.adminlogined = true;
+      req.session.adminUserInfo = user;
+      console.log('--req.session---', req.session);
+      const token = jwt.sign({
+        userName,
+        password,
+        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 //1 hours
+      }, settings.jwt.secret);
+      res.send({
+        state: 'success',
+        token,
+        adminPower: req.session.adminPower
+      });
+    } else {
+      console.log("登录失败");
+      res.send({
+        state: 'error',
+        err: "用户名或密码错误"
+      });
+    }
 
   }
 

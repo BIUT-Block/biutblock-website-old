@@ -163,7 +163,7 @@ export default {
                     if (this.dialogState.edit) {
                         services.updateAdminUser(params).then((result) => {
                             result = result.data;
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminUserForm');
                                 this.$store.dispatch('getAdminUserList');
                                 this.$message({
@@ -178,7 +178,7 @@ export default {
                         // 新增
                         services.addAdminUser(params).then((result) => {
                             result = result.data;
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminUserForm');
                                 this.$store.dispatch('getAdminUserList');
                                 this.$message({

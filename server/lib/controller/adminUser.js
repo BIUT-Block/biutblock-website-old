@@ -9,9 +9,12 @@ class AdminUser {
     }
     async getAdminUsers(req, res, next) {
         try {
-            let current = req.query.current;
-            let pageSize = req.query.pageSize;
-            const adminUsers = await AdminUserModel.find({});
+            let current = req.query.current || 1;
+            let pageSize = req.query.pageSize || 10;
+            const adminUsers = await AdminUserModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate({
+                path: 'group',
+                select: "name _id"
+            }).exec();
             const totalItems = await AdminUserModel.count();
             res.send({
                 state: 'success',
@@ -30,6 +33,21 @@ class AdminUser {
                 message: '获取adminUsers失败'
             })
         }
+    }
+
+    async getAdminUserByParams(req, res, next) {
+        const form = new formidable.IncomingForm();
+        form.parse(req, async (err, fields, files) => {
+            const userObj = {
+                userName: fields.userName,
+                password: service.encrypt(fields.password, settings.encrypt_key),
+            }
+            let adminUser = await AdminUserModel.findOne(userObj).populate([{
+                path: 'group',
+                select: 'power _id enable'
+            }]).exec();
+            return adminUser;
+        })
     }
 
     async addAdminUser(req, res, next) {
@@ -87,9 +105,7 @@ class AdminUser {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
-                    // throw new Error('必须填写食品类型名称');
                 } else if (!fields.restaurant_id) {
-                    // throw new Error('餐馆ID错误');
                 }
             } catch (err) {
                 console.log(err.message, err);

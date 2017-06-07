@@ -3,8 +3,9 @@ const router = express.Router()
 
 const domain = require('../lib/core/index');
 const query = require('../lib/utils/manageQuery');
-const AdminUser = require('../lib/controller/adminUser');
-const AdminGroup = require('../lib/controller/adminGroup');
+const { AdminUser, AdminGroup, AdminResource, ContentCategory, Content, ContentTag, User, Message } = require('../lib/controller');
+// const AdminUser = require('../lib/controller/adminUser');
+// const AdminGroup = require('../lib/controller/adminGroup');
 const { service, settings, authSession, authToken, authPower, validatorUtil } = require('../../utils');
 
 router.get('/', authSession, function (req, res) {
@@ -28,7 +29,6 @@ router.get('/logout', function (req, res) {
  * 管理员管理
  */
 router.get('/adminUser/getList', authToken, authPower, AdminUser.getAdminUsers)
-
 
 router.post('/adminUser/addOne', authToken, authPower, AdminUser.addAdminUser)
 
@@ -54,87 +54,13 @@ router.get('/adminGroup/deleteGroup', authToken, authPower, AdminGroup.delAdminG
  * 
  */
 
-router.get('/adminResource/getList', authToken, authPower, (req, res) => {
+router.get('/adminResource/getList', authToken, authPower, AdminResource.getAdminResources)
 
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  query.getAdminResourceCount().then((count) => {
-    totalItems = count;
-    return query.getAdminResourceListByPage({
-      current,
-      pageSize
-    });
-  }).then((roleList) => {
-    res.send({
-      state: 'success',
-      docs: roleList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
+router.post('/adminResource/addOne', authToken, authPower, AdminResource.addAdminResource)
 
-})
+router.post('/adminResource/updateOne', authToken, authPower, AdminResource.updateAdminResource)
 
-router.post('/adminResource/addOne', authToken, authPower, (req, res) => {
-
-  let label = req.body.label;
-  let type = req.body.type;
-  let api = req.body.api;
-  let parentId = req.body.parentId;
-  let sortId = req.body.sortId;
-  let comments = req.body.comments;
-  console.log('--', req.body)
-  domain.create("AdminResource", {
-    label,
-    type,
-    api,
-    parentId,
-    sortId,
-    comments
-  }).then((json) => {
-    res.send({
-      state: 'success',
-      id: json.id
-    });
-  }).catch((err) => {
-    res.send({
-      state: 'error',
-      err
-    });
-  })
-
-})
-
-router.post('/adminResource/updateOne', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body._id;
-  let label = req.body.label;
-  let type = req.body.type;
-  let parentId = req.body.parentId;
-  let sortId = req.body.sortId;
-  let comments = req.body.comments;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/adminResource/deleteResource', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/adminResource/deleteResource', authToken, authPower, AdminResource.delAdminResource)
 
 
 /**
@@ -142,358 +68,46 @@ router.post('/adminResource/deleteResource', authToken, authPower, (req, res) =>
  * 
  */
 
-router.get('/contentCategory/getList', authToken, authPower, (req, res) => {
+router.get('/contentCategory/getList', authToken, authPower, ContentCategory.getContentCategories)
 
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  query.getContentCategoryCount().then((count) => {
-    totalItems = count;
-    return query.getContentCategoryListByPage({
-      current,
-      pageSize
-    });
-  }).then((roleList) => {
-    res.send({
-      state: 'success',
-      docs: roleList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
+router.post('/contentCategory/addOne', authToken, authPower, ContentCategory.addContentCategory)
 
-})
+router.post('/contentCategory/updateOne', authToken, authPower, ContentCategory.updateContentCategory)
 
-router.post('/contentCategory/addOne', authToken, authPower, (req, res) => {
-
-  let name = req.body.name;
-  let keywords = req.body.keywords;
-  let sortId = req.body.sortId;
-  let parentId = req.body.parentId;
-  let enable = req.body.enable;
-  let defaultUrl = req.body.defaultUrl;
-  let sortPath = req.body.sortPath;
-  let comments = req.body.comments;
-  // console.log('--', req.body);
-  domain.create("ContentCategory", {
-    name,
-    keywords,
-    enable,
-    parentId,
-    sortId,
-    sortPath,
-    defaultUrl,
-    comments
-  }).then((json) => {
-    query.getContentCategoryListByPage({
-      current: 1,
-      pageSize: 100
-    }).then((result) => {
-      let jsonFile = process.cwd() + '/client/index/assets/cates.json';
-      service.writeFile(req, res, jsonFile, JSON.stringify(result), () => {
-        res.send({
-          state: 'success'
-        });
-      })
-    })
-
-  }).catch((err) => {
-    res.send({
-      state: 'error',
-      err
-    });
-  })
-
-})
-
-router.post('/contentCategory/updateOne', authToken, authPower, (req, res) => {
-
-  let name = req.body.name;
-  let keywords = req.body.keywords;
-  let sortId = req.body.sortId;
-  let parentId = req.body.parentId;
-  let enable = req.body.enable;
-  let defaultUrl = req.body.defaultUrl;
-  let sortPath = req.body.sortPath;
-  let comments = req.body.comments;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/contentCategory/deleteCategory', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/contentCategory/deleteCategory', authToken, authPower, ContentCategory.delContentCategory)
 
 /**
  * 文档管理
  * 
  */
 
-router.get('/content/getList', authToken, authPower, (req, res) => {
+router.get('/content/getList', authToken, authPower, Content.getContents)
 
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  // console.log('-----begin to find content list---------');
-  query.getContentCount().then((count) => {
-    // console.log('-----count---------', count);
-    totalItems = count;
-    return query.getContentListByPage({
-      current,
-      pageSize
-    });
-  }).then((contentList) => {
-    // console.log('-----contentList---------', contentList);
-    res.send({
-      state: 'success',
-      docs: contentList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
+router.get('/content/getContent', authToken, authPower, Content.getOneContent)
 
-})
+router.post('/content/addOne', authToken, authPower, Content.addContent)
 
-router.get('/content/getContent', authToken, authPower, (req, res) => {
+router.post('/content/updateOne', authToken, authPower, Content.updateContent)
 
-  let targetId = req.query.id;
-  query.getContentById(targetId).then((content) => {
-    res.send({
-      state: 'success',
-      doc: content
-    })
-  })
-})
-
-router.post('/content/addOne', authToken, authPower, (req, res) => {
-
-  let title = req.body.title;
-  let stitle = req.body.stitle;
-  let type = req.body.type;
-  let categories = req.body.categories;
-  let sortPath = req.body.sortPath;
-  let tags = req.body.tags;
-  let keywords = req.body.keywords;
-  let sImg = req.body.sImg;
-  let author = req.body.author;
-  let state = req.body.state;
-  let isTop = req.body.isTop;
-  let from = req.body.from;
-  let discription = req.body.discription;
-  let comments = req.body.comments;
-
-  console.log('--req.body--', req.body);
-  console.log('--categories--', categories);
-
-  domain.create("Content", {
-    title,
-    stitle,
-    keywords,
-    state,
-    type,
-    categories,
-    tags,
-    sImg,
-    sortPath,
-    from,
-    discription,
-    comments
-  }).then((json) => {
-    res.send({
-      state: 'success',
-      id: json.id
-    });
-  }).catch((err) => {
-    res.send({
-      state: 'error',
-      err
-    });
-  })
-
-})
-
-router.post('/content/updateOne', authToken, authPower, (req, res) => {
-
-  let title = req.body.title;
-  let stitle = req.body.stitle;
-  let type = req.body.type;
-  let category = req.body.category;
-  let sortPath = req.body.sortPath;
-  let tags = req.body.tags;
-  let keywords = req.body.keywords;
-  let sImg = req.body.sImg;
-  let author = req.body.author;
-  let state = req.body.state;
-  let isTop = req.body.isTop;
-  let from = req.body.from;
-  let discription = req.body.discription;
-  let comments = req.body.comments;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/content/deleteContent', authToken, authPower, (req, res) => {
-
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/content/deleteContent', authToken, authPower, Content.delContent)
 
 /**
  * tag管理
  */
-router.get('/contentTag/getList', authToken, authPower, (req, res) => {
+router.get('/contentTag/getList', authToken, authPower, ContentTag.getContentTags)
 
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  query.getContentTagCount().then((count) => {
-    totalItems = count;
-    return query.getContentTagListByPage({
-      current,
-      pageSize
-    });
-  }).then((userList) => {
-    res.send({
-      state: 'success',
-      docs: userList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
+router.post('/contentTag/addOne', authToken, authPower, ContentTag.addContentTag)
 
-})
+router.post('/contentTag/updateOne', authToken, authPower, ContentTag.updateContentTag)
 
-
-router.post('/contentTag/addOne', authToken, authPower, (req, res) => {
-
-
-  let name = req.body.name;
-  let alias = req.body.alias;
-  let comments = req.body.comments;
-
-  domain.create("ContentTag", {
-    name,
-    alias,
-    comments
-  }).then((json) => {
-    res.send({
-      state: 'success',
-      id: json.id
-    });
-  }).catch((err) => {
-    res.send({
-      state: 'error',
-      err
-    });
-  })
-
-})
-
-router.post('/contentTag/updateOne', authToken, authPower, (req, res) => {
-
-  const targetId = req.body._id;
-  let name = req.body.name;
-  let alias = req.body.alias;
-  let comments = req.body.comments;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/contentTag/deleteTag', authToken, authPower, (req, res) => {
-
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/contentTag/deleteTag', authToken, authPower, ContentTag.delContentTag)
 
 
 /**
  * 注册用户管理
  */
-router.get('/regUser/getList', authToken, authPower, (req, res) => {
+router.get('/regUser/getList', authToken, authPower, User.getUsers)
 
-  let current = req.query.current;
-  let pageSize = req.query.pageSize;
-  let totalItems = 1;
-  query.getRegUserCount().then((count) => {
-    totalItems = count;
-    return query.getRegUserListByPage({
-      current,
-      pageSize
-    });
-  }).then((userList) => {
-    res.send({
-      state: 'success',
-      docs: userList,
-      pageInfo: {
-        totalItems,
-        current: Number(current) || 1,
-        pageSize: Number(pageSize) || 10
-      }
-    })
-  })
-
-})
-
-
-router.post('/regUser/updateOne', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body._id;
-  let userName = req.body.userName;
-  let email = req.body.email;
-  let phoneNum = req.body.phoneNum;
-  let password = req.body.password;
-  let confirm = req.body.confirm;
-  let group = req.body.group;
-
-  res.send({
-    state: 'success'
-  });
-
-})
-
-router.post('/regUser/deleteUser', authToken, authPower, (req, res) => {
-
-  console.log('-------', req.body, '------', req.params);
-  const targetId = req.body.ids;
-
-  res.send({
-    state: 'success'
-  });
-
-})
+router.get('/regUser/deleteUser', authToken, authPower, User.delUser)
 
 module.exports = router

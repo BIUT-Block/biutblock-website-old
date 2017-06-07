@@ -58,8 +58,8 @@ export default {
                     trigger: 'blur'
                 }, {
                     min: 5,
-                    max: 30,
-                    message: '请输入5-30个字符',
+                    max: 50,
+                    message: '请输入5-50个字符',
                     trigger: 'blur'
                 }]
             },
@@ -90,7 +90,7 @@ export default {
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateContentCategory(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideContentCategoryForm');
                                 this.$store.dispatch('getContentCategoryList');
                                 this.$message({
@@ -104,7 +104,7 @@ export default {
                     } else {
                         // 新增
                         services.addContentCategory(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideContentCategoryForm');
                                 this.$store.dispatch('getContentCategoryList');
                                 this.$message({

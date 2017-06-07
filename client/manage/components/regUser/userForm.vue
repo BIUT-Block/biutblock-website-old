@@ -118,7 +118,7 @@ export default {
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateRegUser(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideRegUserForm');
                                 this.$store.dispatch('getRegUserList');
                                 this.$message({

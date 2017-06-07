@@ -52,7 +52,7 @@ export default {
                     ids: rows[index]._id
                 });
             }).then((result) => {
-                if (result.state === 'success') {
+                if (result.data.state === 'success') {
                     this.$store.dispatch('getContentTagList');
                     this.$message({
                         message: '删除成功',

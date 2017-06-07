@@ -5,6 +5,7 @@
 
 <script>
 let id = 1000;
+import services from '../../store/services.js';
 
 export default {
   props: {
@@ -34,7 +35,6 @@ export default {
     },
 
     edit(store, data) {
-      console.log('----', data)
       this.$store.dispatch('showAdminResourceForm', {
         edit: true,
         type: 'children',
@@ -43,7 +43,30 @@ export default {
     },
 
     remove(store, data) {
-      store.remove(data);
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        return services.deleteAdminResource({
+          ids: data._id
+        });
+      }).then((result) => {
+        if (result.data.state === 'success') {
+          this.$store.dispatch('getAdminResourceList');
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+        } else {
+          this.$message.error('出错啦！');
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
 
     renderContent(h, { node, data, store }) {

@@ -1,21 +1,28 @@
 const BaseComponent = require('../prototype/baseComponent');
-const AdminGroupModel = require("../models").AdminGroup;
+const ContentModel = require("../models").Content;
 const formidable = require('formidable');
 const { service, settings, validatorUtil } = require('../../../utils');
 
-class AdminGroup {
+class Content {
     constructor() {
         // super()
     }
-    async getAdminGroups(req, res, next) {
+    async getContents(req, res, next) {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const AdminGroups = await AdminGroupModel.find({});
-            const totalItems = await AdminGroupModel.count();
+            const contents = await ContentModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'author',
+                select: 'name -_id'
+            },
+            {
+                path: 'categories',
+                select: 'name _id'
+            }]).exec();
+            const totalItems = await ContentModel.count();
             res.send({
                 state: 'success',
-                docs: AdminGroups,
+                docs: contents,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,
@@ -23,24 +30,42 @@ class AdminGroup {
                 }
             })
         } catch (err) {
-            console.log('获取AdminGroups失败');
+            console.log('获取Contents失败');
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
-                message: '获取AdminGroups失败'
+                message: '获取Contents失败'
             })
         }
     }
 
-    async addAdminGroup(req, res, next) {
+    async getOneContent(req, res, next) {
+        try {
+            let targetId = req.query.id;
+            const content = await ContentModel.findOne({ _id: targetId });
+            res.send({
+                state: 'success',
+                doc: content
+            })
+        } catch (err) {
+            console.log('获取Content失败');
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取Content失败'
+            })
+        }
+    }
+
+    async addContent(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
-                    // throw new Error('必须填写食品类型名称');
+
                 } else if (!fields.restaurant_id) {
-                    // throw new Error('餐馆ID错误');
+
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -53,17 +78,28 @@ class AdminGroup {
             }
 
             const groupObj = {
-                name: fields.name,
-                comments: fields.comments,
-                enable: fields.enable
+                title: fields.title,
+                stitle: fields.stitle,
+                type: fields.type,
+                categories: fields.categories,
+                sortPath: fields.sortPath,
+                tags: fields.tags,
+                keywords: fields.keywords,
+                sImg: fields.sImg,
+                author: fields.author,
+                state: fields.state,
+                isTop: fields.isTop,
+                from: fields.from,
+                discription: fields.discription,
+                comments: fields.comments
             }
 
-            const newAdminGroup = new AdminGroupModel(groupObj);
+            const newContent = new ContentModel(groupObj);
             try {
-                await newAdminGroup.save();
+                await newContent.save();
                 res.send({
                     state: 'success',
-                    id: newAdminGroup._id
+                    id: newContent._id
                 });
             } catch (err) {
                 console.log('保存数据失败', err);
@@ -76,7 +112,7 @@ class AdminGroup {
         })
     }
 
-    async updateAdminGroup(req, res, next) {
+    async updateContent(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
@@ -95,17 +131,26 @@ class AdminGroup {
                 return
             }
 
-            const userObj = {
-                name: fields.name,
-                comments: fields.comments,
-                enable: fields.enable,
-                power: fields.power
+            const contentObj = {
+                title: fields.title,
+                stitle: fields.stitle,
+                type: fields.type,
+                categories: fields.categories,
+                sortPath: fields.sortPath,
+                tags: fields.tags,
+                keywords: fields.keywords,
+                sImg: fields.sImg,
+                // author: fields.author,
+                state: fields.state,
+                isTop: fields.isTop,
+                from: fields.from,
+                discription: fields.discription,
+                comments: fields.comments
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
-            
             try {
-                await AdminGroupModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
+                await ContentModel.findOneAndUpdate({ _id: item_id }, { $set: contentObj });
                 res.send({
                     state: 'success'
                 });
@@ -121,9 +166,9 @@ class AdminGroup {
 
     }
 
-    async delAdminGroup(req, res, next) {
+    async delContent(req, res, next) {
         try {
-            await AdminGroupModel.remove({ _id: req.query.ids });
+            await ContentModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'
             });
@@ -139,4 +184,4 @@ class AdminGroup {
 
 }
 
-module.exports = new AdminGroup();
+module.exports = new Content();

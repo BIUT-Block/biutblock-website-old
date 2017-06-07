@@ -64,7 +64,7 @@ export default {
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateContentTag(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideContentTagForm');
                                 this.$store.dispatch('getContentTagList');
                                 this.$message({
@@ -78,7 +78,7 @@ export default {
                     } else {
                         // 新增
                         services.addContentTag(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideContentTagForm');
                                 this.$store.dispatch('getContentTagList');
                                 this.$message({

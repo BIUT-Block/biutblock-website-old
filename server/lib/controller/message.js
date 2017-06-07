@@ -1,21 +1,21 @@
 const BaseComponent = require('../prototype/baseComponent');
-const AdminGroupModel = require("../models").AdminGroup;
+const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const { service, settings, validatorUtil } = require('../../../utils');
 
-class AdminGroup {
+class Message {
     constructor() {
         // super()
     }
-    async getAdminGroups(req, res, next) {
+    async getMessages(req, res, next) {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const AdminGroups = await AdminGroupModel.find({});
-            const totalItems = await AdminGroupModel.count();
+            const Messages = await MessageModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            const totalItems = await MessageModel.count();
             res.send({
                 state: 'success',
-                docs: AdminGroups,
+                docs: Messages,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,
@@ -23,24 +23,24 @@ class AdminGroup {
                 }
             })
         } catch (err) {
-            console.log('获取AdminGroups失败');
+            console.log('获取Message失败');
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
-                message: '获取AdminGroups失败'
+                message: '获取Message失败'
             })
         }
     }
 
-    async addAdminGroup(req, res, next) {
+    async addMessage(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
-                    // throw new Error('必须填写食品类型名称');
+
                 } else if (!fields.restaurant_id) {
-                    // throw new Error('餐馆ID错误');
+
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -53,17 +53,20 @@ class AdminGroup {
             }
 
             const groupObj = {
-                name: fields.name,
-                comments: fields.comments,
-                enable: fields.enable
+                label: fields.label,
+                type: fields.type,
+                api: fields.api,
+                parentId: fields.parentId,
+                sortId: fields.sortId,
+                comments: fields.comments
             }
 
-            const newAdminGroup = new AdminGroupModel(groupObj);
+            const newMessage = new MessageModel(groupObj);
             try {
-                await newAdminGroup.save();
+                await newMessage.save();
                 res.send({
                     state: 'success',
-                    id: newAdminGroup._id
+                    id: newMessage._id
                 });
             } catch (err) {
                 console.log('保存数据失败', err);
@@ -76,7 +79,7 @@ class AdminGroup {
         })
     }
 
-    async updateAdminGroup(req, res, next) {
+    async updateMessage(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
@@ -96,16 +99,17 @@ class AdminGroup {
             }
 
             const userObj = {
-                name: fields.name,
-                comments: fields.comments,
-                enable: fields.enable,
-                power: fields.power
+                label: fields.label,
+                type: fields.type,
+                api: fields.api,
+                parentId: fields.parentId,
+                sortId: fields.sortId,
+                comments: fields.comments
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
-            
             try {
-                await AdminGroupModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
+                await MessageModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 res.send({
                     state: 'success'
                 });
@@ -121,9 +125,9 @@ class AdminGroup {
 
     }
 
-    async delAdminGroup(req, res, next) {
+    async delMessage(req, res, next) {
         try {
-            await AdminGroupModel.remove({ _id: req.query.ids });
+            await MessageModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'
             });
@@ -139,4 +143,4 @@ class AdminGroup {
 
 }
 
-module.exports = new AdminGroup();
+module.exports = new Message();

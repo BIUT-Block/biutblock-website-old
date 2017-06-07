@@ -97,7 +97,7 @@ export default {
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateAdminResource(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminResourceForm');
                                 this.$store.dispatch('getAdminResourceList');
                                 this.$message({
@@ -111,7 +111,7 @@ export default {
                     } else {
                         // 新增
                         services.addAdminResource(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminResourceForm');
                                 this.$store.dispatch('getAdminResourceList');
                                 this.$message({

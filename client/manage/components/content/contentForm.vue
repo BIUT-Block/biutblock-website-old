@@ -1,6 +1,5 @@
 <template>
     <div class="dr-contentForm">
-        {{formState}}
         <el-form :model="formState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="标题" prop="title">
                 <el-input size="small" v-model="formState.formData.title"></el-input>
@@ -178,8 +177,8 @@ export default {
                 },
                 {
                     min: 5,
-                    max: 5000,
-                    message: '5-100个非特殊字符',
+                    // max: 5000,
+                    message: '5-10000个非特殊字符',
                     trigger: 'blur'
                 }
                 ]
@@ -243,7 +242,7 @@ export default {
                     // 更新
                     if (this.formState.edit) {
                         services.updateContent(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$router.push('/content');
                                 this.$message({
                                     message: '更新成功',
@@ -256,7 +255,7 @@ export default {
                     } else {
                         // 新增
                         services.addContent(params).then((result) => {
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$router.push('/content');
                                 this.$message({
                                     message: '添加成功',
@@ -292,12 +291,11 @@ export default {
         // 针对手动页面刷新
         if (this.$route.params.id && !this.formState.formData.title) {
             services.getOneContent(this.$route.params).then((result) => {
-                result = result.data;
-                if (result.state === 'success') {
-                    if (result.doc) {
+                if (result.data.state === 'success') {
+                    if (result.data.doc) {
                         this.$store.dispatch('showContentForm', {
                             edit: true,
-                            formData: result.doc
+                            formData: result.data.doc
                         });
                     } else {
                         this.$message({

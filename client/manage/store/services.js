@@ -59,7 +59,7 @@ export default {
     },
 
     deleteAdminResource(params) {
-        return reqJsonData('manage/adminResource/deleteResource', params)
+        return reqJsonData('manage/adminResource/deleteResource', params, 'get')
     },
 
     contentCategoryList(params) {
@@ -75,7 +75,7 @@ export default {
     },
 
     deleteContentCategory(params) {
-        return reqJsonData('manage/contentCategory/deleteCategory', params)
+        return reqJsonData('manage/contentCategory/deleteCategory', params, 'get')
     },
 
     contentList(params) {
@@ -95,7 +95,7 @@ export default {
     },
 
     deleteContent(params) {
-        return reqJsonData('manage/content/deleteContent', params)
+        return reqJsonData('manage/content/deleteContent', params, 'get')
     },
 
     contentTagList(params) {
@@ -111,7 +111,7 @@ export default {
     },
 
     deleteContentTag(params) {
-        return reqJsonData('manage/contentTag/deleteTag', params)
+        return reqJsonData('manage/contentTag/deleteTag', params, 'get')
     },
 
     regUserList(params) {
@@ -123,7 +123,7 @@ export default {
     },
 
     deleteRegUser(params) {
-        return reqJsonData('manage/regUser/deleteUser', params)
+        return reqJsonData('manage/regUser/deleteUser', params, 'get')
     }
 
 
