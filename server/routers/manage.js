@@ -108,6 +108,8 @@ router.get('/contentTag/deleteTag', authToken, authPower, ContentTag.delContentT
  */
 router.get('/regUser/getList', authToken, authPower, User.getUsers)
 
+router.post('/regUser/updateOne', authToken, authPower, User.updateUser)
+
 router.get('/regUser/deleteUser', authToken, authPower, User.delUser)
 
 module.exports = router

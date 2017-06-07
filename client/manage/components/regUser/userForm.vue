@@ -30,6 +30,8 @@
 </template>
 <script>
 import services from '../../store/services.js';
+const validatorUtil = require('../../../../utils/validatorUtil.js')
+
 import _ from 'lodash';
 export default {
     props: {
@@ -54,7 +56,6 @@ export default {
                     trigger: 'blur'
                 }],
                 name: [{
-                    required: true,
                     message: '请输入用户姓名',
                     trigger: 'blur'
                 }, {

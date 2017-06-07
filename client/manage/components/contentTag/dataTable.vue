@@ -36,7 +36,6 @@ export default {
         },
         editContentTag(index, rows) {
             let rowData = rows[index];
-            rowData.group = rows[index].group._id;
             this.$store.dispatch('showContentTagForm', {
                 edit: true,
                 formData: rowData

@@ -44,7 +44,7 @@ export default {
                     message: '请填写备注',
                     trigger: 'blur'
                 }, {
-                    min: 5,
+                    min: 2,
                     max: 30,
                     message: '请输入5-30个字符',
                     trigger: 'blur'

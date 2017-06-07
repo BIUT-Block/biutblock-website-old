@@ -53,6 +53,7 @@ class User {
 
             const userObj = {
                 userName: fields.userName,
+                name: fields.name,
                 email: fields.email,
                 phoneNum: fields.phoneNum,
                 password: fields.password,
