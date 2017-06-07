@@ -21,7 +21,7 @@ export default {
     asyncData({
             store
         }) {
-        return store.dispatch('getHotContentList', { sortby: 'date' })
+        return store.dispatch('getHotContentList', { model: 'simple' })
     }
 }
 </script>

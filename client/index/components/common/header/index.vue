@@ -86,7 +86,7 @@ export default {
     asyncData({
             store
         }) {
-        return store.dispatch('headerNav')
+        return store.dispatch('headerNav', { model: 'full', parentId: '0' })
     }
 }
 </script>

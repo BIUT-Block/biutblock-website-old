@@ -29,6 +29,7 @@ export default {
     contentCategoryList(params) {
         return reqJsonData('api/contentCategory/getList', params, 'get')
     },
+
     contentTagList(params) {
         return reqJsonData('api/contentTag/getList', params, 'get')
     },

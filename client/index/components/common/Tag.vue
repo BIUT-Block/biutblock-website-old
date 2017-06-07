@@ -19,7 +19,7 @@ export default {
     asyncData({
             store
         }) {
-        return store.dispatch('contentTag')
+        return store.dispatch('contentTag', { model: 'full' })
     }
 }
 </script>

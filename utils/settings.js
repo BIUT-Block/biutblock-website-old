@@ -11,10 +11,11 @@ module.exports = {
     session_secret: 'doracms_secret', // 务必修改
     auth_cookie_name: 'doracms',
     encrypt_key: 'dora',
+    cache_maxAge: Math.floor(Date.now() / 1000) + 24 * 60 * 60, //1 hours
     jwt: {
         secret: 'me', //默认
     },
-//    数据库配置
+    //    数据库配置
     URL: 'mongodb://127.0.0.1:27017/doracms',
     DB: 'doracms',
     HOST: '120.25.150.169',

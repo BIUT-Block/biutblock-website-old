@@ -16,6 +16,7 @@ const restapi = require('./server/routers/api');
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
+const { service, settings } = require('./utils');
 
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
@@ -25,9 +26,8 @@ app.use(bodyParser.urlencoded({
 }));
 // app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(session({
-    secret: 'keyboard cat'
-}))
+
+app.use(session({ secret: settings.encrypt_key, cookie: { maxAge: settings.cache_maxAge }, resave: true, saveUninitialized: true }))
 
 app.use(renderCates);
 // 集成ueditor

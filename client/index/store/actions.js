@@ -26,15 +26,15 @@ export default {
     },
     headerNav({
         commit
-    }) {
-        return services.contentCategoryList().then((result) => {
+    }, params = {}) {
+        return services.contentCategoryList(params).then((result) => {
             commit(types.GET_HEADER_NAV, result.data)
         })
     },
     contentTag({
         commit
-    }) {
-        return services.contentTagList().then((result) => {
+    }, params = {}) {
+        return services.contentTagList(params).then((result) => {
             commit(types.CONTENT_TAGS, result.data)
         })
     },

@@ -1,11 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const domain = require('../lib/core/index');
-const query = require('../lib/utils/manageQuery');
 const { AdminUser, AdminGroup, AdminResource, ContentCategory, Content, ContentTag, User, Message } = require('../lib/controller');
-// const AdminUser = require('../lib/controller/adminUser');
-// const AdminGroup = require('../lib/controller/adminGroup');
 const { service, settings, authSession, authToken, authPower, validatorUtil } = require('../../utils');
 
 router.get('/', authSession, function (req, res) {

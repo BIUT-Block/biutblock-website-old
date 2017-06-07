@@ -11,7 +11,25 @@ class Content {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const contents = await ContentModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+            let sortby = req.query.sortby; //排序规则
+            let typeId = req.query.typeId; // 分类ID
+            let model = req.query.model; // 查询模式 full/simple
+            // 条件配置
+            let queryObj = {}, sortObj = { date: -1 }, files = null;
+            if (sortby) {
+                sortObj[sortby] = -1
+            }
+            if (typeId && typeId != 'indexPage') {
+                queryObj.categories = typeId
+            }
+            if (model === 'simple') {
+                files = {
+                    id: 1,
+                    stitle: 1
+                }
+            }
+
+            const contents = await ContentModel.find(queryObj, files).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'author',
                 select: 'name -_id'
             },
@@ -19,7 +37,7 @@ class Content {
                 path: 'categories',
                 select: 'name _id'
             }]).exec();
-            const totalItems = await ContentModel.count();
+            const totalItems = await ContentModel.count(queryObj);
             res.send({
                 state: 'success',
                 docs: contents,

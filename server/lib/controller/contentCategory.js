@@ -11,8 +11,19 @@ class ContentCategory {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const ContentCategories = await ContentCategoryModel.find({});
-            const totalItems = await ContentCategoryModel.count();
+            let model = req.query.model; // 查询模式 full/simple
+            let parentId = req.query.parentId; // 分类ID
+
+            let queryObj = {};
+            if (parentId) {
+                queryObj['parentId'] = parentId;
+            }
+            if (model === 'full') {
+                pageSize = '1000'
+            }
+
+            const ContentCategories = await ContentCategoryModel.find(queryObj);
+            const totalItems = await ContentCategoryModel.count(queryObj);
             res.send({
                 state: 'success',
                 docs: ContentCategories,
@@ -30,6 +41,10 @@ class ContentCategory {
                 message: '获取ContentCategories失败'
             })
         }
+    }
+
+    async getAllCategories(req, res, next) {
+        return await ContentCategoryModel.find({});
     }
 
     async addContentCategory(req, res, next) {
@@ -101,14 +116,14 @@ class ContentCategory {
             }
 
             const cateObj = {
-                name : fields.name,
-                keywords : fields.keywords,
-                sortId : fields.sortId,
-                parentId : fields.parentId,
-                enable : fields.enable,
-                defaultUrl : fields.defaultUrl,
-                sortPath : fields.sortPath,
-                comments : fields.comments
+                name: fields.name,
+                keywords: fields.keywords,
+                sortId: fields.sortId,
+                parentId: fields.parentId,
+                enable: fields.enable,
+                defaultUrl: fields.defaultUrl,
+                sortPath: fields.sortPath,
+                comments: fields.comments
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
