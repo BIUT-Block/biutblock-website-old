@@ -44,7 +44,8 @@ class ContentCategory {
     }
 
     async getAllCategories(req, res, next) {
-        return await ContentCategoryModel.find({});
+        let files = req.query.catefiles || null;
+        return await ContentCategoryModel.find({}, files);
     }
 
     async addContentCategory(req, res, next) {

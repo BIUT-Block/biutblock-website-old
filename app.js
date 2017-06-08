@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const ueditor = require("ueditor")
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const path = require('path')
 const http = require('http')
 global.NODE_ENV = process.env.NODE_ENV || 'production'
@@ -16,6 +17,7 @@ const restapi = require('./server/routers/api');
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
+const authUser = require('./utils/middleware/authUser');
 const { service, settings } = require('./utils');
 
 app.set('views', path.join(__dirname, 'server/views'))
@@ -27,9 +29,22 @@ app.use(bodyParser.urlencoded({
 // app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(session({ secret: settings.encrypt_key, cookie: { maxAge: settings.cache_maxAge }, resave: true, saveUninitialized: true }))
+// session配置
+app.use(session({
+    secret: settings.session_secret,
+    store: new RedisStore({
+        port: settings.redis_port,
+        host: settings.redis_host,
+        pass: settings.redis_psd,
+        ttl: 1800 // 过期时间
+    }),
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(authUser.auth);
 
 app.use(renderCates);
+
 // 集成ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
     var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
@@ -57,6 +72,7 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, re
         res.redirect('/ueditor/ueditor.config.json')
     }
 }));
+
 
 // 后台管理
 app.use('/manage', manage);

@@ -15,7 +15,7 @@ class Content {
             let typeId = req.query.typeId; // 分类ID
             let model = req.query.model; // 查询模式 full/simple
             // 条件配置
-            let queryObj = {}, sortObj = { date: -1 }, files = null;
+            let queryObj = { 'state': true }, sortObj = { date: -1 }, files = null;
             if (sortby) {
                 sortObj[sortby] = -1
             }
@@ -25,6 +25,7 @@ class Content {
             if (model === 'simple') {
                 files = {
                     id: 1,
+                    title,
                     stitle: 1
                 }
             }
@@ -57,10 +58,15 @@ class Content {
         }
     }
 
+    async getAllContens(req, res, next) {
+        let files = req.query.contentfiles || null;
+        return await Content.find({ 'state': true }, files);
+    }
+
     async getOneContent(req, res, next) {
         try {
             let targetId = req.query.id;
-            const content = await ContentModel.findOne({ _id: targetId });
+            const content = await ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'clickNum': 1 } });
             res.send({
                 state: 'success',
                 doc: content

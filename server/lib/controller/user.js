@@ -32,6 +32,11 @@ class User {
         }
     }
 
+    async getOneUserByParams(req, res, params) {
+        let user_id = req.query._id;
+        return await User.findOne(params);
+    }
+
     async updateUser(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();

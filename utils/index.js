@@ -11,3 +11,4 @@ exports.service = require('./service');
 exports.settings = require('./settings');
 exports.siteFunc = require('./siteFunc');
 exports.validatorUtil = require('./validatorUtil');
+exports.cache = require('./cache');

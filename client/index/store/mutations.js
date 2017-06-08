@@ -2,6 +2,7 @@ import * as types from './types.js'
 import getters from './getters';
 import _ from 'lodash';
 const state = {
+    usertoken: '',
     headerNav: [],
     headerState: {
         show: 'myheader'
@@ -23,10 +24,29 @@ const state = {
     hotContentList: {
         pageInfo: {},
         docs: []
-    }
+    },
+    userMessageList: {
+        pageInfo: {},
+        docs: []
+    },
+    userMessageForm: {
+        formData: {
+            content: ''
+        }
+    },
+    userLoginForm: {
+        formData: {
+            email: '',
+            password: ''
+        }
+    },
+    siteMapList: []
 }
 
 const mutations = {
+    [types.SET_USER_TOKEN](state, usertoken) {
+        state.usertoken = usertoken;
+    },
     [types.GET_HEADER_NAV](state, navs) {
         state.headerNav = navs.docs;
     },
@@ -50,6 +70,23 @@ const mutations = {
     },
     [types.CONTENT_HOTITEMS](state, contentList) {
         state.hotContentList = contentList
+    },
+    [types.USER_MESSAGE_LIST](state, messageList) {
+        state.userMessageList = messageList
+    },
+    [types.USER_MESSAGE_FORM](state, formState) {
+        state.userMessageForm.formData = Object.assign({
+            content: ''
+        }, formState.formData);
+    },
+    [types.USER_LOGIN_FORM](state, formState) {
+        state.userMessageForm.formData = Object.assign({
+            email: '',
+            password: ''
+        }, formState.formData);
+    },
+    [types.SITEMAP_LIST](state, siteMapList) {
+        state.siteMapList = siteMapList
     }
 }
 

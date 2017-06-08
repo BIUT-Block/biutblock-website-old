@@ -7,10 +7,12 @@ Vue.use(Router)
 const ItemList = require('../views/ItemList.vue')
 const MainBody = require('../views/MainBody.vue')
 const Article = require('../views/Article.vue')
+const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/common/Tag.vue')
 const Login = require('../views/Login.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const SlotHeader = require('../components/common/header/slotHeader');
+const UserLoginForm = require('../components/common/UserLoginForm');
 
 export function createRouter() {
     const router = new Router({
@@ -40,9 +42,9 @@ export function createRouter() {
             name: 'tag',
             component: Tag
         }, {
-            path: '/login',
+            path: '/users/login',
             name: 'login',
-            component: Login
+            component: UserLoginForm
         }, {
             path: '/dr-admin',
             name: 'adminlogin',
@@ -51,6 +53,10 @@ export function createRouter() {
             path: '/details/:id',
             name: 'article',
             component: Article
+        }, {
+            path: '/sitemap.html',
+            name: 'sitemap',
+            component: SiteMap
         }]
     })
 

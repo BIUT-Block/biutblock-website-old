@@ -11,11 +11,17 @@ class Message {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const Messages = await MessageModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
-            const totalItems = await MessageModel.count();
+            console.log('---req.query.contentId---', req.query.contentId);
+            let contentId = req.query.contentId;
+
+            const messages = await MessageModel.find({ contentId }).sort({ date: 1 }).populate([{
+                path: 'author',
+                select: 'userName _id enable date logo'
+            }]).populate('replyAuthor').populate('adminAuthor').exec();
+            const totalItems = await MessageModel.count({ contentId });
             res.send({
                 state: 'success',
-                docs: Messages,
+                docs: messages,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,

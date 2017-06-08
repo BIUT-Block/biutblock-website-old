@@ -22,6 +22,10 @@ export default {
         return reqJsonData('api/content/getContent', params, 'get')
     },
 
+    userDoLogin(params) {
+        return reqJsonData('api/users/doLogin', params)
+    },
+
     adminDoLogin(params) {
         return reqJsonData('api/admin/doLogin', params)
     },
@@ -32,6 +36,14 @@ export default {
 
     contentTagList(params) {
         return reqJsonData('api/contentTag/getList', params, 'get')
+    },
+
+    userMessageList(params) {
+        return reqJsonData('api/message/getList', params, 'get')
+    },
+
+    siteMapList() {
+        return reqJsonData('api/sitemap/getList', params, 'get')
     },
 
 }

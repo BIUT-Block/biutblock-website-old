@@ -26,6 +26,9 @@
                                     </div>
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
+                                    <div>
+                                        <Messages :userMessageList="userMessageList" />
+                                    </div>
                                 </div>
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
@@ -49,6 +52,7 @@ import {
     mapActions
 } from 'vuex'
 import HotContents from '../components/common/HotContents.vue'
+import Messages from '../components/common/Messages.vue'
 
 export default {
     name: 'cmsarticleview',
@@ -62,16 +66,22 @@ export default {
         return serverCacheKey;
     },
     components: {
-        HotContents
+        HotContents,
+        Messages
     },
     data() {
         return {
             // contentDetails: this.$store.getters.contentDetails
         }
     },
+    beforeMount() {
+        console.log('---contentDetails._id---', this.contentDetails.doc._id);
+        this.$store.dispatch('getUserMessageList', { contentId: this.contentDetails.doc._id })
+    },
     computed: {
         ...mapGetters([
-            'contentDetails'
+            'contentDetails',
+            'userMessageList'
         ])
     },
     asyncData({ store, route }) {

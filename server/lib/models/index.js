@@ -27,3 +27,5 @@ exports.ContentCategory = require('./ContentCategory');
 exports.Content = require('./Content');
 exports.ContentTag = require('./ContentTag');
 exports.Message = require('./Message');
+exports.UserNotify = require('./UserNotify');
+exports.Notify = require('./Notify');

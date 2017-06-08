@@ -9,7 +9,7 @@
                         粤ICP备15038960号-2
                     </a> All Rights Reserved</li>
                 <li>
-                    <a href="http://<%=myDomain%>/sitemap.html" target="_blank">站点地图</a>&nbsp;应用案例：
+                    <a href="/sitemap.html" target="_blank">站点地图</a>&nbsp;应用案例：
                     <a href="http://www.dailyads.cn" target="_blank">每日一广告</a>&nbsp;
                     <a href="http://www.qianhaizimaoqu.online/" target="_blank">前海自贸区在线</a>
                 </li>

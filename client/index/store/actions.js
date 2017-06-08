@@ -4,6 +4,11 @@ import _ from 'lodash';
 
 
 export default {
+    setUserToken({
+        commit
+    }) {
+        commit(types.SET_USER_TOKEN, token)
+    },
     showHeaderNav({
         commit
     }) {
@@ -67,6 +72,38 @@ export default {
         return services.getSimpleList(params).then((result) => {
             commit(types.CONTENT_HOTITEMS, result.data)
         })
-    }
+    },
+    getUserMessageList({
+        commit
+    }, params = {}) {
+        return services.userMessageList(params).then((result) => {
+            commit(types.USER_MESSAGE_LIST, result.data)
+        })
+    },
+    userMessageForm({
+        commit
+    }, params = {
+            formData: {}
+        }) {
+        commit(types.USER_MESSAGE_FORM, {
+            formData: params.formData
+        })
+    },
+    userLoginForm({
+        commit
+    }, params = {
+            formData: {}
+        }) {
+        commit(types.USER_LOGIN_FORM, {
+            formData: params.formData
+        })
+    },
+    siteMapList({
+        commit
+    }, params = {}) {
+        return services.siteMapList().then((result) => {
+            commit(types.SITEMAP_LIST, result.data)
+        })
+    },
 
 }
