@@ -4,10 +4,13 @@ import _ from 'lodash';
 
 
 export default {
-    setUserToken({
+    loginState({
         commit
     }) {
-        commit(types.SET_USER_TOKEN, token)
+        return services.getUserSession().then((result) => {
+            console.log('----result----', result.data);
+            commit(types.SET_USER_LOGINSTATE, result.data || {})
+        })
     },
     showHeaderNav({
         commit
@@ -83,9 +86,11 @@ export default {
     userMessageForm({
         commit
     }, params = {
+            reply: false,
             formData: {}
         }) {
         commit(types.USER_MESSAGE_FORM, {
+            reply: params.reply,
             formData: params.formData
         })
     },
@@ -100,7 +105,7 @@ export default {
     },
     siteMapList({
         commit
-    }, params = {}) {
+    }) {
         return services.siteMapList().then((result) => {
             commit(types.SITEMAP_LIST, result.data)
         })

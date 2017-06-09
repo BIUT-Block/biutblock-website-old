@@ -3,18 +3,18 @@
     padding: 15px;
 }
 
-.siteMap ol li {
+.siteMap ul li {
     height: 25px;
 }
 </style>
 <template>
     <div class="container min-hight" style="margin-bottom: 20px;background: #FFFFFF">
         <div class="col-md-12 siteMap">
-            <ol>
-                <li v-for="item in siteMapList">
-                    <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
+            <ul>
+                <li v-for="(item,index) in siteMapList.doc">
+                    <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{index+1}}.&nbsp;{{item.title}}</router-link>
                 </li>
-            </ol>
+            </ul>
         </div>
     </div>
 </template>

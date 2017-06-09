@@ -77,17 +77,13 @@ class UserNotify {
 
     // 根据用户信息获取未读消息
     async getNoReadNotifyCountByUserId(userId, type) {
-        if (userId) {
-            let msgQuery = {};
-            if (type == 'user') {
-                msgQuery = { 'user': userId, 'isRead': false };
-            } else if (type == 'adminUser') {
-                msgQuery = { 'systemUser': userId, 'isRead': false };
-            }
-            return await UserNotifyModel.count(msgQuery);
-        } else {
-            return 0;
+        let msgQuery = {};
+        if (type == 'user') {
+            msgQuery = { 'user': userId, 'isRead': false };
+        } else if (type == 'adminUser') {
+            msgQuery = { 'systemUser': userId, 'isRead': false };
         }
+        return await UserNotifyModel.count(msgQuery);
     }
 
 

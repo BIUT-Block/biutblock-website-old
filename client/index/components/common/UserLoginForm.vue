@@ -71,7 +71,7 @@ export default {
 
     }
   },
-  serverCacheKey: () => 'login',
+  serverCacheKey: () => 'userlogin',
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -120,7 +120,7 @@ export default {
 .login-form {
 
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 50px;
 
   .submit-btn {
     text-align: left;

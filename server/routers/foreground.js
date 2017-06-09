@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const {
   authSession,
-  cache,
   settings
 } = require('../../utils');
 const { ContentCategory, Content } = require('../lib/controller');
@@ -31,12 +30,7 @@ router.get('/dr-admin', (req, res, next) => {
   }
 }).get('/dr-admin', RenderView.index)
 
-router.get('/login', function (req, res) {
-  res.render('login', {
-    title: 'login',
-    bundle: 'login'
-  })
-})
+router.get('/users/login', RenderView.index)
 
 //缓存站点地图
 router.get("/sitemap.html", RenderView.index);
@@ -54,37 +48,36 @@ router.get('/sitemap.xml', (req, res, next) => {
   xml += '<lastmod>' + lastMod + '</lastmod>';
   xml += '<priority>' + 1 + '</priority>';
   xml += '</url>';
-  cache.get(settings.session_secret + '_sitemap', function (siteMapData) {
-    if (siteMapData) { // 缓存已建立
-      res.end(siteMapData);
-    } else {
-      req.query.catefiles = 'defaultUrl';
-      req.query.contentfiles = 'title';
-      let cates = ContentCategory.getAllCategories(req, res);
-      let contentLists = Content.getAllContens(req, res);
-      cates.forEach(function (cate) {
-        xml += '<url>';
-        xml += '<loc>' + root_path + '/' + cate.defaultUrl + '___' + cate._id + '</loc>';
-        xml += '<changefreq>weekly</changefreq>';
-        xml += '<lastmod>' + lastMod + '</lastmod>';
-        xml += '<priority>0.8</priority>';
-        xml += '</url>';
-      });
-      contentLists.forEach(function (post) {
-        xml += '<url>';
-        xml += '<loc>' + root_path + '/details/' + post._id + '.html</loc>';
-        xml += '<changefreq>weekly</changefreq>';
-        xml += '<lastmod>' + lastMod + '</lastmod>';
-        xml += '<priority>0.5</priority>';
-        xml += '</url>';
-      });
-      xml += '</urlset>';
-      // 缓存一天
-      cache.set(settings.session_secret + '_sitemap', xml, 1000 * 60 * 60 * 24);
-      res.end(xml);
 
-    }
-  })
+  req.query.catefiles = 'defaultUrl';
+  req.query.contentfiles = 'title';
+  ContentCategory.getAllCategories(req, res).then((cates) => {
+    cates.forEach(function (cate) {
+      xml += '<url>';
+      xml += '<loc>' + root_path + '/' + cate.defaultUrl + '___' + cate._id + '</loc>';
+      xml += '<changefreq>weekly</changefreq>';
+      xml += '<lastmod>' + lastMod + '</lastmod>';
+      xml += '<priority>0.8</priority>';
+      xml += '</url>';
+    });
+    return Content.getAllContens(req, res);
+  }).then((contentLists) => {
+    contentLists.forEach(function (post) {
+      xml += '<url>';
+      xml += '<loc>' + root_path + '/details/' + post._id + '.html</loc>';
+      xml += '<changefreq>weekly</changefreq>';
+      xml += '<lastmod>' + lastMod + '</lastmod>';
+      xml += '<priority>0.5</priority>';
+      xml += '</url>';
+    });
+    xml += '</urlset>';
+    res.end(xml);
+  }).catch((err) => {
+    res.send({
+      state: 'error',
+      err
+    })
+  });
 })
 
 router.get('/:defaultUrl/:page(\\d+)?', (req, res, next) => {

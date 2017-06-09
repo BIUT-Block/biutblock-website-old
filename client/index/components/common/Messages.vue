@@ -5,15 +5,21 @@
             <el-row :gutter="10">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24">
                     <div class="give-message">
-                        {{msgFormData}}
-                        <el-form :model="msgFormData" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+                        {{msgFormState.formData}} {{contentId}}
+                        <el-form :model="msgFormState.formData" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                             <el-form-item class="send-content" prop="content">
-                                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="msgFormData.content">
+                                <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="msgFormState.formData.content">
                                 </el-input>
                             </el-form-item>
                             <el-form-item class="send-button">
                                 <div class="user-notice">
-                                    <router-link to="/users/login">登录</router-link>&nbsp;后参与评论
+                                    <div v-if="loginState.logined">
+                                        你好,
+                                        <span style="color: #20A0FF">{{loginState.userInfo.userName}} !</span>
+                                    </div>
+                                    <div v-else>
+                                        <router-link to="/users/login">登录</router-link>&nbsp;后参与评论
+                                    </div>
                                 </div>
                                 <el-button type="primary" @click="submitForm('ruleForm')" size="small">提交评论</el-button>
                             </el-form-item>
@@ -52,12 +58,13 @@
                         </div>
                     </el-col>
                 </el-row>
-    
             </li>
         </ul>
     </div>
 </template>
 <script>
+import services from '../../store/services.js';
+
 export default {
     name: 'Message',
     data() {
@@ -77,24 +84,56 @@ export default {
         }
     },
     props: {
-        userMessageList: Object
+        userMessageList: Object,
+        contentId: String
+    },
+    mounted() {
+        this.$store.dispatch('userMessageForm', { formData: { contentId: this.contentId } });
     },
     computed: {
-        msgFormData() {
-            return this.$store.getters.userMessageFormData;
+        msgFormState() {
+            return this.$store.getters.userMessageFormState;
+        },
+        loginState() {
+            return this.$store.getters.userLoginState;
         }
     },
     methods: {
         submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    console.log('---formdatas--', this.msgFormData);
+            if (!this.loginState.logined) {
+                this.$router.push('/users/login');
+            } else {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log('---formdatas--', this.msgFormState);
+                        if (this.msgFormState.reply) {
 
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
+                        } else {
+
+                        }
+                        let params = this.msgFormState.formData;
+                        services.userSendMessage(params).then((result) => {
+                            if (result.data.state === 'success') {
+                                this.$store.dispatch('getUserMessageList', { contentId: this.contentId })
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message({
+                                    message: result.data.err,
+                                    type: 'error'
+                                });
+                            }
+                        }).catch((err) => {
+                            this.$message.error(err.response.data.error)
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            }
         }
     }
 
@@ -103,7 +142,7 @@ export default {
 
 <style lang="scss">
 .content-message {
-    h3 {}
+
     ul {
         li {
             margin: 15px 0;

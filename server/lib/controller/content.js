@@ -25,7 +25,7 @@ class Content {
             if (model === 'simple') {
                 files = {
                     id: 1,
-                    title,
+                    title: 1,
                     stitle: 1
                 }
             }
@@ -49,7 +49,7 @@ class Content {
                 }
             })
         } catch (err) {
-            console.log('获取Contents失败');
+            console.log('获取Contents失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -60,13 +60,20 @@ class Content {
 
     async getAllContens(req, res, next) {
         let files = req.query.contentfiles || null;
-        return await Content.find({ 'state': true }, files);
+        return await ContentModel.find({ 'state': true }, files);
     }
 
     async getOneContent(req, res, next) {
         try {
             let targetId = req.query.id;
-            const content = await ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'clickNum': 1 } });
+            const content = await ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'clickNum': 1 } }).populate([{
+                path: 'author',
+                select: 'name -_id'
+            },
+            {
+                path: 'categories',
+                select: 'name _id'
+            }]).exec();
             res.send({
                 state: 'success',
                 doc: content

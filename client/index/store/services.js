@@ -10,6 +10,10 @@ export function reqJsonData(url, params = {}, method = 'post') {
 }
 export default {
 
+    getUserSession() {
+        return reqJsonData('api/users/session', {}, 'get')
+    },
+
     contentList(params) {
         return reqJsonData('api/content/getList', params, 'get')
     },
@@ -42,8 +46,12 @@ export default {
         return reqJsonData('api/message/getList', params, 'get')
     },
 
+    userSendMessage(params) {
+        return reqJsonData('api/message/post', params)
+    },
+
     siteMapList() {
-        return reqJsonData('api/sitemap/getList', params, 'get')
+        return reqJsonData('api/sitemap/getList', {}, 'get')
     },
 
 }

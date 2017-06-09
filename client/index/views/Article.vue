@@ -27,7 +27,7 @@
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
                                     <div>
-                                        <Messages :userMessageList="userMessageList" />
+                                        <Messages :userMessageList="userMessageList" :contentId="contentDetails.doc._id" />
                                     </div>
                                 </div>
                             </el-col>

@@ -2,7 +2,10 @@ import * as types from './types.js'
 import getters from './getters';
 import _ from 'lodash';
 const state = {
-    usertoken: '',
+    userLoginState: {
+        userInfo: {},
+        logined: false
+    },
     headerNav: [],
     headerState: {
         show: 'myheader'
@@ -30,8 +33,12 @@ const state = {
         docs: []
     },
     userMessageForm: {
+        reply: false,
         formData: {
-            content: ''
+            contentId: '',
+            content: '',
+            replyId: '',
+            relationMsgId: ''
         }
     },
     userLoginForm: {
@@ -44,8 +51,11 @@ const state = {
 }
 
 const mutations = {
-    [types.SET_USER_TOKEN](state, usertoken) {
-        state.usertoken = usertoken;
+    [types.SET_USER_LOGINSTATE](state, loginInfo) {
+        state.userLoginState = Object.assign({
+            userInfo: {},
+            logined: false
+        }, loginInfo);
     },
     [types.GET_HEADER_NAV](state, navs) {
         state.headerNav = navs.docs;
@@ -75,8 +85,12 @@ const mutations = {
         state.userMessageList = messageList
     },
     [types.USER_MESSAGE_FORM](state, formState) {
+        state.userMessageForm.reply = formState.reply;
         state.userMessageForm.formData = Object.assign({
-            content: ''
+            contentId: '',
+            content: '',
+            replyId: '',
+            relationMsgId: ''
         }, formState.formData);
     },
     [types.USER_LOGIN_FORM](state, formState) {

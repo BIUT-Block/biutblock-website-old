@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const ueditor = require("ueditor")
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+const MongoStore = require('connect-mongo')(session);
 const path = require('path')
 const http = require('http')
 global.NODE_ENV = process.env.NODE_ENV || 'production'
@@ -17,6 +17,7 @@ const restapi = require('./server/routers/api');
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
+const renderClientSession = require('./utils/middleware/renderClientSession');
 const authUser = require('./utils/middleware/authUser');
 const { service, settings } = require('./utils');
 
@@ -27,22 +28,24 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 // app.use(bodyParser.json());
-app.use(cookieParser());
+app.use(cookieParser(settings.session_secret));
 
 // session配置
-app.use(session({
-    secret: settings.session_secret,
-    store: new RedisStore({
-        port: settings.redis_port,
-        host: settings.redis_host,
-        pass: settings.redis_psd,
-        ttl: 1800 // 过期时间
-    }),
-    resave: true,
-    saveUninitialized: true
+app.use(session({//session持久化配置
+    secret: settings.encrypt_key,
+    // key: "kvkenskey",
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+        db: "session",
+        host: "localhost",
+        port: 27017,
+        url: 'mongodb://localhost:27017/doracms2'
+    })
 }));
 app.use(authUser.auth);
-
+// app.use(renderClientSession);
 app.use(renderCates);
 
 // 集成ueditor

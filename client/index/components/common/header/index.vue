@@ -23,20 +23,27 @@
                         </nav>
                     </el-col>
                     <el-col :xs="0" :sm="4" :md="4" :lg="4">
-                        <div class="grid-content bg-purple">&nbsp;</div>
+                        <div class="grid-content bg-purple">
+                            <LoginPannel />
+                        </div>
                     </el-col>
                 </el-row>
             </el-col>
             <el-col :xs="1" :sm="1" :md="1" :lg="1">
-                <div class="grid-content bg-purple">&nbsp;</div>
+                <div class="grid-content bg-purple">
+                    &nbsp;
+                </div>
             </el-col>
         </el-row>
     </header>
 </template>
 <script>
-import SlotHeader from './slotHeader'
+import LoginPannel from './loginPannel'
 export default {
     name: 'Header',
+    components: {
+        LoginPannel
+    },
     props: {
         navs: Array
     },

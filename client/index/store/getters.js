@@ -1,4 +1,5 @@
 export default {
+    userLoginState: state => state.userLoginState,
     headerNav: state => state.headerNav,
     headerState: state => state.headerState,
     adminLoginFormData: state => state.adminLoginForm.formData,
@@ -7,7 +8,7 @@ export default {
     contentTag: state => state.contentTag,
     hotContentList: state => state.hotContentList,
     userMessageList: state => state.userMessageList,
-    userMessageFormData: state => state.userMessageForm.formData,
+    userMessageFormState: state => state.userMessageForm,
     userLoginFormData: state => state.userLoginForm.formData,
     siteMapList: state => state.siteMapList
 }

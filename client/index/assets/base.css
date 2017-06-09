@@ -48,7 +48,7 @@ pre {
 
 @media screen and (max-width:768px) {
     .header .header-main {
-        padding-bottom: 0;
+        padding: 10px 0 !important;
     }
     .header .header-main .header-logo {
         text-align: center;
@@ -56,6 +56,9 @@ pre {
     .header .header-main .header-nav {
         border-left: none !important;
         margin-left: 0 !important;
+    }
+    .login-pannel {
+        display: none;
     }
     .content-item {
         border-bottom: 1px dashed #f1f1f1 !important;

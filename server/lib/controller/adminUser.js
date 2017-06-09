@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
 const { service, settings, validatorUtil } = require('../../../utils');
+const jwt = require("jsonwebtoken");
 
 class AdminUser {
     constructor() {
@@ -35,17 +36,60 @@ class AdminUser {
         }
     }
 
-    async getAdminUserByParams(req, res, next) {
+    async loginAction(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
+            let { userName, password } = fields;
+            try {
+                let newPsd = service.encrypt(fields.password, settings.encrypt_key);
+                if (!fields.userName) {
+                } else if (!fields.password) {
+                }
+            } catch (err) {
+                console.log(err.message, err);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_PARAMS',
+                    message: err.message
+                })
+                return;
+            }
             const userObj = {
                 userName: fields.userName,
                 password: service.encrypt(fields.password, settings.encrypt_key),
             }
-            let adminUser = await AdminUserModel.findOne(userObj).populate([{
-                path: 'group',
-                select: 'power _id enable'
-            }]).exec();
+            try {
+                let user = await AdminUserModel.findOne(userObj).populate([{
+                    path: 'group',
+                    select: 'power _id enable'
+                }]).exec();
+                if (user) {
+                    req.session.adminPower = user.group.power;
+                    req.session.adminlogined = true;
+                    req.session.adminUserInfo = user;
+                    console.log('--req.session---', req.session);
+                    const token = jwt.sign({
+                        userName,
+                        password,
+                        exp: settings.cache_maxAge
+                    }, settings.jwt.secret);
+                    res.send({
+                        state: 'success',
+                        token,
+                        adminPower: req.session.adminPower
+                    });
+                } else {
+                    console.log("登录失败");
+                    res.send({
+                        state: 'error',
+                        err: "用户名或密码错误"
+                    });
+                }
+
+            } catch (error) {
+
+            }
+
             return adminUser;
         })
     }

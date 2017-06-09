@@ -1,4 +1,5 @@
-export const SET_USER_TOKEN = 'SET_USER_TOKEN';
+export const SET_USER_LOGINSTATE = 'SET_USER_LOGINSTATE';
+// export const SET_USER_TOKEN = 'SET_USER_TOKEN';
 export const SET_HEADER_NAV = 'SET_HEADER_NAV';
 export const GET_HEADER_NAV = 'GET_HEADER_NAV';
 export const SET_HEADER_STATE = 'SET_HEADER_STATE';

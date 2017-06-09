@@ -38,7 +38,7 @@ class Message {
         }
     }
 
-    async addMessage(req, res, next) {
+    async postMessages(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
@@ -58,16 +58,15 @@ class Message {
                 return
             }
 
-            const groupObj = {
-                label: fields.label,
-                type: fields.type,
-                api: fields.api,
-                parentId: fields.parentId,
-                sortId: fields.sortId,
-                comments: fields.comments
+            const messageObj = {
+                contentId: fields.contentId,
+                content: fields.content,
+                replyId: fields.replyId,
+                relationMsgId: fields.relationMsgId,
+                author: req.session.user._id
             }
 
-            const newMessage = new MessageModel(groupObj);
+            const newMessage = new MessageModel(messageObj);
             try {
                 await newMessage.save();
                 res.send({
@@ -75,11 +74,11 @@ class Message {
                     id: newMessage._id
                 });
             } catch (err) {
-                console.log('保存数据失败', err);
+                console.log('保存留言数据失败', err);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
-                    message: '保存数据失败:',
+                    message: '保存留言数据失败:',
                 })
             }
         })
