@@ -259,6 +259,32 @@ export default {
             commit(types.CONTENTTAG_LIST, result.data)
         })
     },
+    showContentMessageForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.CONTENTMESSAGE_FORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideContentMessageForm: ({
+        commit
+    }) => {
+        commit(types.CONTENTMESSAGE_FORMSTATE, {
+            show: false
+        })
+    },
+    getContentMessageList({
+        commit
+    }, params = {}) {
+        services.contentMessageList(params).then((result) => {
+            commit(types.CONTENTMESSAGE_LIST, result.data)
+        })
+    },
     showRegUserForm: ({
         commit
     }, params = {

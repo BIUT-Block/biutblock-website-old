@@ -98,6 +98,14 @@ router.post('/contentTag/updateOne', authToken, authPower, ContentTag.updateCont
 
 router.get('/contentTag/deleteTag', authToken, authPower, ContentTag.delContentTag)
 
+/**
+ * 留言管理
+ */
+router.get('/contentMessage/getList', authToken, authPower, Message.getMessages)
+
+router.post('/contentMessage/addOne', authToken, authPower, Message.postMessages)
+
+router.get('/contentMessage/deleteTag', authToken, authPower, Message.delMessage)
 
 /**
  * 注册用户管理

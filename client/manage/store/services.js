@@ -114,6 +114,18 @@ export default {
         return reqJsonData('manage/contentTag/deleteTag', params, 'get')
     },
 
+    contentMessageList(params) {
+        return reqJsonData('manage/contentMessage/getList', params, 'get')
+    },
+
+    addContentMessage(params) {
+        return reqJsonData('manage/contentMessage/addOne', params)
+    },
+
+    deleteContentMessage(params) {
+        return reqJsonData('manage/contentMessage/deleteMessage', params, 'get')
+    },
+
     regUserList(params) {
         return reqJsonData('manage/regUser/getList', params, 'get')
     },

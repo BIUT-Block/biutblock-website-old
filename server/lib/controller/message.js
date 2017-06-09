@@ -84,51 +84,6 @@ class Message {
         })
     }
 
-    async updateMessage(req, res, next) {
-        console.log('--req.params--', req.params);
-        const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
-            try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
-            } catch (err) {
-                console.log(err.message, err);
-                res.send({
-                    state: 'error',
-                    type: 'ERROR_PARAMS',
-                    message: err.message
-                })
-                return
-            }
-
-            const userObj = {
-                label: fields.label,
-                type: fields.type,
-                api: fields.api,
-                parentId: fields.parentId,
-                sortId: fields.sortId,
-                comments: fields.comments
-            }
-            const item_id = fields._id;
-            console.log('---fields----', fields);
-            try {
-                await MessageModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
-                res.send({
-                    state: 'success'
-                });
-            } catch (err) {
-                console.log('更新数据失败', err);
-                res.send({
-                    state: 'error',
-                    type: 'ERROR_IN_SAVE_DATA',
-                    message: '更新数据失败:',
-                })
-            }
-        })
-
-    }
 
     async delMessage(req, res, next) {
         try {

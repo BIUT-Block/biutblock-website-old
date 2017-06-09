@@ -164,6 +164,26 @@ const state = {
             err: {}
         }
     },
+    contentMessage: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {
+                contentId: '',
+                content: '',
+                replyId: '',
+                relationMsgId: ''
+            }
+        },
+        messageList: {
+            pageInfo: {},
+            docs: []
+        },
+        addMessage: {
+            state: '',
+            err: {}
+        }
+    },
     regUser: {
         formState: {
             show: false,
@@ -337,6 +357,21 @@ const mutations = {
     },
     [types.CONTENTTAG_LIST](state, tagList) {
         state.contentTag.tagList = tagList
+    },
+    [types.CONTENTMESSAGE_FORMSTATE](state, formState) {
+        state.contentMessage.formState.show = formState.show;
+        state.contentMessage.formState.edit = formState.edit;
+        state.contentMessage.formState.type = formState.type;
+        state.contentMessage.formState.formData = Object.assign({
+            contentId: '',
+            content: '',
+            replyId: '',
+            relationMsgId: ''
+        }, formState.formData);
+
+    },
+    [types.CONTENTMESSAGE_LIST](state, messageList) {
+        state.contentMessage.messageList = messageList
     },
     [types.REGUSERFORMSTATE](state, formState) {
         state.regUser.formState.show = formState.show;
