@@ -5,51 +5,51 @@
             <el-col :span="24">
                 <ToolBar></ToolBar>
                 <DataTable :dataList="adminUserList.docs"></DataTable>
-                <Pagination :pageInfo="adminUserList.pageInfo"></Pagination>
+                <Pagination :pageInfo="adminUserList.pageInfo" pageType="adminUser"></Pagination>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-import UserForm from './userForm'
-import DataTable from './dataTable.vue';
-import ToolBar from './toolBar.vue';
-import Pagination from '../common/Pagination.vue';
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
+    import UserForm from './userForm'
+    import DataTable from './dataTable.vue';
+    import ToolBar from './toolBar.vue';
+    import Pagination from '../common/Pagination.vue';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
 
-export default {
-    name: 'index',
-    data() {
-        return {
+    export default {
+        name: 'index',
+        data() {
+            return {
 
-        }
-    },
-    components: {
-        DataTable,
-        ToolBar,
-        UserForm,
-        Pagination
-    },
-    methods: mapActions([
+            }
+        },
+        components: {
+            DataTable,
+            ToolBar,
+            UserForm,
+            Pagination
+        },
+        methods: mapActions([
 
-    ]),
-    computed: {
-        ...mapGetters([
-            'adminUserList',
-            'adminGroupList'
         ]),
-        formState() {
-            return this.$store.getters.adminUserFormState
+        computed: {
+            ...mapGetters([
+                'adminUserList',
+                'adminGroupList'
+            ]),
+            formState() {
+                return this.$store.getters.adminUserFormState
+            }
+        },
+        mounted() {
+            this.$store.dispatch('getAdminUserList');
+            this.$store.dispatch('getAdminGroupList');
         }
-    },
-    mounted() {
-        this.$store.dispatch('getAdminUserList');
-        this.$store.dispatch('getAdminGroupList');
     }
-}
 </script>
 
 <style lang="">

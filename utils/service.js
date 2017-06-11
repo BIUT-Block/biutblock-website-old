@@ -250,14 +250,7 @@ var system = {
         if (fs.existsSync(path)) {
             //写入文件
             var newContent = iconv.encode(content, 'utf-8');
-            fs.writeFile(path, newContent, function (err) {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log("write file success")
-                    cb();
-                }
-            });
+            fs.writeFileSync(path, newContent);
         }
     },
     backUpData: function (res, req) { // 数据备份

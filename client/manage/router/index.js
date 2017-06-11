@@ -11,6 +11,7 @@ import ContentCategory from '../components/contentCategory/index'
 import Content from '../components/content/index'
 import ContentForm from '../components/content/contentForm'
 import ContentTag from '../components/contentTag/index'
+import ContentMessage from '../components/contentMessage/index'
 import RegUser from '../components/regUser/index'
 import Axios from "axios";
 
@@ -77,8 +78,12 @@ let router = new Router({
         path: '/contentTags',
         component: ContentTag,
         name: '标签管理'
-      }
-      ]
+      },
+      {
+        path: '/contentMessages',
+        component: ContentMessage,
+        name: '留言管理'
+      }]
     },
     {
       path: '/',

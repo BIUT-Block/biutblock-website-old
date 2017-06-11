@@ -6,7 +6,7 @@
             <el-col :span="24">
                 <ToolBar></ToolBar>
                 <DataTable :dataList="adminGroupList.docs"></DataTable>
-                <Pagination :pageInfo="adminGroupList.pageInfo"></Pagination>
+                <Pagination :pageInfo="adminGroupList.pageInfo" pageType="adminGroup"></Pagination>
             </el-col>
         </el-row>
     </div>

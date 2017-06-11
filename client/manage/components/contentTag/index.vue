@@ -5,7 +5,7 @@
             <el-col :span="24">
                 <ToolBar></ToolBar>
                 <DataTable :dataList="contentTagList.docs"></DataTable>
-                <Pagination :pageInfo="contentTagList.pageInfo"></Pagination>
+                <Pagination :pageInfo="contentTagList.pageInfo" pageType="contentTag"></Pagination>
             </el-col>
         </el-row>
     </div>

@@ -1,7 +1,11 @@
 const BaseComponent = require('../prototype/baseComponent');
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
-const { service, settings, validatorUtil } = require('../../../utils');
+const {
+    service,
+    settings,
+    validatorUtil
+} = require('../../../utils');
 
 class Message {
     constructor() {
@@ -13,12 +17,20 @@ class Message {
             let pageSize = req.query.pageSize || 10;
             console.log('---req.query.contentId---', req.query.contentId);
             let contentId = req.query.contentId;
-
-            const messages = await MessageModel.find({ contentId }).sort({ date: 1 }).populate([{
+            let queryObj = {};
+            if (contentId) {
+                queryObj.contentId = contentId;
+            }
+            const messages = await MessageModel.find(queryObj).sort({
+                date: -1
+            }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'contentId',
+                select: 'stitle _id'
+            }, {
                 path: 'author',
                 select: 'userName _id enable date logo'
             }]).populate('replyAuthor').populate('adminAuthor').exec();
-            const totalItems = await MessageModel.count({ contentId });
+            const totalItems = await MessageModel.count(queryObj);
             res.send({
                 state: 'success',
                 docs: messages,
@@ -40,7 +52,7 @@ class Message {
 
     async postMessages(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
@@ -87,7 +99,9 @@ class Message {
 
     async delMessage(req, res, next) {
         try {
-            await MessageModel.remove({ _id: req.query.ids });
+            await MessageModel.remove({
+                _id: req.query.ids
+            });
             res.send({
                 state: 'success'
             });

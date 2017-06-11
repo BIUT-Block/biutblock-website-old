@@ -7,7 +7,6 @@
     .contentImg {
         img {
             width: 100%;
-            height: 120px;
         }
         margin-right: 30px;
         height: auto;

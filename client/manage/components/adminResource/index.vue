@@ -4,7 +4,7 @@
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <ToolBar></ToolBar>
-                <ResourceTree :treeData="adminResourceList.docs"></ResourceTree>
+                <ResourceTree :treeData="adminResourceList.docs" pageType="adminResource"></ResourceTree>
             </el-col>
         </el-row>
     </div>

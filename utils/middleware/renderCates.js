@@ -14,11 +14,11 @@ module.exports = function (req, res, next) {
         next();
     } else {
         ContentCategory.getAllCategories(req, res).then((result) => {
-            let jsonFile = process.cwd() + '/client/index/assets/cates.json';
-            service.writeFile(req, res, jsonFile, JSON.stringify(result), () => {
-                writeState = true;
-                next();
-            })
+            let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
+            service.writeFile(req, res, jsonFile, JSON.stringify(result))
+
+            writeState = true;
+            next();
         })
     }
 }

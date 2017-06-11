@@ -9,3 +9,16 @@ moment.locale('zh-cn');
 export function formatDate(date) {
     return moment(date).format("YYYY-MM-DD");
 }
+export function formatFullDate(date) {
+    return moment(date).format("YYYY-MM-DD HH:mm:ss");
+}
+
+export function cutWords(str, length) {
+    let newStr = "";
+    if (str.length > length) {
+        newStr = str.substring(0, length) + '...'
+    } else {
+        newStr = str;
+    }
+    return newStr;
+}

@@ -10,7 +10,7 @@ import Header from './components/common/header'
 import MyTag from './components/common/Tag.vue'
 import HotContents from './components/common/HotContents.vue'
 import * as filters from '../../utils/filters'
-
+import titleMixin from '../../utils/documentInfo/title'
 import {
     sync
 } from 'vuex-router-sync'
@@ -21,6 +21,7 @@ Object.keys(filters).forEach(key => {
     Vue.filter(key, filters[key])
 })
 
+Vue.mixin(titleMixin);
 
 export function createApp() {
     // create store and router instances

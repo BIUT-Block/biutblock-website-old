@@ -5,7 +5,7 @@
                 <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
                     <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
                 </el-form-item>
-    
+
                 <el-form-item label="资源名称" prop="label">
                     <el-input size="small" v-model="dialogState.formData.label"></el-input>
                 </el-form-item>
@@ -15,11 +15,21 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="资源地址" prop="api">
-                    <el-input size="small" v-model="dialogState.formData.api">
-                        <template slot="prepend">/manage/</template>
-                    </el-input>
-                </el-form-item>
+                <div v-if="dialogState.formData.type === '0'">
+                    <div v-if="dialogState.formData.parentId !== '0'">
+                        <el-form-item label="路由Key" prop="routePath">
+                            <el-input size="small" v-model="dialogState.formData.routePath">
+                            </el-input>
+                        </el-form-item>
+                    </div>
+                </div>
+                <div v-else>
+                    <el-form-item label="资源地址" prop="api">
+                        <el-input size="small" v-model="dialogState.formData.api">
+                            <template slot="prepend">/manage/</template>
+                        </el-input>
+                    </el-form-item>
+                </div>
                 <el-form-item label="排序" prop="sortId">
                     <el-input-number size="small" v-model="dialogState.formData.sortId" @change="handleChange" :min="1" :max="50"></el-input-number>
                 </el-form-item>
@@ -35,105 +45,106 @@
     </div>
 </template>
 <script>
-import services from '../../store/services.js';
-const validatorUtil = require('../../../../utils/validatorUtil.js')
-export default {
-    props: {
-        dialogState: Object
-    },
-    data() {
-        return {
-            rules: {
-                label: [{
-                    required: true,
-                    message: '请输入资源名称',
-                    trigger: 'blur'
-                },
-                {
-                    validator: (rule, value, callback) => {
-                        if (!validatorUtil.checkName(value, 2, 10)) {
-                            callback(new Error('2-10个中文字符!'));
-                        } else {
-                            callback();
+    import services from '../../store/services.js';
+    const validatorUtil = require('../../../../utils/validatorUtil.js')
+    export default {
+        props: {
+            dialogState: Object
+        },
+        data() {
+            return {
+                rules: {
+                    label: [{
+                            required: true,
+                            message: '请输入资源名称',
+                            trigger: 'blur'
+                        },
+                        {
+                            validator: (rule, value, callback) => {
+                                if (!validatorUtil.checkName(value, 2, 10)) {
+                                    callback(new Error('2-10个中文字符!'));
+                                } else {
+                                    callback();
+                                }
+                            },
+                            trigger: 'blur'
                         }
-                    },
-                    trigger: 'blur'
-                }],
-                type: [{
-                    required: true,
-                    message: '请选择资源类型',
-                    trigger: 'change'
-                }],
-                comments: [{
-                    message: '请填写备注',
-                    trigger: 'blur'
+                    ],
+                    type: [{
+                        required: true,
+                        message: '请选择资源类型',
+                        trigger: 'change'
+                    }],
+                    comments: [{
+                        message: '请填写备注',
+                        trigger: 'blur'
+                    }, {
+                        min: 5,
+                        max: 30,
+                        message: '请输入5-30个字符',
+                        trigger: 'blur'
+                    }]
+                },
+                options: [{
+                    value: '0',
+                    label: '基础菜单'
                 }, {
-                    min: 5,
-                    max: 30,
-                    message: '请输入5-30个字符',
-                    trigger: 'blur'
+                    value: '1',
+                    label: '操作和功能'
                 }]
+            };
+        },
+        methods: {
+            handleChange(value) {
+                console.log(value);
             },
-            options: [{
-                value: '0',
-                label: '基础菜单'
-            }, {
-                value: '1',
-                label: '操作和功能'
-            }]
-        };
-    },
-    methods: {
-        handleChange(value) {
-            console.log(value);
-        },
-        confirm() {
-            this.$store.dispatch('hideAdminResourceForm')
-        },
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    let params = this.dialogState.formData;
-                    // 更新
-                    if (this.dialogState.edit) {
-                        services.updateAdminResource(params).then((result) => {
-                            if (result.data.state === 'success') {
-                                this.$store.dispatch('hideAdminResourceForm');
-                                this.$store.dispatch('getAdminResourceList');
-                                this.$message({
-                                    message: '更新成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        });
+            confirm() {
+                this.$store.dispatch('hideAdminResourceForm')
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let params = this.dialogState.formData;
+                        // 更新
+                        if (this.dialogState.edit) {
+                            services.updateAdminResource(params).then((result) => {
+                                if (result.data.state === 'success') {
+                                    this.$store.dispatch('hideAdminResourceForm');
+                                    this.$store.dispatch('getAdminResourceList');
+                                    this.$message({
+                                        message: '更新成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            });
+                        } else {
+                            // 新增
+                            services.addAdminResource(params).then((result) => {
+                                if (result.data.state === 'success') {
+                                    this.$store.dispatch('hideAdminResourceForm');
+                                    this.$store.dispatch('getAdminResourceList');
+                                    this.$message({
+                                        message: '添加成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('出错啦！');
+                                }
+                            })
+                        }
+
                     } else {
-                        // 新增
-                        services.addAdminResource(params).then((result) => {
-                            if (result.data.state === 'success') {
-                                this.$store.dispatch('hideAdminResourceForm');
-                                this.$store.dispatch('getAdminResourceList');
-                                this.$message({
-                                    message: '添加成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        })
+                        console.log('error submit!!');
+                        return false;
                     }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
 
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
         }
-
     }
-}
 </script>

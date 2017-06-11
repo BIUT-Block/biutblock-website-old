@@ -1,8 +1,24 @@
 const express = require('express')
 const router = express.Router()
 
-const { AdminUser, AdminGroup, AdminResource, ContentCategory, Content, ContentTag, User, Message } = require('../lib/controller');
-const { service, settings, authSession, authToken, authPower, validatorUtil } = require('../../utils');
+const {
+  AdminUser,
+  AdminGroup,
+  AdminResource,
+  ContentCategory,
+  Content,
+  ContentTag,
+  User,
+  Message
+} = require('../lib/controller');
+const {
+  service,
+  settings,
+  authSession,
+  authToken,
+  authPower,
+  validatorUtil
+} = require('../../utils');
 
 router.get('/', authSession, function (req, res) {
 
@@ -18,7 +34,9 @@ router.get('/logout', function (req, res) {
   req.session.adminlogined = false;
   req.session.adminPower = '';
   req.session.adminUserInfo = '';
-  res.send({ state: 'success' });
+  res.send({
+    state: 'success'
+  });
 });
 
 /**
@@ -105,7 +123,7 @@ router.get('/contentMessage/getList', authToken, authPower, Message.getMessages)
 
 router.post('/contentMessage/addOne', authToken, authPower, Message.postMessages)
 
-router.get('/contentMessage/deleteTag', authToken, authPower, Message.delMessage)
+router.get('/contentMessage/deleteMessage', authToken, authPower, Message.delMessage)
 
 /**
  * 注册用户管理

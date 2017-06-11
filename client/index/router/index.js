@@ -64,7 +64,7 @@ export function createRouter() {
         next()
     })
 
-    let headerNav = require('../assets/cates.json');
+    let headerNav = require('../../../utils/routePath/indexCates.json');
     let newRoters = [];
     if (headerNav.length > 0) {
         headerNav.map((item, index) => {

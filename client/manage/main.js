@@ -11,15 +11,21 @@ import moment from 'moment';
 import Axios from 'axios';
 // 自定义全局组件Loading
 import Loading from './components/loading'
+import * as filters from '../../utils/filters'
+
 import store from './store/index.js'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 Vue.use(Loading);
 /* eslint-disable no-new */
-Vue.filter("formatDate", function (date) { //全局方法 Vue.filter() 注册一个自定义过滤器,必须放在Vue实例化前面
-  return moment(date).format("YYYY-MM-DD HH:mm:ss");
-});
+// Vue.filter("formatDate", function (date) { //全局方法 Vue.filter() 注册一个自定义过滤器,必须放在Vue实例化前面
+//   return moment(date).format("YYYY-MM-DD HH:mm:ss");
+// });
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 // axios拦截返回，拦截token过期
 Axios.interceptors.response.use(function (response) {
@@ -29,7 +35,9 @@ Axios.interceptors.response.use(function (response) {
     if (res.err && res.err.indexOf('token') !== -1) {
       store.dispatch("deleteToken");
     } else if (res.err && res.err.indexOf('adminGroupPower') !== -1) {
-      store.dispatch("adminGroupPower", { state: false });
+      store.dispatch("adminGroupPower", {
+        state: false
+      });
     }
     return response;
   }
