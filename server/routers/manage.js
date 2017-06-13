@@ -9,7 +9,8 @@ const {
   Content,
   ContentTag,
   User,
-  Message
+  Message,
+  SystemConfig
 } = require('../lib/controller');
 const {
   service,
@@ -75,6 +76,12 @@ router.post('/adminResource/addOne', authToken, authPower, AdminResource.addAdmi
 router.post('/adminResource/updateOne', authToken, authPower, AdminResource.updateAdminResource)
 
 router.get('/adminResource/deleteResource', authToken, authPower, AdminResource.delAdminResource)
+
+/**
+ * 系统配置
+ * 
+ */
+router.get('/systemConfig/getConfig', authToken, authPower, SystemConfig.getSystemConfigs)
 
 
 /**

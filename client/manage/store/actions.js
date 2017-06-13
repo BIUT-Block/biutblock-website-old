@@ -176,6 +176,13 @@ export default {
             commit(types.ADMINRESOURCE_LIST, treeData)
         })
     },
+    getSystemConfig({
+        commit
+    }, params = {}) {
+        services.getSystemConfigs(params).then((config) => {
+            commit(types.SYSTEMCONFIG_CONFIGLIST, config.data)
+        })
+    },
     showContentCategoryForm: ({
         commit
     }, params = {

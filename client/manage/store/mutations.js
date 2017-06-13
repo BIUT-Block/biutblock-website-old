@@ -90,6 +90,13 @@ const state = {
             err: {}
         }
     },
+    systemConfig: {
+        configs: {
+            siteName: '',
+            siteDomain: '',
+            siteDiscription: ''
+        }
+    },
     contentCategory: {
         formState: {
             type: 'root',
@@ -298,6 +305,9 @@ const mutations = {
     },
     [types.ADMINRESOURCE_LIST](state, resourceList) {
         state.adminResource.resourceList = resourceList
+    },
+    [types.SYSTEMCONFIG_CONFIGLIST](state, config) {
+        state.systemConfig.configs = config
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
         state.contentCategory.formState.show = formState.show;

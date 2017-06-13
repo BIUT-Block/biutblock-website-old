@@ -11,6 +11,7 @@ export default {
     adminGroupList: state => state.adminGroup.roleList,
     adminResourceFormState: state => state.adminResource.formState,
     adminResourceList: state => state.adminResource.resourceList,
+    systemConfig: state => state.systemConfig.configs,
     contentCategoryFormState: state => state.contentCategory.formState,
     contentCategoryList: state => state.contentCategory.categoryList,
     contentFormState: state => state.content.formState,

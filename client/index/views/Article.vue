@@ -47,81 +47,86 @@
     </div>
 </template>
 <script>
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
-    import HotContents from '../components/common/HotContents.vue'
-    import Messages from '../components/common/Messages.vue'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+import HotContents from '../components/common/HotContents.vue'
+import Messages from '../components/common/Messages.vue'
 
-    export default {
-        name: 'cmsarticleview',
-        title() {
-            return this.contentDetails.doc.title
-        },
-        serverCacheKey() {
-            let articleState = this.__VUE_SSR_CONTEXT__.state;
-            let serverCacheKey = 'cmsarticleview';
-            if (articleState) {
-                let articleObj = articleState.mutations.contentDetails.doc;
-                serverCacheKey = articleObj._id + '::' + articleObj.updateDate
-            }
-            return serverCacheKey;
-        },
-        components: {
-            HotContents,
-            Messages
-        },
-        data() {
-            return {
-                // contentDetails: this.$store.getters.contentDetails
-            }
-        },
-        beforeMount() {
-            console.log('---contentDetails._id---', this.contentDetails.doc._id);
-            this.$store.dispatch('getUserMessageList', {
-                contentId: this.contentDetails.doc._id
-            })
-        },
-        computed: {
-            ...mapGetters([
-                'contentDetails',
-                'userMessageList'
-            ])
-        },
-        asyncData({
-            store,
-            route
-        }) {
-            let contentId = route.params.id;
-            let params = {};
-            if (contentId) {
-                let currentId = contentId.substr(0, contentId.length - 5);
-                params.id = currentId;
-            }
-            return store.dispatch('getContentDetails', params)
+export default {
+    name: 'cmsarticleview',
+    title() {
+        debugger;
+        return this.currentTitle
+    },
+    serverCacheKey() {
+        let articleState = this.__VUE_SSR_CONTEXT__.state;
+        let serverCacheKey = 'cmsarticleview';
+        if (articleState) {
+            let articleObj = articleState.mutations.contentDetails.doc;
+            serverCacheKey = articleObj._id + '::' + articleObj.updateDate
         }
-
+        console.log('---serverCacheKey---', serverCacheKey);
+        return serverCacheKey;
+    },
+    components: {
+        HotContents,
+        Messages
+    },
+    data() {
+        return {
+            // contentDetails: this.$store.getters.contentDetails
+        }
+    },
+    beforeMount() {
+        console.log('---contentDetails._id---', this.contentDetails.doc._id);
+        this.$store.dispatch('getUserMessageList', {
+            contentId: this.contentDetails.doc._id
+        })
+    },
+    computed: {
+        ...mapGetters([
+            'contentDetails',
+            'userMessageList'
+        ]),
+        currentTitle() {
+            return this.$store.getters.contentDetails.doc.title
+        }
+    },
+    asyncData({
+            store,
+        route
+        }) {
+        let contentId = route.params.id;
+        let params = {};
+        if (contentId) {
+            let currentId = contentId.substr(0, contentId.length - 5);
+            params.id = currentId;
+        }
+        return store.dispatch('getContentDetails', params)
     }
+
+}
 </script>
 <style lang="scss">
-    .content-detail {
-        color: #3f3f3f;
-        img {
-            max-width: 100% !important;
-        }
-        .content-author {
-            color: #999999;
-            ul {
-                li.author-name {
-                    color: #20A0FF;
-                }
-                li {
-                    display: inline-block;
-                    margin: 0px;
-                    font-size: 15px;
-                }
+.content-detail {
+    color: #3f3f3f;
+    img {
+        max-width: 100% !important;
+    }
+    .content-author {
+        color: #999999;
+        ul {
+            li.author-name {
+                color: #20A0FF;
+            }
+            li {
+                display: inline-block;
+                margin: 0px;
+                font-size: 15px;
             }
         }
     }
+}
 </style>

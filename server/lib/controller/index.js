@@ -8,3 +8,4 @@ exports.Message = require('./message');
 exports.UserNotify = require('./userNotify');
 exports.Notify = require('./notify');
 exports.User = require('./user');
+exports.SystemConfig = require('./systemConfig');

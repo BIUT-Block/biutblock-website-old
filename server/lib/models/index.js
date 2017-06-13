@@ -29,3 +29,4 @@ exports.ContentTag = require('./ContentTag');
 exports.Message = require('./Message');
 exports.UserNotify = require('./UserNotify');
 exports.Notify = require('./Notify');
+exports.SystemConfig = require('./SystemConfig');
