@@ -34,7 +34,14 @@ function getFileName(webpackServer, projectName) {
 }
 
 class VueSSR {
-    constructor({ projectName, rendererOptions, webpackServer, AppHtml, contextHandler, defaultHeadData }) {
+    constructor({
+        projectName,
+        rendererOptions,
+        webpackServer,
+        AppHtml,
+        contextHandler,
+        defaultHeadData
+    }) {
         this.projectName = projectName
         this.rendererOptions = Object.assign({}, DEFAULT_RENDERER_OPTIONS, rendererOptions)
         this.webpackServerConfig = webpackServer
@@ -47,9 +54,10 @@ class VueSSR {
     }
 
     headDataInject(context, html) {
+        console.log('----context--', context.title);
         if (!context.headData) context.headData = {}
         let head
-        head = html.replace('{{ _VueSSR_Title }}', (context.headData.title || this.defaultHeadData.title) + this.defaultHeadData.baseTitle)
+        head = html.replace('{{ _VueSSR_Title }}', (context.title || this.defaultHeadData.title))
         head = head.replace('{{ _VueSSR_Keywords }}', (context.headData.keywords || this.defaultHeadData.keywords) + this.defaultHeadData.baseKeywords)
         head = head.replace('{{ _VueSSR_Description }}', (context.headData.description || this.defaultHeadData.description) + this.defaultHeadData.baseDescription)
         return head
@@ -93,7 +101,9 @@ class VueSSR {
             return res.end('waiting for compilation... refresh in a moment.')
         }
 
-        let context = { url: req.url }
+        let context = {
+            url: req.url
+        }
 
         if (this.contextHandler) {
             context = this.contextHandler(req)

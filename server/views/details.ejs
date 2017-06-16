@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><%=title%></title>
+    <title>{{ _VueSSR_Title }}</title>
+    <meta name="description" content="{{ _VueSSR_Description }}">
+    <meta content="{{ _VueSSR_Keywords }}" name="keywords" />
+    <meta name="author" content="DoraCMS">
+
     <%if(NODE_ENV !== 'development'){%>
     <link rel="stylesheet" href="/client/css/<%=bundle%>.css">
     <%}%>

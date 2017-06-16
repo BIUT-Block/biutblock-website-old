@@ -13,7 +13,7 @@ const serverTitleMixin = {
   created() {
     const title = getTitle(this)
     if (title) {
-      this.$ssrContext.title = `前端开发俱乐部 | ${title}`
+      this.$ssrContext.title = `${title} | 前端开发俱乐部`
     }
   }
 }
@@ -22,7 +22,7 @@ const clientTitleMixin = {
   mounted() {
     const title = getTitle(this)
     if (title) {
-      document.title = `前端开发俱乐部 | ${title}`
+      document.title = `${title} | 前端开发俱乐部`
     }
   }
 }

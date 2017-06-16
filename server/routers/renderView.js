@@ -37,7 +37,6 @@ function index(req, res) {
 
 function details(req, res) {
     const template = renderView('details', {
-        title: '文档详情',
         bundle: 'index'
     })
     renderData(req, res, template);

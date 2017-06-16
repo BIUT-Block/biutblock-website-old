@@ -4,7 +4,7 @@ import {
 } from './app'
 import 'es6-promise/auto'
 import ProgressBar from './components/common/ProgressBar.vue'
-
+import _ from 'lodash'
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
 // Vue.mixin({
@@ -56,6 +56,16 @@ router.onReady(() => {
             }
         })).then(() => {
             bar.finish()
+
+            if (window && window.__INITIAL_STATE__) {
+                let winState = window.__INITIAL_STATE__,
+                    documentTitle = '';
+                if (!_.isEmpty(winState.mutations.contentDetails) && !_.isEmpty(winState.mutations.contentDetails.doc)) {
+                    documentTitle = (winState.mutations.contentDetails.doc.title + ' | 前端开发俱乐部')
+                }
+                document.title = documentTitle;
+            }
+
             next()
         }).catch(next)
     })
