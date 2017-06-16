@@ -62,8 +62,12 @@ export default {
         return reqJsonData('manage/adminResource/deleteResource', params, 'get')
     },
 
-    getSystemConfigs() {
-        return reqJsonData('manage/systemConfig/getConfig', params)
+    getSystemConfigs(params) {
+        return reqJsonData('manage/systemConfig/getConfig', params, 'get')
+    },
+
+    updateSystemConfigs(params) {
+        return reqJsonData('manage/systemConfig/updateConfig', params)
     },
 
     contentCategoryList(params) {

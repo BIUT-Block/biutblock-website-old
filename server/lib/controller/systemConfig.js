@@ -32,6 +32,7 @@ class SystemConfig {
             try {
                 if (!fields.name) {
                 } else if (!fields.restaurant_id) {
+
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -50,9 +51,13 @@ class SystemConfig {
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
-
             try {
-                await SystemConfigModel.findOneAndUpdate({ _id: item_id }, { $set: systemObj });
+                if (item_id) {
+                    await SystemConfigModel.findOneAndUpdate({ _id: item_id }, { $set: systemObj });
+                } else {
+                    const newAdminUser = new SystemConfigModel(systemObj);
+                    await newAdminUser.save();
+                }
                 res.send({
                     state: 'success'
                 });

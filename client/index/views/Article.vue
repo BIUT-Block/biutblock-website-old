@@ -58,6 +58,7 @@ export default {
     name: 'cmsarticleview',
     title() {
         debugger;
+        console.log('--title--', this.$store.getters.contentDetails.doc.title)
         return this.currentTitle
     },
     serverCacheKey() {

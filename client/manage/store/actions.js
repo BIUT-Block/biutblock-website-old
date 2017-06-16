@@ -180,7 +180,8 @@ export default {
         commit
     }, params = {}) {
         services.getSystemConfigs(params).then((config) => {
-            commit(types.SYSTEMCONFIG_CONFIGLIST, config.data)
+            let currentConfig = config.data ? config.data.docs[0] : {};
+            commit(types.SYSTEMCONFIG_CONFIGLIST, currentConfig)
         })
     },
     showContentCategoryForm: ({

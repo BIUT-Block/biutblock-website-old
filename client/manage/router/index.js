@@ -7,6 +7,7 @@ import News from '../components/News'
 import AdminUser from '../components/adminUser/index'
 import AdminGroup from '../components/adminGroup/index'
 import AdminResource from '../components/adminResource/index'
+import SystemConfig from '../components/systemConfig/index'
 import ContentCategory from '../components/contentCategory/index'
 import Content from '../components/content/index'
 import ContentForm from '../components/content/contentForm'
@@ -44,8 +45,12 @@ let router = new Router({
         path: '/adminResource',
         component: AdminResource,
         name: '资源管理'
-      }
-      ]
+      },
+      {
+        path: '/systemConfig',
+        component: SystemConfig,
+        name: '参数配置'
+      }]
     },
     {
       path: '/',

@@ -3,7 +3,16 @@
  */
 const validator = require("validator");
 
-module.exports =  {
+module.exports = {
+
+    validateWords(str) {
+        let pattern = new RegExp("[- <>.!@#$%^*()+/*]");
+        let newParams = "";
+        for (let i = 0; i < str.length; i++) {
+            newParams += str.substr(i, 1).replace(pattern, '');
+        }
+        return newParams;
+    },
     // 校验用户名
     checkUserName(str) {
         return /^[a-zA-Z][a-zA-Z0-9_]{4,11}$/.test(str);

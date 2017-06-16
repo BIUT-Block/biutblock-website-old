@@ -66,7 +66,8 @@ export default {
         commit
     }, params = {}) {
         return services.getOneContent(params).then((result) => {
-            commit(types.CONTENT_DETAILS, result.data)
+            commit(types.CONTENT_DETAILS, result.data);
+            // commit(types.CONTENT_INFOS, { contentTitle: result.data.doc.title })
         })
     },
     getHotContentList({
@@ -74,6 +75,13 @@ export default {
     }, params = {}) {
         return services.getSimpleList(params).then((result) => {
             commit(types.CONTENT_HOTITEMS, result.data)
+        })
+    },
+    getContentInfos({
+        commit
+    }, params = {}) {
+        commit(types.CONTENT_INFOS, {
+            contentInfos: params.contentInfos
         })
     },
     getUserMessageList({
@@ -110,5 +118,13 @@ export default {
             commit(types.SITEMAP_LIST, result.data)
         })
     },
+    getSystemConfig({
+        commit
+    }, params = {}) {
+        services.getSystemConfigs(params).then((config) => {
+            let currentConfig = config.data ? config.data.docs[0] : {};
+            commit(types.SYSTEMCONFIG_CONFIGLIST, currentConfig)
+        })
+    }
 
 }

@@ -14,7 +14,7 @@ const {
 const authUser = require('../../utils/middleware/authUser');
 
 const jwt = require("jsonwebtoken");
-const { AdminUser, ContentCategory, Content, ContentTag, User, Message } = require('../lib/controller');
+const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig } = require('../lib/controller');
 
 // 查询站点地图需要的信息
 router.get('/sitemap/getList', (req, res, next) => {
@@ -60,6 +60,10 @@ router.get('/contentTag/getList', ContentTag.getContentTags)
 router.get('/message/getList', Message.getMessages)
 
 router.post('/message/post', Message.postMessages)
+
+// 获取系统配置信息
+router.get('/systemConfig/getConfig', SystemConfig.getSystemConfigs)
+
 
 
 module.exports = router

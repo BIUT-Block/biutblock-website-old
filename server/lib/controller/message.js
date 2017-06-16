@@ -52,7 +52,7 @@ class Message {
 
     async postMessages(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async(err, fields, files) => {
+        form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
@@ -72,7 +72,7 @@ class Message {
 
             const messageObj = {
                 contentId: fields.contentId,
-                content: fields.content,
+                content: validatorUtil.validateWords(fields.content),
                 replyId: fields.replyId,
                 relationMsgId: fields.relationMsgId,
                 author: req.session.user._id

@@ -94,7 +94,7 @@ const state = {
         configs: {
             siteName: '',
             siteDomain: '',
-            siteDiscription: ''
+            siteDiscription: '',
         }
     },
     contentCategory: {
@@ -307,7 +307,11 @@ const mutations = {
         state.adminResource.resourceList = resourceList
     },
     [types.SYSTEMCONFIG_CONFIGLIST](state, config) {
-        state.systemConfig.configs = config
+        state.systemConfig.configs = Object.assign({
+            siteName: '',
+            siteDomain: '',
+            siteDiscription: ''
+        }, config)
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
         state.contentCategory.formState.show = formState.show;

@@ -72,6 +72,9 @@ export default {
   },
   methods: {
 
+  },
+  beforeMount() {
+    this.$store.dispatch('getSystemConfig');
   }
 }
 </script>

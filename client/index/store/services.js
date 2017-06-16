@@ -54,4 +54,8 @@ export default {
         return reqJsonData('api/sitemap/getList', {}, 'get')
     },
 
+    getSystemConfigs(params) {
+        return reqJsonData('api/systemConfig/getConfig', params, 'get')
+    }
+
 }

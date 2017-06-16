@@ -28,6 +28,11 @@ const state = {
         pageInfo: {},
         docs: []
     },
+    contentInfos: {
+        contentCateTitle: '',
+        contentCateDiscription: '',
+        contentTitle: ''
+    },
     userMessageList: {
         pageInfo: {},
         docs: []
@@ -47,7 +52,14 @@ const state = {
             password: ''
         }
     },
-    siteMapList: []
+    siteMapList: [],
+    systemConfig: {
+        configs: {
+            siteName: '',
+            siteDomain: '',
+            siteDiscription: ''
+        }
+    }
 }
 
 const mutations = {
@@ -81,6 +93,13 @@ const mutations = {
     [types.CONTENT_HOTITEMS](state, contentList) {
         state.hotContentList = contentList
     },
+    [types.CONTENT_INFOS](state, contentInfos) {
+        state.contentInfos = Object.assign({
+            contentCateTitle: '',
+            contentCateDiscription: '',
+            contentTitle: ''
+        }, contentInfos);
+    },
     [types.USER_MESSAGE_LIST](state, messageList) {
         state.userMessageList = messageList
     },
@@ -101,6 +120,13 @@ const mutations = {
     },
     [types.SITEMAP_LIST](state, siteMapList) {
         state.siteMapList = siteMapList
+    },
+    [types.SYSTEMCONFIG_CONFIGLIST](state, config) {
+        state.systemConfig.configs = Object.assign({
+            siteName: '',
+            siteDomain: '',
+            siteDiscription: ''
+        }, config)
     }
 }
 

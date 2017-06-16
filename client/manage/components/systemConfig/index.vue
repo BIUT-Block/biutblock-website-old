@@ -1,14 +1,30 @@
 <template>
     <div class="adminUser">
-        <UserForm :dialogState="formState" :groups="adminGroupList.docs"></UserForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-    
+                <el-form :model="systemConfig.configs" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                    <el-form-item label="站点名称" prop="siteName">
+                        <el-input size="small" v-model="systemConfig.configs.siteName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="站点域名" prop="siteDomain">
+                        <el-input placeholder="请输入内容" v-model="systemConfig.configs.siteDomain">
+                            <template slot="prepend">Http://</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="站点描述" prop="siteDiscription">
+                        <el-input size="small" v-model="systemConfig.configs.siteDiscription"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                    </el-form-item>
+                </el-form>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
+import services from '../../store/services.js';
 
 import {
     mapGetters,
@@ -19,19 +35,69 @@ export default {
     name: 'index',
     data() {
         return {
-
+            rules: {
+                siteName: [{
+                    required: true,
+                    message: '请输入站点名称',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 30,
+                    message: '请输入5-30个字符',
+                    trigger: 'blur'
+                }],
+                siteDiscription: [{
+                    required: true,
+                    message: '请输入站点描述',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 30,
+                    message: '请输入5-30个字符',
+                    trigger: 'blur'
+                }]
+            }
         }
     },
     components: {
 
     },
-    methods: mapActions([
+    methods: {
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let params = this.systemConfig.configs;
+                    // 更新
+                    services.updateSystemConfigs(params).then((result) => {
+                        result = result.data;
+                        if (result.state === 'success') {
+                            this.$store.dispatch('getSystemConfig');
+                            this.$message({
+                                message: '更新成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$message.error('出错啦！', result.message);
+                        }
+                    });
 
-    ]),
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        }
+    },
     computed: {
         ...mapGetters([
             'systemConfig'
         ])
+    },
+    mounted() {
+        this.$store.dispatch('getSystemConfig');
     }
 }
 </script>

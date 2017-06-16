@@ -83,6 +83,8 @@ router.get('/adminResource/deleteResource', authToken, authPower, AdminResource.
  */
 router.get('/systemConfig/getConfig', authToken, authPower, SystemConfig.getSystemConfigs)
 
+router.post('/systemConfig/updateConfig', authToken, authPower, SystemConfig.updateSystemConfig)
+
 
 /**
  * 文档类别管理
