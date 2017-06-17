@@ -109,7 +109,8 @@ export default {
         overflow: hidden;
         .header-logo {
             img {
-                height: 40px;
+                width: 100%;
+                max-height: 40px;
             }
         }
 

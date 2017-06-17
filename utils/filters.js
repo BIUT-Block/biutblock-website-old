@@ -14,6 +14,11 @@ export function formatFullDate(date) {
     return moment(date).format("YYYY-MM-DD HH:mm:ss");
 }
 
+export function formatDateNearBy(date) {
+    moment.locale('zh-cn');
+    return moment(date).startOf('hour').fromNow();
+}
+
 export function cutWords(str, length) {
     let newStr = "";
     if (str.length > length) {

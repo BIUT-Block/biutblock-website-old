@@ -31,7 +31,7 @@
         <ul>
             <li v-for="(item,index) in userMessageList.docs">
                 <el-row :gutter="15">
-                    <el-col :xs="1" :sm="1" :md="1" :lg="1">
+                    <el-col :xs="2" :sm="2" :md="2" :lg="1">
                         <div class="user-logo">
                             <div v-if="item.utype == '1'">
                                 <img :src="item.adminAuthor.logo" />
@@ -41,14 +41,15 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :xs="23" :sm="23" :md="23" :lg="23">
+                    <el-col :xs="22" :sm="22" :md="22" :lg="23">
                         <div class="user-name">
-                            <div v-if="item.utype == '1'">
+                            <div class="name" v-if="item.utype == '1'">
                                 {{item.adminAuthor.userName}}
                                 <span title="管理员" style="color: #20A0FF;font-size: 12px;">[
                                     <i class="el-icon-star-on"></i>&nbsp;管理员]</span>
                             </div>
-                            <div v-else>{{item.author.userName}}</div>
+                            <div class="name" v-else>{{item.author.userName}}</div>
+                            <span class="time">{{item.date | formatDateNearBy}}</span>
                         </div>
                         <div class="user-content">
                             <div v-if="item.replyAuthor">
@@ -63,131 +64,141 @@
     </div>
 </template>
 <script>
-    import services from '../../store/services.js';
+import services from '../../store/services.js';
 
-    export default {
-        name: 'Message',
-        data() {
-            return {
-                rules: {
-                    content: [{
-                        required: true,
-                        message: '请填写评论',
-                        trigger: 'blur'
-                    }, {
-                        min: 5,
-                        max: 200,
-                        message: '请输入5-200个字符',
-                        trigger: 'blur'
-                    }]
-                }
-            }
-        },
-        props: {
-            userMessageList: Object,
-            contentId: String
-        },
-        mounted() {
-            this.$store.dispatch('userMessageForm', {
-                formData: {
-                    contentId: this.contentId
-                }
-            });
-        },
-        computed: {
-            msgFormState() {
-                return this.$store.getters.userMessageFormState;
-            },
-            loginState() {
-                return this.$store.getters.userLoginState;
-            }
-        },
-        methods: {
-            submitForm(formName) {
-                if (!this.loginState.logined) {
-                    this.$router.push('/users/login');
-                } else {
-                    this.$refs[formName].validate((valid) => {
-                        if (valid) {
-                            console.log('---formdatas--', this.msgFormState);
-                            if (this.msgFormState.reply) {
-
-                            } else {
-
-                            }
-                            let params = this.msgFormState.formData;
-                            services.userSendMessage(params).then((result) => {
-                                if (result.data.state === 'success') {
-                                    this.$store.dispatch('getUserMessageList', {
-                                        contentId: this.contentId
-                                    })
-                                    this.$message({
-                                        message: '发布成功',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    this.$message({
-                                        message: result.data.err,
-                                        type: 'error'
-                                    });
-                                }
-                            }).catch((err) => {
-                                this.$message.error(err.response.data.error)
-                            })
-                        } else {
-                            console.log('error submit!!');
-                            return false;
-                        }
-                    });
-                }
+export default {
+    name: 'Message',
+    data() {
+        return {
+            rules: {
+                content: [{
+                    required: true,
+                    message: '请填写评论',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 200,
+                    message: '请输入5-200个字符',
+                    trigger: 'blur'
+                }]
             }
         }
+    },
+    props: {
+        userMessageList: Object,
+        contentId: String
+    },
+    computed: {
+        msgFormState() {
+            return this.$store.getters.userMessageFormState;
+        },
+        loginState() {
+            return this.$store.getters.userLoginState;
+        }
+    },
+    mounted() {
+        this.$store.dispatch('userMessageForm', {
+            formData: {
+                contentId: this.contentId
+            }
+        });
+    },
+    methods: {
+        submitForm(formName) {
+            if (!this.loginState.logined) {
+                this.$router.push('/users/login');
+            } else {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log('---formdatas--', this.msgFormState);
+                        if (this.msgFormState.reply) {
 
+                        } else {
+
+                        }
+                        let params = this.msgFormState.formData;
+                        services.userSendMessage(params).then((result) => {
+                            if (result.data.state === 'success') {
+                                this.$store.dispatch('getUserMessageList', {
+                                    contentId: this.contentId
+                                })
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message({
+                                    message: result.data.err,
+                                    type: 'error'
+                                });
+                            }
+                        }).catch((err) => {
+                            this.$message.error(err.response.data.error)
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            }
+        }
     }
+
+}
 </script>
 
 <style lang="scss">
-    .content-message {
+.content-message {
 
-        ul {
-            li {
-                margin: 15px 0;
-                border-top: 1px dashed #e8e8e8;
-                padding-top: 15px;
-                font-size: 14px;
-                .user-logo {
+    ul {
+        li {
+            margin: 15px 0;
+            border-top: 1px dashed #e8e8e8;
+            padding-top: 15px;
+            font-size: 14px;
+            .user-logo {
 
-                    img {
-                        width: 100%;
-                        border-radius: 50%
-                    }
-                }
-                .user-content {
-                    color: #666666;
-                }
-                .user-name {
-                    color: #20A0FF;
+                img {
+                    width: 100%;
+                    border-radius: 50%
                 }
             }
-        }
-        .give-message {
-            .el-form-item__content {
-                margin-left: 0 !important;
+            .user-content {
+                color: #666666;
             }
-            .user-notice {
-                float: left;
-                a:link,
-                a:visited {
-                    color: #20A0FF
+            .user-name {
+                margin: 0 0 5px 0;
+                color: #20A0FF;
+
+                .name {
+                    display: inline-block;
                 }
-            }
-            .send-content {
-                margin-bottom: 10px;
-            }
-            .send-button {
-                margin-top: 5px;
-                text-align: right;
+                .time {
+                    font-size: 11px;
+                    display: inline-block;
+                    color: #777;
+                }
             }
         }
     }
+    .give-message {
+        .el-form-item__content {
+            margin-left: 0 !important;
+        }
+        .user-notice {
+            float: left;
+            a:link,
+            a:visited {
+                color: #20A0FF
+            }
+        }
+        .send-content {
+            margin-bottom: 10px;
+        }
+        .send-button {
+            margin-top: 5px;
+            text-align: right;
+        }
+    }
+}
 </style>

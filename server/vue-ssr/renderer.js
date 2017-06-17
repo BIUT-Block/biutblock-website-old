@@ -54,12 +54,11 @@ class VueSSR {
     }
 
     headDataInject(context, html) {
-        console.log('----context--', context.title);
         if (!context.headData) context.headData = {}
         let head
         head = html.replace('{{ _VueSSR_Title }}', (context.title || this.defaultHeadData.title))
-        head = head.replace('{{ _VueSSR_Keywords }}', (context.headData.keywords || this.defaultHeadData.keywords) + this.defaultHeadData.baseKeywords)
-        head = head.replace('{{ _VueSSR_Description }}', (context.headData.description || this.defaultHeadData.description) + this.defaultHeadData.baseDescription)
+        head = head.replace('{{ _VueSSR_Keywords }}', (context.keywords || this.defaultHeadData.keywords))
+        head = head.replace('{{ _VueSSR_Description }}', (context.discription || this.defaultHeadData.description))
         return head
     }
 

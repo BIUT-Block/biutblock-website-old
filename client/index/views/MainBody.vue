@@ -1,7 +1,7 @@
 <style lang='scss'>
-    .contentContainer {
-        margin-top: 30px;
-    }
+.contentContainer {
+    margin-top: 30px;
+}
 </style>
 <template>
     <div>
@@ -34,56 +34,59 @@
 </template>
 
 <script>
-    import ItemList from './ItemList.vue'
-    import Tag from '../components/common/Tag.vue'
-    import HotContents from '../components/common/HotContents.vue'
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
-    export default {
-        props: {
-            type: String
-        },
-        name: 'cmslistview',
-        title() {
-            return this.cateTitle;
-        },
-        data() {
-            return {
-                // displayedItems: this.$store.getters.contentList
-            }
-        },
-        components: {
-            ItemList,
-            Tag,
-            HotContents
-        },
-        computed: {
-            ...mapGetters([
-                'contentList'
-            ]),
-            page() {
-                return Number(this.$store.state.route.params.page) || 1
-            },
-            cateTitle() {
-                return this.$store.state.route.meta.title || '首页'
-            },
-            typeId() {
-                return this.$store.state.route.meta.typeId || 'indexPage'
-            }
-        },
-        asyncData({
-            store,
-            route
-        }) {
-            let params = {};
-            if (route) {
-                params.typeId = route.meta.typeId;
-            }
-            params.current = Number(route.params.page) || 1;
-            return store.dispatch('indexContentList', params)
+import ItemList from './ItemList.vue'
+import Tag from '../components/common/Tag.vue'
+import HotContents from '../components/common/HotContents.vue'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+export default {
+    props: {
+        type: String
+    },
+    name: 'cmslistview',
+    title() {
+        return this.$store.state.route.meta.title || '首页'
+    },
+    discription() {
+        return this.$store.state.route.meta.discription || '首页'
+    },
+    keywords() {
+        return this.$store.state.route.meta.keywords
+    },
+    data() {
+        return {
+            // displayedItems: this.$store.getters.contentList
         }
-
+    },
+    components: {
+        ItemList,
+        Tag,
+        HotContents
+    },
+    computed: {
+        ...mapGetters([
+            'contentList'
+        ]),
+        page() {
+            return Number(this.$store.state.route.params.page) || 1
+        },
+        typeId() {
+            return this.$store.state.route.meta.typeId || 'indexPage'
+        }
+    },
+    asyncData({
+            store,
+        route
+        }) {
+        let params = {};
+        if (route) {
+            params.typeId = route.meta.typeId;
+        }
+        params.current = Number(route.params.page) || 1;
+        return store.dispatch('indexContentList', params)
     }
+
+}
 </script>

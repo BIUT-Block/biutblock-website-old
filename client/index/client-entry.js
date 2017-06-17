@@ -2,9 +2,11 @@ import Vue from 'vue'
 import {
     createApp
 } from './app'
-import 'es6-promise/auto'
+// import 'es6-promise/auto'
 import ProgressBar from './components/common/ProgressBar.vue'
 import _ from 'lodash'
+import renderPageInfo from '../../utils/documentInfo';
+
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
 // Vue.mixin({
@@ -56,14 +58,10 @@ router.onReady(() => {
             }
         })).then(() => {
             bar.finish()
-
+            console.log('---window.__INITIAL_STATE__--', window.__INITIAL_STATE__);
             if (window && window.__INITIAL_STATE__) {
-                let winState = window.__INITIAL_STATE__,
-                    documentTitle = '';
-                if (!_.isEmpty(winState.mutations.contentDetails) && !_.isEmpty(winState.mutations.contentDetails.doc)) {
-                    documentTitle = (winState.mutations.contentDetails.doc.title + ' | 前端开发俱乐部')
-                }
-                document.title = documentTitle;
+                let pageInfo = renderPageInfo(window.__INITIAL_STATE__, to);
+                document.title = pageInfo.currentTitle;
             }
 
             next()

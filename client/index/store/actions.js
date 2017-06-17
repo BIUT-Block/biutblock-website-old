@@ -63,11 +63,17 @@ export default {
         })
     },
     getContentDetails({
-        commit
+        commit,
+        dispatch
     }, params = {}) {
         return services.getOneContent(params).then((result) => {
             commit(types.CONTENT_DETAILS, result.data);
-            // commit(types.CONTENT_INFOS, { contentTitle: result.data.doc.title })
+            dispatch('getUserMessageList', { contentId: result.data.doc._id })
+            dispatch('userMessageForm', {
+                formData: {
+                    contentId: result.data.doc._id
+                }
+            });
         })
     },
     getHotContentList({

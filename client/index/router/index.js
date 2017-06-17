@@ -71,11 +71,13 @@ export function createRouter() {
             newRoters.push({
                 path: '/' + item.defaultUrl + '___' + item._id + '/:page(\\d+)?',
                 component: MainBody,
-                name: item.name,
+                name: 'catePage_' + item._id,
                 iconCls: 'fa fa-id-card-o',
                 meta: {
                     title: item.name,
-                    typeId: item._id
+                    typeId: item._id,
+                    discription: item.comments,
+                    keywords: item.keywords
                 }
             })
         })

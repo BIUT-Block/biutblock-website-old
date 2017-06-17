@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ _VueSSR_Title }}</title>
+    <meta name="description" id="discription" content="{{ _VueSSR_Description }}">
+    <meta id="keywords" content="{{ _VueSSR_Keywords }}" name="keywords" />
     <%if(NODE_ENV !== 'development'){%>
     <link rel="stylesheet" href="/client/css/<%=bundle%>.css">
     <%}%>
