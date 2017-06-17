@@ -32,6 +32,11 @@ class AdminResource {
         }
     }
 
+    async getAllResource(req, res) {
+        let files = req.query.resourcefiles || null;
+        return await AdminResourceModel.find({}, files);
+    }
+
     async addAdminResource(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {

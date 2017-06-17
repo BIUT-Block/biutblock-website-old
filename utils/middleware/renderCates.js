@@ -3,7 +3,7 @@
  * 维护json目录为动态路由做准备
  */
 const fs = require('fs');
-const { ContentCategory } = require('../../server/lib/controller');
+const { ContentCategory, AdminResource } = require('../../server/lib/controller');
 
 const {
     service
@@ -16,7 +16,10 @@ module.exports = function (req, res, next) {
         ContentCategory.getAllCategories(req, res).then((result) => {
             let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
             service.writeFile(req, res, jsonFile, JSON.stringify(result))
-
+            return AdminResource.getAllResource(req, res);
+        }).then((resource) => {
+            let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
+            service.writeFile(req, res, resJsonFile, JSON.stringify(resource))
             writeState = true;
             next();
         })
