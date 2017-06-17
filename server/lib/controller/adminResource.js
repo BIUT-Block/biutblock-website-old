@@ -1,7 +1,11 @@
 const BaseComponent = require('../prototype/baseComponent');
 const AdminResourceModel = require("../models").AdminResource;
 const formidable = require('formidable');
-const { service, settings, validatorUtil } = require('../../../utils');
+const {
+    service,
+    settings,
+    validatorUtil
+} = require('../../../utils');
 
 class AdminResource {
     constructor() {
@@ -11,7 +15,9 @@ class AdminResource {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const AdminResources = await AdminResourceModel.find({});
+            const AdminResources = await AdminResourceModel.find({}).sort({
+                sortId: 1
+            });
             const totalItems = await AdminResourceModel.count();
             res.send({
                 state: 'success',
@@ -32,14 +38,17 @@ class AdminResource {
         }
     }
 
-    async getAllResource(req, res) {
+    async getAllResource(req, res, params = {}) {
+        // console.log('---params---', params);
         let files = req.query.resourcefiles || null;
-        return await AdminResourceModel.find({}, files);
+        return await AdminResourceModel.find(params, files).sort({
+            sortId: 1
+        });;
     }
 
     async addAdminResource(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
@@ -63,6 +72,8 @@ class AdminResource {
                 api: fields.api,
                 parentId: fields.parentId,
                 sortId: fields.sortId,
+                routePath: fields.routePath,
+                componentPath: fields.componentPath,
                 comments: fields.comments
             }
 
@@ -87,12 +98,10 @@ class AdminResource {
     async updateAdminResource(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                if (!fields.name) {} else if (!fields.restaurant_id) {}
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -109,12 +118,18 @@ class AdminResource {
                 api: fields.api,
                 parentId: fields.parentId,
                 sortId: fields.sortId,
+                routePath: fields.routePath,
+                componentPath: fields.componentPath,
                 comments: fields.comments
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
             try {
-                await AdminResourceModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
+                await AdminResourceModel.findOneAndUpdate({
+                    _id: item_id
+                }, {
+                    $set: userObj
+                });
                 res.send({
                     state: 'success'
                 });
@@ -132,7 +147,9 @@ class AdminResource {
 
     async delAdminResource(req, res, next) {
         try {
-            await AdminResourceModel.remove({ _id: req.query.ids });
+            await AdminResourceModel.remove({
+                _id: req.query.ids
+            });
             res.send({
                 state: 'success'
             });

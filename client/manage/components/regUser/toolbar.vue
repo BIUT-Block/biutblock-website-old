@@ -8,28 +8,28 @@
     </div>
 </template>
 <script>
-export default {
-    data() {
-        return {
-            formState: {
-                show: false
-            },
-            input2: ''
-        }
-    },
-    methods: {
-        handleIconClick(ev) {
-            console.log(ev);
+    export default {
+        data() {
+            return {
+                formState: {
+                    show: false
+                },
+                input2: ''
+            }
         },
-        delUser() {
-            // this.$store.dispatch('showAdminUserForm')
+        methods: {
+            handleIconClick(ev) {
+                console.log(ev);
+            },
+            delUser() {
+                // this.$store.dispatch('showAdminUserForm')
+            }
+        },
+        components: {
+
         }
-    },
-    components: {
 
     }
-
-}
 </script>
 <style lang="scss">
 

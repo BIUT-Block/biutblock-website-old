@@ -15,7 +15,7 @@ class Message {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            console.log('---req.query.contentId---', req.query.contentId);
+            // console.log('---req.query.contentId---', req.query.contentId);
             let contentId = req.query.contentId;
             let queryObj = {};
             if (contentId) {

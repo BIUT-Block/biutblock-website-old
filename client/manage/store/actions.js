@@ -73,15 +73,18 @@ export default {
     },
     adminGroupPower: ({
         commit
-    }, params = { power: [], state: true }) => {
+    }, params = {
+        power: [],
+        state: true
+    }) => {
         commit(types.ADMING_GROUPPower, params)
     },
     showAdminUserForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINUSERFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -105,9 +108,9 @@ export default {
     showAdminGroupForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINGROUP_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -124,9 +127,9 @@ export default {
     showAdminGroupRoleForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINGROUP_ROLEFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -150,10 +153,10 @@ export default {
     showAdminResourceForm: ({
         commit
     }, params = {
-            type: 'root',
-            edit: false,
-            formData: {}
-        }) => {
+        type: 'root',
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.ADMINRESOURCE_FORMSTATE, {
             show: true,
             type: params.type,
@@ -180,17 +183,17 @@ export default {
         commit
     }, params = {}) {
         services.getSystemConfigs(params).then((config) => {
-            let currentConfig = config.data ? config.data.docs[0] : {};
+            let currentConfig = (config.data && config.data.docs) ? config.data.docs[0] : {};
             commit(types.SYSTEMCONFIG_CONFIGLIST, currentConfig)
         })
     },
     showContentCategoryForm: ({
         commit
     }, params = {
-            type: 'root',
-            edit: false,
-            formData: {}
-        }) => {
+        type: 'root',
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.CONTENTCATEGORYS_FORMSTATE, {
             show: true,
             type: params.type,
@@ -217,9 +220,9 @@ export default {
     showContentForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.CONTENT_FORMSTATE, {
             edit: params.edit,
             formData: params.formData
@@ -244,9 +247,9 @@ export default {
     showContentTagForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.CONTENTTAG_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -270,9 +273,9 @@ export default {
     showContentMessageForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.CONTENTMESSAGE_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -296,9 +299,9 @@ export default {
     showRegUserForm: ({
         commit
     }, params = {
-            edit: false,
-            formData: {}
-        }) => {
+        edit: false,
+        formData: {}
+    }) => {
         commit(types.REGUSERFORMSTATE, {
             show: true,
             edit: params.edit,

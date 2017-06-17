@@ -16,6 +16,7 @@ var AdminResourceSchema = new Schema({
     label: String,
     type: String, // 0为普通菜单 1为功能菜单
     routePath: String, //路由路径
+    componentPath: String, //模板路径
     api: String, // 资源路径
     parentId: String,
     sortId: {
