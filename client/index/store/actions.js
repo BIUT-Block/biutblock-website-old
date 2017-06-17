@@ -36,7 +36,7 @@ export default {
         commit
     }, params = {}) {
         return services.contentCategoryList(params).then((result) => {
-            commit(types.GET_HEADER_NAV, result.data)
+            commit(types.GET_HEADER_NAV, result.data);
         })
     },
     contentTag({

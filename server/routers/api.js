@@ -62,7 +62,7 @@ router.get('/message/getList', Message.getMessages)
 router.post('/message/post', Message.postMessages)
 
 // 获取系统配置信息
-router.get('/systemConfig/getConfig', SystemConfig.getSystemConfigs)
+router.get('/systemConfig/getConfig', (req, res, next) => { req.query.model = 'simple'; next() }, SystemConfig.getSystemConfigs)
 
 
 

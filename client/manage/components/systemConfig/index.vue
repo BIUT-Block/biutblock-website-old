@@ -14,6 +14,21 @@
                     <el-form-item label="站点描述" prop="siteDiscription">
                         <el-input size="small" v-model="systemConfig.configs.siteDiscription"></el-input>
                     </el-form-item>
+                    <el-form-item label="站点关键字" prop="siteKeywords">
+                        <el-input size="small" v-model="systemConfig.configs.siteKeywords"></el-input>
+                    </el-form-item>
+                    <el-form-item label="系统邮箱" prop="siteEmail">
+                        <el-input size="small" v-model="systemConfig.configs.siteEmail"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备案号" prop="registrationNo">
+                        <el-input size="small" v-model="systemConfig.configs.registrationNo"></el-input>
+                    </el-form-item>
+                    <el-form-item label="mongoDBPath" prop="mongodbInstallPath">
+                        <el-input size="small" v-model="systemConfig.configs.mongodbInstallPath"></el-input>
+                    </el-form-item>
+                    <el-form-item label="数据备份目录" prop="databackForderPath">
+                        <el-input size="small" v-model="systemConfig.configs.databackForderPath"></el-input>
+                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -25,6 +40,7 @@
 </template>
 <script>
 import services from '../../store/services.js';
+const validatorUtil = require('../../../../utils/validatorUtil.js')
 
 import {
     mapGetters,
@@ -36,6 +52,20 @@ export default {
     data() {
         return {
             rules: {
+                siteEmail: [{
+                    required: true,
+                    message: '请填写系统邮箱',
+                    trigger: 'blur'
+                }, {
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkEmail(value)) {
+                            callback(new Error('请填写正确的邮箱!'));
+                        } else {
+                            callback();
+                        }
+                    },
+                    trigger: 'blur'
+                }],
                 siteName: [{
                     required: true,
                     message: '请输入站点名称',
@@ -54,6 +84,46 @@ export default {
                     min: 5,
                     max: 30,
                     message: '请输入5-30个字符',
+                    trigger: 'blur'
+                }],
+                siteKeywords: [{
+                    required: true,
+                    message: '请输入站点关键字',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 100,
+                    message: '请输入5-100个字符',
+                    trigger: 'blur'
+                }],
+                registrationNo: [{
+                    required: true,
+                    message: '请输入站点备案号',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 30,
+                    message: '请输入5-30个字符',
+                    trigger: 'blur'
+                }],
+                mongodbInstallPath: [{
+                    required: true,
+                    message: '请输入mongodb的bin目录',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 100,
+                    message: '请输入5-100个字符',
+                    trigger: 'blur'
+                }],
+                databackForderPath: [{
+                    required: true,
+                    message: '请输入数据备份路径',
+                    trigger: 'blur'
+                }, {
+                    min: 5,
+                    max: 100,
+                    message: '请输入5-100个字符',
                     trigger: 'blur'
                 }]
             }

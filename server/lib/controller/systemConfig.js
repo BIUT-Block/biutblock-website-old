@@ -9,13 +9,24 @@ class SystemConfig {
     }
     async getSystemConfigs(req, res, next) {
         try {
-            const systemConfigs = await SystemConfigModel.find({});
+            let model = req.query.model, files = null; // 查询模式 full/simple
+            if (model === 'simple') {
+                files = {
+                    siteName: 1,
+                    siteDomain: 1,
+                    siteDiscription: 1,
+                    siteKeywords: 1,
+                    siteEmail: 1,
+                    registrationNo: 1
+                }
+            }
+            const systemConfigs = await SystemConfigModel.find({}, files);
             res.send({
                 state: 'success',
                 docs: systemConfigs
             })
         } catch (err) {
-            console.log('获取SystemConfigs失败');
+            console.log('获取SystemConfigs失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -47,7 +58,12 @@ class SystemConfig {
             const systemObj = {
                 siteName: fields.siteName,
                 siteDomain: fields.siteDomain,
-                siteDiscription: fields.siteDiscription
+                siteDiscription: fields.siteDiscription,
+                siteKeywords: fields.siteKeywords,
+                siteEmail: fields.siteEmail,
+                registrationNo: fields.registrationNo,
+                databackForderPath: fields.databackForderPath,
+                mongodbInstallPath: fields.mongodbInstallPath
             }
             const item_id = fields._id;
             console.log('---fields----', fields);

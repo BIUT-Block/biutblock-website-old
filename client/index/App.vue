@@ -3,11 +3,6 @@
 <style src='../../node_modules/element-ui/lib/theme-default/index.css'></style>
 
 <style>
-.view {
-  /*text-align: center;*/
-  /*padding-top: 1rem;*/
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: all .2s ease;
@@ -72,9 +67,6 @@ export default {
   },
   methods: {
 
-  },
-  beforeMount() {
-    this.$store.dispatch('getSystemConfig');
   }
 }
 </script>

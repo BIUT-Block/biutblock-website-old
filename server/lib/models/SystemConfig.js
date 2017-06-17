@@ -16,7 +16,12 @@ var SystemConfigSchema = new Schema({
     date: { type: Date, default: Date.now },
     siteName: { type: String, default: '前端开发俱乐部' },
     siteDomain: { type: String, default: 'http://www.html-js.cn' },
-    siteDiscription: { type: String, default: '前端开发' }
+    siteDiscription: { type: String, default: '前端开发' },
+    siteKeywords: String,
+    siteEmail: String,
+    registrationNo: { type: String, default: '' },
+    mongodbInstallPath: String,
+    databackForderPath: String
 });
 
 var SystemConfig = mongoose.model("SystemConfig", SystemConfigSchema);

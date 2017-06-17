@@ -7,6 +7,7 @@ import {
 } from './router'
 import App from './App.vue'
 import Header from './components/common/header'
+import Footer from './components/common/Footer'
 import MyTag from './components/common/Tag.vue'
 import HotContents from './components/common/HotContents.vue'
 import * as filters from '../../utils/filters'
@@ -46,6 +47,7 @@ export function createApp() {
     // different depending on whether we are in a browser or on the server.
     let preFetchComponent = [
         Header,
+        Footer,
         MyTag,
         HotContents
     ]
