@@ -40,6 +40,19 @@ router.get('/logout', function (req, res) {
   });
 });
 
+// 更新菜单json文件
+router.get('/refreshManageCates', (req, res) => {
+  AdminResource.getAllResource(req, res, {
+    type: '0'
+  }).then((resource) => {
+    let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
+    service.writeFile(req, res, resJsonFile, JSON.stringify(resource))
+    res.send({
+      state: 'success'
+    });
+  })
+})
+
 /**
  * 管理员管理
  */

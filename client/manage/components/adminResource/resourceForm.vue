@@ -21,6 +21,14 @@
                             <el-input size="small" v-model="dialogState.formData.routePath">
                             </el-input>
                         </el-form-item>
+                        <el-form-item label="模板路径" prop="componentPath">
+                            <el-input size="small" v-model="dialogState.formData.componentPath">
+                                <template slot="prepend">/component/</template>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="显示在菜单项" prop="enable">
+                            <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
+                        </el-form-item>
                     </div>
                 </div>
                 <div v-else>
@@ -109,6 +117,7 @@
                         if (this.dialogState.edit) {
                             services.updateAdminResource(params).then((result) => {
                                 if (result.data.state === 'success') {
+                                    services.refreshManageCates();
                                     this.$store.dispatch('hideAdminResourceForm');
                                     this.$store.dispatch('getAdminResourceList');
                                     this.$message({
@@ -123,6 +132,7 @@
                             // 新增
                             services.addAdminResource(params).then((result) => {
                                 if (result.data.state === 'success') {
+                                    services.refreshManageCates();
                                     this.$store.dispatch('hideAdminResourceForm');
                                     this.$store.dispatch('getAdminResourceList');
                                     this.$message({

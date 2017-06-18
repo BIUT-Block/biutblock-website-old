@@ -43,12 +43,16 @@
                     this.$store.dispatch('getAdminGroupList', {
                         current: val
                     });
-                }  else if (this.pageType === 'contentMessage') {
+                } else if (this.pageType === 'contentMessage') {
                     this.$store.dispatch('getContentMessageList', {
                         current: val
                     });
                 } else if (this.pageType === 'contentTag') {
                     this.$store.dispatch('getContentTagList', {
+                        current: val
+                    });
+                } else if (this.pageType === 'regUser') {
+                    this.$store.dispatch('getRegUserList', {
                         current: val
                     });
                 }

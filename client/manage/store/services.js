@@ -14,6 +14,11 @@ export default {
     logOut() {
         return reqJsonData('manage/logout', {}, 'get')
     },
+
+    refreshManageCates(){
+        return reqJsonData('manage/refreshManageCates', {}, 'get')
+    },
+
     adminUserList(params) {
         return reqJsonData('manage/adminUser/getList', params, 'get')
     },

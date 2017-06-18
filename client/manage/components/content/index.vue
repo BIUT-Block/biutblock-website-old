@@ -2,7 +2,7 @@
     <div class="content">
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <ToolBar></ToolBar>
+                <TopBar type="content"></TopBar>
                 <DataTable :dataList="contentList.docs"></DataTable>
                 <Pagination :pageInfo="contentList.pageInfo" pageType="content"></Pagination>
             </el-col>
@@ -11,7 +11,7 @@
 </template>
 <script>
     import DataTable from './dataTable.vue';
-    import ToolBar from './toolBar.vue';
+    import TopBar from '../common/TopBar.vue';
     import Pagination from '../common/Pagination.vue';
     import {
         mapGetters,
@@ -27,7 +27,7 @@
         },
         components: {
             DataTable,
-            ToolBar,
+            TopBar,
             // ContentForm,
             Pagination
         },

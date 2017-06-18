@@ -3,48 +3,48 @@
         <ResourceForm :dialogState="formState"></ResourceForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <ToolBar></ToolBar>
+                <TopBar type="adminResource"></TopBar>
                 <ResourceTree :treeData="adminResourceList.docs" pageType="adminResource"></ResourceTree>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-import ResourceForm from './resourceForm'
-import ResourceTree from './resourceTree'
-import ToolBar from './toolBar.vue';
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
+    import ResourceForm from './resourceForm'
+    import ResourceTree from './resourceTree'
+    import TopBar from '../common/TopBar.vue';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
 
-export default {
-    name: 'index',
-    data() {
-        return {
+    export default {
+        name: 'index',
+        data() {
+            return {
 
-        }
-    },
-    components: {
-        ToolBar,
-        ResourceForm,
-        ResourceTree
-    },
-    methods: mapActions([
+            }
+        },
+        components: {
+            TopBar,
+            ResourceForm,
+            ResourceTree
+        },
+        methods: mapActions([
 
-    ]),
-    computed: {
-        ...mapGetters([
-            'adminResourceList'
         ]),
-        formState() {
-            return this.$store.getters.adminResourceFormState
+        computed: {
+            ...mapGetters([
+                'adminResourceList'
+            ]),
+            formState() {
+                return this.$store.getters.adminResourceFormState
+            }
+        },
+        mounted() {
+            this.$store.dispatch('getAdminResourceList')
         }
-    },
-    mounted() {
-        this.$store.dispatch('getAdminResourceList')
     }
-}
 </script>
 
 <style lang="">

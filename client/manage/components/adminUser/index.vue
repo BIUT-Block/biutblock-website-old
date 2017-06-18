@@ -3,7 +3,7 @@
         <UserForm :dialogState="formState" :groups="adminGroupList.docs"></UserForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <ToolBar></ToolBar>
+                <TopBar type="adminUser"></TopBar>
                 <DataTable :dataList="adminUserList.docs"></DataTable>
                 <Pagination :pageInfo="adminUserList.pageInfo" pageType="adminUser"></Pagination>
             </el-col>
@@ -13,7 +13,7 @@
 <script>
     import UserForm from './userForm'
     import DataTable from './dataTable.vue';
-    import ToolBar from './toolBar.vue';
+    import TopBar from '../common/TopBar.vue';
     import Pagination from '../common/Pagination.vue';
     import {
         mapGetters,
@@ -29,7 +29,7 @@
         },
         components: {
             DataTable,
-            ToolBar,
+            TopBar,
             UserForm,
             Pagination
         },

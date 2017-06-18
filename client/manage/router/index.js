@@ -147,7 +147,8 @@ function renderLeftMenu() {
           childrenMenu.push({
             path: '/' + child.routePath,
             component: resolve => require(['../components/' + child.componentPath], resolve),
-            name: child.label
+            name: child.label,
+            hidden: !child.enable
           })
         })
       }

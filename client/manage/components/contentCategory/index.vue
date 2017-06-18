@@ -3,48 +3,48 @@
         <CategoryForm :dialogState="formState"></CategoryForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <ToolBar></ToolBar>
+                <TopBar type="contentCategory"></TopBar>
                 <CategoryTree :treeData="contentCategoryList.docs"></CategoryTree>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-import CategoryForm from './categoryForm'
-import CategoryTree from './categoryTree'
-import ToolBar from './toolBar.vue';
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
+    import CategoryForm from './categoryForm'
+    import CategoryTree from './categoryTree'
+    import TopBar from '../common/TopBar.vue';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
 
-export default {
-    name: 'index',
-    data() {
-        return {
+    export default {
+        name: 'index',
+        data() {
+            return {
 
-        }
-    },
-    components: {
-        ToolBar,
-        CategoryForm,
-        CategoryTree
-    },
-    methods: mapActions([
+            }
+        },
+        components: {
+            TopBar,
+            CategoryForm,
+            CategoryTree
+        },
+        methods: mapActions([
 
-    ]),
-    computed: {
-        ...mapGetters([
-            'contentCategoryList'
         ]),
-        formState() {
-            return this.$store.getters.contentCategoryFormState
+        computed: {
+            ...mapGetters([
+                'contentCategoryList'
+            ]),
+            formState() {
+                return this.$store.getters.contentCategoryFormState
+            }
+        },
+        mounted() {
+            this.$store.dispatch('getContentCategoryList')
         }
-    },
-    mounted() {
-        this.$store.dispatch('getContentCategoryList')
     }
-}
 </script>
 
 <style lang="">

@@ -3,7 +3,7 @@
         <MessageForm :dialogState="formState"></MessageForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <ToolBar></ToolBar>
+                <TopBar type="contentMessage"></TopBar>
                 <DataTable :dataList="contentMessageList.docs"></DataTable>
                 <Pagination :pageInfo="contentMessageList.pageInfo" pageType="contentMessage"></Pagination>
             </el-col>
@@ -11,43 +11,43 @@
     </div>
 </template>
 <script>
-import MessageForm from './messageForm'
-import DataTable from './dataTable.vue';
-import ToolBar from './toolBar.vue';
-import Pagination from '../common/Pagination.vue';
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
+    import MessageForm from './messageForm'
+    import DataTable from './dataTable.vue';
+    import TopBar from '../common/TopBar.vue';
+    import Pagination from '../common/Pagination.vue';
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
 
-export default {
-    name: 'index',
-    data() {
-        return {
+    export default {
+        name: 'index',
+        data() {
+            return {
 
-        }
-    },
-    components: {
-        DataTable,
-        ToolBar,
-        MessageForm,
-        Pagination
-    },
-    methods: mapActions([
+            }
+        },
+        components: {
+            DataTable,
+            TopBar,
+            MessageForm,
+            Pagination
+        },
+        methods: mapActions([
 
-    ]),
-    computed: {
-        ...mapGetters([
-            'contentMessageList'
         ]),
-        formState() {
-            return this.$store.getters.contentMessageFormState
+        computed: {
+            ...mapGetters([
+                'contentMessageList'
+            ]),
+            formState() {
+                return this.$store.getters.contentMessageFormState
+            }
+        },
+        mounted() {
+            this.$store.dispatch('getContentMessageList');
         }
-    },
-    mounted() {
-        this.$store.dispatch('getContentMessageList');
     }
-}
 </script>
 
 <style lang="">

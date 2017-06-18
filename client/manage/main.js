@@ -36,7 +36,8 @@ Axios.interceptors.response.use(function (response) {
       store.dispatch("deleteToken");
     } else if (res.err && res.err.indexOf('adminGroupPower') !== -1) {
       store.dispatch("adminGroupPower", {
-        state: false
+        state: false,
+        power: {}
       });
     }
     return response;

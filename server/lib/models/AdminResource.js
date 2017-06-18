@@ -19,6 +19,10 @@ var AdminResourceSchema = new Schema({
     componentPath: String, //模板路径
     api: String, // 资源路径
     parentId: String,
+    enable: { // 是否可见
+        type: Boolean,
+        default: true
+    },
     sortId: {
         type: Number,
         default: 0

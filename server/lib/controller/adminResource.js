@@ -74,6 +74,7 @@ class AdminResource {
                 sortId: fields.sortId,
                 routePath: fields.routePath,
                 componentPath: fields.componentPath,
+                enable: fields.enable,
                 comments: fields.comments
             }
 
@@ -120,6 +121,7 @@ class AdminResource {
                 sortId: fields.sortId,
                 routePath: fields.routePath,
                 componentPath: fields.componentPath,
+                enable: fields.enable,
                 comments: fields.comments
             }
             const item_id = fields._id;
