@@ -19,6 +19,10 @@ export default {
         return reqJsonData('manage/refreshManageCates', {}, 'get')
     },
 
+    getUserSession(){
+        return reqJsonData('manage/getUserSession', {}, 'get')
+    },
+
     adminUserList(params) {
         return reqJsonData('manage/adminUser/getList', params, 'get')
     },

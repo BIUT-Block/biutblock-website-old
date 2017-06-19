@@ -4,10 +4,19 @@ import _ from 'lodash';
 const state = {
     count: 20,
     token: sessionStorage.getItem('cms-token'),
-    adminGroupPower: {
-        power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
-        state: true
+    loginState: {
+        state: false,
+        userInfo: {
+            userName: '',
+            email: '',
+            logo: '',
+            group: []
+        }
     },
+    // adminGroupPower: {
+    //     power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
+    //     state: true
+    // },
     adminUser: {
         formState: {
             show: false,
@@ -230,12 +239,26 @@ const mutations = {
         state.token = null;
         sessionStorage.setItem('cms-token', '');
     },
-    [types.ADMING_GROUPPower](state, params) {
-        state.adminGroupPower = Object.assign({
-            power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
-            state: true
-        }, params);
+    // [types.ADMING_GROUPPower](state, params) {
+    //     state.adminGroupPower = Object.assign({
+    //         power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
+    //         state: true
+    //     }, params);
 
+    // },
+    [types.ADMING_LOGINSTATE](state, params) {
+        state.loginState = Object.assign({
+            userInfo: {
+                userName: '',
+                email: '',
+                logo: '',
+                group: []
+            },
+            state: false
+        }, {
+                userInfo: params.userInfo,
+                state: params.loginState
+            });
     },
     [types.ADMINUSERFORMSTATE](state, formState) {
         state.adminUser.formState.show = formState.show;

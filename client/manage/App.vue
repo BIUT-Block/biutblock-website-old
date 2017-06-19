@@ -12,6 +12,9 @@ export default {
 
 	name: 'app',
 	components: {
+	},
+	beforeMount() {
+		this.$store.dispatch('loginState', { state: true });
 	}
 }
 

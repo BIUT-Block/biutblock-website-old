@@ -22,16 +22,26 @@ const {
 } = require('../../utils');
 
 router.get('/', authSession, function (req, res) {
+  let manageCates = require('../../utils/routePath/manageCates.json');
+  let adminPower = req.session.adminPower;
+  if (manageCates.length > 0) {
+    // 菜单权限控制
+    let newCates = manageCates.map((item, index) => {
+      if (adminPower.indexOf(item._id)) {
+        return item;
+      }
+    })
+    service.writeFile(req, res, resJsonFile, JSON.stringify(newCates));
+    res.render('manage', {
+      title: 'DoraCMS后台管理',
+      bundle: 'manage'
+    })
 
-  res.render('manage', {
-    title: 'DoraCMS后台管理',
-    bundle: 'manage'
-  })
-
+  }
 })
 
 // 管理员退出
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
   req.session.adminlogined = false;
   req.session.adminPower = '';
   req.session.adminUserInfo = '';
@@ -39,6 +49,15 @@ router.get('/logout', function (req, res) {
     state: 'success'
   });
 });
+
+// 获取管理员信息
+router.get('/getUserSession', authSession, (req, res) => {
+  res.send({
+    state: 'success',
+    loginState: req.session.adminlogined,
+    userInfo: req.session.adminUserInfo
+  });
+})
 
 // 更新菜单json文件
 router.get('/refreshManageCates', (req, res) => {

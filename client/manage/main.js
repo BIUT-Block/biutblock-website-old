@@ -35,9 +35,9 @@ Axios.interceptors.response.use(function (response) {
     if (res.err && res.err.indexOf('token') !== -1) {
       store.dispatch("deleteToken");
     } else if (res.err && res.err.indexOf('adminGroupPower') !== -1) {
-      store.dispatch("adminGroupPower", {
+      store.dispatch("loginState", {
         state: false,
-        power: {}
+        userInfo: {}
       });
     }
     return response;
