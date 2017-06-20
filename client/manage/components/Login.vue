@@ -90,7 +90,6 @@ export default {
   },
   mounted() {
 
-    this.$store.dispatch('hideHeader')
   },
   computed: {
     ...mapGetters([

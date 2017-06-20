@@ -11,7 +11,6 @@ const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/common/Tag.vue')
 const Login = require('../views/Login.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
-const SlotHeader = require('../components/common/header/slotHeader');
 const UserLoginForm = require('../components/common/UserLoginForm');
 
 export function createRouter() {

@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
                 let adminPower = req.session.adminUserInfo.group.power;
                 console.log('---adminPower---', adminPower);
                 console.log('---adminPower.indexOf(item._id)---', adminPower.indexOf(resourceObj._id));
-                if (item.api === targetApi && adminPower.indexOf(resourceObj._id) > -1) {
+                if (resourceObj.api === targetApi && adminPower.indexOf(resourceObj._id) > -1) {
                     hasPower = true;
                     break;
                 }

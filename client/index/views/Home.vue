@@ -34,11 +34,9 @@
                 'indexContentList'
             ]),
             addOne() {
-                // this.list.push('233')
                 this.$router.push('/home');
             }
         },
-
         asyncData({
             store
         }) {

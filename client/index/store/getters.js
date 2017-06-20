@@ -1,7 +1,7 @@
 export default {
     userLoginState: state => state.userLoginState,
     headerNav: state => state.headerNav,
-    headerState: state => state.headerState,
+    simplePage: state => state.simplePage,
     adminLoginFormData: state => state.adminLoginForm.formData,
     contentList: state => state.contentList,
     contentDetails: state => state.contentDetails,

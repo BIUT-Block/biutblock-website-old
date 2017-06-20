@@ -71,21 +71,13 @@ export default {
     }) => {
         commit(types.DELETE_TOKEN)
     },
-    // adminGroupPower: ({
-    //     commit
-    // }, params = {
-    //         power: [],
-    //         state: true
-    //     }) => {
-    //     commit(types.ADMING_GROUPPower, params)
-    // },
     loginState: ({
         commit
     }, params = {
             userInfo: {},
             state: false
         }) => {
-        if (state) {
+        if (params.state) {
             services.getUserSession().then((result) => {
                 commit(types.ADMING_LOGINSTATE, result.data)
             })

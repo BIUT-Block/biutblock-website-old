@@ -22,22 +22,29 @@ const {
 } = require('../../utils');
 
 router.get('/', authSession, function (req, res) {
-  let manageCates = require('../../utils/routePath/manageCates.json');
-  let adminPower = req.session.adminPower;
-  if (manageCates.length > 0) {
-    // 菜单权限控制
-    let newCates = manageCates.map((item, index) => {
-      if (adminPower.indexOf(item._id)) {
+
+  AdminResource.getAllResource(req, res, {
+    type: '0'
+  }).then((manageCates) => {
+    let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
+    let adminPower = req.session.adminPower;
+
+    if (manageCates.length > 0) {
+      // 菜单权限控制
+      let newCates = manageCates.map((item, index) => {
+        if (adminPower.indexOf(item._id) < 0) {
+          item.enable = false;
+        }
         return item;
-      }
-    })
-    service.writeFile(req, res, resJsonFile, JSON.stringify(newCates));
+      })
+      service.writeFile(req, res, resJsonFile, JSON.stringify(manageCates));
+    }
     res.render('manage', {
       title: 'DoraCMS后台管理',
       bundle: 'manage'
     })
+  })
 
-  }
 })
 
 // 管理员退出
@@ -60,16 +67,14 @@ router.get('/getUserSession', authSession, (req, res) => {
 })
 
 // 更新菜单json文件
-router.get('/refreshManageCates', (req, res) => {
-  AdminResource.getAllResource(req, res, {
-    type: '0'
-  }).then((resource) => {
-    let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
-    service.writeFile(req, res, resJsonFile, JSON.stringify(resource))
+router.get('/refreshIndexCates', (req, res) => {
+  ContentCategory.getAllCategories(req, res).then((result) => {
+    let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
+    service.writeFile(req, res, jsonFile, JSON.stringify(result))
     res.send({
       state: 'success'
     });
-  })
+  });
 })
 
 /**

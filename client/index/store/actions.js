@@ -12,25 +12,15 @@ export default {
             commit(types.SET_USER_LOGINSTATE, result.data || {})
         })
     },
-    showHeaderNav({
+    simplePage({
         commit
     }) {
-        commit(types.SET_HEADER_NAV, true)
+        commit(types.SET_PAGE_STATE, true)
     },
-    hideHeaderNav({
+    normalPage({
         commit
     }) {
-        commit(types.SET_HEADER_NAV, false)
-    },
-    showHeader({
-        commit
-    }) {
-        commit(types.SET_HEADER_STATE, 'myheader')
-    },
-    hideHeader({
-        commit
-    }) {
-        commit(types.SET_HEADER_STATE, 'slotTemp')
+        commit(types.SET_PAGE_STATE, false)
     },
     headerNav({
         commit

@@ -7,9 +7,7 @@ const state = {
         logined: false
     },
     headerNav: [],
-    headerState: {
-        show: 'myheader'
-    },
+    simplePage: false,
     adminLoginForm: {
         formData: {
             userName: '',
@@ -75,8 +73,8 @@ const mutations = {
     [types.CONTENT_TAGS](state, tags) {
         state.contentTag = tags.docs;
     },
-    [types.SET_HEADER_STATE](state, active) {
-        state.headerState.show = active
+    [types.SET_PAGE_STATE](state, active) {
+        state.simplePage = active
     },
     [types.ADMINLOGIN_FORM_STATE](state, formState) {
         state.adminLoginForm.formData = Object.assign({

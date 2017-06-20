@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/index.js'
 import Hello from '../components/Hello'
 import Home from '../components/Home'
 import Login from '../components/Login'
@@ -162,21 +163,21 @@ function renderLeftMenu() {
       children: childrenMenu
     }
     addNewRoutes.push(parentMenu);
-    // router.addRoutes(parentMenu);
+
   })
 
-  console.log('---addNewRoutes---', addNewRoutes);
+  // console.log('---addNewRoutes---', addNewRoutes);
   return addNewRoutes;
 }
 
 
 router.beforeEach((to, from, next) => {
   // token 校验
-  if (router.app.$store) {
+  if (store.getters.token) {
     Axios.defaults.headers.common['Authorization'] = 'DoraCMS ' + router.app.$store.getters.token; // 全局设定header的token验证，注意Bearer后有个空格
     next()
   } else {
-    next();
+    window.location = '/dr-admin';
   }
 })
 

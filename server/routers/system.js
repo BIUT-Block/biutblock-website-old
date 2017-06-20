@@ -42,7 +42,6 @@ router.post('/upload', function (req, res, next) {
     }).on('file', function (field, file) {
         files.push([field, file]);
         docs.push(file);
-
         //校验文件的合法性
         let realFileType = service.getFileMimeType(file.path);
         let contentType = mime[realFileType.fileType] || 'unknown';

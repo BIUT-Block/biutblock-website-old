@@ -31,11 +31,11 @@
 </style>
 <template>
   <div id="app">
-    <MyHeader></MyHeader>
+    <MyHeader v-show="!simplePage"></MyHeader>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
-    <MyFooter></MyFooter>
+    <MyFooter v-show="!simplePage"></MyFooter>
   </div>
 </template>
 <script>
@@ -45,7 +45,6 @@ import {
 } from 'vuex';
 import MyHeader from './components/common/header'
 import MyFooter from './components/common/Footer'
-import SlotHeader from './components/common/header/slotHeader.vue'
 import services from './store/services'
 export default {
 
@@ -54,19 +53,20 @@ export default {
       navItems: []
     }
   },
-
   components: {
     MyHeader,
-    slotTemp: SlotHeader,
     MyFooter
   },
   computed: {
     ...mapGetters([
-      'headerState'
+      'simplePage'
     ])
   },
   methods: {
 
+  },
+  beforeMount() {
+    this.$store.dispatch('normalPage');
   }
 }
 </script>

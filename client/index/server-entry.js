@@ -1,5 +1,4 @@
 import { createApp } from './app'
-import SlotHeader from './components/common/header/slotHeader'
 import path from 'path';
 import fs from 'fs';
 const isDev = process.env.NODE_ENV !== 'production'

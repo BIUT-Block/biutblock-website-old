@@ -15,8 +15,8 @@ export default {
         return reqJsonData('manage/logout', {}, 'get')
     },
 
-    refreshManageCates(){
-        return reqJsonData('manage/refreshManageCates', {}, 'get')
+    refreshIndexCates(){
+        return reqJsonData('manage/refreshIndexCates', {}, 'get')
     },
 
     getUserSession(){

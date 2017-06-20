@@ -77,18 +77,7 @@ export default {
         // window.addEventListener('resize', this.checkMobile)
     },
     methods: {
-        checkMobile() {
-            if (window.innerWidth > 800) {
-                // this.$store.dispatch('hideHeaderNav')
-            }
-        },
-        toggleMNav() {
-            if (this.HeaderNav.show) {
-                // this.$store.dispatch('hideHeaderNav')
-            } else {
-                // this.$store.dispatch('showHeaderNav')
-            }
-        }
+       
     },
     asyncData({
             store

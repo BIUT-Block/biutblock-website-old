@@ -117,7 +117,6 @@
                         if (this.dialogState.edit) {
                             services.updateAdminResource(params).then((result) => {
                                 if (result.data.state === 'success') {
-                                    services.refreshManageCates();
                                     this.$store.dispatch('hideAdminResourceForm');
                                     this.$store.dispatch('getAdminResourceList');
                                     this.$message({
@@ -132,7 +131,6 @@
                             // 新增
                             services.addAdminResource(params).then((result) => {
                                 if (result.data.state === 'success') {
-                                    services.refreshManageCates();
                                     this.$store.dispatch('hideAdminResourceForm');
                                     this.$store.dispatch('getAdminResourceList');
                                     this.$message({
