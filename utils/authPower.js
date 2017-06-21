@@ -3,7 +3,7 @@ const {
 } = require('../server/lib/controller');
 const _ = require('lodash');
 module.exports = (req, res, next) => {
-    console.log('---req.originalUrl---', req.originalUrl);
+    // console.log('---req.originalUrl---', req.originalUrl);
     req.query.resourcefiles = "_id api";
     AdminResource.getAllResource(req, res, {
         type: '1'

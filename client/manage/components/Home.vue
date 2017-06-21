@@ -120,6 +120,7 @@ export default {
             this.$confirm('确认退出吗?', '提示', {
                 type: 'warning'
             }).then(() => {
+                this.loading = true;
                 services.logOut().then((result) => {
                     if (result && result.data.state === 'success') {
                         window.location = '/dr-admin';

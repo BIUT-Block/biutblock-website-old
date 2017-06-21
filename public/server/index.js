@@ -3672,6 +3672,7 @@ module.exports = {
 	"version": "2.0.0",
 	"author": "dora <admin@html-js.cn>",
 	"scripts": {
+		"dll": "webpack --config build/config.dll.js",
 		"start": "cross-env NODE_ENV=production node app",
 		"dev": "cross-env NODE_ENV=development supervisor -w server,app.js app",
 		"build": "cross-env NODE_ENV=production node build/build-prod",

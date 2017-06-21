@@ -3,15 +3,13 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// const index = require('../views/index.vue')
 const ItemList = require('../views/ItemList.vue')
 const MainBody = require('../views/MainBody.vue')
 const Article = require('../views/Article.vue')
 const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/common/Tag.vue')
-const Login = require('../views/Login.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
-const UserLoginForm = require('../components/common/UserLoginForm');
+const UserLoginForm = require('../views/UserLoginForm');
 
 export function createRouter() {
     const router = new Router({

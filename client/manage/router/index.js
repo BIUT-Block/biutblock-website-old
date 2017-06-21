@@ -117,7 +117,6 @@ function renderLeftMenu() {
   let addNewRoutes = [];
   let treeData = require('../../../utils/routePath/manageCates.json');
   let newResult = [].concat(treeData);
-  // let treeData = newResult.docs;
   let delAtArr = [];
   let childArr = _.filter(treeData, (doc) => {
     return doc.parentId != '0'
@@ -160,13 +159,13 @@ function renderLeftMenu() {
       component: Home,
       name: item.label,
       iconCls: 'fa fa-user',
+      hidden: !item.enable,
       children: childrenMenu
     }
     addNewRoutes.push(parentMenu);
 
   })
-
-  // console.log('---addNewRoutes---', addNewRoutes);
+  console.log('--addNewRoutes---', addNewRoutes);
   return addNewRoutes;
 }
 

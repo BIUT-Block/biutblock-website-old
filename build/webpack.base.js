@@ -50,6 +50,11 @@ module.exports = {
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.DllReferencePlugin({
+            context: path.join(__dirname, "../public/dll"),
+            manifest: require("../public/dll/vendor-manifest.json")
+        })
     ],
 }

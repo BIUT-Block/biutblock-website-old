@@ -43,7 +43,7 @@ export default {
                     this.$store.dispatch('hideAdminGroupRoleForm');
                     this.$store.dispatch('getAdminGroupList');
                     this.$message({
-                        message: '更新成功',
+                        message: '更新成功,重新登录后权限生效',
                         type: 'success'
                     });
                 } else {
@@ -56,7 +56,6 @@ export default {
         }
     },
     updated() {
-        // console.log('组件更新完毕', this.$refs);
         this.$refs.tree && this.$refs.tree.setCheckedKeys(this.roleState.formData.power);
     }
 }
