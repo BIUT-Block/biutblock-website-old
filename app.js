@@ -1,6 +1,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const ueditor = require("ueditor")
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -21,6 +22,8 @@ const renderClientSession = require('./utils/middleware/renderClientSession');
 const authUser = require('./utils/middleware/authUser');
 const { service, settings } = require('./utils');
 
+//静态压缩
+app.use(compression());
 app.set('views', path.join(__dirname, 'server/views'))
 app.set('view engine', 'ejs')
 
@@ -45,7 +48,6 @@ app.use(session({//session持久化配置
     })
 }));
 app.use(authUser.auth);
-// app.use(renderClientSession);
 app.use(renderCates);
 
 // 集成ueditor
@@ -108,14 +110,26 @@ if (isDev) {
 
     const server = http.createServer(app)
 
-    app.use(express.static(path.join(__dirname, 'public')))
+    app.use(express.static(path.join(__dirname, 'public')));
 
     server.listen(PORT, function () {
         console.log('App (dev) is now running on PORT ' + PORT + '!')
     })
 } else {
     // static assets served by express.static() for production
-    app.use(express.static(path.join(__dirname, 'public')))
+    // 缓存配置
+    const cacheOptions = {
+        dotfiles: 'ignore',
+        etag: false,
+        extensions: ['css', 'png', 'gif', 'jpg', 'js'],
+        maxAge: 86400000 * 5, // 5天
+        index: false,
+        redirect: false,
+        setHeaders: function (res, path, stat) {
+            res.set('x-timestamp', Date.now())
+        }
+    };
+    app.use(express.static(path.join(__dirname, 'public'), cacheOptions))
 
     app.listen(PORT, function () {
         console.log('App (production) is now running on PORT ' + PORT + '!')
