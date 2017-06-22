@@ -14,7 +14,12 @@ export default {
         return reqJsonData('api/users/session', {}, 'get')
     },
 
+    userLogOut() {
+        return reqJsonData('api/users/logOut', {}, 'get')
+    },
+
     contentList(params) {
+        console.log('---begin to get contents----', params);
         return reqJsonData('api/content/getList', params, 'get')
     },
 

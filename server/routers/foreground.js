@@ -20,7 +20,7 @@ function vc(req, res, next) {
 router.get('/', RenderView.index);
 router.get('/page/:page', RenderView.index)
 router.get('/details/:id', RenderView.details)
-router.get('/tag', RenderView.index)
+router.get('/tag/:default', RenderView.index)
 router.get('/add', RenderView.index)
 router.get('/dr-admin', (req, res, next) => {
   if (req.session.adminlogined) {
@@ -30,7 +30,12 @@ router.get('/dr-admin', (req, res, next) => {
   }
 }).get('/dr-admin', RenderView.index)
 
-router.get('/users/login', RenderView.index)
+router.get('/users/login', (req, res) => {
+  res.render('login', {
+    title: '用户登录',
+    bundle: 'index'
+  })
+})
 
 //缓存站点地图
 router.get("/sitemap.html", RenderView.index);

@@ -12,7 +12,7 @@
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
                     <span class="el-dropdown-link userinfo-inner">
-                        <img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
+                        <img :src="loginState.userInfo.logo" /> {{loginState.userInfo.userName}}</span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>我的消息</el-dropdown-item>
                         <el-dropdown-item>设置</el-dropdown-item>
@@ -89,18 +89,7 @@ export default {
             loading: false,
             sysName: 'DoraCMS',
             collapsed: false,
-            sysUserName: 'dora',
-            sysUserAvatar: require('../assets/images/logo.jpg'),
-            form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
-            }
+
         }
     },
     methods: {
@@ -153,12 +142,6 @@ export default {
         }
     },
     mounted() {
-        var user = sessionStorage.getItem('user');
-        if (user) {
-            user = JSON.parse(user);
-            this.sysUserName = user.name || 'doracms';
-            this.sysUserAvatar = user.avatar || '@/images/logo.jpg';
-        }
 
     },
     computed: {

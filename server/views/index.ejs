@@ -15,7 +15,9 @@
     
     {{ APP }}
     
+    <%if(NODE_ENV !== 'development'){%>
     <script src="/dll/dll.vendor.js"></script>
+    <%}%>
     <script src="/client/js/<%=bundle%>.js"></script>
 </body>
 </html>

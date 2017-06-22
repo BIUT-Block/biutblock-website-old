@@ -14,11 +14,9 @@
     }
     .discription {
         text-align: left;
-
         .title {
             h3 {
                 margin: 0;
-                color: #3d464d;
             }
             time {
                 color: #a2a2a2;
@@ -32,33 +30,15 @@
         }
         .dis {
             font-size: 15px;
-            color: #828a92;
         }
     }
 }
 </style>
 <template>
     <div>
-        <article v-for="item in contentList.docs" class="content-item">
-            <el-row :gutter="0">
-                <el-col :xs="0" :sm="0" :md="7" :lg="7">
-                    <div class="grid-content bg-purple contentImg">
-                        <img :src="item.sImg" />
-                    </div>
-                </el-col>
-                <el-col :xs="24" :sm="24" :md="17" :lg="17" class='discription'>
-                    <div class="grid-content bg-purple-light title">
-                        <h3>
-                            <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
-                        </h3>
-                        <time>{{item.date | formatDateNearBy}}&nbsp;-&nbsp;阅&nbsp;{{item.clickNum}}</time>
-                    </div>
-                    <div class="dis">{{item.discription}}</div>
-                </el-col>
-            </el-row>
-        </article>
+        testme
         <div class="content-pagination">
-            <Pagination :pageInfo="contentList.pageInfo" :typeId="typeId" />
+    
         </div>
     </div>
 </template>

@@ -75,7 +75,7 @@ class AdminUser {
                     req.session.adminPower = user.group.power;
                     req.session.adminlogined = true;
                     req.session.adminUserInfo = user;
-                    console.log('--req.session---', req.session);
+                    // console.log('--req.session---', req.session);
                     const token = jwt.sign({
                         userName,
                         password,

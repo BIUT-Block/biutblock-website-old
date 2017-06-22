@@ -1,5 +1,6 @@
 const BaseComponent = require('../prototype/baseComponent');
 const ContentModel = require("../models").Content;
+const ContentTagModel = require("../models").ContentTag;
 const formidable = require('formidable');
 const { service, settings, validatorUtil } = require('../../../utils');
 
@@ -13,7 +14,8 @@ class Content {
             let pageSize = req.query.pageSize || 10;
             let sortby = req.query.sortby; //排序规则
             let typeId = req.query.typeId; // 分类ID
-            let model = req.query.model; // 查询模式 full/simple
+            let tagName = req.query.tagName; // 分类ID
+            let model = req.query.model; // 查询模式 full/normal/simple
             // 条件配置
             let queryObj = { 'state': true }, sortObj = { date: -1 }, files = null;
             if (sortby) {
@@ -22,20 +24,38 @@ class Content {
             if (typeId && typeId != 'indexPage') {
                 queryObj.categories = typeId
             }
+            if (tagName) {
+                let targetTag = await ContentTagModel.findOne({ name: tagName });
+                queryObj.tags = targetTag._id;
+                // 如果有标签，则查询全部类别
+                delete queryObj.categories;
+            }
             if (model === 'simple') {
                 files = {
                     id: 1,
                     title: 1,
                     stitle: 1
                 }
+            } else if (model === 'normal') {
+                files = {
+                    id: 1,
+                    title: 1,
+                    sImg: 1,
+                    date: 1,
+                    clickNum: 1,
+                    discription: 1
+                }
             }
-
+            // console.log('---queryObj---', queryObj);
             const contents = await ContentModel.find(queryObj, files).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'author',
                 select: 'name -_id'
             },
             {
                 path: 'categories',
+                select: 'name _id'
+            }, {
+                path: 'tags',
                 select: 'name _id'
             }]).exec();
             const totalItems = await ContentModel.count(queryObj);

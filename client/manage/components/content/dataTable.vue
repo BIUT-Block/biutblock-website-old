@@ -48,7 +48,6 @@
 
 <script>
     import services from '../../store/services.js';
-    import moment from 'moment';
     export default {
         props: {
             dataList: Array

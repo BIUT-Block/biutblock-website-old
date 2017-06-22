@@ -43,7 +43,7 @@ router.onReady(() => {
         const prevMatched = router.getMatchedComponents(from)
         let diffed = false
         const activated = matched.filter((c, i) => {
-            return diffed || (diffed = (prevMatched[i] !== c)) || c.name === 'cmslistview' || c.name === 'cmsarticleview'
+            return diffed || (diffed = (prevMatched[i] !== c)) || c.name === 'tagpage-list-view' || c.name === 'cmsarticleview'
         })
         if (!activated.length) {
             return next()

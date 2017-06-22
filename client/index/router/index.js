@@ -10,7 +10,7 @@ const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/common/Tag.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const UserLoginForm = require('../views/UserLoginForm');
-
+import createListView from '../views/CreateListView';
 export function createRouter() {
     const router = new Router({
         mode: 'history',
@@ -23,21 +23,27 @@ export function createRouter() {
         routes: [{
             path: '/',
             name: 'index',
-            component: MainBody,
-            meta: {
+            component: createListView({
+                name: 'indexPage',
                 typeId: 'indexPage',
-            }
+                typeName: '首页'
+            })
         }, {
             path: '/page/:page(\\d+)?',
             name: 'indexPage',
-            component: MainBody,
-            meta: {
+            component: createListView({
+                name: 'indexPageItem',
                 typeId: 'indexPage',
-            }
+                typeName: '标签云'
+            })
         }, {
-            path: '/tag',
-            name: 'tag',
-            component: Tag
+            path: '/tag/:tagName',
+            name: 'tagPage',
+            component: createListView({
+                name: 'tagpage',
+                typeId: 'tags',
+                typeName: '标签云'
+            })
         }, {
             path: '/users/login',
             name: 'login',
@@ -67,15 +73,15 @@ export function createRouter() {
         headerNav.map((item, index) => {
             newRoters.push({
                 path: '/' + item.defaultUrl + '___' + item._id + '/:page(\\d+)?',
-                component: MainBody,
-                name: 'catePage_' + item._id,
-                iconCls: 'fa fa-id-card-o',
-                meta: {
-                    title: item.name,
+                component: createListView({
+                    name: (item.defaultUrl).split('-')[0],
                     typeId: item._id,
+                    typeName: item.name,
                     discription: item.comments,
                     keywords: item.keywords
-                }
+                }),
+                name: 'catePage_' + item._id,
+                iconCls: 'fa fa-id-card-o'
             })
         })
         router.addRoutes(newRoters)

@@ -1,6 +1,6 @@
 <template>
     <div class="content-tag">
-        <h3>标签云</h3>
+        <h3 class="simpletitle">标签云</h3>
         <ul>
             <li v-for="(item,index) in tags">
                 <router-link :to="'/tag/'+item.name">{{item.name}}</router-link>
@@ -28,12 +28,6 @@ export default {
 .content-tag {
     text-align: left;
     margin-bottom: 40px;
-    h3 {
-        font-size: 16px;
-        color: #000;
-        font-weight: 100;
-        margin: 0;
-    }
     ul {
         li {
             list-style-type: none;
@@ -42,7 +36,7 @@ export default {
             a {
                 padding: 15px 0px;
                 display: inline-block;
-                color: #a2a2a2;
+                color: #828a92;
                 cursor: pointer;
             }
             a:link {

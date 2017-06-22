@@ -7,6 +7,9 @@
         </el-col>
         <el-col :xs="20" :sm="12" :md="8" :lg="8">
           <el-form :model="adminLoginFormData" :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm login-container">
+            <h3 class="login-pannel-title">
+              <span>管理员登录</span>
+            </h3>
             <el-form-item label="用户名" prop="userName">
               <el-input size="small" v-model="adminLoginFormData.userName"></el-input>
             </el-form-item>
@@ -134,7 +137,7 @@ export default {
     -moz-border-radius: 5px;
     background-clip: padding-box; // margin: 180px auto;
     // width: 350px;
-    padding: 35px 35px 15px 35px;
+    padding: 25px 35px 10px 35px;
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;

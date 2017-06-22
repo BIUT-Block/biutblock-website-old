@@ -1,6 +1,8 @@
 <template>
     <div class="hot-content-list">
-        <h3 class="content-title">热门文章</h3>
+        <h3 class="content-title normaltitle">
+            <span>热门文章</span>
+        </h3>
         <div class="content-list">
             <ul>
                 <li v-for="(item,index) in hotContentList.docs">
@@ -29,18 +31,6 @@ export default {
 <style lang="scss">
 .hot-content-list {
     margin-bottom: 40px;
-    h3 {
-        font-size: 14px;
-        color: #fff;
-        width: 80px;
-        height: 25px;
-        line-height: 25px;
-        text-align: center;
-        border-radius: 3px;
-        background: #20A0FF;
-        font-weight: normal;
-        margin-top: 0;
-    }
     .content-list {
         text-align: left;
         ul {

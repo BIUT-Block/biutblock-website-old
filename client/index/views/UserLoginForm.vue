@@ -7,6 +7,9 @@
         </el-col>
         <el-col :xs="20" :sm="12" :md="8" :lg="8">
           <el-form :model="userLoginFormData" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm login-container">
+            <h3 class="login-pannel-title">
+              <span>用户登录</span>
+            </h3>
             <el-form-item prop="email">
               <el-input size="small" placeholder="请填写邮箱" v-model="userLoginFormData.email"></el-input>
             </el-form-item>
@@ -101,8 +104,8 @@ export default {
       this.$refs[formName].resetFields();
     }
   },
-  mounted() {
-
+  beforeMount() {
+    this.$store.dispatch('simplePage');
   },
   computed: {
     ...mapGetters([
@@ -119,7 +122,7 @@ export default {
 .login-form {
 
   margin: 0 auto;
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 100px;
 
   .submit-btn {
@@ -131,7 +134,7 @@ export default {
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box; // margin: 180px auto;
-    padding: 35px 35px 15px 35px;
+    padding: 25px 35px 10px 35px;
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;

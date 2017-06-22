@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const webpackHotMiddlewareConfig = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
 const getEntries = require('./getEntries')
-
+const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
     context: path.resolve(__dirname, '../'),
     output: {
@@ -47,7 +47,7 @@ module.exports = {
             'scss-loader': 'sass-loader',
         },
     },
-    plugins: [
+    plugins: isProd ? [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
@@ -55,6 +55,9 @@ module.exports = {
         new webpack.DllReferencePlugin({
             context: path.join(__dirname, "../public/dll"),
             manifest: require("../public/dll/vendor-manifest.json")
-        })
-    ],
+        })] : [
+            new webpack.optimize.OccurrenceOrderPlugin(),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoEmitOnErrorsPlugin()
+        ]
 }
