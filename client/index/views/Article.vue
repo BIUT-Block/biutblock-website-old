@@ -20,7 +20,7 @@
                                                 <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.categories[contentDetails.doc.categories.length-1].name}}
                                             </li>
                                             <li>
-                                                <span class="dot">&nbsp;•&nbsp;</span>阅:{{contentDetails.doc.clickNum}}
+                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.date | formatDateNearBy}}
                                             </li>
                                         </ul>
                                     </div>

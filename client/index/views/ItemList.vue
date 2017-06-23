@@ -28,7 +28,14 @@
     }
     .discription {
         text-align: left;
-
+        .post-meta {
+            li {
+                display: inline-block;
+                font-size: 12px;
+                color: #828a92;
+                margin: 10px 10px 10px 0;
+            }
+        }
         .title {
             h3 {
                 margin: 0;
@@ -70,7 +77,14 @@ article:last-child {
                         <h3>
                             <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                         </h3>
-                        <time>{{item.date | formatDateNearBy}}&nbsp;-&nbsp;阅&nbsp;{{item.clickNum}}</time>
+                        <ul class="post-meta">
+                            <li>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{item.date | formatDateNearBy}}</li>
+                            <li>
+                                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;阅读({{item.clickNum}})</li>
+                            <li>
+                                <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;评论({{item.commentNum}})</li>
+                        </ul>
                     </div>
                     <div class="dis">{{item.discription}}</div>
                 </el-col>

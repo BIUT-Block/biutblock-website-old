@@ -1,5 +1,6 @@
 <style src="./assets/base.css"></style>
 <style src='../../node_modules/element-ui/lib/theme-default/index.css'></style>
+<style src='../../node_modules/font-awesome/css/font-awesome.min.css'></style>
 
 <style>
 .fade-enter-active,

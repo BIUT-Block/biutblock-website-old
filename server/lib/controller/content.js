@@ -45,6 +45,7 @@ class Content {
                     title: 1,
                     sImg: 1,
                     categories: 1,
+                    commentNum: 1,
                     date: 1,
                     clickNum: 1,
                     discription: 1
