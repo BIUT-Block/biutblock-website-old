@@ -1,11 +1,13 @@
 <template>
     <div class="content-message">
-        <h3>评论</h3>
+        <h3 class="pannel-title">
+            <span>评论</span>
+        </h3>
         <div>
             <el-row :gutter="10">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24">
                     <div class="give-message">
-                        {{msgFormState.formData}} {{contentId}}
+    
                         <el-form :model="msgFormState.formData" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                             <el-form-item class="send-content" prop="content">
                                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="msgFormState.formData.content">
@@ -29,7 +31,7 @@
             </el-row>
         </div>
         <ul>
-            <li v-for="(item,index) in userMessageList.docs">
+            <li v-for="(item,index) in userMessageList">
                 <el-row :gutter="15">
                     <el-col :xs="2" :sm="2" :md="2" :lg="1">
                         <div class="user-logo">
@@ -85,7 +87,7 @@ export default {
         }
     },
     props: {
-        userMessageList: Object,
+        userMessageList: Array,
         contentId: String
     },
     computed: {

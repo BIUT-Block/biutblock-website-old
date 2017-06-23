@@ -11,6 +11,20 @@
         margin-right: 30px;
         height: auto;
         display: block;
+        position: relative;
+        .content-cate {
+            position: absolute;
+            top: .4rem;
+            left: .4rem;
+            display: block;
+            padding: 0 .5rem;
+            color: #fff;
+            background: rgba(0, 0, 0, .5);
+            font-size: .6rem;
+            text-align: center;
+            border-radius: 1rem;
+            z-index: 11;
+        }
     }
     .discription {
         text-align: left;
@@ -36,13 +50,18 @@
         }
     }
 }
+
+article:last-child {
+    border: none
+}
 </style>
 <template>
-    <div>
+    <div class="post">
         <article v-for="item in contentList.docs" class="content-item">
             <el-row :gutter="0">
                 <el-col :xs="0" :sm="0" :md="7" :lg="7">
                     <div class="grid-content bg-purple contentImg">
+                        <span class="content-cate">{{(item.categories)[item.categories.length-1].name}}</span>
                         <img :src="item.sImg" />
                     </div>
                 </el-col>

@@ -33,7 +33,7 @@
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
                                     <Tag/>
-                                    <HotContents/>
+                                    <HotContents :typeId="options.typeId"/>
                                 </div>
                             </el-col>
                         </el-row>

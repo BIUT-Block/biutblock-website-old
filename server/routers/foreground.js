@@ -30,12 +30,7 @@ router.get('/dr-admin', (req, res, next) => {
   }
 }).get('/dr-admin', RenderView.index)
 
-router.get('/users/login', (req, res) => {
-  res.render('login', {
-    title: '用户登录',
-    bundle: 'index'
-  })
-})
+router.get('/users/login', RenderView.index)
 
 //缓存站点地图
 router.get("/sitemap.html", RenderView.index);

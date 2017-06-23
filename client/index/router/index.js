@@ -4,7 +4,6 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const ItemList = require('../views/ItemList.vue')
-const MainBody = require('../views/MainBody.vue')
 const Article = require('../views/Article.vue')
 const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/common/Tag.vue')
@@ -32,9 +31,9 @@ export function createRouter() {
             path: '/page/:page(\\d+)?',
             name: 'indexPage',
             component: createListView({
-                name: 'indexPageItem',
+                name: 'indexPage',
                 typeId: 'indexPage',
-                typeName: '标签云'
+                typeName: '首页'
             })
         }, {
             path: '/tag/:tagName',

@@ -7,7 +7,7 @@
         </el-col>
         <el-col :xs="20" :sm="12" :md="8" :lg="8">
           <el-form :model="adminLoginFormData" :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm login-container">
-            <h3 class="login-pannel-title">
+            <h3 class="pannel-title">
               <span>管理员登录</span>
             </h3>
             <el-form-item label="用户名" prop="userName">

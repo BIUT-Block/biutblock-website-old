@@ -48,7 +48,7 @@ router.get('/content/getContent', Content.getOneContent)
 router.post('/users/doLogin', User.loginAction);
 
 // 用户注销
-router.post('/users/logOut', User.logOut);
+router.get('/users/logOut', User.logOut);
 
 // 管理员登录
 router.post('/admin/doLogin', AdminUser.loginAction);

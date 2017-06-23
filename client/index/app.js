@@ -48,8 +48,8 @@ export function createApp() {
     let preFetchComponent = [
         Header,
         Footer,
-        MyTag,
-        HotContents
+        MyTag
+        // HotContents
     ]
 
     return {

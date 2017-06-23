@@ -8,9 +8,9 @@
                 <el-row class="grid-content bg-purple-light">
                     <el-col :xs="24" :sm="4" :md="4" :lg="4">
                         <div class="header-logo">
-                            <router-link to="/">
+                            <a href="/" target="_self">
                                 <img src="../../../assets/logo.png" />
-                            </router-link>
+                            </a>
                         </div>
                     </el-col>
                     <el-col :xs="24" :sm="16" :md="16" :lg="16">
@@ -77,7 +77,7 @@ export default {
         // window.addEventListener('resize', this.checkMobile)
     },
     methods: {
-       
+
     },
     asyncData({
             store
@@ -89,12 +89,11 @@ export default {
 <style lang="scss">
 .header {
     overflow: hidden;
-    background: #faf9f4;
     border-bottom: 1px solid #f1f1f1;
 
     .header-main {
         margin: 0 auto;
-        padding: 25px 0px;
+        padding: 10px 0px;
         overflow: hidden;
         .header-logo {
             img {
@@ -105,8 +104,8 @@ export default {
 
         .header-nav {
             height: 40px;
+            line-height: 40px;
             float: left;
-            margin-top: 10px; // border-left: 1px solid #f1eee0;
             margin-left: 30px;
             width: 100%;
             .el-row {

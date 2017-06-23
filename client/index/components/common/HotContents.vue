@@ -1,12 +1,12 @@
 <template>
     <div class="hot-content-list">
-        <h3 class="content-title normaltitle">
+        <h3 class="content-title pannel-title">
             <span>热门文章</span>
         </h3>
         <div class="content-list">
             <ul>
                 <li v-for="(item,index) in hotContentList.docs">
-                    <router-link :to="'/details/'+item._id+'.html'">{{index+1}}.&nbsp;{{item.stitle}}</router-link>
+                    <router-link :to="'/details/'+item._id+'.html'">{{item.stitle}}</router-link>
                 </li>
             </ul>
         </div>
@@ -14,16 +14,27 @@
 </template>
 <script>
 export default {
-    name: 'HotContents',
+    name: 'hotContents-' + Math.floor(Math.random() * 1000),
+    serverCacheKey() {
+        return Math.random();
+    },
+    props: {
+        typeId: String
+    },
     computed: {
         hotContentList() {
             return this.$store.getters.hotContentList
         }
     },
+    beforeMount() {
+        let currentTypeId = this.typeId || 'indexPage';
+        this.$store.dispatch('getHotContentList', { model: 'simple', typeId: currentTypeId, sortby: 'clickNum' })
+    },
     asyncData({
             store
         }) {
-        return store.dispatch('getHotContentList', { model: 'simple' })
+        let currentTypeId = this.typeId || 'indexPage'
+        return store.dispatch('getHotContentList', { model: 'simple', typeId: currentTypeId, sortby: 'clickNum' })
     }
 }
 </script>
@@ -35,6 +46,9 @@ export default {
         text-align: left;
         ul {
             li {
+                font-size: 14px;
+                position: relative;
+                padding-left: 15px;
                 border-bottom: 1px dashed #ededed;
                 a {
                     display: block;
@@ -44,6 +58,16 @@ export default {
                 }
             }
         }
+    }
+    .content-list ul li:before {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        background: #20A0FF;
+        content: "";
     }
 }
 </style>

@@ -8,7 +8,7 @@ export default function (options) {
       params.typeId = options.typeId || 'indexPage';
       if (route) {
         params.current = Number(route.params.page) || 1;
-        console.log('---route.params---', route.params);
+        // console.log('---route.params---', route.params);
         if (route.params.tagName) {
           params.tagName = route.params.tagName
         }

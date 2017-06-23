@@ -46,10 +46,11 @@ export default {
         })
     },
     indexContentList({
-        commit
+        commit,
+        dispatch
     }, params = {}) {
         return services.contentList(params).then((result) => {
-            commit(types.INDEX_CONTENT_LIST, result.data)
+            commit(types.INDEX_CONTENT_LIST, result.data);
         })
     },
     getContentDetails({
@@ -58,12 +59,6 @@ export default {
     }, params = {}) {
         return services.getOneContent(params).then((result) => {
             commit(types.CONTENT_DETAILS, result.data);
-            dispatch('getUserMessageList', { contentId: result.data.doc._id })
-            dispatch('userMessageForm', {
-                formData: {
-                    contentId: result.data.doc._id
-                }
-            });
         })
     },
     getHotContentList({

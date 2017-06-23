@@ -10,7 +10,7 @@
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
                                 <div>
-                                    <h2>{{contentDetails.doc.title}}</h2>
+                                    <h2 class="content-title">{{contentDetails.doc.title}}</h2>
                                     <div class="content-author">
                                         <ul>
                                             <li class="author-name">
@@ -27,13 +27,13 @@
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
                                     <div>
-                                        <Messages :userMessageList="userMessageList" :contentId="contentDetails.doc._id" />
+                                        <Messages :userMessageList="contentDetails.messages" :contentId="contentDetails.doc._id" />
                                     </div>
                                 </div>
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
-                                    <HotContents/>
+                                    <HotContents />
                                 </div>
                             </el-col>
                         </el-row>
@@ -86,14 +86,14 @@ export default {
     },
     beforeMount() {
         // console.log('---contentDetails._id---', this.contentDetails.doc._id);
-        this.$store.dispatch('getUserMessageList', {
-            contentId: this.contentDetails.doc._id
-        })
+        // this.$store.dispatch('getUserMessageList', {
+        //     contentId: this.contentDetails.doc._id
+        // })
     },
     computed: {
         ...mapGetters([
             'contentDetails',
-            'userMessageList'
+            // 'userMessageList'
         ]),
         // currentTitle() {
         //     return this.$store.getters.contentDetails.doc.title
@@ -117,8 +117,12 @@ export default {
 <style lang="scss">
 .content-detail {
     color: #3f3f3f;
+    margin-top: 20px;
     img {
         max-width: 100% !important;
+    }
+    .content-title {
+        margin-top: 0;
     }
     .content-author {
         color: #999999;

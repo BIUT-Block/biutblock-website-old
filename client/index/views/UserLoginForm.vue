@@ -7,7 +7,7 @@
         </el-col>
         <el-col :xs="20" :sm="12" :md="8" :lg="8">
           <el-form :model="userLoginFormData" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm login-container">
-            <h3 class="login-pannel-title">
+            <h3 class="pannel-title">
               <span>用户登录</span>
             </h3>
             <el-form-item prop="email">
@@ -105,7 +105,7 @@ export default {
     }
   },
   beforeMount() {
-    this.$store.dispatch('simplePage');
+    // this.$store.dispatch('simplePage');
   },
   computed: {
     ...mapGetters([
@@ -122,7 +122,7 @@ export default {
 .login-form {
 
   margin: 0 auto;
-  margin-top: 10%;
+  margin-top: 6%;
   margin-bottom: 100px;
 
   .submit-btn {

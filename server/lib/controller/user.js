@@ -154,7 +154,9 @@ class User {
     async logOut(req, res, next) {
         req.session.destroy();
         res.clearCookie(settings.auth_cookie_name, { path: '/' });
-        res.end("success");
+        res.send({
+            state: 'success',
+        })
     }
 
 }

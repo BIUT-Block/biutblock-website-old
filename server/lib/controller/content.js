@@ -1,6 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const ContentModel = require("../models").Content;
 const ContentTagModel = require("../models").ContentTag;
+const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const { service, settings, validatorUtil } = require('../../../utils');
 
@@ -16,9 +17,11 @@ class Content {
             let typeId = req.query.typeId; // 分类ID
             let tagName = req.query.tagName; // 分类ID
             let model = req.query.model; // 查询模式 full/normal/simple
+            // console.log('--typeId----', typeId, '--sortby----', sortby);
             // 条件配置
             let queryObj = { 'state': true }, sortObj = { date: -1 }, files = null;
             if (sortby) {
+                delete sortObj.date;
                 sortObj[sortby] = -1
             }
             if (typeId && typeId != 'indexPage') {
@@ -41,13 +44,14 @@ class Content {
                     id: 1,
                     title: 1,
                     sImg: 1,
+                    categories: 1,
                     date: 1,
                     clickNum: 1,
                     discription: 1
                 }
             }
             // console.log('---queryObj---', queryObj);
-            const contents = await ContentModel.find(queryObj, files).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+            const contents = await ContentModel.find(queryObj, files).sort(sortObj).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'author',
                 select: 'name -_id'
             },
@@ -94,12 +98,26 @@ class Content {
                 path: 'categories',
                 select: 'name _id'
             }]).exec();
+            // 评论查询
+            const messages = await MessageModel.find({ contentId: targetId }).sort({
+                date: -1
+            }).populate([{
+                path: 'contentId',
+                select: 'stitle _id'
+            }, {
+                path: 'author',
+                select: 'userName _id enable date logo'
+            }]).populate('replyAuthor').populate('adminAuthor').exec();
+            const commentNum = await MessageModel.count({ contentId: targetId });
+            content.commentNum = commentNum;
+            // console.log('---commentNum---', commentNum, content.commentNum);
             res.send({
                 state: 'success',
-                doc: content
+                doc: content,
+                messages
             })
         } catch (err) {
-            console.log('获取Content失败');
+            console.log('获取Content失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',

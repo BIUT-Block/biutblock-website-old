@@ -19,7 +19,7 @@ export default {
     },
 
     contentList(params) {
-        console.log('---begin to get contents----', params);
+        // console.log('---begin to get contents----', params);
         return reqJsonData('api/content/getList', params, 'get')
     },
 

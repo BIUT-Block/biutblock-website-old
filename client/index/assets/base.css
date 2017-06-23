@@ -77,14 +77,14 @@ pre {
     margin: 0;
 }
 
-.login-pannel-title {
+.pannel-title {
     font-size: 14px;
     margin: 0;
     margin-bottom: 20px;
     border-bottom: 1px solid #f1f1f1;
 }
 
-.login-pannel-title span {
+.pannel-title span {
     color: #20A0FF;
     border-bottom: 1px solid #20A0FF;
     display: inline-block;
@@ -92,7 +92,7 @@ pre {
     margin-bottom: -1px;
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:992px) {
     .header .header-main {
         padding: 10px 0 !important;
     }
@@ -108,14 +108,11 @@ pre {
     .login-pannel {
         display: none;
     }
-    .content-item {
-        border-bottom: 1px dashed #f1f1f1 !important;
-    }
     .content-tag {
         display: none;
     }
-    .contentImg {
-        display: none;
+    .content-item .contentImg {
+        display: none !important;
     }
     .content-mainbody-right {
         display: none;

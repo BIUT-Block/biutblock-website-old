@@ -8,7 +8,7 @@
                         <i class="el-icon-caret-bottom el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
+                        <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </li>
@@ -35,7 +35,22 @@ export default {
     },
     methods: {
         logout() {
-            services.userLogOut();
+            services.userLogOut().then((result) => {
+                if (result.data.state === 'success') {
+                    this.$message({
+                        message: '登出成功',
+                        type: 'success',
+                        onClose: () => {
+                            window.location = '/'
+                        }
+                    });
+                } else {
+                    this.$message({
+                        message: result.data.err,
+                        type: 'error'
+                    });
+                }
+            });
         }
     }
 

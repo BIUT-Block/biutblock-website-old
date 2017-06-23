@@ -30,11 +30,12 @@ export default {
     margin-bottom: 40px;
     ul {
         li {
+            font-size: 14px;
             list-style-type: none;
             display: inline-block;
             margin: 0 20px 0 0;
             a {
-                padding: 15px 0px;
+                padding: 10px 0px;
                 display: inline-block;
                 color: #828a92;
                 cursor: pointer;

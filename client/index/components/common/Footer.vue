@@ -41,7 +41,8 @@ export default {
 </script>
 <style lang="scss">
 .footer {
-    background: #faf9f4;
+    font-size: 12px;
+    background: #ffffff;
     padding: 20px 0;
 
     ul {
