@@ -135,8 +135,8 @@ export default {
             }
             li {
                 display: inline-block;
-                margin: 0px;
-                font-size: 15px;
+                margin-bottom: 10px;
+                font-size: 14px;
             }
         }
     }
