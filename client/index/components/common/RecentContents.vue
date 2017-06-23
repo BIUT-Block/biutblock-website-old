@@ -1,5 +1,5 @@
 <template>
-    <div class="hot-content-list">
+    <div class="recent-content-list">
         <h3 class="content-title pannel-title">
             <span>近期文章</span>
         </h3>
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss">
-.hot-content-list {
+.recent-content-list {
     margin-bottom: 40px;
     .content-list {
         text-align: left;
@@ -41,7 +41,6 @@ export default {
             li {
                 font-size: 14px;
                 position: relative;
-                padding-left: 15px;
                 border-bottom: 1px dashed #ededed;
                 a {
                     display: block;
@@ -51,16 +50,6 @@ export default {
                 }
             }
         }
-    }
-    .content-list ul li:before {
-        position: absolute;
-        top: 20px;
-        left: 0;
-        width: 6px;
-        height: 6px;
-        border-radius: 3px;
-        background: #20A0FF;
-        content: "";
     }
 }
 </style>
