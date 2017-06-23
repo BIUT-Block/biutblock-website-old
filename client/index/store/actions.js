@@ -68,6 +68,13 @@ export default {
             commit(types.CONTENT_HOTITEMS, result.data)
         })
     },
+    getRencentlyContentList({
+        commit
+    }, params = {}) {
+        return services.getSimpleList(params).then((result) => {
+            commit(types.CONTENT_RECENTLYITEMS, result.data)
+        })
+    },
     getContentInfos({
         commit
     }, params = {}) {

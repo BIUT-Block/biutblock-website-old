@@ -33,6 +33,7 @@
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
+                                    <RecentContents />
                                     <HotContents />
                                 </div>
                             </el-col>
@@ -52,6 +53,7 @@ import {
     mapActions
 } from 'vuex'
 import HotContents from '../components/common/HotContents.vue'
+import RecentContents from '../components/common/RecentContents.vue'
 import Messages from '../components/common/Messages.vue'
 
 export default {
@@ -76,6 +78,7 @@ export default {
         return serverCacheKey;
     },
     components: {
+        RecentContents,
         HotContents,
         Messages
     },

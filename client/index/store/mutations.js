@@ -27,6 +27,10 @@ const state = {
         pageInfo: {},
         docs: []
     },
+    recentlyContentList: {
+        pageInfo: {},
+        docs: []
+    },
     contentInfos: {
         contentCateTitle: '',
         contentCateDiscription: '',
@@ -92,6 +96,9 @@ const mutations = {
     },
     [types.CONTENT_HOTITEMS](state, contentList) {
         state.hotContentList = contentList
+    },
+    [types.CONTENT_RECENTLYITEMS](state, contentList) {
+        state.recentlyContentList = contentList
     },
     [types.CONTENT_INFOS](state, contentInfos) {
         state.contentInfos = Object.assign({
