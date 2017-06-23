@@ -9,45 +9,48 @@
     </div>
 </template>
 <script>
-export default {
-    name: 'Tag',
-    computed: {
-        tags() {
-            return this.$store.getters.contentTag
-        }
-    },
-    asyncData({
+    export default {
+        name: 'Tag',
+        computed: {
+            tags() {
+                return this.$store.getters.contentTag
+            }
+        },
+        asyncData({
             store
         }) {
-        return store.dispatch('contentTag', { model: 'full' })
+            return store.dispatch('contentTag', {
+                model: 'full'
+            })
+        }
     }
-}
 </script>
 
 <style lang="scss">
-.content-tag {
-    text-align: left;
-    margin-bottom: 40px;
-    ul {
-        li {
-            font-size: 14px;
-            list-style-type: none;
-            display: inline-block;
-            margin: 0 20px 0 0;
-            a {
-                padding: 10px 0px;
+    .content-tag {
+        text-align: left;
+        margin-bottom: 40px;
+        ul {
+            li {
+                font-size: 14px;
+                list-style-type: none;
                 display: inline-block;
-                color: #828a92;
-                cursor: pointer;
-            }
-            a:link {
-                border-bottom: 1px dashed #ededed;
-            }
-            a:hover {
-                border-bottom: 1px dashed #20A0FF;
-                color: #20A0FF
+                margin: 0 20px 0 0;
+                a {
+                    padding: 10px 0px;
+                    display: inline-block;
+                    color: #3d464d;
+                    cursor: pointer;
+                }
+                a:link,
+                a:visited {
+                    border-bottom: 1px dashed #ededed;
+                }
+                a:hover {
+                    border-bottom: 1px dashed #20A0FF;
+                    color: #20A0FF
+                }
             }
         }
     }
-}
 </style>

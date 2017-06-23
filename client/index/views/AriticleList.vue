@@ -1,7 +1,7 @@
 <style lang='scss'>
-.contentContainer {
-    margin-top: 30px;
-}
+    .contentContainer {
+        margin-top: 30px;
+    }
 </style>
 <template>
     <div>
@@ -33,7 +33,7 @@
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
                                     <Tag/>
-                                    <HotContents :typeId="options.typeId"/>
+                                    <HotContents :typeId="options.typeId" />
                                 </div>
                             </el-col>
                         </el-row>
@@ -48,47 +48,65 @@
 </template>
 
 <script>
-import ItemList from './ItemList.vue'
-import Tag from '../components/common/Tag.vue'
-import HotContents from '../components/common/HotContents.vue'
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
-export default {
-    props: ['options'],
-    name: 'cmslistview',
-    title() {
-        return this.options.typeName || '首页'
-    },
-    discription() {
-        return this.options.discription || this.systemConfig.configs.siteDiscription;
-    },
-    keywords() {
-        return this.options.keywords || this.systemConfig.configs.siteKeywords;
-    },
-    data() {
-        return {
-            // displayedItems: this.$store.getters.contentList
-        }
-    },
-    components: {
-        ItemList,
-        Tag,
-        HotContents
-    },
-    computed: {
-        ...mapGetters([
-            'contentList',
-            'systemConfig'
-        ]),
-        page() {
-            return Number(this.$store.state.route.params.page) || 1
+    import ItemList from './ItemList.vue'
+    import Tag from '../components/common/Tag.vue'
+    import HotContents from '../components/common/HotContents.vue'
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
+    export default {
+        props: ['options'],
+        name: 'cmslistview',
+        title() {
+            return this.options.typeName || '首页'
         },
-        tagName() {
-            return this.$store.state.route.params.tagName
+        discription() {
+            return this.options.discription || this.systemConfig.configs.siteDiscription;
+        },
+        keywords() {
+            return this.options.keywords || this.systemConfig.configs.siteKeywords;
+        },
+        data() {
+            return {
+                // displayedItems: this.$store.getters.contentList
+            }
+        },
+        components: {
+            ItemList,
+            Tag,
+            HotContents
+        },
+        computed: {
+            ...mapGetters([
+                'contentList',
+                'systemConfig'
+            ]),
+            page() {
+                return Number(this.$store.state.route.params.page) || 1
+            },
+            tagName() {
+                return this.$store.state.route.params.tagName
+            }
+        },
+        watch: {
+            page(to, from) {
+                this.loadItems(to, from)
+            }
+        },
+        methods: {
+            loadItems(to = this.page, from = -1) {
+                this.$bar.start()
+                let params = {
+                    type: this.options.typeId,
+                    current: to
+                }
+                if (this.tagName) params.tagName = this.tagName;
+                this.$store.dispatch('indexContentList', params).then(() => {
+                    this.$bar.finish()
+                })
+            }
         }
-    }
 
-}
+    }
 </script>
