@@ -8,7 +8,7 @@
                     <a href="http://www.miitbeian.gov.cn/" rel="nofollow" target="_blank">
                         {{systemConfig.configs.registrationNo}}
                     </a> All Rights Reserved</li>
-                <li>
+                <li class="sitemap">
                     <router-link to="/sitemap.html" class="">站点地图</router-link>&nbsp;应用案例：
                     <a href="http://www.dailyads.cn" target="_blank">每日一广告</a>&nbsp;
                 </li>

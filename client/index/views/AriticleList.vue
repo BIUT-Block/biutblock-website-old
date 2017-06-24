@@ -88,24 +88,6 @@
             tagName() {
                 return this.$store.state.route.params.tagName
             }
-        },
-        watch: {
-            page(to, from) {
-                this.loadItems(to, from)
-            }
-        },
-        methods: {
-            loadItems(to = this.page, from = -1) {
-                this.$bar.start()
-                let params = {
-                    type: this.options.typeId,
-                    current: to
-                }
-                if (this.tagName) params.tagName = this.tagName;
-                this.$store.dispatch('indexContentList', params).then(() => {
-                    this.$bar.finish()
-                })
-            }
         }
 
     }

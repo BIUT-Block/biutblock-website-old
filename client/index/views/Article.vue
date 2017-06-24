@@ -62,7 +62,6 @@ export default {
         return this.contentDetails.doc.title;
     },
     discription() {
-        // console.log('----this.$store.getters.contentDetails--', this.$store.getters.systemConfig);
         return this.contentDetails.doc.discription;
     },
     keywords() {
@@ -88,19 +87,12 @@ export default {
         }
     },
     beforeMount() {
-        // console.log('---contentDetails._id---', this.contentDetails.doc._id);
-        // this.$store.dispatch('getUserMessageList', {
-        //     contentId: this.contentDetails.doc._id
-        // })
+       
     },
     computed: {
         ...mapGetters([
             'contentDetails',
-            // 'userMessageList'
-        ]),
-        // currentTitle() {
-        //     return this.$store.getters.contentDetails.doc.title
-        // }
+        ])
     },
     asyncData({
             store,

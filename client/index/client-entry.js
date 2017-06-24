@@ -43,10 +43,10 @@ router.onReady(() => {
         const prevMatched = router.getMatchedComponents(from)
         let diffed = false
         const activated = matched.filter((c, i) => {
-            return diffed || (diffed = (prevMatched[i] !== c)) || c.name === 'tagpage-list-view' || c.name === 'cmsarticleview'
+            return diffed || (diffed = (prevMatched[i] !== c)) || c.name.indexOf('list-view') > 0 || c.name === 'cmsarticleview'
         })
         if (!activated.length) {
-            return next()
+            return next();
         }
         bar.start()
         Promise.all(activated.map(c => {

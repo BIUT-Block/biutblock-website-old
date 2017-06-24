@@ -7,7 +7,6 @@
             <el-row :gutter="10">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24">
                     <div class="give-message">
-    
                         <el-form :model="msgFormState.formData" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                             <el-form-item class="send-content" prop="content">
                                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="msgFormState.formData.content">
@@ -99,11 +98,11 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('userMessageForm', {
-            formData: {
-                contentId: this.contentId
-            }
-        });
+        // this.$store.dispatch('userMessageForm', {
+        //     formData: {
+        //         contentId: this.contentId
+        //     }
+        // });
     },
     methods: {
         submitForm(formName) {

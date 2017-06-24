@@ -59,6 +59,11 @@ export default {
     }, params = {}) {
         return services.getOneContent(params).then((result) => {
             commit(types.CONTENT_DETAILS, result.data);
+            commit(types.USER_MESSAGE_FORM, {
+                formData: {
+                    contentId: result.data ? result.data.doc._id : ''
+                }
+            })
         })
     },
     getHotContentList({

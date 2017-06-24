@@ -14,7 +14,7 @@
             </li>
             <li v-else>
                 <a href="/users/login">
-                    <i class="fa fa-user-o" aria-hidden="true"></i>登录</a>
+                    <i class="fa fa-user" aria-hidden="true"></i>&nbsp;登录</a>
             </li>
         </ul>
     </div>
@@ -66,6 +66,7 @@ export default {
             height: 40px;
             line-height: 40px;
             display: inline-block;
+            font-size: 13px;
         }
     }
 }

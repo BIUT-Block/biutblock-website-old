@@ -34,7 +34,10 @@ export function createRouter() {
                 name: 'indexPage',
                 typeId: 'indexPage',
                 typeName: '首页'
-            })
+            }),
+            meta: {
+                title: '首页'
+            }
         }, {
             path: '/tag/:tagName',
             name: 'tagPage',
@@ -80,7 +83,10 @@ export function createRouter() {
                     keywords: item.keywords
                 }),
                 name: 'catePage_' + item._id,
-                iconCls: 'fa fa-id-card-o'
+                iconCls: 'fa fa-id-card-o',
+                meta: {
+                    title: item.name
+                }
             })
         })
         router.addRoutes(newRoters)
