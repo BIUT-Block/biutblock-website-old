@@ -1,19 +1,26 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/doracms2");
+const isProd = process.env.NODE_ENV === 'production'
+const { settings } = require('../../../utils');
+
+if (!isProd) {
+    mongoose.connect("mongodb://localhost/doracms2");
+} else {
+    mongoose.connect('mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + '');
+}
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
-db.once('open' ,() => {
-	console.log('连接数据成功')
+db.once('open', () => {
+    console.log('连接数据成功')
 })
 
-db.on('error', function(error) {
+db.on('error', function (error) {
     console.error('Error in MongoDb connection: ' + error);
     mongoose.disconnect();
 });
 
-db.on('close', function() {
+db.on('close', function () {
     console.log('数据库断开，重新连接数据库');
     // mongoose.connect(config.url, {server:{auto_reconnect:true}});
 });

@@ -44,7 +44,7 @@ app.use(session({//session持久化配置
         db: "session",
         host: "localhost",
         port: 27017,
-        url: 'mongodb://localhost:27017/doracms2'
+        url: isDev ? settings.URL : 'mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + ''
     })
 }));
 app.use(authUser.auth);

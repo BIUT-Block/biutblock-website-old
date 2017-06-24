@@ -4,9 +4,7 @@
  */
 
 module.exports = {
-
-    // debug 为 true 时，用于本地调试
-    debug: false,
+  
     imgZip: true, // 上传图片是否压缩(如果为false则本地不需要安装gm)
     session_secret: 'doracms_secret', // 务必修改
     auth_cookie_name: 'doracms',
@@ -16,13 +14,12 @@ module.exports = {
         secret: 'me', //默认
     },
     //    数据库配置
-    URL: 'mongodb://127.0.0.1:27017/doracms',
-    DB: 'doracms',
+    URL: 'mongodb://127.0.0.1:27017/doracms2',
+    DB: 'doracms2',
     HOST: '120.25.150.169',
     PORT: 27017,
     USERNAME: 'doramart',
     PASSWORD: 'ZhaoHuiping520~~',
-
 
     //    站点基础信息配置
     SITETITLE: '前端开发俱乐部', // 站点名称
@@ -40,13 +37,6 @@ module.exports = {
     CMSDISCRIPTION: '前端开发俱乐部,分享前端知识,丰富前端技能。汇集国内专业的前端开发文档,为推动业内前端开发水平共同奋斗。html,js,css,nodejs,前端开发,jquery,web前端, web前端开发, 前端开发工程师',
     SITEKEYWORDS: '前端开发俱乐部,前端俱乐部,DoraCMS,Nodejs内容管理系统, 前端开发, web前端, 前端开发工程师,前端资源, angularjs, 前端开发工具, nodejs ,boostrap',
     SITEBASICKEYWORDS: '前端开发俱乐部,前端开发,前端俱乐部,DoraCMS', // 基础关键词
-
-
-    //    本地缓存设置
-    redis_host: '127.0.0.1',
-    redis_port: 6379,
-    redis_psd: 'Yoooyu0617241Xiaoshen@@520',
-    redis_db: 0,
 
     //    邮件相关设置
     site_email: 'admin@html-js.cn', // 系统邮箱

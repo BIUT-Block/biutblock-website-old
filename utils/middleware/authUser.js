@@ -10,11 +10,6 @@ let siteFunc = require('../siteFunc');
 const { User, UserNotify } = require('../../server/lib/controller');
 
 exports.auth = function (req, res, next) {
-    // if (settings.debug && req.cookies['mock_user']) {
-    //     let mockUser = JSON.parse(req.cookies['mock_user']);
-    //     req.session.user = new UserModel(mockUser);
-    //     return next();
-    // }
 
     if (req.session.user) {
         let unReadMessageCount = UserNotify.getNoReadNotifyCountByUserId(req.session.user._id, 'user');
