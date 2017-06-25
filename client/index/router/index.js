@@ -70,13 +70,20 @@ export function createRouter() {
     })
 
     let headerNav = require('../../../utils/routePath/indexCates.json');
-    let newRoters = [];
+    let newRoters = [],
+        currentName = '';
     if (headerNav.length > 0) {
         headerNav.map((item, index) => {
+            if ((item.defaultUrl).indexOf('/') > 0) {
+                let nameArr = (item.defaultUrl).split('/');
+                currentName = nameArr[nameArr.length - 1]
+            } else {
+                currentName = item.defaultUrl;
+            }
             newRoters.push({
                 path: '/' + item.defaultUrl + '___' + item._id + '/:page(\\d+)?',
                 component: createListView({
-                    name: (item.defaultUrl).split('-')[0],
+                    name: currentName.split('-')[0],
                     typeId: item._id,
                     typeName: item.name,
                     discription: item.comments,

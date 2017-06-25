@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const ueditor = require("ueditor")
 const session = require('express-session');
+const favicon = require('serve-favicon')
 const MongoStore = require('connect-mongo')(session);
 const path = require('path')
 const http = require('http')
@@ -49,6 +50,7 @@ app.use(session({//session持久化配置
 }));
 app.use(authUser.auth);
 app.use(renderCates);
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // 集成ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {

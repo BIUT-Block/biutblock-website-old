@@ -8,7 +8,6 @@ export default {
         commit
     }) {
         return services.getUserSession().then((result) => {
-            console.log('----result----', result.data);
             commit(types.SET_USER_LOGINSTATE, result.data || {})
         })
     },

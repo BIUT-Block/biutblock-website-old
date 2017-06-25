@@ -11,9 +11,11 @@ module.exports = (req, res, next) => {
         let hasPower = false;
         for (let i = 0; i < resouce.length; i++) {
             let resourceObj = resouce[i];
-            let targetApi = (req.originalUrl).replace('/manage/', '');
+            let targetApi = (req.originalUrl).replace('/manage/', '').split("?")[0];
             if (!_.isEmpty(req.session.adminUserInfo)) {
                 let adminPower = req.session.adminUserInfo.group.power;
+                // console.log(resourceObj.api, targetApi, adminPower, resourceObj._id);
+
                 if (resourceObj.api === targetApi && adminPower.indexOf(resourceObj._id) > -1) {
                     hasPower = true;
                     break;

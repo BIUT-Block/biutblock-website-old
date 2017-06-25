@@ -4,19 +4,14 @@ const {
   authSession,
   settings
 } = require('../../utils');
-const { ContentCategory, Content } = require('../lib/controller');
+const {
+  ContentCategory,
+  Content
+} = require('../lib/controller');
 const moment = require('moment');
 const RenderView = require('./renderView');
 
-function vc(req, res, next) {
-  let defaultUrl = req.params.defaultUrl;
-  let url = defaultUrl.split('___')[1];
-  if (url) {
-    next()
-  } else {
-    res.send('error')
-  }
-}
+
 router.get('/', RenderView.index);
 router.get('/page/:page', RenderView.index)
 router.get('/details/:id', RenderView.details)
@@ -80,10 +75,23 @@ router.get('/sitemap.xml', (req, res, next) => {
   });
 })
 
-router.get('/:defaultUrl/:page(\\d+)?', (req, res, next) => {
+router.get('/robots.txt', function (req, res, next) {
+  let stream = fs.createReadStream('../robots.txt', {
+    flags: 'r'
+  });
+  stream.pipe(res);
+});
+
+router.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (req, res, next) => {
   let defaultUrl = req.params.defaultUrl;
+  let childUrl = req.params.childUrl,
+    cUrl = '';
   let url = defaultUrl.split('___')[1];
-  if (url) {
+  if (childUrl) {
+    console.log('--childUrl----', childUrl);
+    cUrl = childUrl.split('___')[1];
+  }
+  if (url || cUrl) {
     RenderView.index(req, res);
   }
 });

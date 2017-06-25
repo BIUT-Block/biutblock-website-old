@@ -17,7 +17,7 @@
             <el-table-column prop="date" label="时间">
                 <template scope="scope">{{scope.row.date | formatFullDate}}</template>
             </el-table-column>
-            <el-table-column label="操作" width="150">
+            <el-table-column label="操作" width="150" fixed="right">
                 <template scope="scope">
                     <el-button size="mini" @click="replyContentMessage(scope.$index, dataList)">回复</el-button>
                     <el-button size="mini" type="danger" @click="deleteContentMessage(scope.$index, dataList)">删除</el-button>

@@ -94,8 +94,7 @@
             tagName() {
                 return this.$store.state.route.params.tagName
             },
-            checkCateList() {
-                // console.log(shortid.isValid(this.options.typeId) + '-------', this.options.typeId);
+            checkCateList() {                
                 return this.options.typeId != 'indexPage' && shortid.isValid(this.options.typeId);
             }
         }

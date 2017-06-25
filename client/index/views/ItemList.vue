@@ -82,7 +82,7 @@ article:last-child {
                         <ul class="post-meta">
                             <li>{{item.date | formatDateNearBy}}</li>
                             <li>
-                                <i class="fa fa-bullseye" aria-hidden="true"></i>&nbsp;&nbsp;{{item.clickNum}}</li>
+                                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;{{item.clickNum}}</li>
                             <li>
                                 <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;&nbsp;{{item.commentNum}}</li>
                         </ul>
