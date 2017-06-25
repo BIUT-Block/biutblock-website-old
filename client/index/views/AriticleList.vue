@@ -32,6 +32,9 @@
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
+                                    <div v-if="checkCateList">
+                                        <CatesMenu :options="options" />
+                                    </div>
                                     <Tag/>
                                     <HotContents :typeId="options.typeId" />
                                 </div>
@@ -48,9 +51,11 @@
 </template>
 
 <script>
+    import shortid from 'shortid';
     import ItemList from './ItemList.vue'
     import Tag from '../components/common/Tag.vue'
     import HotContents from '../components/common/HotContents.vue'
+    import CatesMenu from '../components/common/CatesMenu.vue'
     import {
         mapGetters,
         mapActions
@@ -75,7 +80,8 @@
         components: {
             ItemList,
             Tag,
-            HotContents
+            HotContents,
+            CatesMenu
         },
         computed: {
             ...mapGetters([
@@ -87,6 +93,10 @@
             },
             tagName() {
                 return this.$store.state.route.params.tagName
+            },
+            checkCateList() {
+                // console.log(shortid.isValid(this.options.typeId) + '-------', this.options.typeId);
+                return this.options.typeId != 'indexPage' && shortid.isValid(this.options.typeId);
             }
         }
 

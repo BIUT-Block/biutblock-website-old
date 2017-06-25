@@ -39,7 +39,7 @@
                 a {
                     padding: 10px 0px;
                     display: inline-block;
-                    color: #3d464d;
+                    color: #6e7173;
                     cursor: pointer;
                 }
                 a:link,

@@ -39,7 +39,7 @@
         .title {
             h2 {
                 margin: 0;
-                color: #3d464d;
+                color: #6e7173;
             }
             time {
                 color: #a2a2a2;
