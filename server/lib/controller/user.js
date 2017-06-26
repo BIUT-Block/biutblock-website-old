@@ -106,8 +106,18 @@ class User {
         form.parse(req, async (err, fields, files) => {
             try {
                 let newPsd = service.encrypt(fields.password, settings.encrypt_key);
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
+                if (!validatorUtil.checkEmail(fields.email)) {
+                    errMsg = '请输入正确的邮箱'
+                } else if (!validatorUtil.checkPwd(fields.password)) {
+                    errMsg = '请输入正确的密码'
+                }
+                if (errMsg) {
+                    res.send({
+                        state: 'error',
+                        type: 'ERROR_PARAMS',
+                        message: errMsg
+                    })
+                    return;
                 }
             } catch (err) {
                 console.log(err.message, err);

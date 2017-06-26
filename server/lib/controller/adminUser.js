@@ -3,7 +3,7 @@ const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
 // const { service, settings, validatorUtil } = require('../../../utils');
 const {
-  authSession,
+    authSession,
     cache,
     settings,
     service,
@@ -20,7 +20,9 @@ class AdminUser {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const adminUsers = await AdminUserModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate({
+            const adminUsers = await AdminUserModel.find({}).sort({
+                date: -1
+            }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate({
                 path: 'group',
                 select: "name _id"
             }).exec();
@@ -46,12 +48,26 @@ class AdminUser {
 
     async loginAction(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
-            let { userName, password } = fields;
+        form.parse(req, async(err, fields, files) => {
+            let {
+                userName,
+                password
+            } = fields;
             try {
                 let newPsd = service.encrypt(fields.password, settings.encrypt_key);
-                if (!fields.userName) {
-                } else if (!fields.password) {
+                let errMsg = '';
+                if (!validatorUtil.checkUserName(fields.userName)) {
+                    errMsg = '请输入正确的用户名'
+                } else if (!validatorUtil.checkPwd(fields.password)) {
+                    errMsg = '请输入正确的密码'
+                }
+                if (errMsg) {
+                    res.send({
+                        state: 'error',
+                        type: 'ERROR_PARAMS',
+                        message: errMsg
+                    })
+                    return;
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -104,7 +120,7 @@ class AdminUser {
 
     async addAdminUser(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
@@ -153,12 +169,10 @@ class AdminUser {
     async updateAdminUser(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                if (!fields.name) {} else if (!fields.restaurant_id) {}
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -182,7 +196,11 @@ class AdminUser {
             console.log('---fields----', fields);
             // const newData = new AdminUserModel(userObj);
             try {
-                await AdminUserModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
+                await AdminUserModel.findOneAndUpdate({
+                    _id: item_id
+                }, {
+                    $set: userObj
+                });
                 res.send({
                     state: 'success'
                 });
@@ -200,7 +218,9 @@ class AdminUser {
 
     async delAdminUser(req, res, next) {
         try {
-            await AdminUserModel.remove({ _id: req.query.ids });
+            await AdminUserModel.remove({
+                _id: req.query.ids
+            });
             res.send({
                 state: 'success'
             });

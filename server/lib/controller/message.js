@@ -52,13 +52,23 @@ class Message {
 
     async postMessages(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-
-                } else if (!fields.restaurant_id) {
-
+                let errMsg = '';
+                if (fields.content && (fields.content.length < 5 || fields.content.length > 200)) {
+                    errMsg = '留言内容为5-200字'
+                }
+                if (!fields.content) {
+                    errMsg = '留言内容不能为空'
+                }
+                if (errMsg) {
+                    res.send({
+                        state: 'error',
+                        type: 'ERROR_PARAMS',
+                        message: errMsg
+                    })
+                    return
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -78,7 +88,7 @@ class Message {
                 utype: fields.utype || '0'
             }
 
-            if (fields.utype === '1') {// 管理员
+            if (fields.utype === '1') { // 管理员
                 messageObj.adminAuthor = req.session.adminUserInfo._id;
             } else {
                 messageObj.author = req.session.user._id;
