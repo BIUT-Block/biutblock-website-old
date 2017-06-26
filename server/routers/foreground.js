@@ -88,11 +88,13 @@ router.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'],
     cUrl = '';
   let url = defaultUrl.split('___')[1];
   if (childUrl) {
-    console.log('--childUrl----', childUrl);
+    // console.log('--childUrl----', childUrl);
     cUrl = childUrl.split('___')[1];
   }
   if (url || cUrl) {
     RenderView.index(req, res);
+  } else {
+    next();
   }
 });
 

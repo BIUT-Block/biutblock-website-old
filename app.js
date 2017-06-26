@@ -10,7 +10,7 @@ const path = require('path')
 const http = require('http')
 global.NODE_ENV = process.env.NODE_ENV || 'production'
 
-const PORT = 8081
+const PORT = 81
 const isDev = NODE_ENV === 'development';
 const app = express()
 
@@ -21,7 +21,10 @@ const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
 const renderClientSession = require('./utils/middleware/renderClientSession');
 const authUser = require('./utils/middleware/authUser');
-const { service, settings } = require('./utils');
+const {
+    service,
+    settings
+} = require('./utils');
 
 //静态压缩
 app.use(compression());
@@ -35,10 +38,12 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser(settings.session_secret));
 
 // session配置
-app.use(session({//session持久化配置
+app.use(session({ //session持久化配置
     secret: settings.encrypt_key,
     // key: "kvkenskey",
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 30 },
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 30
+    },
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({
