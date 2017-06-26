@@ -73,15 +73,15 @@ class Message {
             const messageObj = {
                 contentId: fields.contentId,
                 content: validatorUtil.validateWords(fields.content),
-                replyId: fields.replyId,
+                replyAuthor: fields.replyAuthor,
                 relationMsgId: fields.relationMsgId,
-                author: req.session.user._id,
                 utype: fields.utype || '0'
             }
 
-            if (fields.utype === '1') {
-                delete messageObj.author;
+            if (fields.utype === '1') {// 管理员
                 messageObj.adminAuthor = req.session.adminUserInfo._id;
+            } else {
+                messageObj.author = req.session.user._id;
             }
 
             const newMessage = new MessageModel(messageObj);

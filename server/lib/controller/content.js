@@ -101,7 +101,7 @@ class Content {
             }]).exec();
             // 评论查询
             const messages = await MessageModel.find({ contentId: targetId }).sort({
-                date: -1
+                date: 1
             }).populate([{
                 path: 'contentId',
                 select: 'stitle _id'

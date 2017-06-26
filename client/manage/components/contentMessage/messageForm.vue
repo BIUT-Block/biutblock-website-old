@@ -47,14 +47,15 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log('---formdatas--', parentParams);
+                    console.log('---formdatas--', this.dialogState.parentformData);
                     let parentParams = this.dialogState.parentformData, repFormData = {};
                     repFormData.relationMsgId = parentParams._id;
-                    repFormData.contentId = parentParams.contentId;
+                    repFormData.contentId = parentParams.contentId._id;
                     repFormData.utype = '1';
                     if (parentParams.author) {
-                        repFormData.replyAuthor = parentParams.author;
+                        repFormData.replyAuthor = parentParams.author._id;
                     }
+                    repFormData.content = this.dialogState.formData.content;
                     // 新增
                     services.addContentMessage(repFormData).then((result) => {
                         if (result.data.state === 'success') {
