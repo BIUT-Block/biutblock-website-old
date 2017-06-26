@@ -21,7 +21,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="缩略图" prop="sImg">
-                <el-upload class="avatar-uploader" action="http://127.0.0.1:8081/system/upload?type=images" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                <el-upload class="avatar-uploader" action="/system/upload?type=images" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                     <img v-if="formState.formData.sImg" :src="formState.formData.sImg" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
@@ -208,7 +208,7 @@ export default {
         },
 
         handleAvatarSuccess(res, file) {
-            let imageUrl = 'http://127.0.0.1:8081' + res;
+            let imageUrl = res;
             this.$store.dispatch('showContentForm', {
                 edit: this.formState.edit,
                 formData: Object.assign({}, this.formState.formData, {

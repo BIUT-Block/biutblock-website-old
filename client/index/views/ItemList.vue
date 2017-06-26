@@ -1,66 +1,66 @@
 <style lang='scss'>
-.content-item {
-    padding-bottom: 35px;
-    margin-bottom: 40px;
-    overflow: hidden;
-    border-bottom: 1px dashed #f1f1f1;
-    .contentImg {
-        img {
-            width: 100%;
-        }
-        margin-right: 30px;
-        height: auto;
-        display: block;
-        position: relative;
-        .content-cate {
-            position: absolute;
-            top: .4rem;
-            left: .4rem;
+    .content-item {
+        padding-bottom: 35px;
+        margin-bottom: 40px;
+        overflow: hidden;
+        border-bottom: 1px dashed #f1f1f1;
+        .contentImg {
+            img {
+                width: 100%;
+            }
+            margin-right: 30px;
+            height: auto;
             display: block;
-            padding: 0 .5rem;
-            color: #fff;
-            background: rgba(0, 0, 0, .5);
-            font-size: .6rem;
-            text-align: center;
-            border-radius: 1rem;
-            z-index: 11;
-        }
-    }
-    .discription {
-        text-align: left;
-        .post-meta {
-            li {
-                display: inline-block;
-                font-size: 13px;
-                color: #bbbbbb;
-                margin: 10px 10px 10px 0;
+            position: relative;
+            .content-cate {
+                position: absolute;
+                top: .4rem;
+                left: .4rem;
+                display: block;
+                padding: 0 .5rem;
+                color: #fff;
+                background: rgba(0, 0, 0, .5);
+                font-size: .6rem;
+                text-align: center;
+                border-radius: 1rem;
+                z-index: 11;
             }
         }
-        .title {
-            h2 {
-                margin: 0;
-                color: #6e7173;
+        .discription {
+            text-align: left;
+            .post-meta {
+                li {
+                    display: inline-block;
+                    font-size: 13px;
+                    color: #bbbbbb;
+                    margin: 10px 10px 10px 0;
+                }
             }
-            time {
-                color: #a2a2a2;
-                margin-top: 14px;
-                font-style: normal;
+            .title {
+                h2 {
+                    margin: 0;
+                    color: #6e7173;
+                }
+                time {
+                    color: #a2a2a2;
+                    margin-top: 14px;
+                    font-style: normal;
+                    font-size: 15px;
+                    display: inline-block;
+                    margin-left: 3px;
+                    margin-bottom: 15px;
+                }
+            }
+            .dis {
                 font-size: 15px;
-                display: inline-block;
-                margin-left: 3px;
-                margin-bottom: 15px;
+                color: #828a92;
             }
         }
-        .dis {
-            font-size: 15px;
-            color: #828a92;
-        }
     }
-}
 
-article:last-child {
-    border: none
-}
+    article:last-child {
+        border: none
+    }
 </style>
 <template>
     <div class="post">
@@ -71,7 +71,7 @@ article:last-child {
                         <div v-if="item.categories && item.categories.length>1">
                             <span class="content-cate">{{(item.categories)[item.categories.length-1].name}}</span>
                         </div>
-                        <img :src="item.sImg" />
+                        <router-link :to="'/details/'+item._id+'.html'" class="continue-reading"><img :src="item.sImg" :alt="item.title" /></router-link>
                     </div>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="17" :lg="17" class='discription'>
@@ -98,33 +98,33 @@ article:last-child {
 </template>
 
 <script>
-import Pagination from '../components/common/Pagination.vue'
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
-export default {
-    props: {
-        page: Number,
-        typeId: String,
-        contentList: Object,
+    import Pagination from '../components/common/Pagination.vue'
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
+    export default {
+        props: {
+            page: Number,
+            typeId: String,
+            contentList: Object,
 
-    },
-    // name: 'cmslistview',
-    data() {
-        return {
-            // displayedItems: this.$store.getters.contentList
+        },
+        // name: 'cmslistview',
+        data() {
+            return {
+                // displayedItems: this.$store.getters.contentList
+            }
+        },
+        components: {
+            Pagination
+        },
+        methods: {
+
+        },
+        computed: {
+
         }
-    },
-    components: {
-        Pagination
-    },
-    methods: {
-
-    },
-    computed: {
 
     }
-
-}
 </script>

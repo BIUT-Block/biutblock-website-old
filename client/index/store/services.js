@@ -1,10 +1,17 @@
 import Axios from "axios";
+
+if (typeof window == "undefined") {
+    Axios.defaults.baseURL = 'http://127.0.0.1:81';
+}
+
 export function reqJsonData(url, params = {}, method = 'post') {
 
     if (method === 'get') {
-        return Axios.get('http://127.0.0.1:8081/' + url, { params })
+        return Axios.get('/' + url, {
+            params
+        })
     } else if (method === 'post') {
-        return Axios.post('http://127.0.0.1:8081/' + url, params)
+        return Axios.post('/' + url, params)
     }
 
 }

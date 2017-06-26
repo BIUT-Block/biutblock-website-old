@@ -325,15 +325,21 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+if (typeof window == "undefined") {
+    _axios2.default.defaults.baseURL = 'http://127.0.0.1:81';
+}
+
 function reqJsonData(url) {
     var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'post';
 
 
     if (method === 'get') {
-        return _axios2.default.get('http://127.0.0.1:8081/' + url, { params: params });
+        return _axios2.default.get('/' + url, {
+            params: params
+        });
     } else if (method === 'post') {
-        return _axios2.default.post('http://127.0.0.1:8081/' + url, params);
+        return _axios2.default.post('/' + url, params);
     }
 }
 exports.default = {
@@ -3360,11 +3366,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "grid-content bg-purple contentImg"
     }, [(item.categories && item.categories.length > 1) ? _c('div', [_c('span', {
       staticClass: "content-cate"
-    }, [_vm._v(_vm._s((item.categories)[item.categories.length - 1].name))])]) : _vm._e(), _vm._v(" "), _c('img', {
+    }, [_vm._v(_vm._s((item.categories)[item.categories.length - 1].name))])]) : _vm._e(), _vm._v(" "), _c('router-link', {
+      staticClass: "continue-reading",
       attrs: {
-        "src": item.sImg
+        "to": '/details/' + item._id + '.html'
       }
-    })])]), _vm._v(" "), _c('el-col', {
+    }, [_c('img', {
+      attrs: {
+        "src": item.sImg,
+        "alt": item.title
+      }
+    })])], 1)]), _vm._v(" "), _c('el-col', {
       staticClass: "discription",
       attrs: {
         "xs": 24,
