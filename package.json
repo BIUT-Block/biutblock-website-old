@@ -1,7 +1,7 @@
 {
   "name": "doracms",
   "description": "doracms",
-  "version": "2.0.0",
+  "version": "2.0.0beta",
   "author": "dora <admin@html-js.cn>",
   "scripts": {
     "dll": "webpack --config build/config.dll.js",

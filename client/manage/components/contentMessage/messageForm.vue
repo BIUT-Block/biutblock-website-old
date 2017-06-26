@@ -3,7 +3,7 @@
         <el-dialog size="small" title="留言回复" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="用户说">
-                    {{dialogState.formData.content}}
+                    {{dialogState.parentformData.content}}
                 </el-form-item>
                 <el-form-item label="回复" prop="content">
                     <el-input size="small" type="textarea" v-model="dialogState.formData.content"></el-input>
@@ -17,62 +17,68 @@
     </div>
 </template>
 <script>
-    import services from '../../store/services.js';
-    import _ from 'lodash';
-    export default {
-        props: {
-            dialogState: Object,
-            groups: Array
-        },
-        data() {
-            return {
-                rules: {
-                    content: [{
-                        required: true,
-                        message: '请填写留言',
-                        trigger: 'blur'
-                    }, {
-                        min: 2,
-                        max: 30,
-                        message: '请输入5-30个字符',
-                        trigger: 'blur'
-                    }]
-                }
-            };
-        },
-        methods: {
-            confirm() {
-                this.$store.dispatch('hideContentMessageForm')
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        console.log('---formdatas--', this);
-                        let params = this.dialogState.formData;
-                        // 新增
-                        services.addContentMessage(params).then((result) => {
-                            if (result.data.state === 'success') {
-                                this.$store.dispatch('hideContentMessageForm');
-                                this.$store.dispatch('getContentMessageList');
-                                this.$message({
-                                    message: '添加成功',
-                                    type: 'success'
-                                });
-                            } else {
-                                this.$message.error('出错啦！');
-                            }
-                        })
-
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+import services from '../../store/services.js';
+import _ from 'lodash';
+export default {
+    props: {
+        dialogState: Object,
+        groups: Array
+    },
+    data() {
+        return {
+            rules: {
+                content: [{
+                    required: true,
+                    message: '请填写留言',
+                    trigger: 'blur'
+                }, {
+                    min: 2,
+                    max: 30,
+                    message: '请输入5-30个字符',
+                    trigger: 'blur'
+                }]
             }
+        };
+    },
+    methods: {
+        confirm() {
+            this.$store.dispatch('hideContentMessageForm')
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    console.log('---formdatas--', parentParams);
+                    let parentParams = this.dialogState.parentformData, repFormData = {};
+                    repFormData.relationMsgId = parentParams._id;
+                    repFormData.contentId = parentParams.contentId;
+                    repFormData.utype = '1';
+                    if (parentParams.author) {
+                        repFormData.replyAuthor = parentParams.author;
+                    }
+                    // 新增
+                    services.addContentMessage(repFormData).then((result) => {
+                        if (result.data.state === 'success') {
+                            this.$store.dispatch('hideContentMessageForm');
+                            this.$store.dispatch('getContentMessageList');
+                            this.$message({
+                                message: '添加成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$message.error('出错啦！');
+                        }
+                    })
 
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
         }
+
     }
+}
 </script>

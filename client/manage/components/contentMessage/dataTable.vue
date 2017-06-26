@@ -48,7 +48,7 @@
                 let rowData = rows[index];
                 this.$store.dispatch('showContentMessageForm', {
                     edit: true,
-                    formData: rowData
+                    parentformData: rowData
                 });
             },
             deleteContentMessage(index, rows) {

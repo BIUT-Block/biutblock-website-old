@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
                     res.send({ state: 'error', err: 'jsonWebtokenError' });//校验失败
                 }
             } else {
-                console.log("鉴权成功");
+                console.log("token鉴权成功");
                 next();
             }
         })

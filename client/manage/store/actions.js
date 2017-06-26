@@ -77,14 +77,9 @@ export default {
             userInfo: {},
             state: false
         }) => {
-        if (params.state) {
-            services.getUserSession().then((result) => {
-                commit(types.ADMING_LOGINSTATE, result.data)
-            })
-        } else {
-            commit(types.ADMING_LOGINSTATE, params)
-        }
-
+        services.getUserSession().then((result) => {
+            commit(types.ADMING_LOGINSTATE, result.data)
+        })
     },
     showAdminUserForm: ({
         commit
@@ -281,12 +276,14 @@ export default {
         commit
     }, params = {
             edit: false,
-            formData: {}
+            formData: {},
+            parentformData: {}
         }) => {
         commit(types.CONTENTMESSAGE_FORMSTATE, {
             show: true,
             edit: params.edit,
-            formData: params.formData
+            formData: params.formData,
+            parentformData: params.parentformData
         })
     },
     hideContentMessageForm: ({

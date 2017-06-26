@@ -15,7 +15,6 @@ module.exports = (req, res, next) => {
             if (!_.isEmpty(req.session.adminUserInfo)) {
                 let adminPower = req.session.adminUserInfo.group.power;
                 // console.log(resourceObj.api, targetApi, adminPower, resourceObj._id);
-
                 if (resourceObj.api === targetApi && adminPower.indexOf(resourceObj._id) > -1) {
                     hasPower = true;
                     break;

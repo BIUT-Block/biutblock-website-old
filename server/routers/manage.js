@@ -58,7 +58,7 @@ router.get('/logout', (req, res) => {
 });
 
 // 获取管理员信息
-router.get('/getUserSession', authSession, (req, res) => {
+router.get('/getUserSession', authToken, authSession, (req, res) => {
   res.send({
     state: 'success',
     loginState: req.session.adminlogined,
@@ -67,7 +67,7 @@ router.get('/getUserSession', authSession, (req, res) => {
 })
 
 // 更新菜单json文件
-router.get('/refreshIndexCates', (req, res) => {
+router.get('/refreshIndexCates', authToken, authSession, (req, res) => {
   ContentCategory.getAllCategories(req, res).then((result) => {
     let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
     service.writeFile(req, res, jsonFile, JSON.stringify(result))

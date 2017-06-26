@@ -18,8 +18,8 @@ module.exports = {
     DB: 'doracms2',
     HOST: '120.25.150.169',
     PORT: 27017,
-    USERNAME: 'doramart',
-    PASSWORD: 'ZhaoHuiping520~~',
+    USERNAME: 'xiaoshen888',
+    PASSWORD: 'YoooYu520~~',
 
     //    站点基础信息配置
     SITETITLE: '前端开发俱乐部', // 站点名称

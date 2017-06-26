@@ -165,7 +165,7 @@ function renderLeftMenu() {
     addNewRoutes.push(parentMenu);
 
   })
-  console.log('--addNewRoutes---', addNewRoutes);
+  // console.log('--addNewRoutes---', addNewRoutes);
   return addNewRoutes;
 }
 

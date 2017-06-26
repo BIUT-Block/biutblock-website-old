@@ -13,10 +13,6 @@ const state = {
             group: []
         }
     },
-    // adminGroupPower: {
-    //     power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
-    //     state: true
-    // },
     adminUser: {
         formState: {
             show: false,
@@ -190,6 +186,14 @@ const state = {
             formData: {
                 contentId: '',
                 content: '',
+                author: '',
+                replyId: '',
+                relationMsgId: ''
+            },
+            parentformData: {
+                contentId: '',
+                content: '',
+                author: '',
                 replyId: '',
                 relationMsgId: ''
             }
@@ -239,13 +243,6 @@ const mutations = {
         state.token = null;
         sessionStorage.setItem('cms-token', '');
     },
-    // [types.ADMING_GROUPPower](state, params) {
-    //     state.adminGroupPower = Object.assign({
-    //         power: JSON.parse(sessionStorage.getItem('cms-adminPower')),
-    //         state: true
-    //     }, params);
-
-    // },
     [types.ADMING_LOGINSTATE](state, params) {
         state.loginState = Object.assign({
             userInfo: {
@@ -257,7 +254,7 @@ const mutations = {
             state: false
         }, {
                 userInfo: params.userInfo,
-                state: params.loginState
+                state: params.loginState || false
             });
     },
     [types.ADMINUSERFORMSTATE](state, formState) {
@@ -409,9 +406,16 @@ const mutations = {
             contentId: '',
             content: '',
             replyId: '',
+            author: '',
             relationMsgId: ''
         }, formState.formData);
-
+        state.contentMessage.formState.parentformData = Object.assign({
+            contentId: '',
+            content: '',
+            replyId: '',
+            author: '',
+            relationMsgId: ''
+        }, formState.parentformData);
     },
     [types.CONTENTMESSAGE_LIST](state, messageList) {
         state.contentMessage.messageList = messageList

@@ -132,9 +132,10 @@ export default {
         },
         sendLogOut() {
             services.logOut().then((result) => {
+                
                 if (result && result.data.state === 'success') {
                     window.location = '/dr-admin';
-                    sessionStorage.removeItem('cms-token');
+                    this.$store.dispatch('deleteToken');
                 } else {
                     this.$message.error('服务异常,请稍后再试');
                 }
@@ -152,7 +153,7 @@ export default {
     },
     watch: {
         token() {
-            sessionStorage.removeItem('cms-token');
+            this.$store.dispatch('deleteToken');
             this.$confirm('您的登录已超时?', '提示', {
                 showCancelButton: false,
                 closeOnClickModal: false,
