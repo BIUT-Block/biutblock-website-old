@@ -43,12 +43,12 @@ class AdminResource {
         let files = req.query.resourcefiles || null;
         return await AdminResourceModel.find(params, files).sort({
             sortId: 1
-        });;
+        });
     }
 
     async addAdminResource(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async(err, fields, files) => {
+        form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
@@ -99,10 +99,10 @@ class AdminResource {
     async updateAdminResource(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
-        form.parse(req, async(err, fields, files) => {
+        form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {} else if (!fields.restaurant_id) {}
+                if (!fields.name) { } else if (!fields.restaurant_id) { }
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -130,8 +130,8 @@ class AdminResource {
                 await AdminResourceModel.findOneAndUpdate({
                     _id: item_id
                 }, {
-                    $set: userObj
-                });
+                        $set: userObj
+                    });
                 res.send({
                     state: 'success'
                 });

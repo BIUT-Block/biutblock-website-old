@@ -23,26 +23,9 @@ const {
 
 router.get('/', authSession, function (req, res) {
 
-  AdminResource.getAllResource(req, res, {
-    type: '0'
-  }).then((manageCates) => {
-    let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
-    let adminPower = req.session.adminPower;
-
-    if (manageCates.length > 0) {
-      // 菜单权限控制
-      let newCates = manageCates.map((item, index) => {
-        if (adminPower.indexOf(item._id) < 0) {
-          item.enable = false;
-        }
-        return item;
-      })
-      service.writeFile(req, res, resJsonFile, JSON.stringify(manageCates));
-    }
-    res.render('manage', {
-      title: 'DoraCMS后台管理',
-      bundle: 'manage'
-    })
+  res.render('manage', {
+    title: 'DoraCMS后台管理',
+    bundle: 'manage'
   })
 
 })
@@ -67,15 +50,39 @@ router.get('/getUserSession', authToken, authSession, (req, res) => {
 })
 
 // 更新菜单json文件
-router.get('/refreshIndexCates', authToken, authSession, (req, res) => {
-  ContentCategory.getAllCategories(req, res).then((result) => {
-    let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
-    service.writeFile(req, res, jsonFile, JSON.stringify(result))
-    res.send({
-      state: 'success'
+router.get('/refreshCatesData', authToken, authSession, (req, res) => {
+  let type = req.query.type;
+  if (type === 'indexCates') {
+    ContentCategory.getAllCategories(req, res).then((result) => {
+      let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
+      service.writeFile(req, res, jsonFile, JSON.stringify(result))
+      res.send({
+        state: 'success'
+      });
     });
-  });
+  } else {
+    AdminResource.getAllResource(req, res, {
+      type: '0'
+    }).then((manageCates) => {
+      let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
+      let adminPower = req.session.adminPower;
+      if (manageCates.length > 0) {
+        // 菜单权限控制
+        let newCates = manageCates.map((item, index) => {
+          if (adminPower.indexOf(item._id) < 0) {
+            item.enable = false;
+          }
+          return item;
+        })
+        service.writeFile(req, res, resJsonFile, JSON.stringify(manageCates));
+      }
+      res.send({
+        state: 'success'
+      });
+    })
+  }
 })
+
 
 /**
  * 管理员管理

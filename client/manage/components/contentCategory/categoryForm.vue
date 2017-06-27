@@ -88,7 +88,7 @@ export default {
                     if (this.dialogState.edit) {
                         services.updateContentCategory(params).then((result) => {
                             if (result.data.state === 'success') {
-                                services.refreshIndexCates();
+                                services.refreshCatesData({ type: 'indexCates' });
                                 this.$store.dispatch('hideContentCategoryForm');
                                 this.$store.dispatch('getContentCategoryList');
                                 this.$message({
@@ -103,7 +103,7 @@ export default {
                         // 新增
                         services.addContentCategory(params).then((result) => {
                             if (result.data.state === 'success') {
-                                services.refreshIndexCates();
+                                services.refreshCatesData({ type: 'indexCates' });
                                 this.$store.dispatch('hideContentCategoryForm');
                                 this.$store.dispatch('getContentCategoryList');
                                 this.$message({

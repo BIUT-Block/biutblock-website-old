@@ -18,8 +18,8 @@ export default {
         return reqJsonData('manage/logout', {}, 'get')
     },
 
-    refreshIndexCates() {
-        return reqJsonData('manage/refreshIndexCates', {}, 'get')
+    refreshCatesData(params = {}) {
+        return reqJsonData('manage/refreshCatesData', params, 'get')
     },
 
     getUserSession() {

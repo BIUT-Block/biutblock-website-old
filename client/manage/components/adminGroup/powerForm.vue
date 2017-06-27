@@ -30,7 +30,6 @@ export default {
     },
     methods: {
         savePower() {
-            // console.log(this.$refs.tree.getCheckedNodes());
             let currentNodes = this.$refs.tree.getCheckedNodes();
             let currentArr = [];
             currentNodes.length > 0 && currentNodes.map((item, index) => {
@@ -42,6 +41,7 @@ export default {
                 if (result.data.state === 'success') {
                     this.$store.dispatch('hideAdminGroupRoleForm');
                     this.$store.dispatch('getAdminGroupList');
+                    services.refreshCatesData();
                     this.$message({
                         message: '更新成功,重新登录后权限生效',
                         type: 'success'
