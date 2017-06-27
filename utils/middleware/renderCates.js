@@ -21,6 +21,6 @@ module.exports = function (req, res, next) {
             service.writeFile(req, res, jsonFile, JSON.stringify(result))
             writeState = true;
             next();
-        });
+        }).catch(err => err.stack);
     }
 }
