@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-  
+
     imgZip: true, // 上传图片是否压缩(如果为false则本地不需要安装gm)
     session_secret: 'doracms_secret', // 务必修改
     auth_cookie_name: 'doracms',
