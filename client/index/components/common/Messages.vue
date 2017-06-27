@@ -50,7 +50,7 @@
                                     <i class="el-icon-star-on"></i>&nbsp;管理员]</span>
                             </div>
                             <div class="name" v-else>{{item.author.userName}}</div>
-                            <span class="time">{{item.date | formatDateNearBy}}</span>
+                            <span class="time">{{item.date}}</span>
                         </div>
                         <div class="user-content">
                             <div v-if="item.replyAuthor">

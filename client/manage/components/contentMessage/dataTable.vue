@@ -15,7 +15,7 @@
             <el-table-column prop="replyAuthor.userName" label="关联用户(回复)">
             </el-table-column>
             <el-table-column prop="date" label="时间">
-                <template scope="scope">{{scope.row.date | formatFullDate}}</template>
+                <template scope="scope">{{scope.row.date}}</template>
             </el-table-column>
             <el-table-column label="操作" width="150" fixed="right">
                 <template scope="scope">

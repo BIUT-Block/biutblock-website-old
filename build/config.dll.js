@@ -24,8 +24,7 @@ module.exports = {
             'lodash/omit',
             "axios",
             "validator",
-            "element-ui",
-            "moment"
+            "element-ui"
         ]
     },
     output: {

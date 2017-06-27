@@ -7,7 +7,7 @@
             <el-table-column prop="title" label="标题" width="200">
             </el-table-column>
             <el-table-column prop="date" label="创建时间" width="180">
-                <template scope="scope">{{scope.row.date | formatFullDate(scope.row.date)}}</template>
+                <template scope="scope">{{scope.row.updateDate}}</template>
             </el-table-column>
             <el-table-column prop="categories" label="类别" show-overflow-tooltip>
                 <template scope="scope">{{scope.row.categories[scope.row.categories.length-1].name}}</template>

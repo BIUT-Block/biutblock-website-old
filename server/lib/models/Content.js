@@ -41,36 +41,16 @@ var ContentSchema = new Schema({
 });
 
 
-
-ContentSchema.statics = {
-    //更新评论数
-    updateCommentNum: function (contentId, key, callBack) {
-        Content.findOne({ '_id': contentId }, 'commentNum', function (err, doc) {
-            if (err) {
-                res.end(err)
-            }
-            if (key === 'add') {
-                doc.commentNum = doc.commentNum + 1;
-            } else if (key === 'del') {
-                doc.commentNum = doc.commentNum - 1;
-            }
-            doc.save(function (err) {
-                if (err) throw err;
-                callBack();
-            })
-        })
-    }
-
-};
-
 ContentSchema.set('toJSON', { getters: true, virtuals: true });
 ContentSchema.set('toObject', { getters: true, virtuals: true });
-// ContentSchema.path('date').get(function (v) {
-//     return moment(v).format('YYYY-MM-DD');
-// });
-// ContentSchema.path('updateDate').get(function (v) {
-//     return moment(v).format('YYYY-MM-DD');
-// });
+
+ContentSchema.path('date').get(function (v) {
+    return moment(v).startOf('hour').fromNow();
+});
+ContentSchema.path('updateDate').get(function (v) {
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
+});
+
 var Content = mongoose.model("Content", ContentSchema);
 
 module.exports = Content;

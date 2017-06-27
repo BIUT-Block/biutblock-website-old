@@ -80,7 +80,7 @@
                             <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                         </h2>
                         <ul class="post-meta">
-                            <li>{{item.date | formatDateNearBy}}</li>
+                            <li>{{item.date}}</li>
                             <li>
                                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;{{item.clickNum}}</li>
                             <li>

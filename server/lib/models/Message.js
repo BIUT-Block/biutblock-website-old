@@ -5,6 +5,8 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 var Schema = mongoose.Schema;
+var moment = require('moment')
+moment.locale('zh-cn');
 var AdminUser = require('./AdminUser');
 var User = require('./User');
 var Content = require('./Content');
@@ -41,6 +43,14 @@ var MessageSchema = new Schema({
     hasPraise: { type: Boolean, default: false }, //  当前是否已被点赞
     praiseMembers: String, // 点赞用户id集合
     content: { type: String, default: "输入评论内容..." }// 留言内容
+});
+
+
+MessageSchema.set('toJSON', { getters: true, virtuals: true });
+MessageSchema.set('toObject', { getters: true, virtuals: true });
+
+MessageSchema.path('date').get(function (v) {
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
 });
 
 var Message = mongoose.model("Message", MessageSchema);

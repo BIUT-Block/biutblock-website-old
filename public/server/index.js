@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 126);
+/******/ 	return __webpack_require__(__webpack_require__.s = 125);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -472,7 +472,7 @@ var SYSTEMCONFIG_CONFIGLIST = exports.SYSTEMCONFIG_CONFIGLIST = 'SYSTEMCONFIG_CO
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var validator = __webpack_require__(123);
+var validator = __webpack_require__(122);
 
 module.exports = {
     validateWords: function validateWords(str) {
@@ -592,7 +592,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _app = __webpack_require__(15);
 
-var _path = __webpack_require__(121);
+var _path = __webpack_require__(120);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -683,7 +683,7 @@ var _info = __webpack_require__(38);
 
 var _info2 = _interopRequireDefault(_info);
 
-var _vuexRouterSync = __webpack_require__(125);
+var _vuexRouterSync = __webpack_require__(124);
 
 var _elementUi = __webpack_require__(118);
 
@@ -737,7 +737,7 @@ var _vue = __webpack_require__(8);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = __webpack_require__(124);
+var _vueRouter = __webpack_require__(123);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
@@ -1823,7 +1823,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _shortid = __webpack_require__(122);
+var _shortid = __webpack_require__(121);
 
 var _shortid2 = _interopRequireDefault(_shortid);
 
@@ -2186,32 +2186,12 @@ exports.default =  true ? serverTitleMixin : clientTitleMixin;
 
 /***/ }),
 /* 39 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.formatDate = formatDate;
-exports.formatFullDate = formatFullDate;
-exports.formatDateNearBy = formatDateNearBy;
 exports.cutWords = cutWords;
-
-var moment = __webpack_require__(120);
-moment.locale('zh-cn');
-
-function formatDate(date) {
-    return moment(date).format("YYYY-MM-DD");
-}
-
-function formatFullDate(date) {
-    return moment(date).format("YYYY-MM-DD HH:mm:ss");
-}
-
-function formatDateNearBy(date) {
-    moment.locale('zh-cn');
-    return moment(date).startOf('hour').fromNow();
-}
-
 function cutWords(str, length) {
     var newStr = "";
     if (str.length > length) {
@@ -3118,7 +3098,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dot"
   }, [_vm._v(" • ")]), _vm._v(_vm._s(_vm.contentDetails.doc.categories[_vm.contentDetails.doc.categories.length - 1].name) + "\n                                        ")]), _vm._v(" "), _c('li', [_c('span', {
     staticClass: "dot"
-  }, [_vm._v(" • ")]), _vm._v(_vm._s(_vm._f("formatDateNearBy")(_vm.contentDetails.doc.date)) + "\n                                        ")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(" • ")]), _vm._v(_vm._s(_vm.contentDetails.doc.date) + "\n                                        ")])])]), _vm._v(" "), _c('div', {
     domProps: {
       "innerHTML": _vm._s(_vm.contentDetails.doc.comments)
     }
@@ -3448,7 +3428,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "name"
     }, [_vm._v(_vm._s(item.author.userName))]), _vm._v(" "), _c('span', {
       staticClass: "time"
-    }, [_vm._v(_vm._s(_vm._f("formatDateNearBy")(item.date)))])]), _vm._v(" "), _c('div', {
+    }, [_vm._v(_vm._s(item.date))])]), _vm._v(" "), _c('div', {
       staticClass: "user-content"
     }, [(item.replyAuthor) ? _c('div', [_c('span', {
       staticStyle: {
@@ -3650,7 +3630,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v(_vm._s(item.title))])], 1), _vm._v(" "), _c('ul', {
       staticClass: "post-meta"
-    }, [_c('li', [_vm._v(_vm._s(_vm._f("formatDateNearBy")(item.date)))]), _vm._v(" "), _c('li', [_c('i', {
+    }, [_c('li', [_vm._v(_vm._s(item.date))]), _vm._v(" "), _c('li', [_c('i', {
       staticClass: "fa fa-eye",
       attrs: {
         "aria-hidden": "true"
@@ -4379,40 +4359,34 @@ module.exports = require("fs");
 /* 120 */
 /***/ (function(module, exports) {
 
-module.exports = require("moment");
+module.exports = require("path");
 
 /***/ }),
 /* 121 */
 /***/ (function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("shortid");
 
 /***/ }),
 /* 122 */
 /***/ (function(module, exports) {
 
-module.exports = require("shortid");
+module.exports = require("validator");
 
 /***/ }),
 /* 123 */
 /***/ (function(module, exports) {
 
-module.exports = require("validator");
+module.exports = require("vue-router");
 
 /***/ }),
 /* 124 */
 /***/ (function(module, exports) {
 
-module.exports = require("vue-router");
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports) {
-
 module.exports = require("vuex-router-sync");
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(14);
