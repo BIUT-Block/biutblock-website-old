@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const fs = require('fs')
+const path = require('path')
 const {
   authSession,
   settings
@@ -77,7 +78,7 @@ router.get('/sitemap.xml', (req, res, next) => {
 })
 
 router.get('/robots.txt', function (req, res, next) {
-  let stream = fs.createReadStream('../robots.txt', {
+  let stream = fs.createReadStream(path.join(__dirname, '../../robots.txt'), {
     flags: 'r'
   });
   stream.pipe(res);

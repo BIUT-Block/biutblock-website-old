@@ -3,9 +3,29 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        evendor: [
-            "element-ui"
-        ]
+        'vendor': [
+            'vue',
+            'vue-router',
+            "vuex",
+            "vuex-router-sync",
+            "vue-template-compiler",
+            'lodash',
+            'lodash/cloneDeep',
+            'lodash/filter',
+            'lodash/get',
+            'lodash/set',
+            'lodash/sumBy',
+            'lodash/isEqual',
+            'lodash/merge',
+            'lodash/debounce',
+            'lodash/intersection',
+            'lodash/sortBy',
+            'lodash/find',
+            'lodash/omit',
+            "axios",
+            "validator"
+        ],
+        'evendor': ["element-ui"]
     },
     output: {
         path: path.join(__dirname, "../public/dll"),
