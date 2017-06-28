@@ -315,7 +315,7 @@
             }
             this.$store.dispatch('getContentCategoryList');
             this.$store.dispatch('getContentTagList', {
-                limit: 200
+                pageSize: 200
             });
         }
     }
