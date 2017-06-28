@@ -55,6 +55,10 @@ module.exports = {
         new webpack.DllReferencePlugin({
             context: path.join(__dirname, "../public/dll"),
             manifest: require("../public/dll/vendor-manifest.json")
+        }),
+        new webpack.DllReferencePlugin({
+            context: path.join(__dirname, "../public/dll"),
+            manifest: require("../public/dll/evendor-manifest.json")
         })] : [
             new webpack.optimize.OccurrenceOrderPlugin(),
             new webpack.HotModuleReplacementPlugin(),

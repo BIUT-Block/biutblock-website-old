@@ -3,27 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        vendor: [
-            'vue',
-            'vue-router',
-            "vuex",
-            "vuex-router-sync",
-            "vue-template-compiler",
-            'lodash',
-            'lodash/cloneDeep',
-            'lodash/filter',
-            'lodash/get',
-            'lodash/set',
-            'lodash/sumBy',
-            'lodash/isEqual',
-            'lodash/merge',
-            'lodash/debounce',
-            'lodash/intersection',
-            'lodash/sortBy',
-            'lodash/find',
-            'lodash/omit',
-            "axios",
-            "validator",
+        evendor: [
             "element-ui"
         ]
     },
@@ -38,7 +18,6 @@ module.exports = {
                 'NODE_ENV': '"production"'
             }
         }),
-        // new webpack.optimize.DedupePlugin(),
         new webpack.DllPlugin({
             path: path.join(__dirname, "../public/dll", "[name]-manifest.json"),
             name: "[name]",
@@ -54,8 +33,4 @@ module.exports = {
             }
         })
     ]
-    // resolve: {
-    //     root: path.resolve(__dirname, "dll"),
-    //     modulesDirectories: ["node_modules"]
-    // }
 };

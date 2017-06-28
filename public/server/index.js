@@ -4038,7 +4038,8 @@ module.exports = {
 	"version": "2.0.0beta",
 	"author": "dora <admin@html-js.cn>",
 	"scripts": {
-		"dll": "webpack --config build/config.dll.js",
+		"dll": "webpack --config build/config.dll.base.js",
+		"dlleui": "webpack --config build/config.dll.eui.js",
 		"start": "cross-env NODE_ENV=production node app",
 		"dev": "cross-env NODE_ENV=development supervisor -w server,app.js app",
 		"build": "cross-env NODE_ENV=production node build/build-prod",
