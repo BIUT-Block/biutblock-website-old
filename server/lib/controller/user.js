@@ -106,6 +106,7 @@ class User {
         form.parse(req, async (err, fields, files) => {
             try {
                 let newPsd = service.encrypt(fields.password, settings.encrypt_key);
+                let errMsg = '';
                 if (!validatorUtil.checkEmail(fields.email)) {
                     errMsg = '请输入正确的邮箱'
                 } else if (!validatorUtil.checkPwd(fields.password)) {
