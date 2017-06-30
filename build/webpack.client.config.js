@@ -14,23 +14,25 @@ var config = merge(baseConfig, {
         'jquery': 'jQuery'
     },
     module: {
-        rules: [{
-            test: /\.vue$/,
-            loader: 'eslint-loader',
-            enforce: "pre",
-            include: projectRoot,
-            exclude: /node_modules/
-        }, {
-            test: /\.js$/,
-            loader: 'eslint-loader',
-            enforce: "pre",
-            include: projectRoot,
-            exclude: /node_modules/
-        }, {
-            test: /\.vue$/,
-            loader: 'vue-loader',
-            options: vueConfig
-        }]
+        rules: [
+            //     {
+            //     test: /\.vue$/,
+            //     loader: 'eslint-loader',
+            //     enforce: "pre",
+            //     include: projectRoot,
+            //     exclude: /node_modules/
+            // }, {
+            //     test: /\.js$/,
+            //     loader: 'eslint-loader',
+            //     enforce: "pre",
+            //     include: projectRoot,
+            //     exclude: /node_modules/
+            // },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: vueConfig
+            }]
     },
     plugins: [
         new webpack.ProvidePlugin({

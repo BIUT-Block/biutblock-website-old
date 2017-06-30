@@ -7,7 +7,7 @@ import "toastr/build/toastr.css"
 import "nprogress/nprogress.css"
 
 router.beforeEach((route, redirect, next) => {
-    store.dispatch('global/gProgress', 0)
+    // store.dispatch('global/gProgress', 0)
     next()
 })
 

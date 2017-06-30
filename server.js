@@ -5,6 +5,9 @@ const fs = require('fs')
 const path = require('path')
 const favicon = require('serve-favicon')
 const express = require('express')
+const ueditor = require("ueditor")
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const compression = require('compression')
 // const HTMLStream = require('vue-ssr-html-stream')
 const logger = require('morgan')
@@ -15,22 +18,22 @@ const config = require('./src/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
 
 const serverInfo =
-  `express/${require('express/package.json').version} ` +
-  `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
+    `express/${require('express/package.json').version} ` +
+    `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 // 引入 mongoose 相关模型
-require('./server/models/admin')
-require('./server/models/article')
-require('./server/models/category')
-require('./server/models/comment')
-require('./server/models/like')
-require('./server/models/user')
+// require('./server/models/admin')
+// require('./server/models/article')
+// require('./server/models/category')
+// require('./server/models/comment')
+// require('./server/models/like')
+// require('./server/models/user')
 
 // 引入 api 路由
-const routes = require('./server/routes/index')
+const routes = require('./server/routers/api')
 
-function createRenderer (bundle, template) {
-  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
+function createRenderer(bundle, template) {
+    // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
     return createBundleRenderer(bundle, {
         template,
         cache: require('lru-cache')({
@@ -41,6 +44,18 @@ function createRenderer (bundle, template) {
 }
 
 const app = express()
+
+// const foreground = require('./server/routers/foreground');
+// const restapi = require('./server/routers/api');
+const manage = require('./server/routers/manage');
+const system = require('./server/routers/system');
+const renderCates = require('./utils/middleware/renderCates');
+const renderClientSession = require('./utils/middleware/renderClientSession');
+const authUser = require('./utils/middleware/authUser');
+const {
+    service,
+    settings
+} = require('./utils');
 
 // 由 html-webpack-plugin 生成
 let frontend
@@ -70,14 +85,30 @@ app.engine('.html', require('ejs').__express)
 app.set('view engine', 'ejs')
 
 app.use(favicon('./favicon.ico'))
-app.use(compression({threshold: 0}))
+app.use(compression({ threshold: 0 }))
 // 日志
 app.use(logger('":method :url" :status :res[content-length] ":referrer" ":user-agent"'))
 // body 解析中间件
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 // cookie 解析中间件
-app.use(cookieParser())
+app.use(cookieParser(settings.session_secret));
+// session配置
+app.use(session({ //session持久化配置
+    secret: settings.encrypt_key,
+    // key: "kvkenskey",
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 30
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+        db: "session",
+        host: "localhost",
+        port: 27017,
+        url: !isProd ? settings.URL : 'mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + ''
+    })
+}));
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'dist')))
 
@@ -89,7 +120,7 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 app.use('/api', routes)
 
 // 前台路由, ssr 渲染
-app.get(['/', '/category/:id', '/search/:qs', '/article/:id', '/about', '/trending/:by', '/user/account', '/user/password'], (req, res) => {
+app.get(['/', '/details/:id', '/category/:id', '/search/:qs', '/article/:id', '/about', '/trending/:by', '/user/account', '/user/password'], (req, res) => {
     if ((req.originalUrl === '/user/account' || req.originalUrl === '/user/password') && !req.cookies.user) {
         return res.redirect('/')
     }
@@ -154,13 +185,13 @@ app.get('*', (req, res) => {
     res.send('HTTP STATUS: 404')
 })
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error(req.originalUrl + ' Not Found')
     err.status = 404
     next(err)
 })
 
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
     res.status(err.status || 500)
     res.send(err.message)
 })

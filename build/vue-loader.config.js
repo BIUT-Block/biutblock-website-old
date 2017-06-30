@@ -3,13 +3,16 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var loaders = {}
 if (process.env.NODE_ENV !== 'production') {
     loaders = {
-        css: 'vue-style-loader!css-loader',
-        less: 'vue-style-loader!css-loader!less-loader'
+        test: /\.(css|scss)$/,
+        loader: "style-loader!css-loader!sass-loader"
     }
 } else {
     loaders = {
-        css: ExtractTextPlugin.extract({fallback: 'vue-style-loader', use: 'css-loader'}),
-        less: ExtractTextPlugin.extract({fallback: 'vue-style-loader', use: 'css-loader!less-loader'})
+        // css: ExtractTextPlugin.extract({ fallback: 'vue-style-loader', use: 'css-loader' }),
+        scss: ExtractTextPlugin.extract({
+            loader: "css-loader!sass-loader",
+            fallback: "vue-style-loader"
+        })
     }
 }
 module.exports = {

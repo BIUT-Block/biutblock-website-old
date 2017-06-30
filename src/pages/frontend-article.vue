@@ -77,7 +77,7 @@ export default {
         }
     },
     mounted() {
-        fetchInitialData(this.$store)
+        fetchInitialData(this.$store,this.$router)
     },
     metaInfo () {
         const title = this.article.data.title ? this.article.data.title + ' - M.M.F 小屋' : 'M.M.F 小屋'
