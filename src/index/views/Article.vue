@@ -56,9 +56,7 @@ import HotContents from '../components/common/HotContents.vue'
 import RecentContents from '../components/common/RecentContents.vue'
 import Messages from '../components/common/Messages.vue'
 
-const fetchInitialData = async store => {
-    await store.dispatch('getContentDetails')
-}
+
 
 export default {
     name: 'cmsarticleview',
@@ -90,23 +88,35 @@ export default {
             // contentDetails: this.$store.getters.contentDetails
         }
     },
-    beforeRouteUpdate(to, from, next) {
-        if (to.path !== from.path) fetchInitialData(this.$store)
-        // else this.$store.dispatch('global/gProgress', 100)
-        next()
-    },
+    // beforeRouteUpdate(to, from, next) {
+    //     if (to.path !== from.path) fetchInitialData(this.$store)
+    //     // else this.$store.dispatch('global/gProgress', 100)
+    //     next()
+    // },
     beforeMount() {
 
     },
-    mounted() {
-        fetchInitialData(this.$store)
-    },
+    // mounted() {
+    //     fetchInitialData(this.$store)
+    // },
     computed: {
         ...mapGetters([
             'contentDetails',
         ])
     },
-    prefetch: fetchInitialData
+    asyncData({
+            store,
+        route
+        }) {
+        let contentId = route.params.id;
+        let params = {};
+        if (contentId) {
+            let currentId = contentId.substr(0, contentId.length - 5);
+            params.id = currentId;
+            params.cache = true;
+        }
+        return store.dispatch('getContentDetails', params)
+    }
 
 }
 </script>

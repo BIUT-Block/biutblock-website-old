@@ -3,16 +3,16 @@ import Item from './AriticleList.vue'
 export default function (options) {
   return {
     name: `${options.name}-list-view`,
-    prefetch(store) {
+    asyncData({ store, route }) {
       let params = { model: 'normal' };
       params.typeId = options.typeId || 'indexPage';
-      // if (route) {
-      //   params.current = Number(route.params.page) || 1;
-      //   // console.log('---route.params---', route.params);
-      //   if (route.params.tagName) {
-      //     params.tagName = route.params.tagName
-      //   }
-      // }
+      params.cache = true;
+      if (route) {
+        params.current = Number(route.params.page) || 1;
+        if (route.params.tagName) {
+          params.tagName = route.params.tagName
+        }
+      }
       return store.dispatch('indexContentList', params)
     },
     render(h) {

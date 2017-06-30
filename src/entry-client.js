@@ -1,24 +1,53 @@
-import { app, store, router } from './app'
+import {
+    app,
+    store,
+    router
+} from './app'
 
-import "./assets/css/hljs/googlecode.css"
-import "./assets/css/style.css"
-import "./assets/less/frontend.less"
-import "toastr/build/toastr.css"
-import "nprogress/nprogress.css"
+import Vue from 'vue'
 
-router.beforeEach((route, redirect, next) => {
-    // store.dispatch('global/gProgress', 0)
-    next()
-})
+// import 'es6-promise/auto'
+import ProgressBar from './index/components/common/ProgressBar.vue'
+import _ from 'lodash'
+import renderPageInfo from '../utils/documentInfo';
+
+const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+document.body.appendChild(bar.$el)
+
+
 
 if (window.__INITIAL_STATE__) {
     store.replaceState(window.__INITIAL_STATE__)
 }
 
 router.onReady(() => {
+    // 定义服务端请求数据的钩子
+    router.beforeResolve((to, from, next) => {
+        const matched = router.getMatchedComponents(to)
+        const prevMatched = router.getMatchedComponents(from)
+        let diffed = false
+        const activated = matched.filter((c, i) => {
+            return diffed || (diffed = (prevMatched[i] !== c)) || c.name.indexOf('list-view') > 0 || c.name === 'cmsarticleview'
+        })
+        if (!activated.length) {
+            return next();
+        }
+        bar.start()
+        Promise.all(activated.map(c => {
+            if (c.asyncData) {
+                return c.asyncData({
+                    store,
+                    route: to
+                })
+            }
+        })).then(() => {
+            bar.finish()
+            next()
+        }).catch(next)
+    })
+
     app.$mount('#app')
 })
-
 // only https
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator && window.location.hostname !== 'localhost') {
     navigator.serviceWorker.register('/service-worker.js')

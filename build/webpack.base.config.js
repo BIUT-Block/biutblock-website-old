@@ -30,13 +30,13 @@ const config = {
             // 'ele_ui_styles': path.resolve(__dirname, '../node_modules/element-ui/lib/theme-default/index.css'),
             '~src': path.resolve(__dirname, '../src'),
             '~components': path.resolve(__dirname, '../src/components'),
-            '~api': path.resolve(__dirname, '../src/api/index-client'),
+            '~api': path.resolve(__dirname, '../utils/api/index-client'),
             '~pages': path.resolve(__dirname, '../src/pages'),
             '~mixins': path.resolve(__dirname, '../src/mixins'),
             '~store': path.resolve(__dirname, '../src/store'),
             '~utils': path.resolve(__dirname, '../src/utils'),
             'assets': path.resolve(__dirname, '../src/assets'),
-            'api-config': path.resolve(__dirname, '../src/api/config-client')
+            'api-config': path.resolve(__dirname, '../utils/api/config-client')
         }
     },
     resolveLoader: {

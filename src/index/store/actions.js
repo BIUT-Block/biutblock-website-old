@@ -38,26 +38,24 @@ export default {
     adminLoginForm({
         commit
     }, params = {
-            formData: {}
-        }) {
+        formData: {}
+    }) {
         commit(types.ADMINLOGIN_FORM_STATE, {
             formData: params.formData
         })
     },
     indexContentList({
         commit,
-        state,
-        rootState: { route: { path, params: { id } } } 
+        dispatch
     }, params = {}) {
         return services.contentList(params).then((result) => {
             commit(types.INDEX_CONTENT_LIST, result.data);
         })
     },
-    getContentDetails({ commit, state, rootState: { route: { path, params: { id } } } }, params = {}) {
-        if (id) {
-            let currentId = id.substr(0, id.length - 5);
-            params.id = currentId;
-        }
+    getContentDetails({
+        commit,
+        dispatch
+    }, params = {}) {
         return services.getOneContent(params).then((result) => {
             commit(types.CONTENT_DETAILS, result.data);
             commit(types.USER_MESSAGE_FORM, {
@@ -98,9 +96,9 @@ export default {
     userMessageForm({
         commit
     }, params = {
-            reply: false,
-            formData: {}
-        }) {
+        reply: false,
+        formData: {}
+    }) {
         commit(types.USER_MESSAGE_FORM, {
             reply: params.reply,
             formData: params.formData
@@ -109,8 +107,8 @@ export default {
     userLoginForm({
         commit
     }, params = {
-            formData: {}
-        }) {
+        formData: {}
+    }) {
         commit(types.USER_LOGIN_FORM, {
             formData: params.formData
         })

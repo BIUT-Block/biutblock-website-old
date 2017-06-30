@@ -10,10 +10,20 @@ import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
 import ElementUI from 'element-ui'
 
+import Header from './index/components/common/header'
+import Footer from './index/components/common/Footer'
+import MyTag from './index/components/common/Tag.vue'
+
+
 Vue.use(ElementUI);
 
 const store = createStore()
 const router = createRouter()
+const preFetchComponent = [
+        Header,
+        Footer,
+        MyTag
+    ]
 
 sync(store, router)
 
@@ -27,4 +37,4 @@ const app = new Vue({
     render: h => h(App)
 })
 
-export { app, router, store }
+export { app, router, store,preFetchComponent }

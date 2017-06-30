@@ -13,7 +13,9 @@ const compression = require('compression')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const { createBundleRenderer } = require('vue-server-renderer')
+const {
+    createBundleRenderer
+} = require('vue-server-renderer')
 const config = require('./src/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
 
@@ -77,7 +79,9 @@ if (isProd) {
 }
 
 // 设置静态文件缓存时间
-const serve = (path, cache) => express.static(resolve(path), { maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0 })
+const serve = (path, cache) => express.static(resolve(path), {
+    maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+})
 
 // 引用 esj 模板引擎
 app.set('views', path.join(__dirname, 'dist'))
@@ -85,12 +89,16 @@ app.engine('.html', require('ejs').__express)
 app.set('view engine', 'ejs')
 
 app.use(favicon('./favicon.ico'))
-app.use(compression({ threshold: 0 }))
+app.use(compression({
+    threshold: 0
+}))
 // 日志
 app.use(logger('":method :url" :status :res[content-length] ":referrer" ":user-agent"'))
 // body 解析中间件
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 // cookie 解析中间件
 app.use(cookieParser(settings.session_secret));
 // session配置
@@ -119,11 +127,8 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 // api 路由
 app.use('/api', routes)
 
-// 前台路由, ssr 渲染
-app.get(['/', '/details/:id', '/category/:id', '/search/:qs', '/article/:id', '/about', '/trending/:by', '/user/account', '/user/password'], (req, res) => {
-    if ((req.originalUrl === '/user/account' || req.originalUrl === '/user/password') && !req.cookies.user) {
-        return res.redirect('/')
-    }
+
+const renderFun = (req, res, next) => {
     if (!renderer) {
         return res.end('waiting for compilation... refresh in a moment.')
     }
@@ -156,17 +161,96 @@ app.get(['/', '/details/:id', '/category/:id', '/search/:qs', '/article/:id', '/
         res.end(html)
         console.log(`whole request: ${Date.now() - s}ms`)
     })
-    // const htmlStream = new HTMLStream({ template: frontend, context })
-    // htmlStream.on('beforeStart', () => {
-    //     const meta = context.meta.inject()
-    //     context.head = (context.head || '') + meta.title.text()
-    // })
-    // renderer.renderToStream(context)
-    //     .on('error', errorHandler)
-    //     .pipe(htmlStream)
-    //     .on('end', () => console.log(`whole request: ${Date.now() - s}ms`))
-    //     .pipe(res)
+}
+// 前台路由, ssr 渲染
+app.get(['/', '/details/:id', '/users/login', "/sitemap.html"], (req, res, next) => {
+
+    if ((req.originalUrl === '/user/account' || req.originalUrl === '/user/password') && !req.cookies.user) {
+        return res.redirect('/')
+    }
+    renderFun(req, res, next);
+
 })
+
+// 后台管理
+app.get('/dr-admin', (req, res, next) => {
+    if (req.session.adminlogined) {
+        res.redirect('/manage');
+    } else {
+        next();
+    }
+}).get('/dr-admin', renderFun)
+
+
+//配置站点地图和robots抓取
+app.get('/sitemap.xml', (req, res, next) => {
+    let root_path = settings.SITEDOMAIN;
+    let priority = 0.8;
+    let freq = 'weekly';
+    let lastMod = moment().format('YYYY-MM-DD');
+    let xml = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    xml += '<url>';
+    xml += '<loc>' + root_path + '</loc>';
+    xml += '<changefreq>daily</changefreq>';
+    xml += '<lastmod>' + lastMod + '</lastmod>';
+    xml += '<priority>' + 1 + '</priority>';
+    xml += '</url>';
+
+    req.query.catefiles = 'defaultUrl';
+    req.query.contentfiles = 'title';
+    ContentCategory.getAllCategories(req, res).then((cates) => {
+        cates.forEach(function (cate) {
+            xml += '<url>';
+            xml += '<loc>' + root_path + '/' + cate.defaultUrl + '___' + cate._id + '</loc>';
+            xml += '<changefreq>weekly</changefreq>';
+            xml += '<lastmod>' + lastMod + '</lastmod>';
+            xml += '<priority>0.8</priority>';
+            xml += '</url>';
+        });
+        return Content.getAllContens(req, res);
+    }).then((contentLists) => {
+        contentLists.forEach(function (post) {
+            xml += '<url>';
+            xml += '<loc>' + root_path + '/details/' + post._id + '.html</loc>';
+            xml += '<changefreq>weekly</changefreq>';
+            xml += '<lastmod>' + lastMod + '</lastmod>';
+            xml += '<priority>0.5</priority>';
+            xml += '</url>';
+        });
+        xml += '</urlset>';
+        res.end(xml);
+    }).catch((err) => {
+        res.send({
+            state: 'error',
+            err
+        })
+    });
+})
+
+// 机器人抓取
+app.get('/robots.txt', function (req, res, next) {
+    let stream = fs.createReadStream(path.join(__dirname, './robots.txt'), {
+        flags: 'r'
+    });
+    stream.pipe(res);
+});
+
+// 类别路由和类别分页
+app.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (req, res, next) => {
+    let defaultUrl = req.params.defaultUrl;
+    let childUrl = req.params.childUrl,
+        cUrl = '';
+    let url = defaultUrl.split('___')[1];
+    if (childUrl) {
+        cUrl = childUrl.split('___')[1];
+    }
+    if (url || cUrl) {
+        renderFun(req, res, next);
+    } else {
+        next();
+    }
+})
+
 
 // 后台渲染
 app.get(['/backend', '/backend/*'], (req, res) => {
@@ -174,7 +258,9 @@ app.get(['/backend', '/backend/*'], (req, res) => {
         return res.redirect('/backend')
     }
     if (isProd) {
-        res.render('admin.html', { title: '登录' })
+        res.render('admin.html', {
+            title: '登录'
+        })
     } else {
         res.send(backend)
     }
