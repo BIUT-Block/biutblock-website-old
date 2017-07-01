@@ -47,17 +47,11 @@ function createRenderer(bundle, template) {
 
 const app = express()
 
-// const foreground = require('./server/routers/foreground');
-// const restapi = require('./server/routers/api');
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
-const renderClientSession = require('./utils/middleware/renderClientSession');
 const authUser = require('./utils/middleware/authUser');
-const {
-    service,
-    settings
-} = require('./utils');
+const { service, settings, authSession } = require('./utils');
 
 // 由 html-webpack-plugin 生成
 let frontend
@@ -88,17 +82,18 @@ app.set('views', path.join(__dirname, 'dist'))
 app.engine('.html', require('ejs').__express)
 app.set('view engine', 'ejs')
 
+// body 解析中间件
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 app.use(favicon('./favicon.ico'))
 app.use(compression({
     threshold: 0
 }))
 // 日志
 app.use(logger('":method :url" :status :res[content-length] ":referrer" ":user-agent"'))
-// body 解析中间件
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-    extended: false
-}))
+
 // cookie 解析中间件
 app.use(cookieParser(settings.session_secret));
 // session配置
@@ -117,6 +112,11 @@ app.use(session({ //session持久化配置
         url: !isProd ? settings.URL : 'mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + ''
     })
 }));
+
+// 鉴权用户
+app.use(authUser.auth);
+// 初始化首页菜单
+app.use(renderCates);
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'dist')))
 
@@ -149,8 +149,8 @@ const renderFun = (req, res, next) => {
     }
 
     const context = {
-        title: 'M.M.F 小屋',
-        description: 'M.M.F 小屋',
+        title: '前端开发俱乐部',
+        description: '前端开发俱乐部',
         url: req.url,
         cookies: req.cookies
     }
@@ -253,18 +253,31 @@ app.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (r
 
 
 // 后台渲染
-app.get(['/backend', '/backend/*'], (req, res) => {
-    if (req.originalUrl !== '/backend' && req.originalUrl !== '/backend/' && !req.cookies.b_user) {
-        return res.redirect('/backend')
-    }
+
+app.get('/manage', authSession, function (req, res) {
     if (isProd) {
         res.render('admin.html', {
-            title: '登录'
+            title: 'DoraCMS后台管理'
         })
     } else {
         res.send(backend)
     }
-})
+}).get('/manage', manage);
+
+app.use('/system', system);
+
+// app.get(['/backend', '/backend/*'], (req, res) => {
+//     if (req.originalUrl !== '/backend' && req.originalUrl !== '/backend/' && !req.cookies.b_user) {
+//         return res.redirect('/backend')
+//     }
+//     if (isProd) {
+//         res.render('admin.html', {
+//             title: '登录'
+//         })
+//     } else {
+//         res.send(backend)
+//     }
+// })
 
 // 404 页面
 app.get('*', (req, res) => {

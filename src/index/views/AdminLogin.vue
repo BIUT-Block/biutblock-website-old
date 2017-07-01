@@ -38,6 +38,13 @@ import {
 } from 'vuex';
 export default {
   name: 'Login',
+  metaInfo() {
+    return {
+      title: '管理员登录',
+      desc: 'DoraCMS-管理员登录',
+      keywords: 'DoraCMS-管理员登录'
+    }
+  },
   data() {
     return {
       rules: {

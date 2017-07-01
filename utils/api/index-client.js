@@ -42,11 +42,10 @@ export default {
         return axios({
             method: 'post',
             url: config.api + url,
-            data: qs.stringify(data),
+            data: data,
             timeout: config.timeout,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'X-Requested-With': 'XMLHttpRequest'
             }
         }).then(checkStatus).then(checkCode)
     },

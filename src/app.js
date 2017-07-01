@@ -8,6 +8,7 @@ import {
 import App from './index/App.vue'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
+import documentInfoMixin from './mixins'
 import ElementUI from 'element-ui'
 
 import Header from './index/components/common/header'
@@ -16,6 +17,7 @@ import MyTag from './index/components/common/Tag.vue'
 
 
 Vue.use(ElementUI);
+Vue.mixin(documentInfoMixin);
 
 const store = createStore()
 const router = createRouter()

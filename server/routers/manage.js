@@ -21,14 +21,6 @@ const {
   validatorUtil
 } = require('../../utils');
 
-router.get('/', authSession, function (req, res) {
-
-  res.render('manage', {
-    title: 'DoraCMS后台管理',
-    bundle: 'manage'
-  })
-
-})
 
 // 管理员退出
 router.get('/logout', (req, res) => {

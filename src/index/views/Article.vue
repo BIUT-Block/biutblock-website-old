@@ -60,24 +60,13 @@ import Messages from '../components/common/Messages.vue'
 
 export default {
     name: 'cmsarticleview',
-    title() {
-        return this.contentDetails.doc.title;
+    metaInfo() {
+        return {
+            title: this.contentDetails.doc.title,
+            desc: this.contentDetails.doc.discription,
+            keywords: this.contentDetails.doc.keywords || this.systemConfig.configs.siteKeywords
+        }
     },
-    discription() {
-        return this.contentDetails.doc.discription;
-    },
-    keywords() {
-        return this.contentDetails.doc.keywords;
-    },
-    // serverCacheKey() {
-    //     let articleState = this.__VUE_SSR_CONTEXT__.state;
-    //     let serverCacheKey = 'cmsarticleview';
-    //     if (articleState) {
-    //         let articleObj = articleState.mutations.contentDetails.doc;
-    //         serverCacheKey = articleObj._id + '::' + articleObj.updateDate
-    //     }
-    //     return serverCacheKey;
-    // },
     components: {
         RecentContents,
         HotContents,
@@ -88,17 +77,9 @@ export default {
             // contentDetails: this.$store.getters.contentDetails
         }
     },
-    // beforeRouteUpdate(to, from, next) {
-    //     if (to.path !== from.path) fetchInitialData(this.$store)
-    //     // else this.$store.dispatch('global/gProgress', 100)
-    //     next()
-    // },
     beforeMount() {
 
     },
-    // mounted() {
-    //     fetchInitialData(this.$store)
-    // },
     computed: {
         ...mapGetters([
             'contentDetails',

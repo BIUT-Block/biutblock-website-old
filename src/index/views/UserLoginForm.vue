@@ -38,7 +38,14 @@ import {
   mapActions
 } from 'vuex';
 export default {
-  name: 'Login',
+  name: 'userLogin',
+  metaInfo() {
+    return {
+      title: '用户登录',
+      desc: 'DoraCMS-用户登录',
+      keywords: 'DoraCMS-用户登录'
+    }
+  },
   data() {
     return {
       rules: {

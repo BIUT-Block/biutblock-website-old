@@ -25,7 +25,7 @@ const config = {
             path.join(__dirname, '../node_modules')
         ],
         alias: {
-            '@': path.join(__dirname, '..', 'client'),
+            '@': path.join(__dirname, '..', 'src'),
             'scss_vars': '@/manage/assets/styles/vars.scss',
             // 'ele_ui_styles': path.resolve(__dirname, '../node_modules/element-ui/lib/theme-default/index.css'),
             '~src': path.resolve(__dirname, '../src'),

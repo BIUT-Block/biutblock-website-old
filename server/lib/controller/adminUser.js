@@ -48,11 +48,12 @@ class AdminUser {
 
     async loginAction(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async(err, fields, files) => {
+        form.parse(req, async (err, fields, files) => {
             let {
                 userName,
                 password
             } = fields;
+            console.log('---fields---', fields);
             try {
                 let newPsd = service.encrypt(fields.password, settings.encrypt_key);
                 let errMsg = '';
@@ -120,7 +121,7 @@ class AdminUser {
 
     async addAdminUser(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async(err, fields, files) => {
+        form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 if (!fields.name) {
@@ -169,10 +170,10 @@ class AdminUser {
     async updateAdminUser(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
-        form.parse(req, async(err, fields, files) => {
+        form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {} else if (!fields.restaurant_id) {}
+                if (!fields.name) { } else if (!fields.restaurant_id) { }
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -199,8 +200,8 @@ class AdminUser {
                 await AdminUserModel.findOneAndUpdate({
                     _id: item_id
                 }, {
-                    $set: userObj
-                });
+                        $set: userObj
+                    });
                 res.send({
                     state: 'success'
                 });

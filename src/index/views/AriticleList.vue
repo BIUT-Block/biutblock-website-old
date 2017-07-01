@@ -1,7 +1,7 @@
 <style lang='scss'>
-    .contentContainer {
-        margin-top: 30px;
-    }
+.contentContainer {
+    margin-top: 30px;
+}
 </style>
 <template>
     <div>
@@ -51,53 +51,51 @@
 </template>
 
 <script>
-    import shortid from 'shortid';
-    import ItemList from './ItemList.vue'
-    import Tag from '../components/common/Tag.vue'
-    import HotContents from '../components/common/HotContents.vue'
-    import CatesMenu from '../components/common/CatesMenu.vue'
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
-    export default {
-        props: ['options'],
-        name: 'cmslistview',
-        title() {
-            return this.options.typeName || '首页'
-        },
-        discription() {
-            return this.options.discription || this.systemConfig.configs.siteDiscription;
-        },
-        keywords() {
-            return this.options.keywords || this.systemConfig.configs.siteKeywords;
-        },
-        data() {
-            return {
-                // displayedItems: this.$store.getters.contentList
-            }
-        },
-        components: {
-            ItemList,
-            Tag,
-            HotContents,
-            CatesMenu
-        },
-        computed: {
-            ...mapGetters([
-                'contentList',
-                'systemConfig'
-            ]),
-            page() {
-                return Number(this.$store.state.route.params.page) || 1
-            },
-            tagName() {
-                return this.$store.state.route.params.tagName
-            },
-            checkCateList() {                
-                return this.options.typeId != 'indexPage' && shortid.isValid(this.options.typeId);
-            }
+import shortid from 'shortid';
+import ItemList from './ItemList.vue'
+import Tag from '../components/common/Tag.vue'
+import HotContents from '../components/common/HotContents.vue'
+import CatesMenu from '../components/common/CatesMenu.vue'
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+export default {
+    props: ['options'],
+    name: 'cmslistview',
+    metaInfo() {
+        return {
+            title: (this.options.typeName || '首页') + ' | ' + this.systemConfig.configs.siteName,
+            desc: this.options.discription || this.systemConfig.configs.siteDiscription,
+            keywords: this.options.keywords || this.systemConfig.configs.siteKeywords
         }
-
+    },
+    data() {
+        return {
+            // displayedItems: this.$store.getters.contentList
+        }
+    },
+    components: {
+        ItemList,
+        Tag,
+        HotContents,
+        CatesMenu
+    },
+    computed: {
+        ...mapGetters([
+            'contentList',
+            'systemConfig'
+        ]),
+        page() {
+            return Number(this.$store.state.route.params.page) || 1
+        },
+        tagName() {
+            return this.$store.state.route.params.tagName
+        },
+        checkCateList() {
+            return this.options.typeId != 'indexPage' && shortid.isValid(this.options.typeId);
+        }
     }
+
+}
 </script>
