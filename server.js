@@ -18,7 +18,7 @@ const {
 } = require('vue-server-renderer')
 const config = require('./utils/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
-
+global.NODE_ENV = process.env.NODE_ENV || 'production'
 const serverInfo =
     `express/${require('express/package.json').version} ` +
     `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
