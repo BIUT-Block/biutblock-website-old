@@ -14,9 +14,9 @@
 //var URL = window.UEDITOR_HOME_URL || '/static/ueditor_1/';
 
 //主体文件引入
-import '../../../../static/ueditor/ueditor.config.js'
-import '../../../../static/ueditor/ueditor.all.min.js'
-import '../../../../static/ueditor/lang/zh-cn/zh-cn.js'
+import '../../../../public/ueditor/ueditor.config.js'
+import '../../../../public/ueditor/ueditor.all.min.js'
+import '../../../../public/ueditor/lang/zh-cn/zh-cn.js'
 
 
 export default {

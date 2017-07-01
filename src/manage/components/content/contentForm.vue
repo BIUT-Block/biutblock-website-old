@@ -199,7 +199,6 @@
                 }
                 instance.addListener('contentChange', () => {
                     this.content = instance.getContent();
-                    console.log(this.content);
                     this.$store.dispatch('showContentForm', {
                         edit: this.formState.edit,
                         formData: Object.assign({}, this.formState.formData, {

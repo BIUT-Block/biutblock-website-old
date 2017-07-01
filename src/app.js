@@ -7,7 +7,7 @@ import {
 } from './index/router'
 import App from './index/App.vue'
 import { sync } from 'vuex-router-sync'
-import * as filters from './filters'
+import * as filters from '../utils/filters'
 import documentInfoMixin from './mixins'
 import ElementUI from 'element-ui'
 

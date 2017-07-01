@@ -28,13 +28,13 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin('static/css/[name].[hash:7].css'),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: function(module, count) {
-                return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf('node_modules') > 0)
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'vendor',
+        //     minChunks: function(module, count) {
+        //         return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf('node_modules') > 0)
+        //     }
+        // }),
+        // new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 warnings: false

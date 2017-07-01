@@ -1,56 +1,69 @@
 <template>
-<div id="app" class="g-doc">
-    <Navigation :backend="backend"></Navigation>
-    <div class="main wrap clearfix">
-        <div class="main-left">
-            <div class="home-feeds cards-wrap">
-                <transition name="fade" mode="out-in">
-                    <router-view :key="key" class="router"></router-view>
-                </transition>
-            </div>
-        </div>
-        <backend-menu v-if="!isLogin"></backend-menu>
-    </div>
-</div>
+	<div id="app">
+		<transition name="fade" mode="out-in">
+			<router-view></router-view>
+		</transition>
+	</div>
 </template>
-<script>
-import { mapGetters } from 'vuex'
-import NProgress from 'nprogress'
-import Navigation from './components/navigation.vue'
-import backendMenu from './components/backend-menu.vue'
 
-export default {
-    name: 'backend',
-    computed: {
-        ...mapGetters({
-            global: 'global/getGlobal'
-        }),
-        key() {
-            return this.$route.path.replace(/\//g, '_')
-        },
-        backend() {
-            return this.$route.path.indexOf('backend') >= 0
-        },
-        isLogin() {
-            return this.$route.path === '/backend'
-        }
-    },
-    components: {
-        backendMenu,
-        Navigation
-    },
-    watch: {
-        'global.progress'(val) {
-            if (val === 0) {
-                NProgress.set(0)
-                NProgress.start()
-            } else if (val === 100) {
-                NProgress.done()
-            } else {
-                NProgress.set(val/100)
-                NProgress.start()
-            }
-        }
-    }
-}
+<script>
+	export default {
+
+		name: 'app',
+		components: {},
+		beforeMount() {
+			this.$store.dispatch('loginState', {
+				state: true
+			});
+		}
+	}
 </script>
+
+<style lang="scss">
+	body {
+		margin: 0px;
+		padding: 0px;
+		/*background: url(assets/bg1.jpg) center !important;
+		background-size: cover;*/
+		// background: #1F2D3D;
+		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+		font-size: 14px;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	#app {
+		position: absolute;
+		top: 0px;
+		bottom: 0px;
+		width: 100%;
+	}
+
+	.el-submenu [class^=fa] {
+		vertical-align: baseline;
+		margin-right: 10px;
+	}
+
+	.el-menu-item [class^=fa] {
+		vertical-align: baseline;
+		margin-right: 10px;
+	}
+
+	.toolbar {
+		background: #f2f2f2;
+		padding: 10px; //border:1px solid #dfe6ec;
+		margin: 10px 0px;
+		.el-form-item {
+			margin-bottom: 10px;
+		}
+	}
+
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: all .2s ease;
+	}
+
+	.fade-enter,
+	.fade-leave-active {
+		opacity: 0;
+	}
+</style>

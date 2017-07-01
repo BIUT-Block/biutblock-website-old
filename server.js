@@ -16,20 +16,13 @@ const bodyParser = require('body-parser')
 const {
     createBundleRenderer
 } = require('vue-server-renderer')
-const config = require('./src/api/config-server')
+const config = require('./utils/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
 
 const serverInfo =
     `express/${require('express/package.json').version} ` +
     `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
-// 引入 mongoose 相关模型
-// require('./server/models/admin')
-// require('./server/models/article')
-// require('./server/models/category')
-// require('./server/models/comment')
-// require('./server/models/like')
-// require('./server/models/user')
 
 // 引入 api 路由
 const routes = require('./server/routers/api')
@@ -51,7 +44,11 @@ const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
 const authUser = require('./utils/middleware/authUser');
-const { service, settings, authSession } = require('./utils');
+const {
+    service,
+    settings,
+    authSession
+} = require('./utils');
 
 // 由 html-webpack-plugin 生成
 let frontend
@@ -118,6 +115,7 @@ app.use(authUser.auth);
 // 初始化首页菜单
 app.use(renderCates);
 // 设置 express 根目录
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/server', serve('./dist/server', true))
@@ -151,6 +149,7 @@ const renderFun = (req, res, next) => {
     const context = {
         title: '前端开发俱乐部',
         description: '前端开发俱乐部',
+        keywords: 'doracms',
         url: req.url,
         cookies: req.cookies
     }
@@ -262,22 +261,39 @@ app.get('/manage', authSession, function (req, res) {
     } else {
         res.send(backend)
     }
-}).get('/manage', manage);
+});
 
+app.use('/manage', manage);
 app.use('/system', system);
 
-// app.get(['/backend', '/backend/*'], (req, res) => {
-//     if (req.originalUrl !== '/backend' && req.originalUrl !== '/backend/' && !req.cookies.b_user) {
-//         return res.redirect('/backend')
-//     }
-//     if (isProd) {
-//         res.render('admin.html', {
-//             title: '登录'
-//         })
-//     } else {
-//         res.send(backend)
-//     }
-// })
+// 集成ueditor
+app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
+    var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
+    var ActionType = req.query.action;
+    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
+        var file_url = imgDir; //默认上传地址为图片
+        /*其他上传格式的地址*/
+        if (ActionType === 'uploadfile') {
+            file_url = '/upload/file/ueditor/'; //附件保存地址
+        }
+        if (ActionType === 'uploadvideo') {
+            file_url = '/upload/video/ueditor/'; //视频保存地址
+        }
+        res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+        res.setHeader('Content-Type', 'text/html');
+    }
+    //客户端发起图片列表请求
+    else if (ActionType === 'listimage') {
+
+        res.ue_list(imgDir); // 客户端会列出 dir_url 目录下的所有图片
+    }
+    // 客户端发起其它请求
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.redirect('/ueditor/ueditor.config.json')
+    }
+}));
+
 
 // 404 页面
 app.get('*', (req, res) => {
