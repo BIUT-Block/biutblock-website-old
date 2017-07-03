@@ -9,7 +9,7 @@
                     <el-col :xs="24" :sm="4" :md="4" :lg="4">
                         <div class="header-logo">
                             <a href="/" target="_self">
-                                <img src="../../../assets/logo.png" />
+                                <img src="../../assets/logo.png" />
                             </a>
                         </div>
                     </el-col>

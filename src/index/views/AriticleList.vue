@@ -53,9 +53,9 @@
 <script>
 import shortid from 'shortid';
 import ItemList from './ItemList.vue'
-import Tag from '../components/common/Tag.vue'
-import HotContents from '../components/common/HotContents.vue'
-import CatesMenu from '../components/common/CatesMenu.vue'
+import Tag from '../components/Tag.vue'
+import HotContents from '../components/HotContents.vue'
+import CatesMenu from '../components/CatesMenu.vue'
 import {
     mapGetters,
     mapActions

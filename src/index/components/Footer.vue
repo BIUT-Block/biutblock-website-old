@@ -17,40 +17,40 @@
     </footer>
 </template>
 <script>
-    let packageJson = require("../../../../package.json");
+let packageJson = require("../../../package.json");
 
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
-    export default {
-        computed: {
-            ...mapGetters([
-                'systemConfig'
-            ]),
-            codeVersion() {
-                return "DoraCMS " + packageJson.version
-            }
-        },
-        asyncData({
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+export default {
+    computed: {
+        ...mapGetters([
+            'systemConfig'
+        ]),
+        codeVersion() {
+            return "DoraCMS " + packageJson.version
+        }
+    },
+    asyncData({
             store
         }) {
-            return store.dispatch('getSystemConfig');
-        }
+        return store.dispatch('getSystemConfig');
     }
+}
 </script>
 <style lang="scss">
-    .footer {
-        font-size: 14px;
-        background: #ffffff;
-        padding: 20px 0;
+.footer {
+    font-size: 14px;
+    background: #ffffff;
+    padding: 20px 0;
 
-        ul {
-            li {
-                text-align: center;
-                line-height: 35px;
-                height: 35px;
-            }
+    ul {
+        li {
+            text-align: center;
+            line-height: 35px;
+            height: 35px;
         }
     }
+}
 </style>

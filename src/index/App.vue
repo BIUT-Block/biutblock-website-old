@@ -27,8 +27,8 @@
         mapGetters,
         mapActions
     } from 'vuex'
-    import MyHeader from './components/common/header'
-    import MyFooter from './components/common/Footer'
+    import MyHeader from './components/header'
+    import MyFooter from './components/Footer'
     import services from './store/services'
     export default {
 

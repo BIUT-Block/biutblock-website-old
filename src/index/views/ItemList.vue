@@ -98,7 +98,7 @@
 </template>
 
 <script>
-    import Pagination from '../components/common/Pagination.vue'
+    import Pagination from '../components/Pagination.vue'
     import {
         mapGetters,
         mapActions

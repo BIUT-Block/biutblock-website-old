@@ -67,7 +67,7 @@
     </div>
 </template>
 <script>
-import services from '../../store/services.js';
+import services from '../store/services.js';
 
 export default {
     name: 'Message',

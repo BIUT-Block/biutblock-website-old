@@ -52,9 +52,9 @@ import {
     mapGetters,
     mapActions
 } from 'vuex'
-import HotContents from '../components/common/HotContents.vue'
-import RecentContents from '../components/common/RecentContents.vue'
-import Messages from '../components/common/Messages.vue'
+import HotContents from '../components/HotContents.vue'
+import RecentContents from '../components/RecentContents.vue'
+import Messages from '../components/Messages.vue'
 
 
 

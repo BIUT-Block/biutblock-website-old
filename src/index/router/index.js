@@ -6,7 +6,7 @@ Vue.use(Router)
 const ItemList = require('../views/ItemList.vue')
 const Article = require('../views/Article.vue')
 const SiteMap = require('../views/SiteMap.vue')
-const Tag = require('../components/common/Tag.vue')
+const Tag = require('../components/Tag.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const UserLoginForm = require('../views/UserLoginForm');
 import createListView from '../views/CreateListView';

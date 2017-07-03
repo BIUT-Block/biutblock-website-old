@@ -7,7 +7,7 @@ import {
 import Vue from 'vue'
 
 // import 'es6-promise/auto'
-import ProgressBar from './index/components/common/ProgressBar.vue'
+import ProgressBar from './index/components/ProgressBar.vue'
 import _ from 'lodash'
 import renderPageInfo from '../utils/documentInfo';
 

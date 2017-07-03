@@ -11,9 +11,9 @@ import * as filters from '../utils/filters'
 import documentInfoMixin from './mixins'
 import ElementUI from 'element-ui'
 
-import Header from './index/components/common/header'
-import Footer from './index/components/common/Footer'
-import MyTag from './index/components/common/Tag.vue'
+import Header from './index/components/header'
+import Footer from './index/components/Footer'
+import MyTag from './index/components/Tag.vue'
 
 
 Vue.use(ElementUI);
@@ -22,10 +22,10 @@ Vue.mixin(documentInfoMixin);
 const store = createStore()
 const router = createRouter()
 const preFetchComponent = [
-        Header,
-        Footer,
-        MyTag
-    ]
+    Header,
+    Footer,
+    MyTag
+]
 
 sync(store, router)
 
@@ -39,4 +39,4 @@ const app = new Vue({
     render: h => h(App)
 })
 
-export { app, router, store,preFetchComponent }
+export { app, router, store, preFetchComponent }
