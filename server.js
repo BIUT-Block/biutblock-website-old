@@ -162,13 +162,29 @@ const renderFun = (req, res, next) => {
     })
 }
 // 前台路由, ssr 渲染
-app.get(['/', '/details/:id', '/users/login', "/sitemap.html"], (req, res, next) => {
+app.get(['/', '/details/:id', '/users/login', '/page/:page(\\d+)?', "/sitemap.html"], (req, res, next) => {
 
     if ((req.originalUrl === '/user/account' || req.originalUrl === '/user/password') && !req.cookies.user) {
         return res.redirect('/')
     }
     renderFun(req, res, next);
 
+})
+
+// 类别路由和类别分页
+app.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (req, res, next) => {
+    let defaultUrl = req.params.defaultUrl;
+    let childUrl = req.params.childUrl,
+        cUrl = '';
+    let url = defaultUrl.split('___')[1];
+    if (childUrl) {
+        cUrl = childUrl.split('___')[1];
+    }
+    if (url || cUrl) {
+        renderFun(req, res, next);
+    } else {
+        next();
+    }
 })
 
 // 后台管理
@@ -234,25 +250,7 @@ app.get('/robots.txt', function (req, res, next) {
     stream.pipe(res);
 });
 
-// 类别路由和类别分页
-app.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (req, res, next) => {
-    let defaultUrl = req.params.defaultUrl;
-    let childUrl = req.params.childUrl,
-        cUrl = '';
-    let url = defaultUrl.split('___')[1];
-    if (childUrl) {
-        cUrl = childUrl.split('___')[1];
-    }
-    if (url || cUrl) {
-        renderFun(req, res, next);
-    } else {
-        next();
-    }
-})
-
-
 // 后台渲染
-
 app.get('/manage', authSession, function (req, res) {
     if (isProd) {
         res.render('admin.html', {

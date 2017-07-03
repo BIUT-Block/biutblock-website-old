@@ -32,6 +32,7 @@
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
+                                    <SearchBox />
                                     <div v-if="checkCateList">
                                         <CatesMenu :options="options" />
                                     </div>
@@ -56,6 +57,7 @@ import ItemList from './ItemList.vue'
 import Tag from '../components/Tag.vue'
 import HotContents from '../components/HotContents.vue'
 import CatesMenu from '../components/CatesMenu.vue'
+import SearchBox from '../components/SearchBox.vue'
 import {
     mapGetters,
     mapActions
@@ -79,7 +81,8 @@ export default {
         ItemList,
         Tag,
         HotContents,
-        CatesMenu
+        CatesMenu,
+        SearchBox
     },
     computed: {
         ...mapGetters([
