@@ -83,6 +83,7 @@ export default {
     computed: {
         ...mapGetters([
             'contentDetails',
+            'systemConfig'
         ])
     },
     asyncData({
