@@ -12,6 +12,9 @@ export default function (options) {
         if (route.params.tagName) {
           params.tagName = route.params.tagName
         }
+        if (route.params.searchkey) {
+          params.searchkey = route.params.searchkey
+        }
       }
       return store.dispatch('indexContentList', params)
     },

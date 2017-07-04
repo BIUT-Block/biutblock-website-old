@@ -13,10 +13,13 @@ export default {
     methods: {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
-            console.log('---typeId---', this.typeId);
-            if (this.typeId === 'indexPage') {
+            // console.log('---typeId---', this.typeId);
+            if (this.typeId === 'indexPage') { // 首页
                 this.$router.push('/page/' + val);
-            } else {
+            } else if (this.typeId === 'searchList') { // 搜索结果
+                let searchKey = this.$route.params.searchkey;
+                this.$router.push('/search/' + searchKey + '/' + val);
+            } else {// 分类页
                 this.$router.push((this.$route.matched[0].path).split(':')[0] + val);
             }
         }

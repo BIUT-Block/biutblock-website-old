@@ -1,6 +1,6 @@
 <template>
     <div class="search-box">
-        <el-input placeholder="请输入关键字" @keyup.enter="search($event)" icon="search" v-model="searchkey" :on-icon-click="handleIconClick">
+        <el-input placeholder="请输入关键字" size="small" icon="search" v-model="searchkey" :on-icon-click="handleIconClick">
         </el-input>
     </div>
 </template>
@@ -16,17 +16,12 @@ export default {
             searchkey: ''
         }
     },
-    computed: {
-        ...mapGetters([
-        
-        ])
-    },
     methods: {
         handleIconClick(ev) {
-            console.log(ev);
+            // console.log(ev);
+            this.$router.replace('/search/' + this.searchkey)
         },
         search(e) {
-            alert(0);
             // var qs = e.target.value
             // if (qs === "") {
             //     return false
@@ -37,5 +32,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.search-box {}
+.search-box {
+    margin: 15px 0;
+}
 </style>

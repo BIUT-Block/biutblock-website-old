@@ -162,7 +162,7 @@ const renderFun = (req, res, next) => {
     })
 }
 // 前台路由, ssr 渲染
-app.get(['/', '/details/:id', '/users/login', '/page/:page(\\d+)?', "/sitemap.html"], (req, res, next) => {
+app.get(['/', '/details/:id', '/search/:qs/:page(\\d+)?', '/tag/:qs/:page(\\d+)?', '/users/login', '/page/:page(\\d+)?', "/sitemap.html"], (req, res, next) => {
 
     if ((req.originalUrl === '/user/account' || req.originalUrl === '/user/password') && !req.cookies.user) {
         return res.redirect('/')

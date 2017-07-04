@@ -15,7 +15,8 @@ class Content {
             let pageSize = req.query.pageSize || 10;
             let sortby = req.query.sortby; //排序规则
             let typeId = req.query.typeId; // 分类ID
-            let tagName = req.query.tagName; // 分类ID
+            let tagName = req.query.tagName; // 文章tag
+            let searchkey = req.query.searchkey; // 搜索关键字
             let model = req.query.model; // 查询模式 full/normal/simple
             // console.log('--typeId----', typeId, '--sortby----', sortby);
             // 条件配置
@@ -24,15 +25,23 @@ class Content {
                 delete sortObj.date;
                 sortObj[sortby] = -1
             }
+
             if (typeId && typeId != 'indexPage') {
                 queryObj.categories = typeId
             }
+
             if (tagName) {
                 let targetTag = await ContentTagModel.findOne({ name: tagName });
                 queryObj.tags = targetTag._id;
                 // 如果有标签，则查询全部类别
                 delete queryObj.categories;
             }
+
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.comments = { $regex: reKey }
+            }
+
             if (model === 'simple') {
                 files = {
                     id: 1,

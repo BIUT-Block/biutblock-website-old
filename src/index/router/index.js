@@ -7,6 +7,7 @@ const ItemList = require('../views/ItemList.vue')
 const Article = require('../views/Article.vue')
 const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/Tag.vue')
+const SearchResult = require('../views/SearchResult.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const UserLoginForm = require('../views/UserLoginForm');
 import createListView from '../views/CreateListView';
@@ -39,13 +40,17 @@ export function createRouter() {
                 title: '首页'
             }
         }, {
-            path: '/tag/:tagName',
+            path: '/tag/:tagName/:page(\\d+)?',
             name: 'tagPage',
             component: createListView({
                 name: 'tagpage',
                 typeId: 'tags',
                 typeName: '标签云'
             })
+        }, {
+            path: '/search/:searchkey/:page(\\d+)?',
+            name: 'searchPage',
+            component: SearchResult
         }, {
             path: '/users/login',
             name: 'login',
