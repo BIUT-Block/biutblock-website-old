@@ -11,7 +11,7 @@ const projectRoot = path.resolve(__dirname, '../')
 
 var config = merge(baseConfig, {
     externals: {
-        'jquery': 'jQuery'
+        // 'jquery': 'jQuery'
     },
     module: {
         rules: [
@@ -35,11 +35,11 @@ var config = merge(baseConfig, {
             }]
     },
     plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery'
-        })
+        // new webpack.ProvidePlugin({
+        //     $: 'jquery',
+        //     jQuery: 'jquery',
+        //     'window.jQuery': 'jquery'
+        // })
     ]
 })
 

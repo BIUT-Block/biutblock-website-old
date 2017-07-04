@@ -1,17 +1,15 @@
 {
-  "name": "mmf-blog-vue2-ssr",
-  "version": "2.0.0",
-  "description": "A Vue.js project wuth vue 2.0, vue-router and vuex for server side rendering.",
+  "name": "doracms",
+  "version": "2.0.0beta",
+  "description": "基于nodejs,express,vue2 内容管理系统.",
   "keywords": [
     "vue",
     "vuex",
     "vue-router",
     "webpack",
-    "starter",
-    "server-side",
-    "boilerplate"
+    "server-side"
   ],
-  "author": "lincenying <lincenying@gmail.com>",
+  "author": "dora <admin@html-js.cn>",
   "license": "MIT",
   "scripts": {
     "dev": "npm run static && node ./server",
@@ -30,13 +28,8 @@
     "express-session": "^1.15.3",
     "font-awesome": "^4.7.0",
     "formidable": "^1.1.1",
-    "highlight.js": "^9.11.0",
     "iconv-lite": "^0.4.17",
-    "iview": "^2.0.0-rc.13",
-    "jquery": "^3.2.1",
-    "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
-    "marked": "^0.3.6",
     "md5": "^2.2.1",
     "moment": "^2.18.1",
     "nodemailer": "^4.0.1",
