@@ -11,7 +11,7 @@ const config = {
     entry: {
         app: './src/entry-client.js',
         admin: './src/admin.js',
-        // vendor: ['./src/polyfill']
+        vendor: ['./src/polyfill']
     },
     output: {
         path: path.resolve(__dirname, '../dist'),

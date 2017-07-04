@@ -19,12 +19,12 @@ module.exports = {
         }]
     },
     plugins: [
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     names: ["vendor"]
-        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ["vendor"]
+        }),
         new HtmlWebpackPlugin({
             chunks: [
-                // 'vendor',
+                'vendor',
                  'app'
             ],
             filename: 'server.html',
@@ -33,7 +33,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             chunks: [
-                // 'vendor',
+                'vendor',
                  'admin'
             ],
             filename: 'admin.html',
