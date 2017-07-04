@@ -86,6 +86,7 @@
             display: block;
         }
     }
+
 </style>
 
 <script>
@@ -294,9 +295,15 @@
                 services.getOneContent(this.$route.params).then((result) => {
                     if (result.data.state === 'success') {
                         if (result.data.doc) {
+                            let contentObj = result.data.doc,
+                                categoryIdArr = [];
+                            contentObj.categories.map((item, index) => {
+                                categoryIdArr.push(item._id);
+                            })
+                            contentObj.categories = categoryIdArr;
                             this.$store.dispatch('showContentForm', {
                                 edit: true,
-                                formData: result.data.doc
+                                formData: contentObj
                             });
                         } else {
                             this.$message({
@@ -318,4 +325,5 @@
             });
         }
     }
+
 </script>

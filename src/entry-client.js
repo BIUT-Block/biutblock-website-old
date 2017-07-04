@@ -42,6 +42,10 @@ router.onReady(() => {
             }
         })).then(() => {
             bar.finish()
+            // 针对非服务端渲染文章title处理
+            if (window && window.__INITIAL_STATE__) {
+                document.title = renderPageInfo(window.__INITIAL_STATE__, to).currentTitle;
+            }
             next()
         }).catch(next)
     })

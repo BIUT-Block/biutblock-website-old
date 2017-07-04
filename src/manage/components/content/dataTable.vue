@@ -74,11 +74,16 @@
             },
             editContentInfo(index, rows) {
                 let rowData = rows[index];
-                let categoryIdArr = [];
+                let categoryIdArr = [],
+                    tagsArr = [];
                 rowData.categories.map((item, index) => {
                     categoryIdArr.push(item._id);
                 })
+                rowData.tags.map((item, index) => {
+                    tagsArr.push(item._id);
+                })
                 rowData.categories = categoryIdArr;
+                rowData.tags = tagsArr;
                 this.$store.dispatch('showContentForm', {
                     edit: true,
                     formData: rowData
@@ -116,4 +121,5 @@
 
         }
     }
+
 </script>
