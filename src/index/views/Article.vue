@@ -60,9 +60,6 @@
 
     export default {
         name: 'cmsarticleview',
-        serverCacheKey() {
-            return Math.random();
-        },
         metaInfo() {
             return {
                 title: this.contentDetails.doc.title,
