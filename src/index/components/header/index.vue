@@ -40,6 +40,9 @@
     import _ from 'lodash'
     export default {
         name: 'Header',
+        serverCacheKey: props => {
+            return `navlist-${props.navs}`
+        },
         components: {
             LoginPannel
         },

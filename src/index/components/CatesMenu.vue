@@ -23,6 +23,9 @@
     } from 'vuex';
     import _ from 'lodash'
     export default {
+        serverCacheKey: props => {
+            return `navlist-${props.options.typeName}`
+        },
         props: ['options'],
         name: 'CatesMenu',
         computed: {
@@ -35,6 +38,7 @@
             }
         }
     }
+
 </script>
 <style lang="scss">
     .catesMenu {
@@ -55,4 +59,5 @@
             line-height: 30px;
         }
     }
+
 </style>

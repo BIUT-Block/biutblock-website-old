@@ -20,7 +20,8 @@ const state = {
     },
     contentDetails: {
         doc: [],
-        messages:[]
+        messages: [],
+        randomArticles: []
     },
     contentTag: [],
     hotContentList: {
@@ -93,6 +94,7 @@ const mutations = {
     [types.CONTENT_DETAILS](state, contentDetails) {
         state.contentDetails.doc = contentDetails.doc;
         state.contentDetails.messages = contentDetails.messages;
+        state.contentDetails.randomArticles = contentDetails.randomArticles;
     },
     [types.CONTENT_HOTITEMS](state, contentList) {
         state.hotContentList = contentList

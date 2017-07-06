@@ -24,6 +24,7 @@
         mapActions
     } from 'vuex'
     export default {
+        serverCacheKey: props => 'footer',
         computed: {
             systemConfig() {
                 return this.$store.getters.systemConfig

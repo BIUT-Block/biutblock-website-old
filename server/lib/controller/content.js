@@ -120,11 +120,15 @@ class Content {
             }]).populate('replyAuthor').populate('adminAuthor').exec();
             const commentNum = await MessageModel.count({ contentId: targetId });
             content.commentNum = commentNum;
-            // console.log('---commentNum---', commentNum, content.commentNum);
+            // 推荐文章查询
+            const totalContents = await ContentModel.count({});
+            const randomArticles = await ContentModel.find({},'stitle sImg').skip(Math.floor(totalContents*Math.random())).limit(4);
+            // console.log('---randomArticles---', randomArticles, Math.floor(totalContents*Math.random()));
             res.send({
                 state: 'success',
                 doc: content,
-                messages
+                messages,
+                randomArticles
             })
         } catch (err) {
             console.log('获取Content失败', err);

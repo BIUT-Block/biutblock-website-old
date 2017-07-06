@@ -26,6 +26,7 @@
                                     </div>
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
+                                    <RandomArticle :articles="contentDetails.randomArticles" />
                                     <div>
                                         <Messages :userMessageList="contentDetails.messages" :contentId="contentDetails.doc._id" />
                                     </div>
@@ -48,82 +49,85 @@
     </div>
 </template>
 <script>
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
-import HotContents from '../components/HotContents.vue'
-import RecentContents from '../components/RecentContents.vue'
-import Messages from '../components/Messages.vue'
+    import {
+        mapGetters,
+        mapActions
+    } from 'vuex'
+    import HotContents from '../components/HotContents.vue'
+    import RecentContents from '../components/RecentContents.vue'
+    import Messages from '../components/Messages.vue'
+    import RandomArticle from '../components/RandomArticle.vue'
 
 
 
-export default {
-    name: 'cmsarticleview',
-    metaInfo() {
-        return {
-            title: this.contentDetails.doc.title,
-            desc: this.contentDetails.doc.discription,
-            keywords: this.contentDetails.doc.keywords || this.systemConfig.configs.siteKeywords
-        }
-    },
-    components: {
-        RecentContents,
-        HotContents,
-        Messages
-    },
-    data() {
-        return {
-            // contentDetails: this.$store.getters.contentDetails
-        }
-    },
-    beforeMount() {
+    export default {
+        name: 'cmsarticleview',
+        metaInfo() {
+            return {
+                title: this.contentDetails.doc.title,
+                desc: this.contentDetails.doc.discription,
+                keywords: this.contentDetails.doc.keywords || this.systemConfig.configs.siteKeywords
+            }
+        },
+        components: {
+            RecentContents,
+            HotContents,
+            Messages,
+            RandomArticle
+        },
+        data() {
+            return {
+                // contentDetails: this.$store.getters.contentDetails
+            }
+        },
+        beforeMount() {
 
-    },
-    computed: {
-        ...mapGetters([
-            'contentDetails',
-            'systemConfig'
-        ])
-    },
-    asyncData({
+        },
+        computed: {
+            ...mapGetters([
+                'contentDetails',
+                'systemConfig'
+            ])
+        },
+        asyncData({
             store,
-        route
+            route
         }) {
-        let contentId = route.params.id;
-        let params = {};
-        if (contentId) {
-            let currentId = contentId.substr(0, contentId.length - 5);
-            params.id = currentId;
+            let contentId = route.params.id;
+            let params = {};
+            if (contentId) {
+                let currentId = contentId.substr(0, contentId.length - 5);
+                params.id = currentId;
+            }
+            return store.dispatch('getContentDetails', params)
         }
-        return store.dispatch('getContentDetails', params)
-    }
 
-}
+    }
 
 </script>
 <style lang="scss">
-.content-detail {
-    color: #3f3f3f;
-    margin-top: 20px;
-    img {
-        max-width: 100% !important;
-    }
-    .content-title {
-        margin-top: 0;
-    }
-    .content-author {
-        color: #999999;
-        ul {
-            li.author-name {
-                color: #20A0FF;
-            }
-            li {
-                display: inline-block;
-                margin-bottom: 10px;
-                font-size: 14px;
+    .content-detail {
+        color: #3f3f3f;
+        margin-top: 20px;
+        img {
+            max-width: 100% !important;
+        }
+        .content-title {
+            margin-top: 0;
+        }
+        .content-author {
+            color: #999999;
+            ul {
+                li.author-name {
+                    color: #20A0FF;
+                }
+                li {
+                    display: inline-block;
+                    margin-bottom: 10px;
+                    font-size: 14px;
+                }
             }
         }
     }
-}
+
 </style>

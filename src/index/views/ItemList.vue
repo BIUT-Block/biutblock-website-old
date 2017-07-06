@@ -61,6 +61,7 @@
     article:last-child {
         border: none
     }
+
 </style>
 <template>
     <div class="post">
@@ -80,7 +81,7 @@
                             <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                         </h2>
                         <ul class="post-meta">
-                            <li>{{item.date}}</li>
+                            <li><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;{{item.date}}</li>
                             <li>
                                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;{{item.clickNum}}</li>
                             <li>
@@ -110,7 +111,9 @@
             contentList: Object,
 
         },
-        // name: 'cmslistview',
+        serverCacheKey: props => {
+            return `itemlist-${props.typeId}`
+        },
         data() {
             return {
                 // displayedItems: this.$store.getters.contentList
@@ -127,4 +130,5 @@
         }
 
     }
+
 </script>
