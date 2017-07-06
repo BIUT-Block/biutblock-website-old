@@ -8,9 +8,7 @@
                 <el-row class="grid-content bg-purple-light">
                     <el-col :xs="24" :sm="4" :md="4" :lg="4">
                         <div class="header-logo">
-                            <a href="/" target="_self">
-                                <img src="../../assets/logo.png" />
-                            </a>
+                            <router-link :to="{path: '/'}"><img src="../../assets/logo.png" /></router-link>
                         </div>
                     </el-col>
                     <el-col :xs="24" :sm="16" :md="16" :lg="16">
@@ -91,6 +89,7 @@
             })
         }
     }
+
 </script>
 <style lang="scss">
     .header {
@@ -125,4 +124,5 @@
             }
         }
     }
+
 </style>
