@@ -15,11 +15,15 @@
 </style>
 <template>
     <div id="app">
-        <MyHeader v-show="!simplePage"></MyHeader>
+        <div v-if="!simplePage">
+            <MyHeader></MyHeader>
+        </div>
         <transition name="fade" mode="out-in">
             <router-view class="view"></router-view>
         </transition>
-        <MyFooter v-show="!simplePage"></MyFooter>
+        <div v-if="!simplePage">
+            <MyFooter></MyFooter>
+        </div>
     </div>
 </template>
 <script>
