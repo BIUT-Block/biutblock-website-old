@@ -44,6 +44,7 @@ const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
 const authUser = require('./utils/middleware/authUser');
+const { AdminResource } = require('./server/lib/controller');
 const {
     service,
     settings,
@@ -252,13 +253,18 @@ app.get('/robots.txt', function (req, res, next) {
 
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
-    if (isProd) {
-        res.render('admin.html', {
-            title: 'DoraCMS后台管理'
-        })
-    } else {
-        res.send(backend)
-    }
+    AdminResource.getAllResource(req, res, {
+        type: '0'
+    }).then((manageCates) => {
+        service.reWriteResourceJson(req, res, manageCates);
+        if (isProd) {
+            res.render('admin.html', {
+                title: 'DoraCMS后台管理'
+            })
+        } else {
+            res.send(backend)
+        }
+    })
 });
 
 app.use('/manage', manage);
