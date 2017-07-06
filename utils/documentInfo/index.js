@@ -8,7 +8,7 @@ export default (state, route) => {
         let contentDetailsObj = currentState.contentDetails;
         if (!_.isEmpty(contentDetailsObj) && !_.isEmpty(contentDetailsObj.doc)) {
             currentDiscription = contentDetailsObj.doc.discription;
-            currentTitle = contentDetailsObj.doc.title + ' | 前端开发俱乐部';
+            currentTitle = contentDetailsObj.doc.title;
         }
     }
     return {

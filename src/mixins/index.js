@@ -20,7 +20,7 @@ const clientTitleMixin = {
     mounted() {
         const meta = getTitle(this)
         if (meta) {
-            document.title = `${meta.title} | 前端开发俱乐部` || meta
+            document.title = `${meta.title}` || meta
         }
     }
 }

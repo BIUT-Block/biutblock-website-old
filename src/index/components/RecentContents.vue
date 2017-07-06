@@ -14,9 +14,9 @@
 </template>
 <script>
 export default {
-    name: 'recentlyContents-' + Math.floor(Math.random() * 1000),
-    serverCacheKey() {
-        return Math.random();
+    name: 'recentlyContents',
+    serverCacheKey:props => {
+        return `recentlist-${props.typeId}`
     },
     props: {
         typeId: String
