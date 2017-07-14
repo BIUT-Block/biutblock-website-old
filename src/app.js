@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Meta from 'vue-meta'
 import {
     createStore
 } from './index/store'
@@ -17,6 +18,7 @@ import MyTag from './index/components/Tag.vue'
 
 
 Vue.use(ElementUI);
+// Vue.use(Meta);
 Vue.mixin(documentInfoMixin);
 
 const store = createStore()

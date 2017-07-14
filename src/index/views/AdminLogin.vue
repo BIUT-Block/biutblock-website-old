@@ -37,7 +37,7 @@ import {
   mapActions
 } from 'vuex';
 export default {
-  name: 'Login',
+  name: 'adminLogin',
   metaInfo() {
     return {
       title: '管理员登录',

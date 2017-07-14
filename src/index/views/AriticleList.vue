@@ -14,8 +14,8 @@
                     <el-col :xs="22" :sm="22" :md="22" :lg="22" class="content-mainbody-left">
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
-                                <div v-if="options.typeName !== '首页'">
-                                    <div v-if="options.typeId === 'tags'">
+                                <div v-if="metaOption.typeName !== '首页'">
+                                    <div v-if="metaOption.typeId === 'tags'">
                                         <h3 class="catetitle">
                                             <div>标签
                                                 <span style="color:#20A0FF;font-weight:700">{{tagName}}</span> 下的文章</div>
@@ -24,20 +24,20 @@
                                     <div v-else>
                                         <h3 class="catetitle">
                                             <div>分类
-                                                <span style="color:#20A0FF;font-weight:700">{{options.typeName}}</span> 下的文章</div>
+                                                <span style="color:#20A0FF;font-weight:700">{{metaOption.typeName}}</span> 下的文章</div>
                                         </h3>
                                     </div>
                                 </div>
-                                <ItemList :contentList="contentList" :typeId="options.typeId" />
+                                <ItemList :contentList="contentList" :typeId="metaOption.typeId" />
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
                                     <SearchBox />
                                     <div v-if="checkCateList">
-                                        <CatesMenu :options="options" />
+                                        <CatesMenu :options="metaOption" />
                                     </div>
                                     <Tag/>
-                                    <HotContents :typeId="options.typeId" />
+                                    <HotContents :typeId="metaOption.typeId" />
                                 </div>
                             </el-col>
                         </el-row>
@@ -63,13 +63,12 @@ import {
     mapActions
 } from 'vuex'
 export default {
-    props: ['options'],
-    name: 'cmslistview',
+    name: 'cms-list-view',
     metaInfo() {
         return {
-            title: (this.options.typeName || '首页') + ' | ' + this.systemConfig.configs.siteName,
-            desc: this.options.discription || this.systemConfig.configs.siteDiscription,
-            keywords: this.options.keywords || this.systemConfig.configs.siteKeywords
+            title: (this.metaOption.typeName || '首页') + ' | ' + this.systemConfig.configs.siteName,
+            desc: this.metaOption.discription || this.systemConfig.configs.siteDiscription,
+            keywords: this.metaOption.keywords || this.systemConfig.configs.siteKeywords
         }
     },
     data() {
@@ -89,6 +88,9 @@ export default {
             'contentList',
             'systemConfig'
         ]),
+        metaOption() {
+            return this.$store.state.route.meta;
+        },
         page() {
             return Number(this.$store.state.route.params.page) || 1
         },
@@ -96,8 +98,24 @@ export default {
             return this.$store.state.route.params.tagName
         },
         checkCateList() {
-            return this.options.typeId != 'indexPage' && shortid.isValid(this.options.typeId);
+            return this.metaOption.typeId != 'indexPage' && shortid.isValid(this.metaOption.typeId);
         }
+    },
+    asyncData({ store, route }) {
+        let options = route.meta;
+        let params = { model: 'normal' };
+        params.typeId = options.typeId || 'indexPage';
+        params.cache = true;
+        if (route) {
+            params.current = Number(route.params.page) || 1;
+            if (route.params.tagName) {
+                params.tagName = route.params.tagName
+            }
+            if (route.params.searchkey) {
+                params.searchkey = route.params.searchkey
+            }
+        }
+        return store.dispatch('indexContentList', params)
     }
 
 }

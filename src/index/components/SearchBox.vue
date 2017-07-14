@@ -5,36 +5,36 @@
     </div>
 </template>
 <script>
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
-    export default {
-        serverCacheKey: () => 'searchbox',
-        data() {
-            return {
-                searchkey: ''
-            }
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+export default {
+    name: 'searchbox',
+    serverCacheKey: () => 'searchbox',
+    data() {
+        return {
+            searchkey: ''
+        }
+    },
+    methods: {
+        handleIconClick(ev) {
+            // console.log(ev);
+            this.$router.replace('/search/' + this.searchkey)
         },
-        methods: {
-            handleIconClick(ev) {
-                // console.log(ev);
-                this.$router.replace('/search/' + this.searchkey)
-            },
-            search(e) {
-                // var qs = e.target.value
-                // if (qs === "") {
-                //     return false
-                // }
-                // this.$router.replace('/search/' + qs)
-            }
+        search(e) {
+            // var qs = e.target.value
+            // if (qs === "") {
+            //     return false
+            // }
+            // this.$router.replace('/search/' + qs)
         }
     }
+}
 
 </script>
 <style lang="scss">
-    .search-box {
-        margin: 15px 0;
-    }
-
+.search-box {
+    margin: 15px 0;
+}
 </style>

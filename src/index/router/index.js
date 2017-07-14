@@ -5,6 +5,7 @@ Vue.use(Router)
 
 const ItemList = require('../views/ItemList.vue')
 const Article = require('../views/Article.vue')
+const AriticleList = require('../views/AriticleList.vue')
 const SiteMap = require('../views/SiteMap.vue')
 const Tag = require('../components/Tag.vue')
 const SearchResult = require('../views/SearchResult.vue')
@@ -22,31 +23,33 @@ export function createRouter() {
         },
         routes: [{
             path: '/',
-            name: 'index',
-            component: createListView({
+            name: 'indexPage',
+            component: AriticleList,
+            meta: {
+                title: '首页',
                 name: 'indexPage',
                 typeId: 'indexPage',
                 typeName: '首页'
-            })
+            }
         }, {
             path: '/page/:page(\\d+)?',
             name: 'indexPage',
-            component: createListView({
+            component: AriticleList,
+            meta: {
+                title: '首页',
                 name: 'indexPage',
                 typeId: 'indexPage',
                 typeName: '首页'
-            }),
-            meta: {
-                title: '首页'
             }
         }, {
             path: '/tag/:tagName/:page(\\d+)?',
             name: 'tagPage',
-            component: createListView({
+            component: AriticleList,
+            meta: {
                 name: 'tagpage',
                 typeId: 'tags',
                 typeName: '标签云'
-            })
+            }
         }, {
             path: '/search/:searchkey/:page(\\d+)?',
             name: 'searchPage',
@@ -87,17 +90,16 @@ export function createRouter() {
             }
             newRoters.push({
                 path: '/' + item.defaultUrl + '___' + item._id + '/:page(\\d+)?',
-                component: createListView({
+                component: AriticleList,
+                name: 'catePage_' + item._id,
+                iconCls: 'fa fa-id-card-o',
+                meta: {
+                    title: item.name,
                     name: currentName.split('-')[0],
                     typeId: item._id,
                     typeName: item.name,
                     discription: item.comments,
                     keywords: item.keywords
-                }),
-                name: 'catePage_' + item._id,
-                iconCls: 'fa fa-id-card-o',
-                meta: {
-                    title: item.name
                 }
             })
         })
