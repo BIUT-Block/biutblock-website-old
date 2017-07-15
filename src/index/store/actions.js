@@ -123,7 +123,7 @@ export default {
     getSystemConfig({
         commit
     }, params = {}) {
-        services.getSystemConfigs(params).then((config) => {
+        return services.getSystemConfigs(params).then((config) => {
             let currentConfig = config.data ? config.data.docs[0] : {};
             commit(types.SYSTEMCONFIG_CONFIGLIST, currentConfig)
         })
