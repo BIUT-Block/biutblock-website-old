@@ -11,7 +11,6 @@ import {
 } from 'vuex'
 export default {
     name: 'searchbox',
-    serverCacheKey: () => 'searchbox',
     data() {
         return {
             searchkey: ''

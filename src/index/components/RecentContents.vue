@@ -15,9 +15,6 @@
 <script>
 export default {
     name: 'recentlyContents',
-    serverCacheKey:props => {
-        return `recentlist-${props.typeId}`
-    },
     props: {
         typeId: String
     },

@@ -15,9 +15,6 @@
 <script>
 export default {
     name: 'hotContents',
-    serverCacheKey: props => {
-        return `hotlist-${props.typeId}`
-    },
     props: {
         typeId: String
     },

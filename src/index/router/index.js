@@ -11,7 +11,7 @@ const Tag = require('../components/Tag.vue')
 const SearchResult = require('../views/SearchResult.vue')
 const AdminLogin = require('../views/AdminLogin.vue')
 const UserLoginForm = require('../views/UserLoginForm');
-import createListView from '../views/CreateListView';
+// import createListView from '../views/CreateListView';
 export function createRouter() {
     const router = new Router({
         mode: 'history',

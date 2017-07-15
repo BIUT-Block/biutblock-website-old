@@ -81,7 +81,6 @@ export default {
 
     }
   },
-  serverCacheKey: () => 'userlogin',
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

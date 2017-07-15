@@ -80,7 +80,6 @@ export default {
 
     }
   },
-  serverCacheKey: () => 'adminlogin',
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

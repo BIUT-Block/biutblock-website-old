@@ -15,7 +15,7 @@
                         <nav class="header-nav">
                             <el-row type="flex">
                                 <el-col v-for="(nav,index) in headerNav" :key="index">
-                                    <router-link :to="{path: '/'+nav.defaultUrl+ '___'+nav._id}">{{nav.name}}</router-link>
+                                    <a :href="'/'+nav.defaultUrl+'___'+nav._id">{{nav.name}}</a>
                                 </el-col>
                             </el-row>
                         </nav>

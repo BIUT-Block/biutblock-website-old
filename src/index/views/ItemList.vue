@@ -112,10 +112,6 @@ export default {
         page: Number,
         typeId: String,
         contentList: Object,
-
-    },
-    serverCacheKey: props => {
-        return `itemlist-${props.typeId}`
     },
     data() {
         return {
