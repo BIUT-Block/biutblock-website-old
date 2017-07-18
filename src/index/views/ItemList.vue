@@ -64,7 +64,7 @@ article:last-child {
 </style>
 <template>
     <div class="post">
-        <article v-for="item in contentList.docs" class="content-item">
+        <article v-for="item in contentList.docs" class="content-item" v-once>
             <el-row :gutter="0">
                 <el-col :xs="0" :sm="0" :md="7" :lg="7">
                     <div class="grid-content bg-purple contentImg">

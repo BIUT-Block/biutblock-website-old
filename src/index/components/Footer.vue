@@ -1,6 +1,6 @@
 <template>
     <footer class="footer">
-        <div class="container text-left">
+        <div class="container text-left" v-once>
             <ul>
                 <li>自豪的采用&nbsp;
                     <a href="https://github.com/doramart/DoraCMS" rel="nofollow" target="_blank" title="代码在这里">{{codeVersion}}

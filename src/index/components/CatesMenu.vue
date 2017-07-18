@@ -7,7 +7,7 @@
         <div>
             <div class="parent-name">{{options.typeName}}</div>
             <ul class="cate-list">
-                <li v-for="(nav,index) in rightNavs">
+                <li v-for="(nav,index) in rightNavs" v-once>
                     <router-link :to="{path: '/'+nav.defaultUrl+ '___'+nav._id}">{{nav.name}}</router-link>
                 </li>
             </ul>

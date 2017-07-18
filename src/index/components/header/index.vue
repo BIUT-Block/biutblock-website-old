@@ -14,7 +14,7 @@
                     <el-col :xs="24" :sm="16" :md="16" :lg="16">
                         <nav class="header-nav">
                             <el-row type="flex">
-                                <el-col v-for="(nav,index) in headerNav" :key="index">
+                                <el-col v-for="(nav,index) in headerNav" :key="index" v-once>
                                     <a :href="'/'+nav.defaultUrl+'___'+nav._id">{{nav.name}}</a>
                                 </el-col>
                             </el-row>

@@ -16,7 +16,7 @@
             <el-col :xs="20" :sm="20" :md="20" :lg="20">
                 <div class="col-md-12 siteMap">
                     <ul>
-                        <li v-for="(item,index) in siteMapList.doc">
+                        <li v-for="(item,index) in siteMapList.doc" v-once>
                             <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{index+1}}.&nbsp;{{item.title}}</router-link>
                         </li>
                     </ul>

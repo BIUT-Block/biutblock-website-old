@@ -5,7 +5,7 @@
         </h3>
         <div class="content-list">
             <ul>
-                <li v-for="(item,index) in hotContentList.docs">
+                <li v-for="(item,index) in hotContentList.docs" v-once>
                     <router-link :to="'/details/'+item._id+'.html'">{{item.title}}</router-link>
                 </li>
             </ul>

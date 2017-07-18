@@ -2,7 +2,7 @@
     <div class="content-tag">
         <h3 class="simpletitle">标签云</h3>
         <ul>
-            <li v-for="(item,index) in tags">
+            <li v-for="(item,index) in tags" v-once>
                 <router-link :to="'/tag/'+item.name">{{item.name}}</router-link>
             </li>
         </ul>
