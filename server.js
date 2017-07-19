@@ -114,7 +114,7 @@ app.use(session({ //session持久化配置
 // 鉴权用户
 app.use(authUser.auth);
 // 初始化首页菜单
-app.use(renderCates);
+// app.use(renderCates);
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')))
