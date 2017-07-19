@@ -5,7 +5,7 @@ article:last-child {
 </style>
 <template>
     <div class="post">
-        <TopItem v-for="item in contentList.docs" :item="item" :key="item._id" v-once/>
+        <TopItem v-for="item in contentList.docs" :item="item" :key="item._id" />
         <div class="content-pagination">
             <Pagination :pageInfo="contentList.pageInfo" :typeId="typeId" />
         </div>

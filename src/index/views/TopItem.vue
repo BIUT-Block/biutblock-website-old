@@ -1,5 +1,5 @@
 <template>
-    <article class="content-item">
+    <article class="content-item" v-once>
         <el-row :gutter="0">
             <el-col :xs="0" :sm="0" :md="7" :lg="7">
                 <div class="grid-content bg-purple contentImg">
