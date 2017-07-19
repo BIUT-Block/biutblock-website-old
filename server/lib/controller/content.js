@@ -119,10 +119,10 @@ class Content {
                 select: 'userName _id enable date logo'
             }]).populate('replyAuthor').populate('adminAuthor').exec();
             const commentNum = await MessageModel.count({ contentId: targetId });
-            content.commentNum = commentNum;
+            content && (content.commentNum = commentNum);
             // 推荐文章查询
             const totalContents = await ContentModel.count({});
-            const randomArticles = await ContentModel.find({},'stitle sImg').skip(Math.floor(totalContents*Math.random())).limit(4);
+            const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(4);
             // console.log('---randomArticles---', randomArticles, Math.floor(totalContents*Math.random()));
             res.send({
                 state: 'success',

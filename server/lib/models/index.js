@@ -5,7 +5,7 @@ const { settings } = require('../../../utils');
 if (!isProd) {
     mongoose.connect("mongodb://localhost/doracms2");
 } else {
-    mongoose.connect('mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + '');
+    mongoose.connect('mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + '', { useMongoClient: true });
 }
 
 mongoose.Promise = global.Promise;
