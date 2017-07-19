@@ -16,6 +16,21 @@ const authUser = require('../../utils/middleware/authUser');
 const jwt = require("jsonwebtoken");
 const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig } = require('../lib/controller');
 
+var profiler = require('v8-profiler');
+var fs = require('fs');
+var snapshotNum = 1;
+router.get('/snapshot124', (req, res, next) => {
+  console.log('----begin to snap---');
+  var snapshot = profiler.takeSnapshot();
+  snapshot.export(function (error, result) {
+    fs.writeFileSync((snapshotNum++) + '.heapsnapshot', result);
+    console.log('----end to snap---');
+    snapshot.delete();
+    res.send('success')
+  });
+
+})
+
 // 查询站点地图需要的信息
 router.get('/sitemap/getList', (req, res, next) => {
   req.query.contentfiles = 'title';
