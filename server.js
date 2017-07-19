@@ -163,19 +163,6 @@ const renderFun = (req, res, next) => {
     })
 }
 
-var profiler = require('v8-profiler');
-var snapshotNum = 1;
-app.get('/snapshot124', (req, res, next) => {
-
-    var snapshot = profiler.takeSnapshot();
-    snapshot.export(function (error, result) {
-        fs.writeFileSync((snapshotNum++) + '.heapsnapshot', result);
-        snapshot.delete();
-        res.send('success')
-    });
-
-})
-
 // 前台路由, ssr 渲染
 app.get(['/', '/details/:id', '/search/:qs/:page(\\d+)?', '/tag/:qs/:page(\\d+)?', '/users/login', '/page/:page(\\d+)?', "/sitemap.html"], (req, res, next) => {
 
