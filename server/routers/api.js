@@ -23,6 +23,10 @@ router.get('/snapshot124', (req, res, next) => {
   console.log('----begin to snap---');
   var snapshot = profiler.takeSnapshot();
   snapshot.export(function (error, result) {
+    if (error) {
+      console.log('---error---', error);
+      res.send('error')
+    }
     fs.writeFileSync((snapshotNum++) + '.heapsnapshot', result);
     console.log('----end to snap---');
     snapshot.delete();
