@@ -17,9 +17,10 @@ const jwt = require("jsonwebtoken");
 const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig } = require('../lib/controller');
 
 var profiler = require('v8-profiler');
+var fs = require('fs');
 var snapshotNum = 1;
 router.get('/snapshot124', (req, res, next) => {
-
+  console.log('----begin to snap---');
   var snapshot = profiler.takeSnapshot();
   snapshot.export(function (error, result) {
     fs.writeFileSync((snapshotNum++) + '.heapsnapshot', result);
