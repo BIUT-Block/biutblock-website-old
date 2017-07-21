@@ -44,7 +44,9 @@ const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 const renderCates = require('./utils/middleware/renderCates');
 const authUser = require('./utils/middleware/authUser');
-const { AdminResource } = require('./server/lib/controller');
+const {
+    AdminResource
+} = require('./server/lib/controller');
 const {
     service,
     settings,
@@ -112,7 +114,7 @@ app.use(session({ //session持久化配置
 }));
 
 // 鉴权用户
-app.use(authUser.auth);
+// app.use(authUser.auth);
 // 初始化首页菜单
 // app.use(renderCates);
 // 设置 express 根目录

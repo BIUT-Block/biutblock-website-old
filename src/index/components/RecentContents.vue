@@ -6,57 +6,58 @@
         <div class="content-list">
             <ul v-loading="loadingState">
                 <li v-for="(item,index) in recentlyContentList.docs">
-                    {{item.title}}
+                    <router-link :to="'/details/'+item._id+'.html'">{{item.stitle}}</router-link>
                 </li>
             </ul>
         </div>
     </div>
 </template>
 <script>
-export default {
-    name: 'recentlyContents',
-    data() {
-        return {
-            loadingState: true
+    export default {
+        name: 'recentlyContents',
+        data() {
+            return {
+                loadingState: true
+            }
+        },
+        props: {
+            typeId: String
+        },
+        computed: {
+            recentlyContentList() {
+                return this.$store.getters.recentlyContentList
+            }
+        },
+        beforeMount() {
+            this.$store.dispatch('getRencentlyContentList', {
+                model: 'simple'
+            }).then(() => {
+                this.loadingState = false;
+            })
         }
-    },
-    props: {
-        typeId: String
-    },
-    computed: {
-        recentlyContentList() {
-            return this.$store.getters.recentlyContentList
-        }
-    },
-    beforeMount() {
-        this.$store.dispatch('getRencentlyContentList', {
-            model: 'simple'
-        }).then(() => {
-            this.loadingState = false;
-        })
     }
-}
 
 </script>
 
 <style lang="scss">
-.recent-content-list {
-    margin-bottom: 40px;
-    .content-list {
-        text-align: left;
-        ul {
-            li {
-                font-size: 14px;
-                position: relative;
-                border-bottom: 1px dashed #ededed;
-                a {
-                    display: block;
-                    width: 100%;
-                    line-height: 30px;
-                    padding: 8px 0px;
+    .recent-content-list {
+        margin-bottom: 40px;
+        .content-list {
+            text-align: left;
+            ul {
+                li {
+                    font-size: 14px;
+                    position: relative;
+                    border-bottom: 1px dashed #ededed;
+                    a {
+                        display: block;
+                        width: 100%;
+                        line-height: 30px;
+                        padding: 8px 0px;
+                    }
                 }
             }
         }
     }
-}
+
 </style>
