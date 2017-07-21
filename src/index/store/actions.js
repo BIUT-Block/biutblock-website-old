@@ -38,8 +38,8 @@ export default {
     adminLoginForm({
         commit
     }, params = {
-        formData: {}
-    }) {
+            formData: {}
+        }) {
         commit(types.ADMINLOGIN_FORM_STATE, {
             formData: params.formData
         })
@@ -60,7 +60,7 @@ export default {
             commit(types.CONTENT_DETAILS, result.data);
             commit(types.USER_MESSAGE_FORM, {
                 formData: {
-                    contentId: result.data ? result.data.doc._id : ''
+                    contentId: result.data && result.data.doc ? result.data.doc._id : ''
                 }
             })
         })
@@ -96,9 +96,9 @@ export default {
     userMessageForm({
         commit
     }, params = {
-        reply: false,
-        formData: {}
-    }) {
+            reply: false,
+            formData: {}
+        }) {
         commit(types.USER_MESSAGE_FORM, {
             reply: params.reply,
             formData: params.formData
@@ -107,8 +107,8 @@ export default {
     userLoginForm({
         commit
     }, params = {
-        formData: {}
-    }) {
+            formData: {}
+        }) {
         commit(types.USER_LOGIN_FORM, {
             formData: params.formData
         })
