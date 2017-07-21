@@ -6,7 +6,7 @@
         <div class="content-list">
             <ul v-loading="loadingState">
                 <li v-for="(item,index) in hotContentList.docs">
-                    <a :href="'/details/'+item._id+'.html'">{{item.title}}</a>
+                    {{item.title}}
                 </li>
             </ul>
         </div>
