@@ -90,7 +90,8 @@
             store
         }) {
             return store.dispatch('headerNav', {
-                model: 'full'
+                model: 'full',
+                cache: true
             })
         }
     }
