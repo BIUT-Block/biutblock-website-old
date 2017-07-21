@@ -124,12 +124,14 @@ class Content {
             const totalContents = await ContentModel.count({});
             const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(4);
             // console.log('---randomArticles---', randomArticles, Math.floor(totalContents*Math.random()));
+            // console.log('---content---', content);
             res.send({
                 state: 'success',
-                doc: content,
+                doc: content || {},
                 messages,
                 randomArticles
             })
+
         } catch (err) {
             console.log('获取Content失败', err);
             res.send({
