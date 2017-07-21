@@ -6,15 +6,15 @@
                     <div v-if="item.categories && item.categories.length>1">
                         <span class="content-cate">{{(item.categories)[item.categories.length-1].name}}</span>
                     </div>
-                    <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
+                    <a :href="'/details/'+item._id+'.html'">
                         <img :src="item.sImg" :alt="item.title" />
-                    </router-link>
+                    </a>
                 </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="17" :lg="17" class='discription'>
                 <div class="grid-content bg-purple-light title">
                     <h2>
-                        <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
+                        <a :href="'/details/'+item._id+'.html'">{{item.title}}</a>
                     </h2>
                     <ul class="post-meta">
                         <li>
