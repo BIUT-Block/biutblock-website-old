@@ -48,7 +48,8 @@
             return store.dispatch('getHotContentList', {
                 model: 'simple',
                 typeId: currentTypeId,
-                sortby: 'clickNum'
+                sortby: 'clickNum',
+                cache: true
             })
         }
     }

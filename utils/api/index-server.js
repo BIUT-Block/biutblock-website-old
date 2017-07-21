@@ -19,7 +19,7 @@ export default {
         const cookie = parseCookie(cookies)
         const key = md5(url + JSON.stringify(data) + username)
         if (config.cached && config.cached.has(key)) {
-            console.log('---使用缓存数据---', url);
+            console.log('---使用缓存数据---', key);
             return Promise.resolve(config.cached.get(key))
         }
         return axios({
@@ -31,7 +31,7 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }).then(res => {
-            console.log('---接口信息被缓存---', url);
+            console.log('---接口信息被缓存---', key);
             if (config.cached && data.cache) config.cached.set(key, res)
             return res
         })
@@ -40,7 +40,7 @@ export default {
         const cookie = parseCookie(cookies)
         const key = md5(url + JSON.stringify(params) + username)
         if (config.cached && config.cached.has(key)) {
-            console.log('---使用缓存数据---', url);
+            console.log('---使用缓存数据---', key);
             return Promise.resolve(config.cached.get(key))
         }
         return axios({
@@ -54,6 +54,7 @@ export default {
             }
         }).then(res => {
             if (config.cached && params.cache) config.cached.set(key, res)
+            console.log('---接口信息被缓存---', key);
             return res
         })
     }

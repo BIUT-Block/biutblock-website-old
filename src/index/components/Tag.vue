@@ -20,7 +20,8 @@
             store
         }) {
             return store.dispatch('contentTag', {
-                model: 'full'
+                model: 'full',
+                cache: true
             })
         }
     }

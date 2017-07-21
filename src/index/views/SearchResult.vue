@@ -66,7 +66,6 @@ export default {
     asyncData({ store, route }) {
         let params = { model: 'normal' };
         params.current = Number(route.params.page) || 1;
-        params.cache = true;
         if (route.params.searchkey) {
             params.searchkey = route.params.searchkey
         }

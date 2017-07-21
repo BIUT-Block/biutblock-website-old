@@ -30,7 +30,8 @@
         },
         beforeMount() {
             this.$store.dispatch('getRencentlyContentList', {
-                model: 'simple'
+                model: 'simple',
+                cache: true
             }).then(() => {
                 this.loadingState = false;
             })

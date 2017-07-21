@@ -105,7 +105,6 @@ export default {
         let options = route.meta;
         let params = { model: 'normal' };
         params.typeId = options.typeId || 'indexPage';
-        params.cache = true;
         if (route) {
             params.current = Number(route.params.page) || 1;
             if (route.params.tagName) {
