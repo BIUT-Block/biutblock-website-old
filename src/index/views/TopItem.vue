@@ -14,7 +14,7 @@
             <el-col :xs="24" :sm="24" :md="17" :lg="17" class='discription'>
                 <div class="grid-content bg-purple-light title">
                     <h2>
-                        <a :href="'/details/'+item._id+'.html'">{{item.title}}</a>
+                        <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                     </h2>
                     <ul class="post-meta">
                         <li>
