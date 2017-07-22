@@ -165,6 +165,7 @@ const renderFun = (req, res, next) => {
         }
         res.end(html)
         console.log(`whole request: ${Date.now() - s}ms`)
+        logUtil.info(`whole request: ${Date.now() - s}ms`)
     })
 }
 
@@ -318,10 +319,11 @@ app.use(function (req, res, next) {
 
 app.use(function (err, req, res) {
     res.status(err.status || 500)
+    logUtil.error(err, req)
     res.send(err.message)
 })
 
 const port = process.env.PORT || config.port || 8080
 app.listen(port, () => {
-    console.log(`server started at localhost:${port}`)
+    logUtil.info(`server started at localhost:${port}`)
 })

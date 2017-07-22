@@ -45,7 +45,7 @@ let logUtil = {
         }
     },
 
-    info(key, info) {
+    info(key, info = '') {
         if (key) {
             resLogger.info(key, info);
         }
