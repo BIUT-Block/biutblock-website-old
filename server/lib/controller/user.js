@@ -1,7 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const UserModel = require("../models").User;
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const { service, settings, validatorUtil } = require('../../../utils');
 // const authUser = require('../../../utils/middleware/authUser');
 
 class User {
@@ -24,7 +24,7 @@ class User {
                 }
             })
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('获取User失败');
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -74,7 +74,7 @@ class User {
                     state: 'success'
                 });
             } catch (err) {
-                logUtil.error(err, req);
+                console.log('更新数据失败', err);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -92,7 +92,7 @@ class User {
                 state: 'success'
             });
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('删除数据失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
@@ -145,7 +145,7 @@ class User {
                         state: 'success'
                     });
                 } else {
-                    logUtil.error(err, req);
+                    console.log("登录失败");
                     res.send({
                         state: 'error',
                         err: "用户名或密码错误"

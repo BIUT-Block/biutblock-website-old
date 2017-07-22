@@ -1,7 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const ContentTagModel = require("../models").ContentTag;
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const { service, settings, validatorUtil } = require('../../../utils');
 
 class ContentTag {
     constructor() {
@@ -29,7 +29,7 @@ class ContentTag {
                 }
             })
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('获取ContentTag失败');
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -72,7 +72,7 @@ class ContentTag {
                     id: newContentTag._id
                 });
             } catch (err) {
-                logUtil.error(err, req);
+                console.log('保存数据失败', err);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -102,7 +102,7 @@ class ContentTag {
             }
 
             const userObj = {
-                name: fields.name,
+                name : fields.name,
                 alias: fields.alias,
                 comments: fields.comments
             }
@@ -114,7 +114,7 @@ class ContentTag {
                     state: 'success'
                 });
             } catch (err) {
-                logUtil.error(err, req);
+                console.log('更新数据失败', err);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -132,7 +132,7 @@ class ContentTag {
                 state: 'success'
             });
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('删除数据失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',

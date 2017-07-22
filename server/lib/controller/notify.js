@@ -2,7 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const NotifyModel = require("../models").Notify;
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const { service, settings, validatorUtil } = require('../../../utils');
 
 class Notify {
     constructor() {
@@ -24,7 +24,7 @@ class Notify {
                 }
             })
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('获取Notify失败');
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -45,7 +45,7 @@ class Notify {
                 state: 'success'
             });
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('删除数据失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',

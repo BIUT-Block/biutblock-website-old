@@ -4,8 +4,7 @@ const formidable = require('formidable');
 const {
     service,
     settings,
-    validatorUtil,
-    logUtil
+    validatorUtil
 } = require('../../../utils');
 
 class Message {
@@ -42,7 +41,7 @@ class Message {
                 }
             })
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('获取Message失败');
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -53,7 +52,7 @@ class Message {
 
     async postMessages(req, res, next) {
         const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
+        form.parse(req, async(err, fields, files) => {
             console.log('---fields----', fields);
             try {
                 let errMsg = '';
@@ -103,7 +102,7 @@ class Message {
                     id: newMessage._id
                 });
             } catch (err) {
-                logUtil.error(err, req);
+                console.log('保存留言数据失败', err);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -123,7 +122,7 @@ class Message {
                 state: 'success'
             });
         } catch (err) {
-            logUtil.error(err, req);
+            console.log('删除数据失败', err);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
