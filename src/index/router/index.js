@@ -77,7 +77,7 @@ export function createRouter() {
         next()
     })
 
-    let headerNav = require('../../../utils/routePath/indexCates.json');
+    let headerNav = require('../../../utils/routePath/indexCates.json').default;
     let newRoters = [],
         currentName = '';
     if (headerNav.length > 0) {
