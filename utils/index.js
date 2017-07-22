@@ -12,3 +12,4 @@ exports.validatorUtil = require('./validatorUtil');
 exports.authSession = require('./authSession');
 exports.authToken = require('./authToken');
 exports.authPower = require('./authPower');
+exports.logUtil = require('./logUtil');
