@@ -1,7 +1,6 @@
 const BaseComponent = require('../prototype/baseComponent');
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
-// const { service, settings, validatorUtil } = require('../../../utils');
 const {
     authSession,
     cache,

@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import md5 from 'md5'
 import config from './config-server'
-const logUtil = require('../logUtil')
+
 const SSR = global.__VUE_SSR_CONTEXT__
 const cookies = SSR.cookies || {}
 const username = cookies.username || ''
@@ -40,7 +40,7 @@ export default {
         const cookie = parseCookie(cookies)
         const key = md5(url + JSON.stringify(params))
         if (config.cached && config.cached.has(key)) {
-            logUtil.info('使用缓存数据', url + JSON.stringify(params));
+            console.log('---使用缓存数据---', url + JSON.stringify(params));
             return Promise.resolve(config.cached.get(key))
         }
         return axios({
@@ -55,7 +55,7 @@ export default {
         }).then(res => {
             if (config.cached && params.cache) {
                 config.cached.set(key, res)
-                logUtil.info('接口信息被缓存', url + JSON.stringify(params));
+                console.log('---接口信息被缓存---', url + JSON.stringify(params));
             }
             return res
         })
