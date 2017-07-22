@@ -26,7 +26,7 @@ const serverInfo =
 
 // 引入 api 路由
 const routes = require('./server/routers/api')
-
+const log4js = require('log4js');
 function createRenderer(bundle, template) {
     // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
     return createBundleRenderer(bundle, {
@@ -50,9 +50,12 @@ const {
 const {
     service,
     settings,
-    authSession
+    authSession,
+    logUtil
 } = require('./utils');
 
+// 初始化日志目录
+logUtil.initPath();
 // 由 html-webpack-plugin 生成
 let frontend
 let backend
@@ -145,7 +148,7 @@ const renderFun = (req, res, next) => {
             // Render Error Page or Redirect
             res.status(500).end('Internal Error 500')
             console.error(`error during render : ${req.url}`)
-            console.error(err)
+            logUtil.error(err, req);
         }
     }
 
@@ -158,10 +161,12 @@ const renderFun = (req, res, next) => {
     }
     renderer.renderToString(context, (err, html) => {
         if (err) {
+            logUtil.error(err, req);
             return errorHandler(err)
         }
         res.end(html)
-        console.log(`whole request: ${Date.now() - s}ms`)
+        // console.log(`whole request: ${Date.now() - s}ms`)
+        logUtil.info(`whole request: ${Date.now() - s}ms`);
     })
 }
 
@@ -239,6 +244,7 @@ app.get('/sitemap.xml', (req, res, next) => {
         xml += '</urlset>';
         res.end(xml);
     }).catch((err) => {
+        logUtil.error(err, req);
         res.send({
             state: 'error',
             err
@@ -314,11 +320,13 @@ app.use(function (req, res, next) {
 })
 
 app.use(function (err, req, res) {
+    logUtil.error(err, req)
     res.status(err.status || 500)
     res.send(err.message)
 })
 
 const port = process.env.PORT || config.port || 8080
 app.listen(port, () => {
-    console.log(`server started at localhost:${port}`)
+    // console.log(`server started at localhost:${port}`)
+    logUtil.info(`server started at localhost:${port}`);
 })

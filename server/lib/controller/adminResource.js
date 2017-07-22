@@ -4,7 +4,8 @@ const formidable = require('formidable');
 const {
     service,
     settings,
-    validatorUtil
+    validatorUtil,
+    logUtil
 } = require('../../../utils');
 
 class AdminResource {
@@ -29,7 +30,7 @@ class AdminResource {
                 }
             })
         } catch (err) {
-            console.log('获取AdminResources失败');
+            logUtil.error(err, req);
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -86,7 +87,7 @@ class AdminResource {
                     id: newAdminResource._id
                 });
             } catch (err) {
-                console.log('保存数据失败', err);
+                logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -136,7 +137,7 @@ class AdminResource {
                     state: 'success'
                 });
             } catch (err) {
-                console.log('更新数据失败', err);
+                logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -156,7 +157,7 @@ class AdminResource {
                 state: 'success'
             });
         } catch (err) {
-            console.log('删除数据失败', err);
+            logUtil.error(err, req);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',

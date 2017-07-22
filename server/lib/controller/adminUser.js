@@ -7,7 +7,8 @@ const {
     cache,
     settings,
     service,
-    validatorUtil
+    validatorUtil,
+    logUtil
 } = require('../../../utils');
 
 const jwt = require("jsonwebtoken");
@@ -37,7 +38,7 @@ class AdminUser {
                 }
             })
         } catch (err) {
-            console.log('获取adminUsers失败');
+            logUtil.error(err, req);
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -104,7 +105,7 @@ class AdminUser {
                         adminPower: req.session.adminPower
                     });
                 } else {
-                    console.log("登录失败");
+                    logUtil.error(err, req);
                     res.send({
                         state: 'error',
                         err: "用户名或密码错误"
@@ -157,7 +158,7 @@ class AdminUser {
                     id: newAdminUser._id
                 });
             } catch (err) {
-                console.log('保存数据失败', err);
+                logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -206,7 +207,7 @@ class AdminUser {
                     state: 'success'
                 });
             } catch (err) {
-                console.log('更新数据失败', err);
+                logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -226,7 +227,7 @@ class AdminUser {
                 state: 'success'
             });
         } catch (err) {
-            console.log('删除数据失败', err);
+            logUtil.error(err, req);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',

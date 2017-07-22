@@ -7,3 +7,4 @@ server/config/secret.js
 public/upload
 indexCates.json
 manageCates.json
+logs/
