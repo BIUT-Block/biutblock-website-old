@@ -3,7 +3,7 @@ const ContentModel = require("../models").Content;
 const ContentTagModel = require("../models").ContentTag;
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
-const { service, settings, validatorUtil } = require('../../../utils');
+const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 
 class Content {
     constructor() {
@@ -83,7 +83,7 @@ class Content {
                 }
             })
         } catch (err) {
-            console.log('获取Contents失败', err);
+            logUtil.error(err, req)
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -133,7 +133,7 @@ class Content {
             })
 
         } catch (err) {
-            console.log('获取Content失败', err);
+            logUtil.error(err, req)
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
@@ -187,7 +187,7 @@ class Content {
                     id: newContent._id
                 });
             } catch (err) {
-                console.log('保存数据失败', err);
+                logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -240,7 +240,7 @@ class Content {
                     state: 'success'
                 });
             } catch (err) {
-                console.log('更新数据失败', err);
+                logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
@@ -258,7 +258,7 @@ class Content {
                 state: 'success'
             });
         } catch (err) {
-            console.log('删除数据失败', err);
+            logUtil.error(err, req);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
