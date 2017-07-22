@@ -147,6 +147,7 @@ const renderFun = (req, res, next) => {
             res.status(500).end('Internal Error 500')
             console.error(`error during render : ${req.url}`)
             console.error(err)
+            logUtil.error(err, req)
         }
     }
 
@@ -159,6 +160,7 @@ const renderFun = (req, res, next) => {
     }
     renderer.renderToString(context, (err, html) => {
         if (err) {
+            logUtil.error(err, req)
             return errorHandler(err)
         }
         res.end(html)
