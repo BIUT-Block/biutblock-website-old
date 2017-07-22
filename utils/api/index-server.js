@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import md5 from 'md5'
 import config from './config-server'
-import logUtil from '../logUtil'
+const logUtil = require('../logUtil')
 const SSR = global.__VUE_SSR_CONTEXT__
 const cookies = SSR.cookies || {}
 const username = cookies.username || ''
