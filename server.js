@@ -155,8 +155,7 @@ const renderFun = (req, res, next) => {
         title: '前端开发俱乐部',
         description: '前端开发俱乐部',
         keywords: 'doracms',
-        url: req.url,
-        cookies: req.cookies
+        url: req.url
     }
     renderer.renderToString(context, (err, html) => {
         if (err) {

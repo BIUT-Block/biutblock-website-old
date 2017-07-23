@@ -3,20 +3,8 @@ import qs from 'qs'
 import md5 from 'md5'
 import config from './config-server'
 
-const SSR = global.__VUE_SSR_CONTEXT__
-const cookies = SSR.cookies || {}
-const username = cookies.username || ''
-const parseCookie = cookies => {
-    let cookie = ''
-    Object.keys(cookies).forEach(item => {
-        cookie += item + '=' + cookies[item] + '; '
-    })
-    return cookie
-}
-
 export default {
     post(url, data) {
-        const cookie = parseCookie(cookies)
         const key = md5(url + JSON.stringify(data))
         if (config.cached && config.cached.has(key)) {
             console.log('---使用缓存数据---', key);
@@ -37,7 +25,6 @@ export default {
         })
     },
     get(url, params) {
-        const cookie = parseCookie(cookies)
         const key = md5(url + JSON.stringify(params))
         if (config.cached && config.cached.has(key)) {
             console.log('---使用缓存数据---', url + JSON.stringify(params));
@@ -49,8 +36,7 @@ export default {
             params,
             timeout: config.timeout,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                cookie
+                'X-Requested-With': 'XMLHttpRequest'
             }
         }).then(res => {
             if (config.cached && params.cache) {

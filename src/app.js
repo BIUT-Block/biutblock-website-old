@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import Meta from 'vue-meta'
 import {
     createStore
 } from './index/store'

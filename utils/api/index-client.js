@@ -1,10 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
-// import store from '../store'
 import config from './config-client'
 
 axios.interceptors.request.use(config => {
-    // store.dispatch('global/gProgress', 50)
     return config
 }, error => {
     return Promise.reject(error)
@@ -13,7 +11,6 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => response, error => Promise.resolve(error.response))
 
 function checkStatus(response) {
-    // store.dispatch('global/gProgress', 100)
     if (response.status === 200 || response.status === 304) {
         return response
     }
