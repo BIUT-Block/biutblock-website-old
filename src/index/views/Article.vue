@@ -14,10 +14,10 @@
                                     <div class="content-author">
                                         <ul>
                                             <li class="author-name">
-                                                <a>{{contentDetails.doc.author ? contentDetails.doc.author.name:'生哥'}}</a>
+                                                <a>{{contentDetails.doc.author ? contentDetails.doc.author.name:''}}</a>
                                             </li>
                                             <li>
-                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentCates}}
+                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.categories ? contentDetails.doc.categories[contentDetails.doc.categories.length-1].name:''}}
                                             </li>
                                             <li>
                                                 <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.date}}
@@ -26,12 +26,16 @@
                                     </div>
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
-                                 
+                                    <RandomArticle :articles="contentDetails.randomArticles" />
+                                    <div>
+                                        <Messages :userMessageList="contentDetails.messages" :contentId="contentDetails.doc._id" />
+                                    </div>
                                 </div>
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
-                                
+                                    <RecentContents />
+                                    <HotContents />
                                 </div>
                             </el-col>
                         </el-row>
@@ -83,15 +87,7 @@ export default {
         ...mapGetters([
             'contentDetails',
             'systemConfig'
-        ]),
-        contentCates() {
-            let cates = this.contentDetails.doc.categories;
-            if (typeof cates == 'object' && cates.length > 1) {
-                return cates[cates.length - 1].name
-            } else {
-                return '其它'
-            }
-        }
+        ])
     },
     asyncData({
             store,

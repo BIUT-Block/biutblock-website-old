@@ -112,7 +112,7 @@ let router = new Router({
 
 function renderLeftMenu() {
   let addNewRoutes = [];
-  let treeData = require('../../../utils/routePath/manageCates.json');
+  let treeData = require('../../../utils/routePath/manageCates.json').default;
   let newResult = [].concat(treeData);
   let delAtArr = [];
   let childArr = _.filter(treeData, (doc) => {
