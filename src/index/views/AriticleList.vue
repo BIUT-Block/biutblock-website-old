@@ -36,7 +36,7 @@
                                     <div v-if="checkCateList">
                                         <CatesMenu :options="metaOption" />
                                     </div>
-                                    <HotContents :typeId="metaOption.typeId" />
+                                    
                                 </div>
                             </el-col>
                         </el-row>

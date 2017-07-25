@@ -26,16 +26,12 @@
                                     </div>
                                     <div v-html="contentDetails.doc.comments">
                                     </div>
-                                    <RandomArticle :articles="contentDetails.randomArticles" />
-                                    <div>
-                                        <Messages :userMessageList="contentDetails.messages" :contentId="contentDetails.doc._id" />
-                                    </div>
+                                 
                                 </div>
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
-                                    <RecentContents />
-                                    <HotContents />
+                                
                                 </div>
                             </el-col>
                         </el-row>

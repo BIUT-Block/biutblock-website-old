@@ -23,8 +23,8 @@ Vue.mixin(documentInfoMixin);
 const store = createStore()
 const router = createRouter()
 const preFetchComponent = [
-    Header,
-    Footer
+    // Header,
+    // Footer
 ]
 
 sync(store, router)
