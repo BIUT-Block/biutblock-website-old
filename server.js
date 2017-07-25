@@ -163,8 +163,8 @@ const renderFun = (req, res, next) => {
             return errorHandler(err)
         }
         res.end(html)
-        console.log(`whole request: ${Date.now() - s}ms`)
-        logUtil.info(`whole request: ${Date.now() - s}ms`)
+        // console.log(`whole request: ${Date.now() - s}ms`)
+        logUtil.info(`whole request: ${Date.now() - s}ms, renderPath: ${req.url}`)
     })
 }
 
