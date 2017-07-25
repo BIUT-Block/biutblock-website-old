@@ -41,8 +41,8 @@ function createRenderer(bundle, template) {
 const app = express()
 
 const manage = require('./server/routers/manage');
-const system = require('./server/routers/system');
-const renderCates = require('./utils/middleware/renderCates');
+// const system = require('./server/routers/system');
+// const renderCates = require('./utils/middleware/renderCates');
 const authUser = require('./utils/middleware/authUser');
 const {
     AdminResource
@@ -179,83 +179,83 @@ app.get(['/', '/details/:id', '/search/:qs/:page(\\d+)?', '/tag/:qs/:page(\\d+)?
 })
 
 // 类别路由和类别分页
-app.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (req, res, next) => {
-    let defaultUrl = req.params.defaultUrl;
-    let childUrl = req.params.childUrl,
-        cUrl = '';
-    let url = defaultUrl.split('___')[1];
-    if (childUrl) {
-        cUrl = childUrl.split('___')[1];
-    }
-    if (url || cUrl) {
-        renderFun(req, res, next);
-    } else {
-        next();
-    }
-})
+// app.get(['/:defaultUrl/:page(\\d+)?', '/:defaultUrl/:childUrl/:page(\\d+)?'], (req, res, next) => {
+//     let defaultUrl = req.params.defaultUrl;
+//     let childUrl = req.params.childUrl,
+//         cUrl = '';
+//     let url = defaultUrl.split('___')[1];
+//     if (childUrl) {
+//         cUrl = childUrl.split('___')[1];
+//     }
+//     if (url || cUrl) {
+//         renderFun(req, res, next);
+//     } else {
+//         next();
+//     }
+// })
 
 // 后台管理
-app.get('/dr-admin', (req, res, next) => {
-    if (req.session.adminlogined) {
-        res.redirect('/manage');
-    } else {
-        next();
-    }
-}).get('/dr-admin', renderFun)
+// app.get('/dr-admin', (req, res, next) => {
+//     if (req.session.adminlogined) {
+//         res.redirect('/manage');
+//     } else {
+//         next();
+//     }
+// }).get('/dr-admin', renderFun)
 
 
 //配置站点地图和robots抓取
-app.get('/sitemap.xml', (req, res, next) => {
-    let root_path = settings.SITEDOMAIN;
-    let priority = 0.8;
-    let freq = 'weekly';
-    let lastMod = moment().format('YYYY-MM-DD');
-    let xml = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-    xml += '<url>';
-    xml += '<loc>' + root_path + '</loc>';
-    xml += '<changefreq>daily</changefreq>';
-    xml += '<lastmod>' + lastMod + '</lastmod>';
-    xml += '<priority>' + 1 + '</priority>';
-    xml += '</url>';
+// app.get('/sitemap.xml', (req, res, next) => {
+//     let root_path = settings.SITEDOMAIN;
+//     let priority = 0.8;
+//     let freq = 'weekly';
+//     let lastMod = moment().format('YYYY-MM-DD');
+//     let xml = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+//     xml += '<url>';
+//     xml += '<loc>' + root_path + '</loc>';
+//     xml += '<changefreq>daily</changefreq>';
+//     xml += '<lastmod>' + lastMod + '</lastmod>';
+//     xml += '<priority>' + 1 + '</priority>';
+//     xml += '</url>';
 
-    req.query.catefiles = 'defaultUrl';
-    req.query.contentfiles = 'title';
-    ContentCategory.getAllCategories(req, res).then((cates) => {
-        cates.forEach(function (cate) {
-            xml += '<url>';
-            xml += '<loc>' + root_path + '/' + cate.defaultUrl + '___' + cate._id + '</loc>';
-            xml += '<changefreq>weekly</changefreq>';
-            xml += '<lastmod>' + lastMod + '</lastmod>';
-            xml += '<priority>0.8</priority>';
-            xml += '</url>';
-        });
-        return Content.getAllContens(req, res);
-    }).then((contentLists) => {
-        contentLists.forEach(function (post) {
-            xml += '<url>';
-            xml += '<loc>' + root_path + '/details/' + post._id + '.html</loc>';
-            xml += '<changefreq>weekly</changefreq>';
-            xml += '<lastmod>' + lastMod + '</lastmod>';
-            xml += '<priority>0.5</priority>';
-            xml += '</url>';
-        });
-        xml += '</urlset>';
-        res.end(xml);
-    }).catch((err) => {
-        res.send({
-            state: 'error',
-            err
-        })
-    });
-})
+//     req.query.catefiles = 'defaultUrl';
+//     req.query.contentfiles = 'title';
+//     ContentCategory.getAllCategories(req, res).then((cates) => {
+//         cates.forEach(function (cate) {
+//             xml += '<url>';
+//             xml += '<loc>' + root_path + '/' + cate.defaultUrl + '___' + cate._id + '</loc>';
+//             xml += '<changefreq>weekly</changefreq>';
+//             xml += '<lastmod>' + lastMod + '</lastmod>';
+//             xml += '<priority>0.8</priority>';
+//             xml += '</url>';
+//         });
+//         return Content.getAllContens(req, res);
+//     }).then((contentLists) => {
+//         contentLists.forEach(function (post) {
+//             xml += '<url>';
+//             xml += '<loc>' + root_path + '/details/' + post._id + '.html</loc>';
+//             xml += '<changefreq>weekly</changefreq>';
+//             xml += '<lastmod>' + lastMod + '</lastmod>';
+//             xml += '<priority>0.5</priority>';
+//             xml += '</url>';
+//         });
+//         xml += '</urlset>';
+//         res.end(xml);
+//     }).catch((err) => {
+//         res.send({
+//             state: 'error',
+//             err
+//         })
+//     });
+// })
 
 // 机器人抓取
-app.get('/robots.txt', function (req, res, next) {
-    let stream = fs.createReadStream(path.join(__dirname, './robots.txt'), {
-        flags: 'r'
-    });
-    stream.pipe(res);
-});
+// app.get('/robots.txt', function (req, res, next) {
+//     let stream = fs.createReadStream(path.join(__dirname, './robots.txt'), {
+//         flags: 'r'
+//     });
+//     stream.pipe(res);
+// });
 
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
@@ -274,35 +274,35 @@ app.get('/manage', authSession, function (req, res) {
 });
 
 app.use('/manage', manage);
-app.use('/system', system);
+// app.use('/system', system);
 
 // 集成ueditor
-app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
-    var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
-    var ActionType = req.query.action;
-    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
-        var file_url = imgDir; //默认上传地址为图片
-        /*其他上传格式的地址*/
-        if (ActionType === 'uploadfile') {
-            file_url = '/upload/file/ueditor/'; //附件保存地址
-        }
-        if (ActionType === 'uploadvideo') {
-            file_url = '/upload/video/ueditor/'; //视频保存地址
-        }
-        res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
-        res.setHeader('Content-Type', 'text/html');
-    }
-    //客户端发起图片列表请求
-    else if (ActionType === 'listimage') {
+// app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
+//     var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
+//     var ActionType = req.query.action;
+//     if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
+//         var file_url = imgDir; //默认上传地址为图片
+//         /*其他上传格式的地址*/
+//         if (ActionType === 'uploadfile') {
+//             file_url = '/upload/file/ueditor/'; //附件保存地址
+//         }
+//         if (ActionType === 'uploadvideo') {
+//             file_url = '/upload/video/ueditor/'; //视频保存地址
+//         }
+//         res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+//         res.setHeader('Content-Type', 'text/html');
+//     }
+//     //客户端发起图片列表请求
+//     else if (ActionType === 'listimage') {
 
-        res.ue_list(imgDir); // 客户端会列出 dir_url 目录下的所有图片
-    }
-    // 客户端发起其它请求
-    else {
-        res.setHeader('Content-Type', 'application/json');
-        res.redirect('/ueditor/ueditor.config.json')
-    }
-}));
+//         res.ue_list(imgDir); // 客户端会列出 dir_url 目录下的所有图片
+//     }
+//     // 客户端发起其它请求
+//     else {
+//         res.setHeader('Content-Type', 'application/json');
+//         res.redirect('/ueditor/ueditor.config.json')
+//     }
+// }));
 
 
 // 404 页面
