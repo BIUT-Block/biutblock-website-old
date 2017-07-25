@@ -14,10 +14,10 @@
                                     <div class="content-author">
                                         <ul>
                                             <li class="author-name">
-                                                <a>{{contentDetails.doc.author ? contentDetails.doc.author.name:''}}</a>
+                                                <a>{{contentDetails.doc.author ? contentDetails.doc.author.name:'生哥'}}</a>
                                             </li>
                                             <li>
-                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.categories ? contentDetails.doc.categories[contentDetails.doc.categories.length-1].name:''}}
+                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentCates}}
                                             </li>
                                             <li>
                                                 <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.date}}
@@ -87,7 +87,15 @@ export default {
         ...mapGetters([
             'contentDetails',
             'systemConfig'
-        ])
+        ]),
+        contentCates() {
+            let cates = this.contentDetails.doc.categories;
+            if (typeof cates == 'object' && cates.length > 1) {
+                return cates[cates.length - 1].name
+            } else {
+                return '其它'
+            }
+        }
     },
     asyncData({
             store,
