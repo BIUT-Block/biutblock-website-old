@@ -20,13 +20,14 @@ const config = {
         chunkFilename: 'static/js/[name].[chunkhash:7].js',
     },
     resolve: {
-        extensions: [
-            '.js', '.vue'
-        ],
+        extensions: ['.js', '.vue', '.css', '.scss'],
         modules: [
             path.join(__dirname, '../node_modules')
         ],
         alias: {
+            '@': path.join(__dirname, '..', 'src'),
+            'scss_vars': '@/manage/assets/styles/vars.scss',
+            // 'ele_ui_styles': path.resolve(__dirname, '../node_modules/element-ui/lib/theme-default/index.css'),
             '~src': path.resolve(__dirname, '../src'),
             '~components': path.resolve(__dirname, '../src/components'),
             '~api': path.resolve(__dirname, '../src/api/index-client'),
@@ -41,7 +42,10 @@ const config = {
     resolveLoader: {
         modules: [
             path.join(__dirname, '../node_modules')
-        ]
+        ],
+        alias: {
+            'scss-loader': 'sass-loader',
+        }
     },
     module: {
         rules: [{
