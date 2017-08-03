@@ -14,7 +14,12 @@
     <div id="app">
         <MyHeader/>
         <transition name="fade" mode="out-in">
-            <router-view :key="$route.fullPath" class="view"></router-view>
+            <router-view :key="$route.fullPath" v-if="$route.meta.notKeepAlive" class="view"></router-view>
+        </transition>
+        <transition name="fade" mode="out-in">
+            <keep-alive>
+                <router-view :key="$route.fullPath" v-if="!$route.meta.notKeepAlive" class="view"></router-view>
+            </keep-alive>
         </transition>
         <MyFooter />
     </div>

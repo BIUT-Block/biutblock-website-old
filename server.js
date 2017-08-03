@@ -39,10 +39,18 @@ function createRenderer(bundle, template) {
     // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
     return createBundleRenderer(bundle, {
         template,
-        cache: require('lru-cache')({
+
+        // for component caching
+        cache: lurCache({
             max: 1000,
             maxAge: 1000 * 60 * 15
-        })
+        }),
+
+        // this is only needed when vue-server-renderer is npm-linked
+        basedir: resolve('./dist'),
+
+        // recommended for performance
+        runInNewContext: false
     })
 }
 
