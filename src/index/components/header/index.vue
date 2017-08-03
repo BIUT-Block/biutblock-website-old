@@ -24,7 +24,7 @@
                     </el-col>
                     <el-col :xs="0" :sm="4" :md="4" :lg="4">
                         <div class="grid-content bg-purple">
-                            <!-- <LoginPannel /> -->
+                            <LoginPannel/>
                         </div>
                     </el-col>
                 </el-row>
@@ -38,61 +38,45 @@
     </header>
 </template>
 <script>
-// import LoginPannel from './loginPannel';
+import LoginPannel from './loginPannel';
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 export default {
     name: 'Header',
+    async asyncData({ store, route }, config = { model: 'full' }) {
+        const { params: { id, key, by, current, typeId }, path } = route
+        const base = { ...config, id, path, key, by, current, typeId }
+        await store.dispatch('global/category/getHeaderNavList', base)
+    },
     serverCacheKey: props => {
         return `navlist-${props.navs}`
     },
     components: {
-        // LoginPannel
+        LoginPannel
     },
     props: {
         navs: Array
     },
     data() {
         return {
-            button: {
-                signIn: {
-                    show: true,
-                    state: 'success',
-                    line: false,
-                    loading: false
-                },
-                signUp: {
-                    show: true,
-                    state: 'success',
-                    line: true,
-                    loading: false
-                }
-            }
+
         }
     },
     computed: {
+        // ...mapGetters({
+        //     headerNav: 'global/category/getHeaderNavList'
+        // })
         headerNav() {
-            let fullNav = this.$store.getters.headerNav;
-            return _.filter(fullNav, (doc) => {
-                return doc.parentId === '0'
-            });
-        },
-        User() {
-            return this.$store.getters.User
+            let fullNav = this.$store.getters['global/category/getHeaderNavList'];
+            let navs = fullNav.data;
+            if (navs && navs.length > 0) {
+                return _.filter(navs, (doc) => {
+                    return doc.parentId === '0'
+                });
+            } else {
+                return []
+            }
         }
-    },
-    mounted() {
-        // window.addEventListener('resize', this.checkMobile)
-    },
-    methods: {
-
-    },
-    asyncData({
-            store
-        }) {
-        return store.dispatch('headerNav', {
-            model: 'full',
-            cache: true
-        })
     }
 }
 
@@ -124,7 +108,11 @@ export default {
                 .el-col {
                     list-style-type: none;
                     display: inline-block;
-                    text-align: center
+                    text-align: center;
+
+                    a.router-link-active {
+                        color: #20A0FF
+                    }
                 }
             }
         }

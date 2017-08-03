@@ -1,6 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
+const _ = require('lodash');
 const {
     service,
     settings,
@@ -57,6 +58,9 @@ class Message {
             console.log('---fields----', fields);
             try {
                 let errMsg = '';
+                if (_.isEmpty(req.session.user) && _.isEmpty(req.session.adminUserInfo)) {
+                    errMsg = '非法操作，请稍后重试！'
+                }
                 if (fields.content && (fields.content.length < 5 || fields.content.length > 200)) {
                     errMsg = '留言内容为5-200字'
                 }

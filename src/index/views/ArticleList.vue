@@ -1,8 +1,3 @@
-<style lang='scss'>
-.contentContainer {
-    margin-top: 30px;
-}
-</style>
 <template>
     <div>
         <div class="contentContainer">
@@ -16,17 +11,17 @@
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
                                 <ItemList v-for="item in topics.data" :item="item" :key="item._id" />
                                 <div class="content-pagination">
-                                    <Pagination :pageInfo="topics.pageInfo" :typeId="$route.params.typeId" />
+                                    <Pagination :pageInfo="topics.pageInfo" :typeId="typeId" />
                                 </div>
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
-                                    <!-- <SearchBox />
-                                        <div v-if="checkCateList">
-                                            <CatesMenu :typeId="$route.params.typeId" />
-                                        </div>
-                                        <Tag :tags="tags.data" />
-                                        <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" /> -->
+                                    <SearchBox />
+                                    <div v-if="checkCateList">
+                                        <CatesMenu :typeId="$route.params.typeId" />
+                                    </div>
+                                    <Tag :tags="tags.data" />
+                                    <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" />
                                 </div>
                             </el-col>
                         </el-row>
@@ -40,8 +35,7 @@
     
     </div>
 </template>
-
-<script>
+<script lang="babel">
 import shortid from 'shortid'
 import { mapGetters } from 'vuex'
 import metaMixin from '~mixins'
@@ -52,17 +46,13 @@ import Pagination from '../components/Pagination.vue'
 import Tag from '../components/Tag.vue'
 import CatesMenu from '../components/CatesMenu.vue'
 
-
-const fetchInitialData = async (store, config = { current: 1, model: 'normal' }) => {
-    const { params: { id, key, tagName, current, typeId, searchkey }, path } = store.state.route
-    const base = { ...config, limit: 10, id, path, searchkey, tagName, current, typeId }
-    store.dispatch('frontend/article/getHotContentList', base)
-    store.dispatch('global/tags/getTagList', base)
-    await store.dispatch('frontend/article/getArticleList', base)
-}
-
 export default {
     name: 'frontend-index',
+    data (){
+        return {
+            // typeId : $route.meta.typeId
+        }
+    },
     async asyncData({store, route}, config = { current: 1,model:'normal'}) {
         const {params: {id, key, tagName, current, typeId, searchkey}, path} = route
         const base = { ...config, limit: 10, id, path, searchkey, tagName, current, typeId }
@@ -84,13 +74,26 @@ export default {
             topics: 'frontend/article/getArticleList',
             hotlist: 'frontend/article/getHotContentList',
             tags: 'global/tags/getTagList'
-        })
+        }),
+        typeId(){
+            return this.$route.params.typeId ? this.$route.params.typeId : this.$route.meta.typeId;
+        },
+        checkCateList() {
+            let typeId = this.$route.params.typeId
+            return typeId != 'indexPage' && shortid.isValid(typeId);
+        }
+    },
+    methods: {
+        
+    },
+    activated() {
+        this.$options.asyncData({store: this.$store, route: this.$route}, {page: 1})
     },
     metaInfo() {
-        var title = 'M.M.F 小屋'
-        const { id, key, by } = this.$route.params
+        var title = '前端开发俱乐部'
+        const {id, key, by} = this.$route.params
         if (id) {
-            const obj = this.category.find(item => item._id === id)
+            const obj = ''
             if (obj) {
                 title = obj.cate_name + ' - ' + title
             }
@@ -106,3 +109,9 @@ export default {
     }
 }
 </script>
+
+<style>
+body {
+    padding: 0;
+}
+</style>

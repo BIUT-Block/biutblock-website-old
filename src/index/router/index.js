@@ -6,10 +6,10 @@ import cookies from 'js-cookie'
 // import { inBrowser } from '../utils'
 
 import index from '../views/ArticleList.vue'
-// import article from '../views/Article.vue'
-// import adminLogin from '../views/AdminLogin.vue'
-// import userLoginForm from '../views/UserLoginForm'
-// import siteMap from '../views/SiteMap.vue'
+import article from '../views/Article.vue'
+import adminLogin from '../views/AdminLogin.vue'
+import userLoginForm from '../views/UserLoginForm'
+import siteMap from '../views/SiteMap.vue'
 
 Vue.use(VueRouter)
 Vue.use(Meta)
@@ -51,14 +51,14 @@ export function createRouter() {
 
             { name: 'index', path: '/', component: index, meta: { typeId: 'indexPage' } },
             { name: 'index', path: '/page/:current(\\d+)?', component: index, meta: { typeId: 'indexPage' } },
-            // { name: 'category', path: '/:cate1?___:typeId?/:current(\\d+)?', component: index },
-            // { name: 'category', path: '/:cate0/:cate1?___:typeId?/:current(\\d+)?', component: index },
-            // { name: 'search', path: '/search/:searchkey/:current(\\d+)?', component: index, meta: { typeId: 'search' } },
-            // { name: 'article', path: '/details/:id', component: article, meta: { notKeepAlive: true } },
-            // { name: 'login', path: '/users/login', component: userLoginForm },
-            // { name: 'adminlogin', path: '/dr-admin', component: adminLogin },
-            // { name: 'sitemap', path: '/sitemap.html', component: siteMap },
-            // { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }
+            { name: 'category', path: '/:cate1?___:typeId?/:current(\\d+)?', component: index },
+            { name: 'category', path: '/:cate0/:cate1?___:typeId?/:current(\\d+)?', component: index },
+            { name: 'search', path: '/search/:searchkey/:current(\\d+)?', component: index, meta: { typeId: 'search' } },
+            { name: 'article', path: '/details/:id', component: article, meta: { notKeepAlive: true } },
+            { name: 'login', path: '/users/login', component: userLoginForm },
+            { name: 'adminlogin', path: '/dr-admin', component: adminLogin },
+            { name: 'sitemap', path: '/sitemap.html', component: siteMap },
+            { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }
         ]
     })
     return router;

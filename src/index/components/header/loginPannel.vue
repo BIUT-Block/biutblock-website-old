@@ -1,7 +1,7 @@
 <template>
     <div class="login-pannel">
         <ul>
-            <li v-if="loginState.logined">
+            <li v-if="loginState.logined && loginState.userInfo">
                 <el-dropdown>
                     <span class="el-dropdown-link">
                         {{loginState.userInfo.userName}}
@@ -21,21 +21,22 @@
 </template>
 
 <script>
-import services from '../../store/services.js'
-
+import { mapGetters } from 'vuex'
+import api from '~api'
 export default {
-
+    name: 'loginPannel',
+    props: ['userLoginState'],
     beforeMount() {
-        this.$store.dispatch('loginState')
+        this.$store.dispatch('frontend/user/getSessionState');
     },
     computed: {
-        loginState() {
-            return this.$store.getters.userLoginState
-        }
+        ...mapGetters({
+            loginState: 'frontend/user/getSessionState'
+        })
     },
     methods: {
         logout() {
-            services.userLogOut().then((result) => {
+            api.get('users/logOut').then((result) => {
                 if (result.data.state === 'success') {
                     this.$message({
                         message: '登出成功',

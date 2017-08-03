@@ -10,32 +10,30 @@
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
                                 <div>
-                                    <h2 class="content-title">{{contentDetails.doc.title}}</h2>
+                                    <h2 class="content-title">{{article.doc.title}}</h2>
                                     <div class="content-author">
                                         <ul>
                                             <li class="author-name">
-                                                <a>{{contentDetails.doc.author ? contentDetails.doc.author.name:''}}</a>
+                                                <a>{{article.doc.author ? article.doc.author.name:''}}</a>
                                             </li>
                                             <li>
-                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.categories ? contentDetails.doc.categories[contentDetails.doc.categories.length-1].name:''}}
+                                                <span class="dot">&nbsp;•&nbsp;</span>{{cateName}}
                                             </li>
                                             <li>
-                                                <span class="dot">&nbsp;•&nbsp;</span>{{contentDetails.doc.date}}
+                                                <span class="dot">&nbsp;•&nbsp;</span>{{article.doc.date}}
                                             </li>
                                         </ul>
                                     </div>
-                                    <div v-html="contentDetails.doc.comments">
+                                    <div v-html="article.doc.comments">
                                     </div>
-                                    <RandomArticle :articles="contentDetails.randomArticles" />
-                                    <div>
-                                        <Messages :userMessageList="contentDetails.messages" :contentId="contentDetails.doc._id" />
-                                    </div>
+                                    <RandomArticle :articles="article.randomArticles" />
+                                    <Messages :userMessageList="messages.data" :contentId="article.doc._id" />
                                 </div>
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
-                                    <RecentContents />
-                                    <HotContents />
+                                    <SearchBox />
+                                    <RecentContents :recentItems="recentArticle" />
                                 </div>
                             </el-col>
                         </el-row>
@@ -48,65 +46,87 @@
         </div>
     </div>
 </template>
-<script>
-import {
-    mapGetters,
-    mapActions
-} from 'vuex'
-import HotContents from '../components/HotContents.vue'
-import RecentContents from '../components/RecentContents.vue'
-import Messages from '../components/Messages.vue'
-import RandomArticle from '../components/RandomArticle.vue'
 
+<script lang="babel">
+    import {
+        mapGetters
+    } from 'vuex'
+    import metaMixin from '~mixins'
+    import Messages from '../components/Messages.vue'
+    import RandomArticle from '../components/RandomArticle.vue'
+    import RecentContents from '../components/RecentContents.vue'
+    import SearchBox from '../components/SearchBox.vue'
 
+    export default {
+        name: 'frontend-article',
+        async asyncData({ store, route }) {
+            const { path, params: { id } } = route
 
-export default {
-    name: 'cmsarticleview',
-    metaInfo() {
-        return {
-            title: this.contentDetails.doc.title,
-            desc: this.contentDetails.doc.discription,
-            keywords: this.contentDetails.doc.keywords || this.systemConfig.configs.siteKeywords
-        }
-    },
-    components: {
-        RecentContents,
-        HotContents,
-        Messages,
-        RandomArticle
-    },
-    data() {
-        return {
-            // contentDetails: this.$store.getters.contentDetails
-        }
-    },
-    beforeMount() {
-
-    },
-    computed: {
-        ...mapGetters([
-            'contentDetails',
-            'systemConfig'
-        ])
-    },
-    asyncData({
-            store,
-        route
-        }) {
-        let contentId = route.params.id;
-        let params = {}, currentId = '';
-        if (contentId) {
-            if (contentId.indexOf('html') > 0) {
-                currentId = contentId.substr(0, contentId.length - 5);
-            } else {
-                currentId = contentId;
+            let params = {}, currentId = '';
+            if (id) {
+                if (id.indexOf('html') > 0) {
+                    currentId = id.substr(0, id.length - 5);
+                } else {
+                    currentId = id;
+                }
             }
-            params.id = currentId;
-        }
-        return store.dispatch('getContentDetails', params)
-    }
 
-}
+            store.dispatch('global/message/getUserMessageList',{contentId:currentId})
+            store.dispatch('frontend/article/getRecentContentList')
+            await store.dispatch(`frontend/article/getArticleItem`, { id: currentId, path })
+        },
+        mixins: [metaMixin],
+        beforeRouteUpdate(to, from, next) {
+            if (to.path !== from.path) this.$options.asyncData({
+                store: this.$store,
+                route: to
+            })
+            next()
+        },
+        computed: {
+            ...mapGetters({
+                article: 'frontend/article/getArticleItem',
+                messages: 'global/message/getUserMessageList',
+                recentArticle: 'frontend/article/getRecentContentList'
+            }),
+            cateName() {
+                let catesArr = this.article.doc.categories;
+                if (typeof catesArr === 'object' && catesArr.length > 1) {
+                    return catesArr[catesArr.length - 1].name
+                } else {
+                    return '其它'
+                }
+            }
+        },
+        components: {
+            Messages,
+            RandomArticle,
+            RecentContents,
+            SearchBox
+        },
+        methods: {
+            addTarget(content) {
+                if (!content) return ''
+                return content.replace(/<a(.*?)href="http/g, '<a$1target="_blank" href="http')
+            }
+        },
+        mounted() {
+            // this.$options.asyncData({store: this.$store})
+        },
+        metaInfo() {
+            const title = this.article.doc.title ? this.article.doc.title + ' - 前端开发俱乐部' : '前端开发俱乐部';
+            const desc = this.article.doc.discription;
+            return {
+                title,
+                // desc,
+                meta: [{
+                    vmid: 'description',
+                    name: 'description',
+                    content: title
+                }]
+            }
+        }
+    }
 
 </script>
 <style lang="scss">

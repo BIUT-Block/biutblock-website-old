@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import services from '../store/services.js';
+import api from '~api'
 const validatorUtil = require('../../../utils/validatorUtil.js')
 import {
   mapGetters,
@@ -85,7 +85,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let params = this.adminLoginFormData;
-          services.adminDoLogin(params).then((result) => {
+          api.post('admin/doLogin', params).then((result) => {
             result = result.data;
             if (result.state == 'success') {
               sessionStorage.setItem('cms-token', result.token);
@@ -110,17 +110,14 @@ export default {
     }
   },
   beforeMount() {
-    this.$store.dispatch('simplePage');
+    // this.$store.dispatch('simplePage');
   },
   mounted() {
   },
   computed: {
-    ...mapGetters([
-
-    ]),
-    adminLoginFormData() {
-      return this.$store.getters.adminLoginFormData;
-    }
+    ...mapGetters({
+      adminLoginFormData: 'frontend/adminUser/loginForm'
+    })
   }
 }
 </script>

@@ -109,15 +109,15 @@ class Content {
                 select: 'name _id'
             }]).exec();
             // 评论查询
-            const messages = await MessageModel.find({ contentId: targetId }).sort({
-                date: 1
-            }).populate([{
-                path: 'contentId',
-                select: 'stitle _id'
-            }, {
-                path: 'author',
-                select: 'userName _id enable date logo'
-            }]).populate('replyAuthor').populate('adminAuthor').exec();
+            // const messages = await MessageModel.find({ contentId: targetId }).sort({
+            //     date: 1
+            // }).populate([{
+            //     path: 'contentId',
+            //     select: 'stitle _id'
+            // }, {
+            //     path: 'author',
+            //     select: 'userName _id enable date logo'
+            // }]).populate('replyAuthor').populate('adminAuthor').exec();
             const commentNum = await MessageModel.count({ contentId: targetId });
             content && (content.commentNum = commentNum);
             // 推荐文章查询
@@ -128,7 +128,7 @@ class Content {
             res.send({
                 state: 'success',
                 doc: content || {},
-                messages,
+                // messages,
                 randomArticles
             })
 

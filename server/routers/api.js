@@ -41,14 +41,16 @@ router.get('/sitemap/getList', (req, res, next) => {
   Content.getAllContens(req, res).then((contents) => {
     res.send({
       state: 'success',
-      doc: contents
+      docs: contents
     })
   });
 });
 
 // 获取用户session
 router.get('/users/session', (req, res) => {
+  // console.log('--req.session.user---', req.session.user);
   res.send({
+    state: 'success',
     userInfo: req.session.user,
     logined: req.session.logined
   })

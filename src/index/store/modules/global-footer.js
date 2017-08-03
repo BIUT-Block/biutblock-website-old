@@ -19,7 +19,7 @@ const actions = {
     async ['getSiteMapList']({ commit, state }, config) {
         // if (state.lists.data && state.lists.data.docs.length > 0) return;
         const { data } = await api.get('sitemap/getList', { cache: true })
-        // console.log('----data----', data);
+        console.log('----data----', data);
         if (data.docs && data.state === 'success') {
             commit('receiveSiteMapList', {
                 ...config,

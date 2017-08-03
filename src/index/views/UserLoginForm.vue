@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import services from '../store/services.js';
+import api from '~api'
 const validatorUtil = require('../../../utils/validatorUtil.js')
 import {
   mapGetters,
@@ -41,9 +41,7 @@ export default {
   name: 'userLogin',
   metaInfo() {
     return {
-      title: '用户登录',
-      desc: 'DoraCMS-用户登录',
-      keywords: 'DoraCMS-用户登录'
+      title: '用户登录'
     }
   },
   data() {
@@ -86,10 +84,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let params = this.userLoginFormData;
-          services.userDoLogin(params).then((result) => {
+          api.post('users/doLogin', params).then((result) => {
             result = result.data;
             if (result.state == 'success') {
-              // sessionStorage.setItem('user-token', result.token);
               window.location = '/';
             } else {
               this.$message({
@@ -114,12 +111,9 @@ export default {
     // this.$store.dispatch('simplePage');
   },
   computed: {
-    ...mapGetters([
-
-    ]),
-    userLoginFormData() {
-      return this.$store.getters.userLoginFormData;
-    }
+    ...mapGetters({
+      userLoginFormData: 'frontend/user/loginForm'
+    })
   }
 }
 </script>

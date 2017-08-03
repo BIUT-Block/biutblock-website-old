@@ -1,5 +1,5 @@
 <template>
-    <div class="content-pagination" v-if="pageInfo">
+    <div class="content-pagination" v-if="pageInfo && pageInfo.totalItems > 0">
         <el-pagination small layout="prev, pager, next" :total="pageInfo.totalItems" :current-page="pageInfo.current" @current-change="handleCurrentChange">
         </el-pagination>
     </div>
@@ -16,15 +16,21 @@ export default {
             // console.log('---typeId---', this.typeId);
             if (this.typeId === 'indexPage') { // 首页
                 this.$router.push('/page/' + val);
-            } else if (this.typeId === 'searchList') { // 搜索结果
+            } else if (this.typeId === 'search') { // 搜索结果
                 let searchKey = this.$route.params.searchkey;
                 this.$router.push('/search/' + searchKey + '/' + val);
-            } else {// 分类页
-                this.$router.push((this.$route.matched[0].path).split(':')[0] + val);
+            } else if (this.typeId === 'tags') { // 搜索结果
+                let tagName = this.$route.params.tagName;
+                this.$router.push('/tag/' + tagName + '/' + val);
+            } else { // 分类页
+                let pathArr = (this.$route.path.split('___'));
+                let endPath = pathArr[0] + '___' + pathArr[1].split('/')[0]
+                this.$router.push(endPath + '/' + val);
             }
         }
     }
 }
+
 </script>
 
 <style lang="scss">
@@ -33,4 +39,3 @@ export default {
     text-align: center;
 }
 </style>
-

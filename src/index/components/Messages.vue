@@ -67,8 +67,10 @@
     </div>
 </template>
 <script>
-import services from '../store/services.js';
-
+import {
+    mapGetters
+} from 'vuex'
+import api from '~api'
 export default {
     name: 'Message',
     data() {
@@ -92,19 +94,10 @@ export default {
         contentId: String
     },
     computed: {
-        msgFormState() {
-            return this.$store.getters.userMessageFormState;
-        },
-        loginState() {
-            return this.$store.getters.userLoginState;
-        }
-    },
-    mounted() {
-        // this.$store.dispatch('userMessageForm', {
-        //     formData: {
-        //         contentId: this.contentId
-        //     }
-        // });
+        ...mapGetters({
+            msgFormState: 'global/message/getMessageForm',
+            loginState: 'frontend/user/getSessionState'
+        })
     },
     methods: {
         submitForm(formName) {
@@ -120,9 +113,10 @@ export default {
 
                         }
                         let params = this.msgFormState.formData;
-                        services.userSendMessage(params).then((result) => {
+                        params.contentId = this.contentId;
+                        api.post('message/post', params).then((result) => {
                             if (result.data.state === 'success') {
-                                this.$store.dispatch('getUserMessageList', {
+                                this.$store.dispatch('global/message/getUserMessageList', {
                                     contentId: this.contentId
                                 })
                                 this.$message({
@@ -131,7 +125,7 @@ export default {
                                 });
                             } else {
                                 this.$message({
-                                    message: result.data.err,
+                                    message: result.data.message,
                                     type: 'error'
                                 });
                             }

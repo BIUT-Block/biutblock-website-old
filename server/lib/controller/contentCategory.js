@@ -22,7 +22,7 @@ class ContentCategory {
                 pageSize = '1000'
             }
 
-            const ContentCategories = await ContentCategoryModel.find(queryObj);
+            const ContentCategories = await ContentCategoryModel.find(queryObj).sort({ sortId: 1 });
             const totalItems = await ContentCategoryModel.count(queryObj);
             res.send({
                 state: 'success',
@@ -75,13 +75,16 @@ class ContentCategory {
                 parentId: fields.parentId,
                 enable: fields.enable,
                 defaultUrl: fields.defaultUrl,
-                sortPath: fields.sortPath,
+                // sortPath: fields.sortPath,
                 comments: fields.comments
             }
 
             const newContentCategory = new ContentCategoryModel(groupObj);
             try {
                 await newContentCategory.save();
+                // 更新sortPath
+                let newSortPath = newContentCategory.sortPath + "," + newContentCategory._id.toString();
+                await newContentCategory.findOneAndUpdate({ _id: newContentCategory._id }, { $set: { sortPath: newSortPath } });
                 res.send({
                     state: 'success',
                     id: newContentCategory._id

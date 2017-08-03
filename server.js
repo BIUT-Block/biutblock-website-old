@@ -1,5 +1,6 @@
 process.env.VUE_ENV = 'server'
 const isProd = process.env.NODE_ENV === 'production'
+const useMicroCache = process.env.MICRO_CACHE !== 'false'
 
 const fs = require('fs')
 const path = require('path')
@@ -8,7 +9,7 @@ const express = require('express')
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const compression = require('compression')
-// const HTMLStream = require('vue-ssr-html-stream')
+const lurCache = require('lru-cache')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -20,13 +21,6 @@ const serverInfo =
     `express/${require('express/package.json').version} ` +
     `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
-// 引入 mongoose 相关模型
-// require('./server/models/admin')
-// require('./server/models/article')
-// require('./server/models/category')
-// require('./server/models/comment')
-// require('./server/models/like')
-// require('./server/models/user')
 const { service, settings, authSession } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
 // 引入 api 路由
@@ -34,6 +28,12 @@ const routes = require('./server/routers/api')
 const foreground = require('./server/routers/foreground')
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
+
+const isCacheable = () => useMicroCache
+const microCache = lurCache({
+    max: 100,
+    maxAge: 1000
+})
 
 function createRenderer(bundle, template) {
     // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -141,6 +141,19 @@ app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
             }
         }
 
+        const cacheable = isCacheable(req)
+        if (cacheable) {
+            const hit = microCache.get(req.url)
+
+            if (hit) {
+                if (!isProd) {
+                    console.log('cache hit!')
+                }
+                console.log(`whole request from cache: ${Date.now() - s}ms`)
+                return res.end(hit);
+            }
+        }
+
         const context = {
             title: 'M.M.F 小屋',
             description: 'M.M.F 小屋',
@@ -152,31 +165,25 @@ app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
                 return errorHandler(err)
             }
             res.end(html)
+            if (cacheable) {
+                microCache.set(req.url, html)
+            }
             console.log(`whole request: ${Date.now() - s}ms`)
         })
-        // const htmlStream = new HTMLStream({ template: frontend, context })
-        // htmlStream.on('beforeStart', () => {
-        //     const meta = context.meta.inject()
-        //     context.head = (context.head || '') + meta.title.text()
-        // })
-        // renderer.renderToStream(context)
-        //     .on('error', errorHandler)
-        //     .pipe(htmlStream)
-        //     .on('end', () => console.log(`whole request: ${Date.now() - s}ms`))
-        //     .pipe(res)
+
     })
 
 // 后台渲染
-app.get(['/backend', '/backend/*'], (req, res) => {
-    if (req.originalUrl !== '/backend' && req.originalUrl !== '/backend/' && !req.cookies.b_user) {
-        return res.redirect('/backend')
-    }
-    if (isProd) {
-        res.render('admin.html', { title: '登录' })
-    } else {
-        res.send(backend)
-    }
-})
+// app.get(['/backend', '/backend/*'], (req, res) => {
+//     if (req.originalUrl !== '/backend' && req.originalUrl !== '/backend/' && !req.cookies.b_user) {
+//         return res.redirect('/backend')
+//     }
+//     if (isProd) {
+//         res.render('admin.html', { title: '登录' })
+//     } else {
+//         res.send(backend)
+//     }
+// })
 
 // 404 页面
 app.get('*', (req, res) => {

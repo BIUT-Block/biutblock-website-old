@@ -12,10 +12,11 @@
 </style>
 <template>
     <div id="app">
-        <MyHeader></MyHeader>
+        <MyHeader/>
         <transition name="fade" mode="out-in">
             <router-view :key="$route.fullPath" class="view"></router-view>
         </transition>
+        <MyFooter />
     </div>
 </template>
 <script>
@@ -25,7 +26,7 @@ import {
 } from 'vuex'
 
 import MyHeader from './components/header'
-// import MyFooter from './components/Footer'
+import MyFooter from './components/Footer'
 
 export default {
     name: 'app',
@@ -36,7 +37,7 @@ export default {
         // backTop,
         // backendMenu,
         MyHeader,
-        // MyFooter
+        MyFooter
     },
     data() {
         return {}
