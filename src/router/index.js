@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Meta from 'vue-meta'
 import cookies from 'js-cookie'
 
-import {inBrowser} from '../utils'
+import { inBrowser } from '../utils'
 
 import index from '../pages/frontend-index.vue'
 import article from '../pages/frontend-article.vue'
@@ -40,14 +40,14 @@ const router = new VueRouter({
     //base: __dirname,
     scrollBehavior,
     routes: [
-        { name:'index', path: '/', component: index },
-        { name:'trending', path: '/trending/:by', component: index },
-        { name:'category', path: '/category/:id', component: index },
-        { name:'search', path: '/search/:key', component: index },
-        { name:'article', path: '/article/:id', component: article, meta: { scrollToTop: true } },
-        { name:'about', path: '/about', component: about, meta: { scrollToTop: true } },
-        { name:'account', path: '/user/account', component: account, meta: { scrollToTop: true }, beforeEnter: guardRoute },
-        { name:'password', path: '/user/password', component: password, meta: { scrollToTop: true }, beforeEnter: guardRoute }
+        { name: 'index', path: '/', component: index },
+        { name: 'trending', path: '/trending/:by', component: index },
+        { name: 'category', path: '/category/:id', component: index },
+        { name: 'search', path: '/search/:key', component: index },
+        { name: 'article', path: '/article/:id', component: article, meta: { scrollToTop: true } },
+        { name: 'about', path: '/about', component: about, meta: { scrollToTop: true } },
+        { name: 'account', path: '/user/account', component: account, meta: { scrollToTop: true }, beforeEnter: guardRoute },
+        { name: 'password', path: '/user/password', component: password, meta: { scrollToTop: true }, beforeEnter: guardRoute }
     ]
 })
 

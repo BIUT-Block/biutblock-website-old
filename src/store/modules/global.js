@@ -1,7 +1,7 @@
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import {inBrowser} from '~utils'
 
-toastr.options.positionClass = 'toast-top-center'
+// toastr.options.positionClass = 'toast-top-center'
 
 const state = {
     loading: false,
@@ -23,10 +23,10 @@ const actions = {
             content = config.content
             type = config.type
         }
-        if (inBrowser) toastr[type](content)
+        // if (inBrowser) toastr[type](content)
     },
     ['hideMsg']() {
-        toastr.clear()
+        // toastr.clear()
     }
 }
 

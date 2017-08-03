@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import cookies from 'js-cookie'
+// import cookies from 'js-cookie'
 
 import {inBrowser} from '../utils'
 
@@ -35,12 +35,12 @@ const scrollBehavior = to => {
 }
 
 const guardRoute = (to, from, next) => {
-    const token = cookies.get('b_user') || !inBrowser
-    if (!token) {
-        next('/')
-    } else {
+    // const token = cookies.get('b_user') || !inBrowser
+    // if (!token) {
+    //     next('/')
+    // } else {
         next()
-    }
+    // }
 }
 
 const router = new VueRouter({

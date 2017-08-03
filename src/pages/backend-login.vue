@@ -21,15 +21,15 @@
 </template>
 
 <script lang="babel">
-import cookies from 'js-cookie'
+// import cookies from 'js-cookie'
 import api from '~api'
 import aInput from '~components/_input.vue'
 export default {
     name: 'login',
     beforeRouteEnter (to, from, next) {
-        if (cookies.get('b_user'))
-            next('/backend/article/list')
-        else
+        // if (cookies.get('b_user'))
+        //     next('/backend/article/list')
+        // else
             next()
     },
     data() {

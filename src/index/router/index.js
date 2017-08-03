@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Meta from 'vue-meta'
-import cookies from 'js-cookie'
+// import cookies from 'js-cookie'
 
 // import { inBrowser } from '../utils'
 
