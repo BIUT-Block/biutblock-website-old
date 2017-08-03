@@ -104,10 +104,9 @@ app.use(session({ //session持久化配置
 app.use(authUser.auth);
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'dist')))
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/server', serve('./dist/server', true))
 app.use('/static', serve('./dist/static', true))
-app.use('/static', serve('./static', true));
 app.use('/manifest.json', serve('./manifest.json'))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
 // api 路由
