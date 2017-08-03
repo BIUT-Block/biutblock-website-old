@@ -155,8 +155,8 @@ app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
         }
 
         const context = {
-            title: 'M.M.F 小屋',
-            description: 'M.M.F 小屋',
+            title: '前端开发俱乐部',
+            description: '前端开发俱乐部',
             url: req.url,
             cookies: req.cookies
         }

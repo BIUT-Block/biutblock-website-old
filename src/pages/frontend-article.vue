@@ -80,7 +80,7 @@ export default {
         fetchInitialData(this.$store)
     },
     metaInfo () {
-        const title = this.article.data.title ? this.article.data.title + ' - M.M.F 小屋' : 'M.M.F 小屋'
+        const title = this.article.data.title ? this.article.data.title + ' - 前端开发俱乐部' : '前端开发俱乐部'
         return {
             title,
             meta: [{ vmid: 'description', name: 'description', content: title }]

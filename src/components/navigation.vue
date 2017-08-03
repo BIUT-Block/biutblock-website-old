@@ -1,7 +1,7 @@
 <template>
     <nav class="global-nav">
         <div v-if="backend" class="wrap clearfix">
-            <div class="left-part"><a href="/" exact class="logo-link"><i class="icon icon-nav-logo"></i><span class="hidden">M.M.F 小屋</span></a>
+            <div class="left-part"><a href="/" exact class="logo-link"><i class="icon icon-nav-logo"></i><span class="hidden">前端开发俱乐部</span></a>
                 <div class="main-nav">
                     <a href="/" class="nav-link"><i class="icon icon-nav-home"></i><span class="text">首页</span></a>
                     <a href="/trending/visit" class="nav-link"><i class="icon icon-nav-explore"></i><span class="text">热门</span></a>
@@ -11,7 +11,7 @@
         </div>
         <div v-else class="wrap clearfix">
             <div class="left-part">
-                <router-link to="/" active-class="current" exact class="logo-link"><i class="icon icon-nav-logo"></i><span class="hidden">M.M.F 小屋</span></router-link>
+                <router-link to="/" active-class="current" exact class="logo-link"><i class="icon icon-nav-logo"></i><span class="hidden">前端开发俱乐部</span></router-link>
                 <div class="main-nav">
                     <router-link to="/" active-class="current" exact class="nav-link"><i class="icon icon-nav-home"></i><span class="text">首页</span></router-link>
                     <router-link to="/trending/visit" active-class="current" class="nav-link"><i class="icon icon-nav-explore"></i><span class="text">热门</span></router-link>

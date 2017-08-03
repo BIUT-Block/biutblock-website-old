@@ -72,8 +72,8 @@ export default {
     },
     metaInfo () {
         return {
-            title: '密码 - M.M.F 小屋',
-            meta: [{ vmid: 'description', name: 'description', content: 'M.M.F 小屋' }]
+            title: '密码 - 前端开发俱乐部',
+            meta: [{ vmid: 'description', name: 'description', content: '前端开发俱乐部' }]
         }
     }
 }

@@ -69,7 +69,7 @@ export default {
         next()
     },
     metaInfo() {
-        var title = 'M.M.F 小屋'
+        var title = '前端开发俱乐部'
         const {id, key, by} = this.$route.params
         if (id) {
             const obj = this.category.find(item => item._id === id)
