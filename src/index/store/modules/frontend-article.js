@@ -30,6 +30,7 @@ const actions = {
                 ...config,
                 cache: true
             })
+        console.log('---------data', data);
         if (data.docs && data.state === 'success') {
             commit('receiveArticleList', {
                 ...config,

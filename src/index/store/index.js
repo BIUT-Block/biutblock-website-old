@@ -20,28 +20,28 @@ import fontendAdminUser from './modules/frontend-adminuser'
 
 Vue.use(Vuex)
 
-export function createStore() {
-    return new Vuex.Store({
-        modules: {
-            appShell: createAppShellState(),
-            frontend: {
-                namespaced: true,
-                modules: {
-                    article: frontendArticle,
-                    user: fontendUser,
-                    adminUser: fontendAdminUser
-                }
-            },
-            global: {
-                namespaced: true,
-                ...global,
-                modules: {
-                    category: frontendHeader,
-                    footerConfigs: footerConfigs,
-                    message: fontendMessage,
-                    tags: fontendTags
-                }
+export default new Vuex.Store({
+
+    modules: {
+        appShell: createAppShellState(),
+        frontend: {
+            namespaced: true,
+            modules: {
+                article: frontendArticle,
+                user: fontendUser,
+                adminUser: fontendAdminUser
+            }
+        },
+        global: {
+            namespaced: true,
+            ...global,
+            modules: {
+                category: frontendHeader,
+                footerConfigs: footerConfigs,
+                message: fontendMessage,
+                tags: fontendTags
             }
         }
-    })
-}
+    }
+})
+

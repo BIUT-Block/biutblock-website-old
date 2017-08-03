@@ -3,19 +3,13 @@ import VueRouter from 'vue-router'
 import Meta from 'vue-meta'
 import cookies from 'js-cookie'
 
-import { inBrowser } from '../utils'
+// import { inBrowser } from '../utils'
 
-// import index from '../pages/frontend-index.vue'
-// import article from '../pages/frontend-article.vue'
-// import about from '../pages/frontend-about.vue'
-// import account from '../pages/frontend-user-account.vue'
-// import password from '../pages/frontend-user-password.vue'
-
-const index = () => import('../views/ArticleList.vue')
-const article = () => import('../views/Article.vue')
-const adminLogin = () => import('../views/AdminLogin.vue')
-const userLoginForm = () => import('../views/UserLoginForm');
-const siteMap = () => import('../views/SiteMap.vue')
+import index from '../views/ArticleList.vue'
+// import article from '../views/Article.vue'
+// import adminLogin from '../views/AdminLogin.vue'
+// import userLoginForm from '../views/UserLoginForm'
+// import siteMap from '../views/SiteMap.vue'
 
 Vue.use(VueRouter)
 Vue.use(Meta)
@@ -32,14 +26,14 @@ const scrollBehavior = to => {
     return position
 }
 
-const guardRoute = (to, from, next) => {
-    var token = cookies.get('user') || !inBrowser
-    if (!token) {
-        next('/')
-    } else {
-        next()
-    }
-}
+// const guardRoute = (to, from, next) => {
+//     var token = cookies.get('user') || !inBrowser
+//     if (!token) {
+//         next('/')
+//     } else {
+//         next()
+//     }
+// }
 
 const router = new VueRouter({
     mode: 'history',
@@ -57,14 +51,14 @@ const router = new VueRouter({
 
         { name: 'index', path: '/', component: index, meta: { typeId: 'indexPage' } },
         { name: 'index', path: '/page/:current(\\d+)?', component: index, meta: { typeId: 'indexPage' } },
-        { name: 'category', path: '/:cate1?___:typeId?/:current(\\d+)?', component: index },
-        { name: 'category', path: '/:cate0/:cate1?___:typeId?/:current(\\d+)?', component: index },
-        { name: 'search', path: '/search/:searchkey/:current(\\d+)?', component: index, meta: { typeId: 'search' } },
-        { name: 'article', path: '/details/:id', component: article, meta: { notKeepAlive: true } },
-        { name: 'login', path: '/users/login', component: userLoginForm },
-        { name: 'adminlogin', path: '/dr-admin', component: adminLogin },
-        { name: 'sitemap', path: '/sitemap.html', component: siteMap },
-        { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }
+        // { name: 'category', path: '/:cate1?___:typeId?/:current(\\d+)?', component: index },
+        // { name: 'category', path: '/:cate0/:cate1?___:typeId?/:current(\\d+)?', component: index },
+        // { name: 'search', path: '/search/:searchkey/:current(\\d+)?', component: index, meta: { typeId: 'search' } },
+        // { name: 'article', path: '/details/:id', component: article, meta: { notKeepAlive: true } },
+        // { name: 'login', path: '/users/login', component: userLoginForm },
+        // { name: 'adminlogin', path: '/dr-admin', component: adminLogin },
+        // { name: 'sitemap', path: '/sitemap.html', component: siteMap },
+        // { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }
     ]
 })
 

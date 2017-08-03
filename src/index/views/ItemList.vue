@@ -5,15 +5,11 @@ article:last-child {
 </style>
 <template>
     <div class="post">
-        <TopItem v-for="item in contentList.docs" :item="item" :key="item._id" />
-        <div class="content-pagination">
-            <Pagination :pageInfo="contentList.pageInfo" :typeId="typeId" />
-        </div>
+        <TopItem :item="item" :key="item._id" />
     </div>
 </template>
 
 <script>
-import Pagination from '../components/Pagination.vue'
 import TopItem from './TopItem'
 import {
     mapGetters,
@@ -21,18 +17,14 @@ import {
 } from 'vuex'
 export default {
     name: 'itemlist',
-    props: {
-        page: Number,
-        typeId: String,
-        contentList: Object,
-    },
+    props: ['item'],
     data() {
         return {
             // displayedItems: this.$store.getters.contentList
         }
     },
     components: {
-        Pagination,
+        // Pagination,
         TopItem
     },
     methods: {

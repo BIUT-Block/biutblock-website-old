@@ -16,7 +16,7 @@
         <transition name="fade" mode="out-in">
             <router-view class="view"></router-view>
         </transition>
-        <MyFooter></MyFooter>
+    
     </div>
 </template>
 <script>
@@ -25,8 +25,8 @@ import {
     mapState
 } from 'vuex'
 
-import MyHeader from './index/components/header'
-import MyFooter from './index/components/Footer'
+import MyHeader from './components/header'
+// import MyFooter from './components/Footer'
 
 export default {
     name: 'app',
@@ -37,7 +37,7 @@ export default {
         // backTop,
         // backendMenu,
         MyHeader,
-        MyFooter
+        // MyFooter
     },
     data() {
         return {}
