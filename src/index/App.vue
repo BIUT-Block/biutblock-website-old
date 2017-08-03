@@ -1,5 +1,5 @@
 <style lang="scss">
-@import './assets/base.css';
+// @import './assets/base.css';
 .fade-enter-active,
 .fade-leave-active {
     transition: all .2s ease;
@@ -14,9 +14,8 @@
     <div id="app">
         <MyHeader></MyHeader>
         <transition name="fade" mode="out-in">
-            <router-view class="view"></router-view>
+            <router-view :key="$route.fullPath" class="view"></router-view>
         </transition>
-    
     </div>
 </template>
 <script>

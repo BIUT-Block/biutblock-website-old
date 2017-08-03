@@ -63,7 +63,13 @@ const fetchInitialData = async (store, config = { current: 1, model: 'normal' })
 
 export default {
     name: 'frontend-index',
-    prefetch: fetchInitialData,
+    async asyncData({store, route}, config = { current: 1,model:'normal'}) {
+        const {params: {id, key, tagName, current, typeId, searchkey}, path} = route
+        const base = { ...config, limit: 10, id, path, searchkey, tagName, current, typeId }
+        store.dispatch('frontend/article/getHotContentList', base)
+        store.dispatch('global/tags/getTagList', base)
+        await store.dispatch('frontend/article/getArticleList', base)
+    },
     mixins: [metaMixin],
     components: {
         ItemList,
@@ -79,26 +85,6 @@ export default {
             hotlist: 'frontend/article/getHotContentList',
             tags: 'global/tags/getTagList'
         })
-    },
-    methods: {
-        loadMore(current = this.topics.current + 1) {
-            fetchInitialData(this.$store, { current })
-        }
-    },
-    mounted() {
-        fetchInitialData(this.$store, { current: 1 })
-    },
-    watch: {
-        '$route'() {
-            fetchInitialData(this.$store, { current: 1 })
-        }
-    },
-    beforeRouteLeave(to, from, next) {
-        const scrollTop = document.body.scrollTop
-        const path = from.path
-        if (scrollTop) ls.set(path, scrollTop)
-        else ls.remove(path)
-        next()
     },
     metaInfo() {
         var title = 'M.M.F 小屋'
