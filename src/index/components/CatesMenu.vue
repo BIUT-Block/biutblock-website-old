@@ -32,13 +32,16 @@ export default {
             let parentObj = _.filter(fullNav.data, (doc) => {
                 return doc._id == this.typeId;
             });
-            let parentId = parentObj[0].sortPath.split(',')[1] || '0';
-            let cates = _.filter(fullNav.data, (doc) => {
-                return (doc.sortPath).indexOf(parentId) > 0
-            });
-            let parents = _.filter(cates, (doc) => {
-                return doc.parentId === '0'
-            });
+            let cates = [], parents = [];
+            if (parentObj.length > 0) {
+                let parentId = parentObj[0].sortPath.split(',')[1] || '0';
+                cates = _.filter(fullNav.data, (doc) => {
+                    return (doc.sortPath).indexOf(parentId) > 0
+                });
+                parents = _.filter(cates, (doc) => {
+                    return doc.parentId === '0'
+                });
+            }
             return {
                 parents,
                 cates
