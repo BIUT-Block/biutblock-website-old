@@ -84,6 +84,11 @@ export default {
         checkCateList() {
             let typeId = this.$route.params.typeId
             return typeId != 'indexPage' && shortid.isValid(typeId);
+        },
+        currentCate(){
+            let navs = this.$store.getters['global/category/getHeaderNavList'].data || [];
+            const obj = navs.find(item => item._id === this.$route.params.typeId);
+            return obj || {};
         }
     },
     methods: {
@@ -93,21 +98,21 @@ export default {
         this.$options.asyncData({store: this.$store, route: this.$route}, {page: 1})
     },
     metaInfo() {
-        var title = '前端开发俱乐部'
-        const {id, key, by} = this.$route.params
-        if (id) {
-            const obj = ''
+        var title = ''
+        const {tagName, typeId, searchkey} = this.$route.params
+        if (typeId) {
+            const obj = this.currentCate;
             if (obj) {
-                title = obj.cate_name + ' - ' + title
+                title = obj.name;
             }
-        } else if (key) {
-            title = '搜索: ' + key + ' - ' + title
-        } else if (by) {
-            title = '热门 - ' + title
-        }
+        } else if (searchkey) {
+            title = '搜索: ' + searchkey;
+        } 
+        
         return {
             title,
-            meta: [{ vmid: 'description', name: 'description', content: title }]
+            titleTemplate: '%s | 前端开发俱乐部',
+            meta: [{ vmid: 'description', name: 'description', content: this.currentCate.comments }]
         }
     }
 }

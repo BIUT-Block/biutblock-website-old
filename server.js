@@ -10,6 +10,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const compression = require('compression')
 const lurCache = require('lru-cache')
+const ueditor = require("ueditor")
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -23,6 +24,7 @@ const serverInfo =
 
 const { service, settings, authSession } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
+const { AdminResource } = require('./server/lib/controller');
 // 引入 api 路由
 const routes = require('./server/routers/api')
 const foreground = require('./server/routers/foreground')
@@ -120,16 +122,16 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 // api 路由
 app.use('/', foreground);
 app.use('/api', routes);
-app.use('/manage', manage);
 app.use('/system', system);
 
 // 前台路由, ssr 渲染
 app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
     '/:cate0/:cate1?___:typeId?/:current(\\d+)?', '/search/:searchkey/:current(\\d+)?',
     '/details/:id', '/users/login', '/dr-admin', '/sitemap.html', '/tag/:tagName/:page(\\d+)?'], (req, res) => {
-        if ((req.originalUrl === '/user/account' || req.originalUrl === '/user/password') && !req.cookies.user) {
-            return res.redirect('/')
+        if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
+            return res.redirect('/manage');
         }
+
         if (!renderer) {
             return res.end('waiting for compilation... refresh in a moment.')
         }
@@ -181,17 +183,58 @@ app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
 
     })
 
+// 机器人抓取
+app.get('/robots.txt', function (req, res, next) {
+    let stream = fs.createReadStream(path.join(__dirname, './robots.txt'), {
+        flags: 'r'
+    });
+    stream.pipe(res);
+});
+
+// 集成ueditor
+app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
+    var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
+    var ActionType = req.query.action;
+    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
+        var file_url = imgDir; //默认上传地址为图片
+        /*其他上传格式的地址*/
+        if (ActionType === 'uploadfile') {
+            file_url = '/upload/file/ueditor/'; //附件保存地址
+        }
+        if (ActionType === 'uploadvideo') {
+            file_url = '/upload/video/ueditor/'; //视频保存地址
+        }
+        res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
+        res.setHeader('Content-Type', 'text/html');
+    }
+    //客户端发起图片列表请求
+    else if (ActionType === 'listimage') {
+
+        res.ue_list(imgDir); // 客户端会列出 dir_url 目录下的所有图片
+    }
+    // 客户端发起其它请求
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.redirect('/ueditor/ueditor.config.json')
+    }
+}));
+
 // 后台渲染
-// app.get(['/backend', '/backend/*'], (req, res) => {
-//     if (req.originalUrl !== '/backend' && req.originalUrl !== '/backend/' && !req.cookies.b_user) {
-//         return res.redirect('/backend')
-//     }
-//     if (isProd) {
-//         res.render('admin.html', { title: '登录' })
-//     } else {
-//         res.send(backend)
-//     }
-// })
+app.get('/manage', authSession, function (req, res) {
+    AdminResource.getAllResource(req, res, {
+        type: '0'
+    }).then((manageCates) => {
+        service.reWriteResourceJson(req, res, manageCates);
+        if (isProd) {
+            res.render('admin.html', {
+                title: 'DoraCMS后台管理'
+            })
+        } else {
+            res.send(backend)
+        }
+    })
+});
+app.use('/manage', manage);
 
 // 404 页面
 app.get('*', (req, res) => {

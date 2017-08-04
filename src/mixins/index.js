@@ -1,4 +1,5 @@
-function getTitle (vm) {
+import _ from 'lodash'
+function getTitle(vm) {
     const { metaInfo } = vm.$options
     if (metaInfo) {
         return typeof metaInfo === 'function' ? metaInfo.call(vm) : metaInfo
@@ -6,17 +7,21 @@ function getTitle (vm) {
 }
 
 const serverTitleMixin = {
-    created () {
+    created() {
         const meta = getTitle(this)
         if (meta) {
+            let mInfo = meta.meta
+            let desObj = _.filter(mInfo, (item) => {
+                return item.name == 'description'
+            }) || [];
             this.$ssrContext.title = meta.title || meta
-            this.$ssrContext.description = meta.desc || meta
+            desObj[0] && (this.$ssrContext.description = desObj[0].content || '前端俱乐部')
         }
     }
 }
 
 const clientTitleMixin = {
-    mounted () {
+    mounted() {
 
     }
 }

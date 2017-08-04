@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
-Disallow: /admin
-Disallow: /backend
+Disallow: /dr-admin
+Disallow: /manage

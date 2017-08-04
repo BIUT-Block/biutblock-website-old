@@ -6,6 +6,8 @@ import "./index/assets/base.css"
 
 // 全局的进度条，在组件中可通过 $loading 访问
 const loading = Vue.prototype.$loading = new Vue(ProgressBar).$mount()
+document.body.appendChild(loading.$el)
+
 const { app, router, store } = createApp()
 
 if (window.__INITIAL_STATE__) {

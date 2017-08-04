@@ -27,7 +27,6 @@ export default {
     name: 'CatesMenu',
     computed: {
         rightNavs() {
-            debugger;
             let fullNav = this.$store.getters['global/category/getHeaderNavList'];
             let parentObj = _.filter(fullNav.data, (doc) => {
                 return doc._id == this.typeId;

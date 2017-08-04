@@ -114,16 +114,12 @@
             // this.$options.asyncData({store: this.$store})
         },
         metaInfo() {
-            const title = this.article.doc.title ? this.article.doc.title + ' - 前端开发俱乐部' : '前端开发俱乐部';
+            const title = this.article.doc.title;
             const desc = this.article.doc.discription;
             return {
                 title,
-                // desc,
-                meta: [{
-                    vmid: 'description',
-                    name: 'description',
-                    content: title
-                }]
+                titleTemplate: '%s | 前端开发俱乐部',
+                meta: [{ vmid: 'description', name: 'description', content: desc }]
             }
         }
     }

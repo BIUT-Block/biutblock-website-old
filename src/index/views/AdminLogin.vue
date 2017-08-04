@@ -40,9 +40,7 @@ export default {
   name: 'adminLogin',
   metaInfo() {
     return {
-      title: '管理员登录',
-      desc: 'DoraCMS-管理员登录',
-      keywords: 'DoraCMS-管理员登录'
+      title: '管理员登录'
     }
   },
   data() {
