@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/static/css/admin.18e2a3d.css","b95128ad8d3f29a8d0620c3783fdb8ad"],["/static/css/app.18e2a3d.css","10a3f08cb10d917478432c98c2296011"],["/static/js/0.3118f3b.js","fa249c0b90364d19df31b8e5df129ff9"],["/static/js/admin.9d529b4.js","842179c49cdb7672312091bd1d30e37b"],["/static/js/app.2285820.js","03d2e73d93e88c6d13f60d7e2d6e0b9b"],["/static/js/manifest.9857fee.js","7a8efe9f056af3b5a1664ee185d1ad18"],["/static/js/vendor.d9522a7.js","9fc8bb746f75e60aa52dec500e0dbfd1"]];
+var precacheConfig = [["/static/css/admin.df8226c.css","b95128ad8d3f29a8d0620c3783fdb8ad"],["/static/css/app.df8226c.css","10a3f08cb10d917478432c98c2296011"],["/static/js/0.3118f3b.js","fa249c0b90364d19df31b8e5df129ff9"],["/static/js/admin.9d529b4.js","842179c49cdb7672312091bd1d30e37b"],["/static/js/app.ac6329d.js","958983aab8b98355999bef705ed6a630"],["/static/js/manifest.a54f50f.js","0ab11eb2611ea01eb972df543e92825d"],["/static/js/vendor.d9522a7.js","9fc8bb746f75e60aa52dec500e0dbfd1"]];
 var cacheName = 'sw-precache-v3-mmf-blog-vue2-ssr-' + (self.registration ? self.registration.scope : '');
 
 

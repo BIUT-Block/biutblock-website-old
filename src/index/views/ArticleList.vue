@@ -95,10 +95,10 @@ export default {
         
     },
     activated() {
-        this.$options.asyncData({store: this.$store, route: this.$route}, {page: 1})
+        this.$options.asyncData({store: this.$store, route: this.$route}, {current: 1})
     },
     metaInfo() {
-        var title = ''
+        var title = '首页'
         const {tagName, typeId, searchkey} = this.$route.params
         if (typeId) {
             const obj = this.currentCate;
