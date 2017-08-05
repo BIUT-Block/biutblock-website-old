@@ -76,7 +76,8 @@ export default {
         ...mapGetters({
             topics: 'frontend/article/getArticleList',
             hotlist: 'frontend/article/getHotContentList',
-            tags: 'global/tags/getTagList'
+            tags: 'global/tags/getTagList',
+            systemConfig: 'global/footerConfigs/getSystemConfig'
         }),
         typeId(){
             return this.$route.params.typeId ? this.$route.params.typeId : this.$route.meta.typeId;
@@ -98,7 +99,9 @@ export default {
         this.$options.asyncData({store: this.$store, route: this.$route}, {current: 1})
     },
     metaInfo() {
-        var title = '首页'
+        const systemData = this.systemConfig.data[0];
+        const { siteName, siteDiscription, siteKeywords} = systemData;
+        let title = '首页';
         const {tagName, typeId, searchkey} = this.$route.params
         if (typeId) {
             const obj = this.currentCate;
@@ -107,12 +110,16 @@ export default {
             }
         } else if (searchkey) {
             title = '搜索: ' + searchkey;
+        } else if (tagName) {
+            title = '标签: ' + tagName;
         } 
-        
+
         return {
-            title,
-            titleTemplate: '%s | 前端开发俱乐部',
-            meta: [{ vmid: 'description', name: 'description', content: this.currentCate.comments }]
+            title: title + ' | ' + siteName,
+            meta: [
+                { vmid: 'description', name: 'description', content: this.currentCate.comments || siteDiscription},
+                { vmid: 'keywords', name: 'keywords', content: this.currentCate.keywords || siteKeywords }
+            ]
         }
     }
 }
