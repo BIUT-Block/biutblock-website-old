@@ -114,12 +114,20 @@
             // this.$options.asyncData({store: this.$store})
         },
         metaInfo() {
-            const title = this.article.doc.title;
-            const desc = this.article.doc.discription;
+            const { title, discription, tags } = this.article.doc;
+            let tagArr = ['doracms'];
+            if(tags){
+                tagArr = tags.map((item,index)=>{
+                    return item ? item.name : 'doracms'
+                })
+            }
             return {
                 title,
                 titleTemplate: '%s | 前端开发俱乐部',
-                meta: [{ vmid: 'description', name: 'description', content: desc }]
+                meta: [
+                    { vmid: 'description', name: 'description', content: discription },
+                    { vmid: 'keywords', name: 'keywords', content: tagArr.join() }
+                ]
             }
         }
     }
