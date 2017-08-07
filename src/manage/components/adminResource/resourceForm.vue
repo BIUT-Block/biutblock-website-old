@@ -10,7 +10,7 @@
                     <el-input size="small" v-model="dialogState.formData.label"></el-input>
                 </el-form-item>
                 <el-form-item label="类型" prop="type">
-                    <el-select v-model="dialogState.formData.type" placeholder="请选择">
+                    <el-select v-model="dialogState.formData.type" placeholder="请选择" @change="changeType">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -105,6 +105,15 @@ export default {
     methods: {
         handleChange(value) {
             console.log(value);
+        },
+        changeType(value) {
+            let currentFormData = Object.assign(this.dialogState.formData, {
+                routePath: '',
+                componentPath: '',
+                enable: true,
+                api: ''
+            })
+            this.$store.dispatch('showAdminResourceForm', Object.assign(this.dialogState, { formData: currentFormData }));
         },
         confirm() {
             this.$store.dispatch('hideAdminResourceForm')
