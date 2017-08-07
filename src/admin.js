@@ -8,7 +8,7 @@ import './manage/assets/styles/public.css';
 import Axios from 'axios';
 // 自定义全局组件Loading
 import Loading from './manage/components/loading'
-import * as filters from '../utils/filters'
+import * as filters from './filters'
 
 import store from './manage/store/index.js'
 Vue.config.productionTip = false

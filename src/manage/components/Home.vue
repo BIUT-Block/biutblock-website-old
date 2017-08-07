@@ -26,18 +26,18 @@
                 <!--导航菜单-->
                 <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" unique-opened router v-show="!collapsed">
                     <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-                        <el-submenu :index="index+''" v-if="!item.leaf">
+                        <el-submenu :index="index+''" v-if="!item.leaf" :key="index">
                             <template slot="title">
                                 <i :class="item.iconCls"></i>{{item.name}}</template>
                             <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" :class="$route.path==child.path?'is-active':''" v-if="!child.hidden">{{child.name}}</el-menu-item>
                         </el-submenu>
-                        <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path">
+                        <el-menu-item :key="item.children[0]._id" v-if="item.leaf&&item.children.length>0" :index="item.children[0].path">
                             <i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
                     </template>
                 </el-menu>
                 <!--导航菜单-折叠后-->
                 <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-                    <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
+                    <li :key="index" v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
                         <template v-if="!item.leaf">
                             <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
                                 <i :class="item.iconCls"></i>
@@ -132,7 +132,7 @@ export default {
         },
         sendLogOut() {
             services.logOut().then((result) => {
-                
+
                 if (result && result.data.state === 'success') {
                     window.location = '/dr-admin';
                     this.$store.dispatch('deleteToken');
@@ -153,23 +153,24 @@ export default {
     },
     watch: {
         token() {
-            this.$store.dispatch('deleteToken');
-            this.$confirm('您的登录已超时?', '提示', {
-                showCancelButton: false,
-                closeOnClickModal: false,
-                closeOnPressEscape: false,
-                confirmButtonText: '重新登录',
-                type: 'warning'
-            }).then(() => {
-                this.loading = true;
-                window.location = '/dr-admin'
-            }).catch(() => {
-                this.loading = true;
-                window.location = '/dr-admin'
-            });
+            if (!this.$store.getters.token) {
+                this.$store.dispatch('deleteToken');
+                this.$confirm('您的登录已超时?', '提示', {
+                    showCancelButton: false,
+                    closeOnClickModal: false,
+                    closeOnPressEscape: false,
+                    confirmButtonText: '重新登录',
+                    type: 'warning'
+                }).then(() => {
+                    this.loading = true;
+                    window.location = '/dr-admin'
+                }).catch(() => {
+                    this.loading = true;
+                    window.location = '/dr-admin'
+                });
+            }
         },
         loginState() {
-            // sessionStorage.removeItem('cms-adminPower');
             if (!this.$store.getters.loginState.state) {
                 this.$message({
                     showClose: true,
