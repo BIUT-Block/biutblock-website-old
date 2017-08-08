@@ -30,7 +30,7 @@
             </el-row>
         </div>
         <ul>
-            <li v-for="(item,index) in userMessageList">
+            <li v-for="(item,index) in userMessageList" :key="index">
                 <el-row :gutter="15">
                     <el-col :xs="2" :sm="2" :md="2" :lg="1">
                         <div class="user-logo">
