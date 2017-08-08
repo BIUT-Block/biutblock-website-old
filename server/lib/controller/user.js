@@ -2,7 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const UserModel = require("../models").User;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
-// const authUser = require('../../../utils/middleware/authUser');
+const shortid = require('shortid');
 
 class User {
     constructor() {
@@ -148,14 +148,14 @@ class User {
                     logUtil.error(err, req);
                     res.send({
                         state: 'error',
-                        err: "用户名或密码错误"
+                        message: "用户名或密码错误"
                     });
                 }
             } catch (err) {
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
-                    err: err.stack
+                    message: err.stack
                 })
             }
 

@@ -123,6 +123,7 @@ export default {
                                     message: '发布成功',
                                     type: 'success'
                                 });
+                                this.msgFormState.formData.content = '';
                             } else {
                                 this.$message({
                                     message: result.data.message,

@@ -22,7 +22,7 @@ const serverInfo =
     `express/${require('express/package.json').version} ` +
     `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
-const { service, settings, authSession } = require('./utils');
+const { service, settings, authSession, logUtil } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
 const { AdminResource } = require('./server/lib/controller');
 // 引入 api 路由
@@ -112,6 +112,8 @@ app.use(session({ //session持久化配置
 }));
 // 鉴权用户
 app.use(authUser.auth);
+// 初始化日志目录
+logUtil.initPath();
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.static(path.join(__dirname, 'public')));

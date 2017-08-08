@@ -3,6 +3,7 @@ const NotifyModel = require("../models").Notify;
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const shortid = require('shortid');
 
 class Notify {
     constructor() {

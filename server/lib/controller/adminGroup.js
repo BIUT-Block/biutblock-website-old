@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const AdminGroupModel = require("../models").AdminGroup;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const shortid = require('shortid');
 
 class AdminGroup {
     constructor() {

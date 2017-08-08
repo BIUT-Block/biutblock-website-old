@@ -1,7 +1,10 @@
 const BaseComponent = require('../prototype/baseComponent');
+const ContentModel = require("../models").Content;
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const _ = require('lodash');
+const shortid = require('shortid');
+
 const {
     service,
     settings,
@@ -61,6 +64,9 @@ class Message {
                 if (_.isEmpty(req.session.user) && _.isEmpty(req.session.adminUserInfo)) {
                     errMsg = '非法操作，请稍后重试！'
                 }
+                if (!shortid.isValid(fields.contentId)) {
+                    errMsg = '请针对指定文章进行评论！'
+                }
                 if (fields.content && (fields.content.length < 5 || fields.content.length > 200)) {
                     errMsg = '留言内容为5-200字'
                 }
@@ -102,6 +108,7 @@ class Message {
             const newMessage = new MessageModel(messageObj);
             try {
                 await newMessage.save();
+                await ContentModel.findOneAndUpdate({ _id: fields.contentId }, { '$inc': { 'commentNum': 1 } })
                 res.send({
                     state: 'success',
                     id: newMessage._id
@@ -120,9 +127,12 @@ class Message {
 
     async delMessage(req, res, next) {
         try {
+            let msgObj = await MessageModel.findOne({ _id: req.query.ids });
+            let targetContentId = msgObj.contentId
             await MessageModel.remove({
                 _id: req.query.ids
             });
+            await ContentModel.findOneAndUpdate({ _id: targetContentId }, { '$inc': { 'commentNum': -1 } })
             res.send({
                 state: 'success'
             });

@@ -1,6 +1,8 @@
 const BaseComponent = require('../prototype/baseComponent');
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
+const shortid = require('shortid');
+
 const {
     authSession,
     cache,

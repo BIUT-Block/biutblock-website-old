@@ -51,16 +51,11 @@ import CatesMenu from '../components/CatesMenu.vue'
 
 export default {
     name: 'frontend-index',
-    data (){
-        return {
-            // typeId : $route.meta.typeId
-        }
-    },
     async asyncData({store, route}, config = { current: 1,model:'normal'}) {
         const {params: {id, key, tagName, current, typeId, searchkey}, path} = route
         const base = { ...config, limit: 10, id, path, searchkey, tagName, current, typeId }
         store.dispatch('frontend/article/getHotContentList', base)
-        store.dispatch('global/tags/getTagList', base)
+        store.dispatch('global/tags/getTagList', {...base,limit:30})
         await store.dispatch('frontend/article/getArticleList', base)
     },
     mixins: [metaMixin],

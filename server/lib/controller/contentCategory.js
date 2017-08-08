@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const ContentCategoryModel = require("../models").ContentCategory;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const shortid = require('shortid');
 
 class ContentCategory {
     constructor() {

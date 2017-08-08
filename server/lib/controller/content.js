@@ -4,6 +4,7 @@ const ContentTagModel = require("../models").ContentTag;
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const shortid = require('shortid');
 
 class Content {
     constructor() {

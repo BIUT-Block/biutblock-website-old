@@ -11,18 +11,8 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-    // async asyncData({ store, route }, config = {}) {
-    //     const { params: path } = route
-    //     const base = { ...config, path }
-    //     await store.dispatch('global/tags/getTagList')
-    // },
     name: 'Tag',
     props: ['tags']
-    // computed: {
-    //     ...mapGetters({
-    //         tags: 'global/tags/getTagList'
-    //     })
-    // }
 }
 
 </script>

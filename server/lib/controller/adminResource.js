@@ -1,6 +1,8 @@
 const BaseComponent = require('../prototype/baseComponent');
 const AdminResourceModel = require("../models").AdminResource;
 const formidable = require('formidable');
+const shortid = require('shortid');
+
 const {
     service,
     settings,
