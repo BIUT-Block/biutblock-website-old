@@ -16,7 +16,7 @@
                 </el-form-item>
                 <el-form-item label="用户组" prop="group">
                     <el-select size="small" v-model="dialogState.formData.group" placeholder="请选择用户组">
-                        <el-option key="index" v-for="(group,index) in groups" :label="group.name" :value="group._id"></el-option>
+                        <el-option :key="index" v-for="(group,index) in groups" :label="group.name" :value="group._id"></el-option>
     
                     </el-select>
                 </el-form-item>
