@@ -14,30 +14,6 @@ if (window.__INITIAL_STATE__) {
     store.replaceState(window.__INITIAL_STATE__)
 }
 
-Vue.mixin({
-    // 当复用的路由组件参数发生变化时，例如/detail/1 => /detail/2
-    beforeRouteUpdate(to, from, next) {
-        // asyncData方法中包含异步数据请求
-        const asyncData = this.$options.asyncData
-        if (asyncData) {
-            loading.start()
-            asyncData.call(this, {
-                store: this.$store,
-                route: to,
-                isServer: false,
-                isClient: true
-            }).then(() => {
-                loading.finish()
-                next()
-            }).catch(next)
-        }
-        else {
-            next()
-        }
-    },
-
-})
-
 // 此时异步组件已经加载完成
 router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
