@@ -54,8 +54,8 @@ export default {
     async asyncData({store, route}, config = { current: 1,model:'normal'}) {
         const {params: {id, key, tagName, current, typeId, searchkey}, path} = route
         const base = { ...config, pageSize: 10, id, path, searchkey, tagName, current, typeId }
-        store.dispatch('frontend/article/getHotContentList', base)
-        store.dispatch('global/tags/getTagList', base)
+        store.dispatch('frontend/article/getHotContentList', { pageSize: 10 , typeId})
+        store.dispatch('global/tags/getTagList', { pageSize: 30 })
         await store.dispatch('frontend/article/getArticleList', base)
     },
     mixins: [metaMixin],
