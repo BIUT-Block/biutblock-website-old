@@ -53,9 +53,9 @@ export default {
     name: 'frontend-index',
     async asyncData({store, route}, config = { current: 1,model:'normal'}) {
         const {params: {id, key, tagName, current, typeId, searchkey}, path} = route
-        const base = { ...config, limit: 10, id, path, searchkey, tagName, current, typeId }
+        const base = { ...config, pageSize: 10, id, path, searchkey, tagName, current, typeId }
         store.dispatch('frontend/article/getHotContentList', base)
-        store.dispatch('global/tags/getTagList', {...base,limit:30})
+        store.dispatch('global/tags/getTagList', Object.assign(base,{ pageSize : 30 }))
         await store.dispatch('frontend/article/getArticleList', base)
     },
     mixins: [metaMixin],

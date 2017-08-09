@@ -1,5 +1,8 @@
 <template>
     <div class="search-box">
+        <h3 class="pannel-title">
+            <span>搜索</span>
+        </h3>
         <el-input placeholder="请输入关键字" size="small" icon="search" v-model="searchkey" :on-icon-click="handleIconClick">
         </el-input>
     </div>
@@ -34,6 +37,6 @@ export default {
 </script>
 <style lang="scss">
 .search-box {
-    margin: 15px 0;
+    margin: 0 0 15px;
 }
 </style>

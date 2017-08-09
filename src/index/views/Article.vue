@@ -33,7 +33,9 @@
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
                                     <SearchBox />
+                                    <CatesMenu :typeId="typeId" />
                                     <RecentContents :recentItems="recentArticle" />
+                                    <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" />
                                 </div>
                             </el-col>
                         </el-row>
@@ -56,6 +58,8 @@
     import RandomArticle from '../components/RandomArticle.vue'
     import RecentContents from '../components/RecentContents.vue'
     import SearchBox from '../components/SearchBox.vue'
+    import HotContents from '../components/HotContents.vue'
+    import CatesMenu from '../components/CatesMenu.vue'
 
     export default {
         name: 'frontend-article',
@@ -70,7 +74,7 @@
                     currentId = id;
                 }
             }
-
+            store.dispatch('frontend/article/getHotContentList', { typeId : 'indexPage'})
             store.dispatch('global/message/getUserMessageList',{contentId:currentId})
             store.dispatch('frontend/article/getRecentContentList')
             await store.dispatch(`frontend/article/getArticleItem`, { id: currentId, path })
@@ -86,6 +90,7 @@
         computed: {
             ...mapGetters({
                 article: 'frontend/article/getArticleItem',
+                hotlist: 'frontend/article/getHotContentList',
                 messages: 'global/message/getUserMessageList',
                 recentArticle: 'frontend/article/getRecentContentList'
             }),
@@ -96,13 +101,23 @@
                 } else {
                     return '其它'
                 }
+            },
+            typeId(){
+                let catesArr = this.article.doc.categories;
+                if (typeof catesArr === 'object' && catesArr.length > 1) {
+                    return catesArr[0]._id
+                } else {
+                    return 'indexPage'
+                }
             }
         },
         components: {
             Messages,
             RandomArticle,
             RecentContents,
-            SearchBox
+            SearchBox,
+            HotContents,
+            CatesMenu
         },
         methods: {
             addTarget(content) {
