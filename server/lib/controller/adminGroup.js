@@ -13,7 +13,7 @@ function checkFormData(req, res, fields) {
     if (!validatorUtil.checkName(fields.name, 2, 10)) {
         errMsg = '2-10个中文字符!';
     }
-    if (!validator.isLength(fields.comments, 5, 30)) {
+    if (fields.comments && !validator.isLength(fields.comments, 5, 30)) {
         errMsg = '请输入5-30个字符!';
     }
     if (errMsg) {

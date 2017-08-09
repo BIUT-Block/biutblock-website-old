@@ -29,9 +29,10 @@ Axios.interceptors.response.use(function (response) {
         if (res.err && res.err.indexOf('token') !== -1) {
             store.dispatch("deleteToken");
         } else if (res.err && res.err.indexOf('adminGroupPower') !== -1) {
-            store.dispatch("loginState", {
-                state: false,
-                userInfo: {}
+            this.$message({
+                showClose: true,
+                message: '对不起，您暂无权限执行该操作',
+                type: 'warning'
             });
         }
         return response;

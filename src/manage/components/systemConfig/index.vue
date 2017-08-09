@@ -139,15 +139,14 @@
                         let params = this.systemConfig.configs;
                         // 更新
                         services.updateSystemConfigs(params).then((result) => {
-                            result = result.data;
-                            if (result.state === 'success') {
+                            if (result.data.state === 'success') {
                                 this.$store.dispatch('getSystemConfig');
                                 this.$message({
                                     message: '更新成功',
                                     type: 'success'
                                 });
                             } else {
-                                this.$message.error('出错啦！', result.message);
+                                this.$message.error(result.data.message, result.message);
                             }
                         });
 

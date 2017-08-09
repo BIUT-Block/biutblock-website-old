@@ -107,7 +107,7 @@
                             type: 'success'
                         });
                     } else {
-                        this.$message.error('出错啦！');
+                        this.$message.error(result.data.message);
                     }
                 }).catch(() => {
                     this.$message({

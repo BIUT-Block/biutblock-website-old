@@ -162,7 +162,6 @@ export default {
                     // 更新
                     if (this.dialogState.edit) {
                         services.updateAdminUser(params).then((result) => {
-                            result = result.data;
                             if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminUserForm');
                                 this.$store.dispatch('getAdminUserList');
@@ -171,13 +170,12 @@ export default {
                                     type: 'success'
                                 });
                             } else {
-                                this.$message.error('出错啦！');
+                                this.$message.error(result.data.message);
                             }
                         });
                     } else {
                         // 新增
                         services.addAdminUser(params).then((result) => {
-                            result = result.data;
                             if (result.data.state === 'success') {
                                 this.$store.dispatch('hideAdminUserForm');
                                 this.$store.dispatch('getAdminUserList');
@@ -186,7 +184,7 @@ export default {
                                     type: 'success'
                                 });
                             } else {
-                                this.$message.error('出错啦！');
+                                this.$message.error(result.data.message);
                             }
                         })
                     }

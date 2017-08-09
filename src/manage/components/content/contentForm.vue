@@ -247,7 +247,7 @@ export default {
                                     type: 'success'
                                 });
                             } else {
-                                this.$message.error('出错啦！');
+                                this.$message.error(result.data.message);
                             }
                         });
                     } else {
@@ -260,7 +260,7 @@ export default {
                                     type: 'success'
                                 });
                             } else {
-                                this.$message.error('出错啦！');
+                                this.$message.error(result.data.message);
                             }
                         })
                     }
@@ -311,7 +311,7 @@ export default {
                         });
                     }
                 } else {
-                    this.$message.error('出错啦！');
+                    this.$message.error(result.data.message);
                 }
             });
         }
