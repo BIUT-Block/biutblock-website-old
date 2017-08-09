@@ -9,7 +9,7 @@ const actions = {
         // if (state.list.data.length > 0 && config.path === state.lists.path && config.page === 1) {
         //     return
         // }
-        const { data } = await api.get('contentTag/getList', { ...config, cache: true })
+        const { data } = await api.get('contentTag/getList', { ...config, pageSize: 30, cache: true })
         // console.log('----data--', data);
         if (data.docs && data.state === 'success') {
             commit('receiveTagList', {

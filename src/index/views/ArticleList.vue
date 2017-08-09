@@ -55,7 +55,7 @@ export default {
         const {params: {id, key, tagName, current, typeId, searchkey}, path} = route
         const base = { ...config, pageSize: 10, id, path, searchkey, tagName, current, typeId }
         store.dispatch('frontend/article/getHotContentList', base)
-        store.dispatch('global/tags/getTagList', Object.assign(base,{ pageSize : 30 }))
+        store.dispatch('global/tags/getTagList', base)
         await store.dispatch('frontend/article/getArticleList', base)
     },
     mixins: [metaMixin],
