@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
 const shortid = require('shortid');
+const validator = require('validator')
 
 const {
     authSession,
@@ -13,6 +14,41 @@ const {
 } = require('../../../utils');
 
 const jwt = require("jsonwebtoken");
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validatorUtil.checkUserName(fields.userName)) {
+        errMsg = '5-12个英文字符!';
+    }
+    if (!validatorUtil.checkName(fields.name)) {
+        errMsg = '2-6个中文字符!';
+    }
+    if (!validatorUtil.checkPwd(fields.password)) {
+        errMsg = '6-12位，只能包含字母、数字和下划线!';
+    }
+    if (fields.password !== fields.confirmPassword) {
+        errMsg = '两次输入密码不一致!';
+    }
+    if (fields.phoneNum && !validatorUtil.checkPhoneNum(fields.phoneNum)) {
+        errMsg = '请填写正确的手机号码!';
+    }
+    if (!validatorUtil.checkEmail(fields.email)) {
+        errMsg = '请填写正确的邮箱!';
+    }
+    if (!validator.isLength(fields.comments, 5, 30)) {
+        errMsg = '请输入5-30个字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class AdminUser {
     constructor() {
@@ -70,7 +106,6 @@ class AdminUser {
                         type: 'ERROR_PARAMS',
                         message: errMsg
                     })
-                    return;
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -126,11 +161,7 @@ class AdminUser {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                    // throw new Error('必须填写食品类型名称');
-                } else if (!fields.restaurant_id) {
-                    // throw new Error('餐馆ID错误');
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -148,7 +179,8 @@ class AdminUser {
                 phoneNum: fields.phoneNum,
                 password: service.encrypt(fields.password, settings.encrypt_key),
                 confirm: fields.confirm,
-                group: fields.group
+                group: fields.group,
+                comments: fields.comments
             }
 
             const newAdminUser = new AdminUserModel(userObj);
@@ -175,7 +207,7 @@ class AdminUser {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) { } else if (!fields.restaurant_id) { }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -193,11 +225,11 @@ class AdminUser {
                 phoneNum: fields.phoneNum,
                 password: service.encrypt(fields.password, settings.encrypt_key),
                 confirm: fields.confirm,
-                group: fields.group
+                group: fields.group,
+                comments: fields.comments
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
-            // const newData = new AdminUserModel(userObj);
             try {
                 await AdminUserModel.findOneAndUpdate({
                     _id: item_id
@@ -221,6 +253,16 @@ class AdminUser {
 
     async delAdminUser(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await AdminUserModel.remove({
                 _id: req.query.ids
             });

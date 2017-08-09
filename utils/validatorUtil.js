@@ -2,6 +2,7 @@
  * 全局校验类
  */
 const validator = require("validator");
+const shortid = require('shortid');
 
 module.exports = {
 
@@ -36,5 +37,22 @@ module.exports = {
     // 校验QQ号
     checkQqNum() {
         return RegExp(/^[1-9][0-9]{4,9}$/).test(str);
+    },
+    // 校验合法ID
+    checkCurrentId(ids) {
+        let idState = true;
+        if (typeof ids === "object" && ids.length > 0) {
+            for (let i = 0; i < ids.length; i++) {
+                if (!shortid.isValid(ids[i])) {
+                    idState = false;
+                    break;
+                }
+            }
+        } else {
+            if (!shortid.isValid(ids)) {
+                idState = false;
+            }
+        }
+        return idState;
     }
 }

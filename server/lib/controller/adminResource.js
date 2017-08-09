@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const AdminResourceModel = require("../models").AdminResource;
 const formidable = require('formidable');
 const shortid = require('shortid');
+const validator = require('validator')
 
 const {
     service,
@@ -9,6 +10,29 @@ const {
     validatorUtil,
     logUtil
 } = require('../../../utils');
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validatorUtil.checkName(fields.label, 2, 10)) {
+        errMsg = '2-10个中文字符!';
+    }
+    if (!fields.type) {
+        errMsg = '资源类型为必填!';
+    }
+    if (!validator.isLength(fields.comments, 5, 30)) {
+        errMsg = '请输入5-30个字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class AdminResource {
     constructor() {
@@ -54,11 +78,7 @@ class AdminResource {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-
-                } else if (!fields.restaurant_id) {
-
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -76,6 +96,7 @@ class AdminResource {
                 parentId: fields.parentId,
                 sortId: fields.sortId,
                 routePath: fields.routePath,
+                icon: fields.icon,
                 componentPath: fields.componentPath,
                 enable: fields.enable,
                 comments: fields.comments
@@ -105,7 +126,7 @@ class AdminResource {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) { } else if (!fields.restaurant_id) { }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -123,6 +144,7 @@ class AdminResource {
                 parentId: fields.parentId,
                 sortId: fields.sortId,
                 routePath: fields.routePath,
+                icon: fields.icon,
                 componentPath: fields.componentPath,
                 enable: fields.enable,
                 comments: fields.comments
@@ -152,6 +174,16 @@ class AdminResource {
 
     async delAdminResource(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await AdminResourceModel.remove({
                 _id: req.query.ids
             });

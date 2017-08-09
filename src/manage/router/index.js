@@ -16,96 +16,7 @@ import Axios from "axios";
 import _ from 'lodash';
 Vue.use(Router)
 
-// let router = new Router({
-//   routes: [{
-//       path: '/login',
-//       component: Login,
-//       name: '',
-//       hidden: true
-//     },
-//     {
-//       path: '/',
-//       component: Home,
-//       name: '系统管理',
-//       iconCls: 'el-icon-setting', //图标样式class
-//       children: [{
-//           path: '/adminUser',
-//           component: AdminUser,
-//           name: '用户管理'
-//         },
-//         {
-//           path: '/adminGroup',
-//           component: AdminGroup,
-//           name: '角色管理'
-//         },
-//         {
-//           path: '/adminResource',
-//           component: AdminResource,
-//           name: '资源管理'
-//         },
-//         {
-//           path: '/systemConfig',
-//           component: SystemConfig,
-//           name: '参数配置'
-//         }
-//       ]
-//     },
-//     {
-//       path: '/',
-//       component: Home,
-//       name: '文档管理',
-//       iconCls: 'fa fa-file-text',
-//       children: [{
-//           path: '/contentCategory',
-//           component: ContentCategory,
-//           name: '文档类别'
-//         },
-//         {
-//           path: '/content',
-//           component: Content,
-//           name: '文档管理'
-//         },
-//         {
-//           path: '/addContent',
-//           component: ContentForm,
-//           name: '文档添加',
-//           hidden: true
-//         },
-//         {
-//           path: '/editContent/:id',
-//           component: ContentForm,
-//           name: '文档编辑',
-//           hidden: true
-//         },
-//         {
-//           path: '/contentTags',
-//           component: ContentTag,
-//           name: '标签管理'
-//         },
-//         {
-//           path: '/contentMessages',
-//           component: ContentMessage,
-//           name: '留言管理'
-//         }
-//       ]
-//     },
-//     {
-//       path: '/',
-//       component: Home,
-//       name: '会员管理',
-//       iconCls: 'fa fa-user',
-//       children: [{
-//         path: '/regUser',
-//         component: RegUser,
-//         name: '注册会员'
-//       }]
-//     }
 
-//   ]
-// })
-
-// renderLeftMenu();
-// console.log('---xx---', xx);
 let router = new Router({
   routes: renderLeftMenu()
 })
@@ -133,7 +44,6 @@ function renderLeftMenu() {
   newResult = _.filter(treeData, (menu) => {
     return menu.parentId == '0'
   });
-
   newResult.map((item, index) => {
     // TODO 目前只支持二级
     let childrenMenu = [];
@@ -155,14 +65,13 @@ function renderLeftMenu() {
       path: '/',
       component: Home,
       name: item.label,
-      iconCls: 'fa fa-user',
+      iconCls: item.icon ? 'fa fa-' + item.icon : 'fa fa-user',
       hidden: !item.enable,
       children: childrenMenu
     }
     addNewRoutes.push(parentMenu);
 
   })
-  console.log('--addNewRoutes---', addNewRoutes);
   return addNewRoutes;
 }
 

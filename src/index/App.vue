@@ -1,18 +1,8 @@
 <style lang="scss">
-// @import './assets/base.css';
-.fade-enter-active,
-.fade-leave-active {
-    transition: all .2s ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-    opacity: 0;
-}
 </style>
 <template>
     <div id="app">
-        <MyHeader/>
+        <MyHeader v-if="$route.meta.typeId != 'adminlogin'" />
         <transition name="fade" mode="out-in">
             <router-view :key="$route.fullPath" v-if="$route.meta.notKeepAlive" class="view"></router-view>
         </transition>
@@ -21,7 +11,7 @@
                 <router-view :key="$route.fullPath" v-if="!$route.meta.notKeepAlive" class="view"></router-view>
             </keep-alive>
         </transition>
-        <MyFooter />
+        <MyFooter v-if="$route.meta.typeId != 'adminlogin'" />
     </div>
 </template>
 <script>
@@ -36,11 +26,6 @@ import MyFooter from './components/Footer'
 export default {
     name: 'app',
     components: {
-        // Navigation,
-        // signUp,
-        // signIn,
-        // backTop,
-        // backendMenu,
         MyHeader,
         MyFooter
     },

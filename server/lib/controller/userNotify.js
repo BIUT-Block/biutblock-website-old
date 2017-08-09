@@ -3,6 +3,7 @@ const UserNotifyModel = require("../models").UserNotify;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 const shortid = require('shortid');
+const validator = require('validator')
 
 class UserNotify {
     constructor() {
@@ -40,6 +41,16 @@ class UserNotify {
 
     async delUserNotify(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await UserNotifyModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'

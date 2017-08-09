@@ -3,6 +3,27 @@ const AdminGroupModel = require("../models").AdminGroup;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 const shortid = require('shortid');
+const validator = require('validator')
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validatorUtil.checkName(fields.name, 2, 10)) {
+        errMsg = '2-10个中文字符!';
+    }
+    if (!validator.isLength(fields.comments, 5, 30)) {
+        errMsg = '请输入5-30个字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class AdminGroup {
     constructor() {
@@ -35,14 +56,11 @@ class AdminGroup {
 
     async addAdminGroup(req, res, next) {
         const form = new formidable.IncomingForm();
+        console.log('------logUtil----', logUtil);
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                    // throw new Error('必须填写食品类型名称');
-                } else if (!fields.restaurant_id) {
-                    // throw new Error('餐馆ID错误');
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -52,7 +70,6 @@ class AdminGroup {
                 })
                 return
             }
-
             const groupObj = {
                 name: fields.name,
                 comments: fields.comments,
@@ -83,9 +100,7 @@ class AdminGroup {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -95,7 +110,6 @@ class AdminGroup {
                 })
                 return
             }
-
             const userObj = {
                 name: fields.name,
                 comments: fields.comments,
@@ -104,7 +118,6 @@ class AdminGroup {
             }
             const item_id = fields._id;
             console.log('---fields----', fields);
-
             try {
                 await AdminGroupModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 // 更新power
@@ -121,11 +134,20 @@ class AdminGroup {
                 })
             }
         })
-
     }
 
     async delAdminGroup(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await AdminGroupModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'

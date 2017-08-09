@@ -3,6 +3,27 @@ const ContentTagModel = require("../models").ContentTag;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 const shortid = require('shortid');
+const validator = require('validator')
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validator.isLength(fields.name, 1, 12)) {
+        errMsg = '1-12个非特殊字符!';
+    }
+    if (!validator.isLength(fields.comments, 2, 30)) {
+        errMsg = '2-30个非特殊字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class ContentTag {
     constructor() {
@@ -44,11 +65,7 @@ class ContentTag {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-
-                } else if (!fields.restaurant_id) {
-
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -89,9 +106,7 @@ class ContentTag {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -128,6 +143,16 @@ class ContentTag {
 
     async delContentTag(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await ContentTagModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'

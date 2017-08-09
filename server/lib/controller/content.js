@@ -5,6 +5,39 @@ const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 const shortid = require('shortid');
+const validator = require('validator')
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validator.isLength(fields.title, 5, 50)) {
+        errMsg = '5-50个非特殊字符!';
+    }
+    if (!validator.isLength(fields.stitle, 5, 40)) {
+        errMsg = '5-40个非特殊字符!';
+    }
+    if (!fields.categories) {
+        errMsg = '请选择文档类别!';
+    }
+    if (!fields.tags) {
+        errMsg = '请选择文档标签!';
+    }
+    if (!validator.isLength(fields.discription, 5, 100)) {
+        errMsg = '5-100个非特殊字符!';
+    }
+    if (!validator.isLength(fields.comments, 5)) {
+        errMsg = '文档内容不得少于5个字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class Content {
     constructor() {
@@ -118,8 +151,6 @@ class Content {
             // 推荐文章查询
             const totalContents = await ContentModel.count({});
             const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(4);
-            // console.log('---randomArticles---', randomArticles, Math.floor(totalContents*Math.random()));
-            // console.log('---content---', content);
             res.send({
                 state: 'success',
                 doc: content || {},
@@ -142,11 +173,7 @@ class Content {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-
-                } else if (!fields.restaurant_id) {
-
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -198,9 +225,7 @@ class Content {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -248,6 +273,16 @@ class Content {
 
     async delContent(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await ContentModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'

@@ -3,6 +3,36 @@ const UserModel = require("../models").User;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 const shortid = require('shortid');
+const validator = require('validator')
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validatorUtil.checkUserName(fields.userName)) {
+        errMsg = '5-12个英文字符!';
+    }
+    if (!validatorUtil.checkName(fields.name)) {
+        errMsg = '2-6个中文字符!';
+    }
+    if (fields.phoneNum && !validatorUtil.checkPhoneNum(fields.phoneNum)) {
+        errMsg = '请填写正确的手机号码!';
+    }
+    if (!validatorUtil.checkEmail(fields.email)) {
+        errMsg = '请填写正确的邮箱!';
+    }
+    if (!validator.isLength(fields.comments, 5, 30)) {
+        errMsg = '请输入5-30个字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class User {
     constructor() {
@@ -44,9 +74,7 @@ class User {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({

@@ -53,6 +53,11 @@ export default {
                     trigger: 'blur'
                 }
                 ],
+                defaultUrl: [{
+                    required: true,
+                    message: '请输入seoUrl',
+                    trigger: 'blur'
+                }],
                 comments: [{
                     message: '请填写备注',
                     trigger: 'blur'

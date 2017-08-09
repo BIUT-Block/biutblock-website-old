@@ -3,6 +3,30 @@ const ContentCategoryModel = require("../models").ContentCategory;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil } = require('../../../utils');
 const shortid = require('shortid');
+const validator = require('validator')
+
+function checkFormData(req, res, fields) {
+    let errMsg = '';
+    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+        errMsg = '非法请求，请稍后重试！';
+    }
+    if (!validator.isLength(fields.name, 2, 20)) {
+        errMsg = '2-20个非特殊字符!';
+    }
+    if (!fields.defaultUrl) {
+        errMsg = '请输入用于seo的url!';
+    }
+    if (!validator.isLength(fields.comments, 5, 50)) {
+        errMsg = '5-50个非特殊字符!';
+    }
+    if (errMsg) {
+        res.send({
+            state: 'error',
+            type: 'ERROR_PARAMS',
+            message: errMsg
+        })
+    }
+}
 
 class ContentCategory {
     constructor() {
@@ -54,11 +78,7 @@ class ContentCategory {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-
-                } else if (!fields.restaurant_id) {
-
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -76,7 +96,6 @@ class ContentCategory {
                 parentId: fields.parentId,
                 enable: fields.enable,
                 defaultUrl: fields.defaultUrl,
-                // sortPath: fields.sortPath,
                 comments: fields.comments
             }
 
@@ -107,9 +126,7 @@ class ContentCategory {
         form.parse(req, async (err, fields, files) => {
             console.log('---fields----', fields);
             try {
-                if (!fields.name) {
-                } else if (!fields.restaurant_id) {
-                }
+                checkFormData(req, res, fields);
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -151,6 +168,16 @@ class ContentCategory {
 
     async delContentCategory(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             await ContentCategoryModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'

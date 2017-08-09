@@ -16,6 +16,11 @@
                     </el-select>
                 </el-form-item>
                 <div v-if="dialogState.formData.type === '0'">
+                    <el-form-item label="Icon" prop="componentPath">
+                        <el-input size="small" v-model="dialogState.formData.icon">
+                            <template slot="prepend">fa fa-</template>
+                        </el-input>
+                    </el-form-item>
                     <div v-if="dialogState.formData.parentId !== '0'">
                         <el-form-item label="路由Key" prop="routePath">
                             <el-input size="small" v-model="dialogState.formData.routePath">
@@ -107,13 +112,14 @@ export default {
             console.log(value);
         },
         changeType(value) {
-            let currentFormData = Object.assign(this.dialogState.formData, {
-                routePath: '',
-                componentPath: '',
-                enable: true,
-                api: ''
-            })
-            this.$store.dispatch('showAdminResourceForm', Object.assign(this.dialogState, { formData: currentFormData }));
+            // let currentFormData = Object.assign(this.dialogState.formData, {
+            //     routePath: '',
+            //     componentPath: '',
+            //     enable: true,
+            //     api: '',
+            //     icon: ''
+            // })
+            // this.$store.dispatch('showAdminResourceForm', Object.assign(this.dialogState, { formData: currentFormData }));
         },
         confirm() {
             this.$store.dispatch('hideAdminResourceForm')

@@ -4,6 +4,7 @@ const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const _ = require('lodash');
 const shortid = require('shortid');
+const validator = require('validator')
 
 const {
     service,
@@ -127,6 +128,16 @@ class Message {
 
     async delMessage(req, res, next) {
         try {
+            let errMsg = '';
+            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
             let msgObj = await MessageModel.findOne({ _id: req.query.ids });
             let targetContentId = msgObj.contentId
             await MessageModel.remove({
