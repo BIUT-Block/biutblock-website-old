@@ -5,13 +5,8 @@ const formidable = require('formidable');
 const _ = require('lodash');
 const shortid = require('shortid');
 const validator = require('validator')
+const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 
-const {
-    service,
-    settings,
-    validatorUtil,
-    logUtil
-} = require('../../../utils');
 
 class Message {
     constructor() {
@@ -129,7 +124,7 @@ class Message {
     async delMessage(req, res, next) {
         try {
             let errMsg = '';
-            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+            if (!siteFunc.checkCurrentId(req.query.ids)) {
                 errMsg = '非法请求，请稍后重试！';
             }
             if (errMsg) {

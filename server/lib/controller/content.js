@@ -3,13 +3,13 @@ const ContentModel = require("../models").Content;
 const ContentTagModel = require("../models").ContentTag;
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
-    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+    if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
         errMsg = '非法请求，请稍后重试！';
     }
     if (!validator.isLength(fields.title, 5, 50)) {
@@ -274,7 +274,7 @@ class Content {
     async delContent(req, res, next) {
         try {
             let errMsg = '';
-            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+            if (!siteFunc.checkCurrentId(req.query.ids)) {
                 errMsg = '非法请求，请稍后重试！';
             }
             if (errMsg) {

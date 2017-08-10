@@ -1,13 +1,13 @@
 const BaseComponent = require('../prototype/baseComponent');
 const UserModel = require("../models").User;
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
-    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+    if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
         errMsg = '非法请求，请稍后重试！';
     }
     if (!validatorUtil.checkUserName(fields.userName)) {

@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/static/css/admin.5fcbbaf.css","b95128ad8d3f29a8d0620c3783fdb8ad"],["/static/css/app.5fcbbaf.css","d8eac5666c1438632d232265890e943a"],["/static/js/0.053b53b.js","571f2f96fa958b3ad245f537794911f3"],["/static/js/admin.5d7eca9.js","a29e04142899cd7efec20618d8380949"],["/static/js/app.a17fb54.js","cc04ba2df642c17c78cfcf8668b72769"],["/static/js/manifest.7923a12.js","b935f0b84cd632245d344c9dcdc8ea16"],["/static/js/vendor.769ea80.js","c2c4e6f7a3fa33664b9ec325df539d65"]];
+var precacheConfig = [["/static/css/admin.2d44e65.css","97d2036474ec352fbfef11d0c0f2c03c"],["/static/css/app.2d44e65.css","2a2a926adf2bb98abac844d86a4221d8"],["/static/img/element-icons.b02bdc1.ttf","b02bdc1b846fd65473922f5f62832108"],["/static/img/fontawesome-webfont.674f50d.eot","674f50d287a8c48dc19ba404d20fe713"],["/static/img/fontawesome-webfont.912ec66.svg","912ec66d7572ff821749319396470bde"],["/static/img/fontawesome-webfont.af7ae50.woff2","af7ae505a9eed503f8b8e6982036873e"],["/static/img/fontawesome-webfont.b06871f.ttf","b06871f281fee6b241d60582ae9369b9"],["/static/img/fontawesome-webfont.fee66e7.woff","fee66e712a8a08eef5805a46892932ad"],["/static/js/0.8654aa3.js","87d606153d0bb10ab5f3d9cf727ca147"],["/static/js/admin.86c5d22.js","adf071c80db3ea5828f8941c755bd39e"],["/static/js/app.453c504.js","b52a6a793ba24f216c33b4df515fcd48"],["/static/js/manifest.a572542.js","02ab043c07822293a7b72b607418f3fb"],["/static/js/vendor.148c849.js","03242d95220a3988952b226a5ca2061a"]];
 var cacheName = 'sw-precache-v3-mmf-blog-vue2-ssr-' + (self.registration ? self.registration.scope : '');
 
 

@@ -14,7 +14,8 @@
 // var Ads = require("../Ads");
 //留言对象
 // var Message = require("../Message");
-var settings = require("./settings");
+const settings = require("./settings");
+const shortid = require('shortid');
 
 //数据库操作对象
 // var DbOpt = require("../Dbopt");
@@ -124,8 +125,24 @@ var siteFunc = {
         // Notify.sendSystemNotice(res,noticeObj,function(users,notify){
         //     UserNotify.addNotifyByUsers(res,users,notify);
         // });
+    },
+    // 校验合法ID
+    checkCurrentId(ids) {
+        let idState = true;
+        if (typeof ids === "object" && ids.length > 0) {
+            for (let i = 0; i < ids.length; i++) {
+                if (!shortid.isValid(ids[i])) {
+                    idState = false;
+                    break;
+                }
+            }
+        } else {
+            if (!shortid.isValid(ids)) {
+                idState = false;
+            }
+        }
+        return idState;
     }
-
 
 };
 module.exports = siteFunc;

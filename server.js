@@ -22,7 +22,7 @@ const serverInfo =
     `express/${require('express/package.json').version} ` +
     `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
-const { service, settings, authSession, logUtil } = require('./utils');
+const { service, settings, authSession, logUtil, siteFunc } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
 const { AdminResource } = require('./server/lib/controller');
 // 引入 api 路由

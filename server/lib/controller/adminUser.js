@@ -4,20 +4,13 @@ const formidable = require('formidable');
 const shortid = require('shortid');
 const validator = require('validator')
 
-const {
-    authSession,
-    cache,
-    settings,
-    service,
-    validatorUtil,
-    logUtil
-} = require('../../../utils');
+const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 
 const jwt = require("jsonwebtoken");
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
-    if (fields._id && !validatorUtil.checkCurrentId(fields._id)) {
+    if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
         errMsg = '非法请求，请稍后重试！';
     }
     if (!validatorUtil.checkUserName(fields.userName)) {
@@ -254,7 +247,7 @@ class AdminUser {
     async delAdminUser(req, res, next) {
         try {
             let errMsg = '';
-            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+            if (!siteFunc.checkCurrentId(req.query.ids)) {
                 errMsg = '非法请求，请稍后重试！';
             }
             if (errMsg) {

@@ -2,7 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const NotifyModel = require("../models").Notify;
 const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil } = require('../../../utils');
+const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
 
@@ -43,7 +43,7 @@ class Notify {
     async delNotify(req, res, next) {
         try {
             let errMsg = '';
-            if (!validatorUtil.checkCurrentId(req.query.ids)) {
+            if (!siteFunc.checkCurrentId(req.query.ids)) {
                 errMsg = '非法请求，请稍后重试！';
             }
             if (errMsg) {
