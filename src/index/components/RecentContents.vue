@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss">
 .recent-content-list {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     .content-list {
         text-align: left;
         ul {

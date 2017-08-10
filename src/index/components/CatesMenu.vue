@@ -52,7 +52,7 @@ export default {
 </script>
 <style lang="scss">
 .catesMenu {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     font-size: 14px;
     .parent-name {
         color: #6e7173;

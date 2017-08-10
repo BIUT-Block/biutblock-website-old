@@ -37,6 +37,6 @@ export default {
 </script>
 <style lang="scss">
 .search-box {
-    margin: 0 0 15px;
+    margin: 0 0 30px;
 }
 </style>
