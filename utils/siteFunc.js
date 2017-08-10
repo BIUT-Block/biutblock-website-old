@@ -129,17 +129,16 @@ var siteFunc = {
     // 校验合法ID
     checkCurrentId(ids) {
         let idState = true;
-        if (typeof ids === "object" && ids.length > 0) {
-            for (let i = 0; i < ids.length; i++) {
-                if (!shortid.isValid(ids[i])) {
+        let idsArr = ids.split(',');
+        if (typeof idsArr === "object" && idsArr.length > 0) {
+            for (let i = 0; i < idsArr.length; i++) {
+                if (!shortid.isValid(idsArr[i])) {
                     idState = false;
                     break;
                 }
             }
         } else {
-            if (!shortid.isValid(ids)) {
-                idState = false;
-            }
+            idState = false;
         }
         return idState;
     }

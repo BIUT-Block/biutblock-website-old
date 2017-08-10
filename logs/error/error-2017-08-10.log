@@ -1,0 +1,36 @@
+[2017-08-10 17:45:29.192] [ERROR] errorLogger - 
+***************  node error log start ***************
+request url: /contentMessage/deleteMessage?ids=1
+request method: GET
+request client ip:  ::ffff:127.0.0.1
+err name: TypeError
+err message: Cannot read property 'contentId' of null
+err stack: TypeError: Cannot read property 'contentId' of null
+    at delMessage (/Users/xiaoshen746/Documents/doraPro/new3/doracms2-0/server/lib/controller/message.js:149:48)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+***************  node  error log end ***************
+
+[2017-08-10 17:53:09.153] [ERROR] errorLogger - 
+***************  node error log start ***************
+request url: /contentMessage/deleteMessage?ids=ryirUsLv-
+request method: GET
+request client ip:  ::ffff:127.0.0.1
+err name: TypeError
+err message: Cannot read property 'contentId' of null
+err stack: TypeError: Cannot read property 'contentId' of null
+    at delMessage (/Users/xiaoshen746/Documents/doraPro/new3/doracms2-0/server/lib/controller/message.js:143:48)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+***************  node  error log end ***************
+
+[2017-08-10 17:55:07.575] [ERROR] errorLogger - 
+***************  node error log start ***************
+request url: /contentMessage/deleteMessage?ids=S1BpSoUvW
+request method: GET
+request client ip:  ::ffff:127.0.0.1
+err name: TypeError
+err message: Cannot read property 'contentId' of null
+err stack: TypeError: Cannot read property 'contentId' of null
+    at delMessage (/Users/xiaoshen746/Documents/doraPro/new3/doracms2-0/server/lib/controller/message.js:143:48)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+***************  node  error log end ***************
+

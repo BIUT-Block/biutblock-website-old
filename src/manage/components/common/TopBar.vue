@@ -33,66 +33,92 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            type: String
-        },
-        data() {
-            return {
-                formState: {
-                    show: false
-                },
-                input2: ''
-            }
-        },
-        methods: {
-            handleIconClick(ev) {
-                console.log(ev);
+import services from '../../store/services.js';
+export default {
+    props: {
+        type: String,
+        ids: Array
+    },
+    data() {
+        return {
+            formState: {
+                show: false
             },
-            addUser() {
-                this.$store.dispatch('showAdminUserForm')
-            },
-            addRole() {
-                this.$store.dispatch('showAdminGroupForm')
-            },
-            addResource() {
-                this.$store.dispatch('showAdminResourceForm', {
-                    type: 'root',
-                    formData: {
-                        parentId: '0'
-                    }
-                })
-            },
-            addContent() {
-                this.$store.dispatch('showContentForm');
-                this.$router.push('/addContent');
-            },
-            addTopCates() {
-                this.$store.dispatch('showContentCategoryForm', {
-                    type: 'root',
-                    formData: {
-                        parentId: '0'
-                    }
-                })
-            },
-            deleteMessages() {
-                console.log('del')
-            },
-            addTag() {
-                this.$store.dispatch('showContentTagForm')
-            },
-            delUser() {
-                // this.$store.dispatch('showAdminUserForm')
-            }
-        },
-        components: {
-
+            input2: ''
         }
+    },
+    methods: {
+        handleIconClick(ev) {
+            console.log(ev);
+        },
+        addUser() {
+            this.$store.dispatch('showAdminUserForm')
+        },
+        addRole() {
+            this.$store.dispatch('showAdminGroupForm')
+        },
+        addResource() {
+            this.$store.dispatch('showAdminResourceForm', {
+                type: 'root',
+                formData: {
+                    parentId: '0'
+                }
+            })
+        },
+        addContent() {
+            this.$store.dispatch('showContentForm');
+            this.$router.push('/addContent');
+        },
+        addTopCates() {
+            this.$store.dispatch('showContentCategoryForm', {
+                type: 'root',
+                formData: {
+                    parentId: '0'
+                }
+            })
+        },
+        deleteMessages() {
+            let _this = this;
+            this.$confirm('此操作将永久删除这些留言, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                return services.deleteContentMessage({
+                    ids: (_this.props.ids).join()
+                });
+            }).then((result) => {
+                if (result.data.state === 'success') {
+                    this.$store.dispatch('getContentMessageList');
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                } else {
+                    this.$message.error(result.data.message);
+                }
+            }).catch((err) => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除' + err
+                });
+            });
+        },
+        addTag() {
+            this.$store.dispatch('showContentTagForm')
+        },
+        delUser() {
+            // this.$store.dispatch('showAdminUserForm')
+        }
+    },
+    components: {
 
     }
+
+}
 </script>
 <style lang="scss">
-    .option-button {
-        display: inline-block
-    }
+.option-button {
+    display: inline-block
+}
 </style>

@@ -5,11 +5,7 @@
             </el-table-column>
             <el-table-column prop="userName" label="用户名" width="120">
             </el-table-column>
-            <!--<el-table-column prop="group.name" label="用户类型" width="120">
-                </el-table-column>-->
-            <el-table-column prop="name" label="姓名" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="phoneNum" label="联系方式" show-overflow-tooltip>
+            <el-table-column prop="date" label="注册时间" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="email" label="邮箱" show-overflow-tooltip>
             </el-table-column>

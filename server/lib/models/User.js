@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
+var moment = require('moment')
 
 var UserSchema = new Schema({
     _id: {
@@ -34,6 +35,12 @@ var UserSchema = new Schema({
 
 });
 
+
+UserSchema.path('date').get(function (v) {
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
+});
+
 var User = mongoose.model("User", UserSchema);
+
 
 module.exports = User;

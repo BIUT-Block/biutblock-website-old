@@ -20,20 +20,7 @@ export default {
             loadingState: true
         }
     },
-    props: ['recentItems'],
-    // computed: {
-    //     recentlyContentList() {
-    //         return this.$store.getters.recentlyContentList
-    //     }
-    // },
-    // beforeMount() {
-    //     this.$store.dispatch('getRencentlyContentList', {
-    //         model: 'simple',
-    //         cache: true
-    //     }).then(() => {
-    //         this.loadingState = false;
-    //     })
-    // }
+    props: ['recentItems']
 }
 
 </script>

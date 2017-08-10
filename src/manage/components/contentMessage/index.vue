@@ -3,51 +3,54 @@
         <MessageForm :dialogState="formState"></MessageForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <TopBar type="contentMessage"></TopBar>
-                <DataTable :dataList="contentMessageList.docs"></DataTable>
+                <TopBar type="contentMessage" :ids="selectlist"></TopBar>
+                <DataTable :dataList="contentMessageList.docs" @changeSelectList="changeSelect"></DataTable>
                 <Pagination :pageInfo="contentMessageList.pageInfo" pageType="contentMessage"></Pagination>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-    import MessageForm from './messageForm'
-    import DataTable from './dataTable.vue';
-    import TopBar from '../common/TopBar.vue';
-    import Pagination from '../common/Pagination.vue';
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
+import MessageForm from './messageForm'
+import DataTable from './dataTable.vue';
+import TopBar from '../common/TopBar.vue';
+import Pagination from '../common/Pagination.vue';
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 
-    export default {
-        name: 'index',
-        data() {
-            return {
-
-            }
-        },
-        components: {
-            DataTable,
-            TopBar,
-            MessageForm,
-            Pagination
-        },
-        methods: mapActions([
-
-        ]),
-        computed: {
-            ...mapGetters([
-                'contentMessageList'
-            ]),
-            formState() {
-                return this.$store.getters.contentMessageFormState
-            }
-        },
-        mounted() {
-            this.$store.dispatch('getContentMessageList');
+export default {
+    name: 'index',
+    data() {
+        return {
+            selectlist: []
         }
+    },
+    components: {
+        DataTable,
+        TopBar,
+        MessageForm,
+        Pagination
+    },
+    methods: {
+        changeSelect(ids) {
+            console.log('ids', ids);
+            this.selectlist = ids;
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'contentMessageList'
+        ]),
+        formState() {
+            return this.$store.getters.contentMessageFormState
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getContentMessageList');
     }
+}
 </script>
 
 <style lang="">

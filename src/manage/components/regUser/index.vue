@@ -5,49 +5,49 @@
             <el-col :span="24">
                 <TopBar type="regUser"></TopBar>
                 <DataTable :dataList="regUserList.docs"></DataTable>
-                <Pagination :pageInfo="regUserList.pageInfo" type="regUser"></Pagination>
+                <Pagination :pageInfo="regUserList.pageInfo" pageType="regUser"></Pagination>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-    import UserForm from './userForm'
-    import DataTable from './dataTable.vue';
-    import TopBar from '../common/TopBar.vue';
-    import Pagination from '../common/Pagination.vue';
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
+import UserForm from './userForm'
+import DataTable from './dataTable.vue';
+import TopBar from '../common/TopBar.vue';
+import Pagination from '../common/Pagination.vue';
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
 
-    export default {
-        name: 'index',
-        data() {
-            return {
+export default {
+    name: 'index',
+    data() {
+        return {
 
-            }
-        },
-        components: {
-            DataTable,
-            TopBar,
-            UserForm,
-            Pagination
-        },
-        methods: mapActions([
-
-        ]),
-        computed: {
-            ...mapGetters([
-                'regUserList',
-            ]),
-            formState() {
-                return this.$store.getters.regUserFormState
-            }
-        },
-        mounted() {
-            this.$store.dispatch('getRegUserList');
         }
+    },
+    components: {
+        DataTable,
+        TopBar,
+        UserForm,
+        Pagination
+    },
+    methods: mapActions([
+
+    ]),
+    computed: {
+        ...mapGetters([
+            'regUserList',
+        ]),
+        formState() {
+            return this.$store.getters.regUserFormState
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getRegUserList');
     }
+}
 </script>
 
 <style lang="">

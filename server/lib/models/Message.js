@@ -50,7 +50,7 @@ MessageSchema.set('toJSON', { getters: true, virtuals: true });
 MessageSchema.set('toObject', { getters: true, virtuals: true });
 
 MessageSchema.path('date').get(function (v) {
-    return moment(v).format("YYYY-MM-DD HH:mm:ss");
+    return moment(v).startOf('hour').fromNow();
 });
 
 var Message = mongoose.model("Message", MessageSchema);
