@@ -32,7 +32,7 @@
         <ul>
             <li v-for="(item,index) in userMessageList" :key="index">
                 <el-row :gutter="15">
-                    <el-col :xs="2" :sm="2" :md="2" :lg="1">
+                    <el-col :xs="3" :sm="3" :md="2" :lg="1">
                         <div class="user-logo">
                             <div v-if="item.utype == '1'">
                                 <img :src="item.adminAuthor.logo" />
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="22" :lg="23">
+                    <el-col :xs="21" :sm="21" :md="22" :lg="23">
                         <div class="user-name">
                             <div class="name" v-if="item.utype == '1'">
                                 {{item.adminAuthor.userName}}
