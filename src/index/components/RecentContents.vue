@@ -5,7 +5,7 @@
         </h3>
         <div class="content-list">
             <ul>
-                <li v-for="(item,index) in recentItems">
+                <li :key='index' v-for="(item,index) in recentItems">
                     <router-link :to="'/details/'+item._id+'.html'">{{item.stitle}}</router-link>
                 </li>
             </ul>
