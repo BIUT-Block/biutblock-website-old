@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleUserSelect">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column prop="userName" label="用户名" width="120">
@@ -34,6 +34,16 @@ export default {
     },
 
     methods: {
+        handleUserSelect(val) {
+            console.log('-----', val);
+            if (val && val.length > 0) {
+                let ids = val.map((item, index) => {
+                    return item._id;
+                })
+                this.multipleSelection = ids;
+                this.$emit('changeUserSelectList', ids);
+            }
+        },
         toggleSelection(rows) {
             if (rows) {
                 rows.forEach(row => {
@@ -72,10 +82,10 @@ export default {
                 } else {
                     this.$message.error(result.data.message);
                 }
-            }).catch(() => {
+            }).catch((err) => {
                 this.$message({
                     type: 'info',
-                    message: '已取消删除'
+                    message: '删除失败' + err
                 });
             });
         }

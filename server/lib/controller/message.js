@@ -123,11 +123,11 @@ class Message {
 
     async delMessage(req, res, next) {
         try {
-            let errMsg = '', msgIds = req.query.ids;
-            if (!siteFunc.checkCurrentId(msgIds)) {
+            let errMsg = '', targetIds = req.query.ids;
+            if (!siteFunc.checkCurrentId(targetIds)) {
                 errMsg = '非法请求，请稍后重试！';
             } else {
-                msgIds = msgIds.split(',');
+                targetIds = targetIds.split(',');
             }
             if (errMsg) {
                 res.send({
@@ -136,16 +136,15 @@ class Message {
                 })
             }
             let contentIdArr = [];
-            for (let i = 0; i < msgIds.length; i++) {
-                let msgObj = await MessageModel.findOne({ _id: msgIds[i] });
-                console.log('-----msgIds-------', msgIds, '---msgObj--', msgObj);
+            for (let i = 0; i < targetIds.length; i++) {
+                let msgObj = await MessageModel.findOne({ _id: targetIds[i] });
                 if (msgObj && contentIdArr.indexOf(msgObj.contentId) == -1) {
                     // 避免重复删除
                     contentIdArr.push(msgObj.contentId);
                     await ContentModel.findOneAndUpdate({ _id: msgObj.contentId }, { '$inc': { 'commentNum': -1 } })
                 }
             }
-            await MessageModel.remove({ '_id': { $in: msgIds } });
+            await MessageModel.remove({ '_id': { $in: targetIds } });
             res.send({
                 state: 'success'
             });

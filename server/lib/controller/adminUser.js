@@ -3,7 +3,7 @@ const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
 const shortid = require('shortid');
 const validator = require('validator')
-
+const _ = require('lodash')
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 
 const jwt = require("jsonwebtoken");
@@ -255,6 +255,14 @@ class AdminUser {
                     state: 'error',
                     message: errMsg,
                 })
+            }
+            let adminUserMsg = await MessageModel.find({ 'adminAuthor': req.query.ids });
+            if (!_.isEmpty(adminUserMsg)) {
+                res.send({
+                    state: 'error',
+                    message: '请删除该管理员留言后在执行该操作！',
+                })
+                break;
             }
             await AdminUserModel.remove({
                 _id: req.query.ids

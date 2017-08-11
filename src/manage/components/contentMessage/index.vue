@@ -4,7 +4,7 @@
         <el-row class="dr-datatable">
             <el-col :span="24">
                 <TopBar type="contentMessage" :ids="selectlist"></TopBar>
-                <DataTable :dataList="contentMessageList.docs" @changeSelectList="changeSelect"></DataTable>
+                <DataTable :dataList="contentMessageList.docs" @changeMsgSelectList="changeSelect"></DataTable>
                 <Pagination :pageInfo="contentMessageList.pageInfo" pageType="contentMessage"></Pagination>
             </el-col>
         </el-row>
@@ -35,7 +35,6 @@ export default {
     },
     methods: {
         changeSelect(ids) {
-            console.log('ids', ids);
             this.selectlist = ids;
         }
     },

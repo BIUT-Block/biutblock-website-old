@@ -26,7 +26,8 @@ module.exports = (req, res, next) => {
         if (!hasPower) {
             res.send({
                 state: 'error',
-                err: 'adminGroupPower'
+                err: 'adminGroupPower',
+                message: '对不起，您暂无权限执行该操作！'
             });
         } else {
             return next();

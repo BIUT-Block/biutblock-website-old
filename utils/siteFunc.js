@@ -128,6 +128,7 @@ var siteFunc = {
     },
     // 校验合法ID
     checkCurrentId(ids) {
+        if (!ids) return false;
         let idState = true;
         let idsArr = ids.split(',');
         if (typeof idsArr === "object" && idsArr.length > 0) {

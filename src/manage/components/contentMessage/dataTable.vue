@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleMsgSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column prop="contentId.stitle" label="文章标题" width="200">
@@ -40,13 +40,13 @@ export default {
     },
 
     methods: {
-        handleSelectionChange(val) {
+        handleMsgSelectionChange(val) {
             if (val && val.length > 0) {
                 let ids = val.map((item, index) => {
                     return item._id;
                 })
                 this.multipleSelection = ids;
-                this.$emit('changeSelectList', ids);
+                this.$emit('changeMsgSelectList', ids);
             }
         },
         replyContentMessage(index, rows) {

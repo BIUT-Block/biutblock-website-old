@@ -17,18 +17,32 @@
                 <el-button size="small" type="primary" icon="plus" @click="addTopCates">添加主分类</el-button>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-button size="small" type="danger" icon="delete" @click="deleteMessages">批量删除</el-button>
+                <el-button size="small" type="danger" icon="delete" @click="branchDelete('msg')">批量删除</el-button>
             </div>
             <div v-else-if="type === 'contentTag'">
                 <el-button size="small" type="primary" icon="plus" @click="addTag">添加新标签</el-button>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-button size="small" type="danger" icon="plus" @click="delUser">批量删除</el-button>
+                <el-button size="small" type="danger" icon="delete" @click="branchDelete('user')">批量删除</el-button>
             </div>
         </div>
         <div class="dr-searchInput">
-            <el-input size="small" placeholder="角色名,模糊搜索" icon="search" v-model="input2" :on-icon-click="handleIconClick">
-            </el-input>
+            <div v-if="type === 'content'">
+                <el-input size="small" placeholder="文档标题,内容" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                </el-input>
+            </div>
+            <div v-else-if="type === 'contentTag'">
+                <el-input size="small" placeholder="标签名称" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                </el-input>
+            </div>
+            <div v-else-if="type === 'contentMessage'">
+                <el-input size="small" placeholder="留言内容" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                </el-input>
+            </div>
+            <div v-else-if="type === 'regUser'">
+                <el-input size="small" placeholder="请输入用户名" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                </el-input>
+            </div>
         </div>
     </div>
 </template>
@@ -77,21 +91,33 @@ export default {
                 }
             })
         },
-        deleteMessages() {
-            let _this = this;
-            this.$confirm('此操作将永久删除这些留言, 是否继续?', '提示', {
+        branchDelete(target) {
+            let _this = this, targetName;
+            if (target === 'msg') {
+                targetName = '留言'
+            } else if (target === 'user') {
+                targetName = '用户'
+            }
+            this.$confirm(`此操作将永久删除这些${targetName}, 是否继续?`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                return services.deleteContentMessage({
-                    ids: (_this.props.ids).join()
-                });
+                let ids = (_this.ids).join();
+                if (target === 'msg') {
+                    return services.deleteContentMessage({ ids });
+                } else if (target === 'user') {
+                    return services.deleteRegUser({ ids });
+                }
             }).then((result) => {
                 if (result.data.state === 'success') {
-                    this.$store.dispatch('getContentMessageList');
+                    if (target === 'msg') {
+                        this.$store.dispatch('getContentMessageList');
+                    } else if (target === 'user') {
+                        this.$store.dispatch('getRegUserList');
+                    }
                     this.$message({
-                        message: '删除成功',
+                        message: `${targetName}删除成功`,
                         type: 'success'
                     });
                 } else {
@@ -100,7 +126,7 @@ export default {
             }).catch((err) => {
                 this.$message({
                     type: 'info',
-                    message: '已取消删除' + err
+                    message: '删除失败:' + err
                 });
             });
         },

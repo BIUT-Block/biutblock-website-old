@@ -3,8 +3,8 @@
         <UserForm :dialogState="formState"></UserForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <TopBar type="regUser"></TopBar>
-                <DataTable :dataList="regUserList.docs"></DataTable>
+                <TopBar type="regUser" :ids="selectlist"></TopBar>
+                <DataTable :dataList="regUserList.docs" @changeUserSelectList="changeSelect"></DataTable>
                 <Pagination :pageInfo="regUserList.pageInfo" pageType="regUser"></Pagination>
             </el-col>
         </el-row>
@@ -24,7 +24,7 @@ export default {
     name: 'index',
     data() {
         return {
-
+            selectlist: []
         }
     },
     components: {
@@ -33,9 +33,12 @@ export default {
         UserForm,
         Pagination
     },
-    methods: mapActions([
-
-    ]),
+    methods: {
+        changeSelect(ids) {
+            console.log('--ids--', ids);
+            this.selectlist = ids;
+        }
+    },
     computed: {
         ...mapGetters([
             'regUserList',

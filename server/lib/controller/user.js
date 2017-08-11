@@ -1,9 +1,11 @@
 const BaseComponent = require('../prototype/baseComponent');
 const UserModel = require("../models").User;
+const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
-const validator = require('validator')
+const validator = require('validator');
+const _ = require('lodash')
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -115,7 +117,29 @@ class User {
 
     async delUser(req, res, next) {
         try {
-            await UserModel.remove({ _id: req.query.ids });
+            let errMsg = '', targetIds = req.query.ids;
+            if (!siteFunc.checkCurrentId(targetIds)) {
+                errMsg = '非法请求，请稍后重试！';
+            } else {
+                targetIds = targetIds.split(',');
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
+            for (let i = 0; i < targetIds.length; i++) {
+                let regUserMsg = await MessageModel.find({ 'author': targetIds[i] });
+                if (!_.isEmpty(regUserMsg)) {
+                    res.send({
+                        state: 'error',
+                        message: '请删除该用户留言后在执行该操作！',
+                    })
+                    break;
+                }
+            }
+            await UserModel.remove({ '_id': { $in: targetIds } });
             res.send({
                 state: 'success'
             });
