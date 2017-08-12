@@ -12,7 +12,7 @@
   "author": "dora <admin@html-js.cn>",
   "license": "MIT",
   "scripts": {
-    "dev": "npm run static && cross-env MICRO_CACHE=true node ./server",
+    "dev": "npm run static && cross-env NODE_ENV=development MICRO_CACHE=true node ./server",
     "start": "cross-env NODE_ENV=production node ./server",
     "build": "npm run static && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",

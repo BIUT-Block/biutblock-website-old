@@ -44,7 +44,14 @@ class User {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const Users = await UserModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            let searchkey = req.query.searchkey, queryObj = {};
+
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.userName = { $regex: reKey }
+            }
+
+            const Users = await UserModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await UserModel.count();
             res.send({
                 state: 'success',

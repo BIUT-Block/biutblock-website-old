@@ -262,7 +262,6 @@ class AdminUser {
                     state: 'error',
                     message: '请删除该管理员留言后在执行该操作！',
                 })
-                break;
             }
             await AdminUserModel.remove({
                 _id: req.query.ids

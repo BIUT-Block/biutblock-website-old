@@ -16,11 +16,15 @@ class Message {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            // console.log('---req.query.contentId---', req.query.contentId);
+            let searchkey = req.query.searchkey; 
             let contentId = req.query.contentId;
             let queryObj = {};
             if (contentId) {
                 queryObj.contentId = contentId;
+            }
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.content = { $regex: reKey }
             }
             const messages = await MessageModel.find(queryObj).sort({
                 date: -1

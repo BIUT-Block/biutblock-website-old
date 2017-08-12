@@ -28,123 +28,146 @@
         </div>
         <div class="dr-searchInput">
             <div v-if="type === 'content'">
-                <el-input size="small" placeholder="文档标题,内容" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                <el-input size="small" placeholder="请输入关键字" icon="search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'contentTag'">
-                <el-input size="small" placeholder="标签名称" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                <el-input size="small" placeholder="标签名称" icon="search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-input size="small" placeholder="留言内容" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                <el-input size="small" placeholder="留言内容" icon="search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-input size="small" placeholder="请输入用户名" icon="search" v-model="input2" :on-icon-click="handleIconClick">
+                <el-input size="small" placeholder="请输入用户名" icon="search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
         </div>
     </div>
 </template>
 <script>
-import services from '../../store/services.js';
-export default {
-    props: {
-        type: String,
-        ids: Array
-    },
-    data() {
-        return {
-            formState: {
-                show: false
-            },
-            input2: ''
-        }
-    },
-    methods: {
-        handleIconClick(ev) {
-            console.log(ev);
+    import services from '../../store/services.js';
+    export default {
+        props: {
+            type: String,
+            ids: Array
         },
-        addUser() {
-            this.$store.dispatch('showAdminUserForm')
-        },
-        addRole() {
-            this.$store.dispatch('showAdminGroupForm')
-        },
-        addResource() {
-            this.$store.dispatch('showAdminResourceForm', {
-                type: 'root',
-                formData: {
-                    parentId: '0'
-                }
-            })
-        },
-        addContent() {
-            this.$store.dispatch('showContentForm');
-            this.$router.push('/addContent');
-        },
-        addTopCates() {
-            this.$store.dispatch('showContentCategoryForm', {
-                type: 'root',
-                formData: {
-                    parentId: '0'
-                }
-            })
-        },
-        branchDelete(target) {
-            let _this = this, targetName;
-            if (target === 'msg') {
-                targetName = '留言'
-            } else if (target === 'user') {
-                targetName = '用户'
+        data() {
+            return {
+                formState: {
+                    show: false
+                },
+                searchkey: ''
             }
-            this.$confirm(`此操作将永久删除这些${targetName}, 是否继续?`, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                let ids = (_this.ids).join();
-                if (target === 'msg') {
-                    return services.deleteContentMessage({ ids });
-                } else if (target === 'user') {
-                    return services.deleteRegUser({ ids });
-                }
-            }).then((result) => {
-                if (result.data.state === 'success') {
-                    if (target === 'msg') {
-                        this.$store.dispatch('getContentMessageList');
-                    } else if (target === 'user') {
-                        this.$store.dispatch('getRegUserList');
-                    }
-                    this.$message({
-                        message: `${targetName}删除成功`,
-                        type: 'success'
+        },
+        methods: {
+            searchResult(ev) {
+                if (this.type == 'content') {
+                    this.$store.dispatch('getContentList', {
+                        searchkey: this.searchkey
                     });
-                } else {
-                    this.$message.error(result.data.message);
+                } else if (this.type == 'contentTag') {
+                    this.$store.dispatch('getContentTagList', {
+                        searchkey: this.searchkey
+                    });
+                } else if (this.type == 'contentMessage') {
+                    this.$store.dispatch('getContentMessageList', {
+                        searchkey: this.searchkey
+                    });
+                } else if (this.type == 'regUser') {
+                    this.$store.dispatch('getRegUserList', {
+                        searchkey: this.searchkey
+                    });
                 }
-            }).catch((err) => {
-                this.$message({
-                    type: 'info',
-                    message: '删除失败:' + err
+            },
+            addUser() {
+                this.$store.dispatch('showAdminUserForm')
+            },
+            addRole() {
+                this.$store.dispatch('showAdminGroupForm')
+            },
+            addResource() {
+                this.$store.dispatch('showAdminResourceForm', {
+                    type: 'root',
+                    formData: {
+                        parentId: '0'
+                    }
+                })
+            },
+            addContent() {
+                this.$store.dispatch('showContentForm');
+                this.$router.push('/addContent');
+            },
+            addTopCates() {
+                this.$store.dispatch('showContentCategoryForm', {
+                    type: 'root',
+                    formData: {
+                        parentId: '0'
+                    }
+                })
+            },
+            branchDelete(target) {
+                let _this = this,
+                    targetName;
+                if (target === 'msg') {
+                    targetName = '留言'
+                } else if (target === 'user') {
+                    targetName = '用户'
+                }
+                this.$confirm(`此操作将永久删除这些${targetName}, 是否继续?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let ids = (_this.ids).join();
+                    if (target === 'msg') {
+                        return services.deleteContentMessage({
+                            ids
+                        });
+                    } else if (target === 'user') {
+                        return services.deleteRegUser({
+                            ids
+                        });
+                    }
+                }).then((result) => {
+                    if (result.data.state === 'success') {
+                        if (target === 'msg') {
+                            this.$store.dispatch('getContentMessageList');
+                        } else if (target === 'user') {
+                            this.$store.dispatch('getRegUserList');
+                        }
+                        this.$message({
+                            message: `${targetName}删除成功`,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(result.data.message);
+                    }
+                }).catch((err) => {
+                    this.$message({
+                        type: 'info',
+                        message: '删除失败:' + err
+                    });
                 });
-            });
+            },
+            addTag() {
+                this.$store.dispatch('showContentTagForm')
+            },
+            delUser() {
+                // this.$store.dispatch('showAdminUserForm')
+            }
         },
-        addTag() {
-            this.$store.dispatch('showContentTagForm')
-        },
-        delUser() {
-            // this.$store.dispatch('showAdminUserForm')
+        components: {
+
         }
-    },
-    components: {
 
     }
 
-}
 </script>
 <style lang="scss">
-.option-button {
-    display: inline-block
-}
+    .option-button {
+        display: inline-block
+    }
+
 </style>

@@ -34,12 +34,17 @@ class ContentTag {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let model = req.query.model; // 查询模式 full/simple
-
+            let searchkey = req.query.searchkey, queryObj = {};
             if (model === 'full') {
                 pageSize = '1000'
             }
 
-            const contentTags = await ContentTagModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.name = { $regex: reKey }
+            }
+
+            const contentTags = await ContentTagModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await ContentTagModel.count();
             res.send({
                 state: 'success',
