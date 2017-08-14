@@ -66,9 +66,11 @@ class Content {
 
             if (tagName) {
                 let targetTag = await ContentTagModel.findOne({ name: tagName });
-                queryObj.tags = targetTag._id;
-                // 如果有标签，则查询全部类别
-                delete queryObj.categories;
+                if (targetTag) {
+                    queryObj.tags = targetTag._id;
+                    // 如果有标签，则查询全部类别
+                    delete queryObj.categories;
+                }
             }
 
             if (searchkey) {
