@@ -15,8 +15,7 @@
             </el-table-column>
             <el-table-column prop="enable" label="是否有效" show-overflow-tooltip>
                 <template scope="scope">
-                    <i v-if="scope.row.enable" style="color:#13CE66" class="fa fa-check-circle"></i>
-                    <i v-if="!scope.row.enable" style="color:#FF4949" class="fa fa-minus-circle"></i>
+                    <i :class="scope.row.enable ? 'fa fa-check-circle' : 'fa-minus-circle'" :style="scope.row.enable ? green : red"></i>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="150">
@@ -43,7 +42,9 @@ export default {
         return {
             loading: false,
             tableData3: this.$store.getters.adminUserList.docs,
-            multipleSelection: []
+            multipleSelection: [],
+            green: { color: '#13CE66' },
+            red: { color: '#FF4949' }
         }
     },
 
