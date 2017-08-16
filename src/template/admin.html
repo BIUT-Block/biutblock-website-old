@@ -12,7 +12,12 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <%if(process.env.NODE_ENV == 'development'){%>
+        <input type="hidden" id="cateValue" value='__manageCates__'>
+        <%}else{%>
+            <input type='hidden' id='cateValue' value='<%= htmlWebpackPlugin.options.manageCates%>'>
+            <%}%>
+                <div id="app"></div>
 </body>
 
 </html>

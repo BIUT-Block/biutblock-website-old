@@ -22,8 +22,11 @@ let router = new Router({
 })
 
 function renderLeftMenu() {
+  let cateDataDom = document.getElementById('cateValue'), catelist = [];
+  catelist = JSON.parse(cateDataDom.value);
   let addNewRoutes = [];
-  let treeData = require('../../../utils/routePath/manageCates.json');
+  let treeData = catelist;
+  console.log('---treeData----', treeData);
   let newResult = [].concat(treeData);
   let delAtArr = [];
   let childArr = _.filter(treeData, (doc) => {

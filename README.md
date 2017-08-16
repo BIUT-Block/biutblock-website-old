@@ -1,19 +1,17 @@
-# mmf-blog vuejs 2.0 SSR v2         [中文说明](https://github.com/lincenying/mmf-blog-vue2-ssr/blob/master/README_CN.md)
+# doracms 2.0.0
 
-demo: [http://www.mmxiaowu.com](http://www.mmxiaowu.com)
 
-## notice
 
-A blog built with Vue 2.0, vue-router & vuex, with server-side rendering
+## 说明
 
-The main technical stack: express, mongoose, vue2, vue2-router, vuex, webpack, babel, eslint
 
-## The directory structure
+
+## 目录结构
 
 ```
-├─build // Webpack related configuration file
+├─build // webpack 相关配置文件
 │
-├─dist  // Webpack generated document storage directory
+├─dist  // webpack 生成文档存放目录
 │  │
 │  ├─server
 │  │
@@ -26,44 +24,44 @@ The main technical stack: express, mongoose, vue2, vue2-router, vuex, webpack, b
 │      │
 │      └─js
 │
-├─server    // The server directory
+├─server    // 服务端目录
 │  │
-│  ├─api    // API related processing files
+│  ├─api    // api 相关处理文件
 │  │
-│  ├─config // API configuration file
+│  ├─config // api 配置文件
 │  │
-│  ├─models // mongoose model
+│  ├─models // mongoose 的相关 model
 │  │
-│  ├─routes // The routing file
+│  ├─routes // 路由文件
 │  │
-│  └─utils  // tools
+│  └─utils  // 实用工具
 │
-├─src           // The client program directory
+├─src           // 客户端程序目录
 │  │
-│  ├─api        // API configuration file
+│  ├─api        // api 配置文件
 │  │
-│  ├─assets     // Static file folder
+│  ├─assets     // 静态文件文件夹
 │  │  ├─css
 │  │  │
 │  │  └─images
 │  │
-│  ├─components // Component folder
+│  ├─components // 组件文件夹
 │  │
-│  ├─filters    // The filter
+│  ├─filters    // 过滤器
 │  │
-│  ├─pages      // Routing component
+│  ├─pages      // 路由组件
 │  │
 │  ├─polyfill   // polyfill
 │  │
-│  ├─router     // The routing configuration folder
+│  ├─router     // 路由配置文件夹
 │  │
-│  ├─store      // Vuex related folder
+│  ├─store      // vuex 相关文件夹
 │  │  │
-│  │  └─modules // Vuex modules folder
+│  │  └─modules // vuex 模块文件夹
 │  │
-│  ├─template   // The initial template
+│  ├─template   // 初始模版
 │  │
-│  └─utils      // tools
+│  └─utils      // 实用工具
 │
 └─static
     ├─editor.md
@@ -72,74 +70,36 @@ The main technical stack: express, mongoose, vue2, vue2-router, vuex, webpack, b
 
 ```
 
----
 
-#### Other versions
 
-react(spa): [https://github.com/lincenying/mmf-blog-react-v2](https://github.com/lincenying/mmf-blog-react-v2)
 
-vue2(spa): [https://github.com/lincenying/mmf-blog-vue2](https://github.com/lincenying/mmf-blog-vue2)
 
-vue2(ssr): [https://github.com/lincenying/mmf-blog-vue2-ssr](https://github.com/lincenying/mmf-blog-vue2-ssr)
-
-vue2(pwa ssr): [https://github.com/lincenying/mmf-blog-vue2-pwa-ssr](https://github.com/lincenying/mmf-blog-vue2-pwa-ssr)
-
----
-
-```
-The configuration file: src/api/config-client.js (The browser)
-api: Address of the API (For example: /api/)
-The configuration file: src/api/config-server.js (The server side)
-api: Address of the API (For example: http://localhost:8080)
-port: Start the port
-```
-
-## Start:
-install NodeJS:
+## 准备工作:
+安装 NodeJS:
 https://nodejs.org/zh-cn/
 
-install Mongodb:
+安装 Mongodb:
 https://www.mongodb.com/download-center#community
 
 ```shell
-# Install dependencies
-$ yarn  #or  npm install
-# Note: do not install with CNPM dependency
+# 安装依赖
+$ npm install
 
-# Develop
+# 开发模式
 $ npm run dev
 
-# Product
+# 生产模式
 $ npm run build
 
-# Start (need to generate a static file)
+# 启动(需先生成静态文件)
 $ npm run start
 ```
 
-Home Site
+首页
 http://localhost:8080
 
-Login
-http://localhost:8080/backend
-
-Add Administrator
-http://localhost:8080/api/backend
-
-After the success of the administrator to add, will automatically generate the `admin.lock` file locking, if you need to continue to add, please just delete the file
-
-# notice:
-Because ` babelrc ` configuration
-
-```javascript
-"presets": [
-    ["env", {
-        "targets": {
-            "chrome": 52
-        }
-    }]
-]
-```
-So, in the development environment, please use chrome52 + open, if you need other low browser version, please modify the root directory of the `.Babelrc ` file
+登录
+http://localhost:8080/dr-admin
 
 # LICENSE
 

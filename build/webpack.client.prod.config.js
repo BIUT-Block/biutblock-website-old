@@ -27,6 +27,11 @@ module.exports = {
         }]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
         new ExtractTextPlugin('static/css/[name].[hash:7].css'),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
@@ -47,7 +52,7 @@ module.exports = {
             minimize: true
         }),
         new SWPrecachePlugin({
-            cacheId: 'mmf-blog-vue2-ssr',
+            cacheId: 'doracms-vue2-ssr',
             filename: 'service-worker.js',
             dontCacheBustUrlsMatching: /./,
             staticFileGlobsIgnorePatterns: [/server\.html$/, /admin\.html$/, /\.map$/],
@@ -67,6 +72,7 @@ module.exports = {
             ],
             filename: 'admin.html',
             template: 'src/template/admin.html',
+            manageCates: '<%= manageCates%>',
             inject: true,
         })
     ]

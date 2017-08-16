@@ -1,5 +1,6 @@
 process.env.VUE_ENV = 'server'
 const isProd = process.env.NODE_ENV === 'production'
+global.NODE_ENV = isProd
 const useMicroCache = process.env.MICRO_CACHE !== 'false'
 
 const fs = require('fs')
@@ -230,9 +231,11 @@ app.get('/manage', authSession, function (req, res) {
         service.reWriteResourceJson(req, res, manageCates);
         if (isProd) {
             res.render('admin.html', {
-                title: 'DoraCMS后台管理'
+                title: 'DoraCMS后台管理',
+                manageCates
             })
         } else {
+            backend = backend.replace('__manageCates__', JSON.stringify(manageCates))
             res.send(backend)
         }
     })
