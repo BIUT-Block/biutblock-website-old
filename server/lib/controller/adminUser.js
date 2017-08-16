@@ -119,6 +119,12 @@ class AdminUser {
                     select: 'power _id enable'
                 }]).exec();
                 if (user) {
+                    if(!user.enable){
+                        res.send({
+                            state: 'error',
+                            err: "该用户已被限制登录，请稍后重试"
+                        });
+                    }
                     req.session.adminPower = user.group.power;
                     req.session.adminlogined = true;
                     req.session.adminUserInfo = user;
