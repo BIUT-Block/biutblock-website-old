@@ -18,10 +18,6 @@ var AdminGroupSchema = new Schema({
         type: String,
         ref: "AdminResource"
     }],
-    enable: {
-        type: Boolean,
-        default: false
-    }, //是否有效
     date: {
         type: Date,
         default: Date.now

@@ -111,8 +111,7 @@ class AdminUser {
             }
             const userObj = {
                 userName: fields.userName,
-                password: service.encrypt(fields.password, settings.encrypt_key),
-                enable: true
+                password: service.encrypt(fields.password, settings.encrypt_key)
             }
             try {
                 let user = await AdminUserModel.findOne(userObj).populate([{
@@ -175,6 +174,7 @@ class AdminUser {
                 password: service.encrypt(fields.password, settings.encrypt_key),
                 confirm: fields.confirm,
                 group: fields.group,
+                enable: fields.enable,
                 comments: fields.comments
             }
 
@@ -221,6 +221,7 @@ class AdminUser {
                 password: service.encrypt(fields.password, settings.encrypt_key),
                 confirm: fields.confirm,
                 group: fields.group,
+                enable: fields.enable,
                 comments: fields.comments
             }
             const item_id = fields._id;

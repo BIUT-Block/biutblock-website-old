@@ -8,9 +8,6 @@
                 <el-form-item label="角色描述" prop="comments">
                     <el-input size="small" v-model="dialogState.formData.comments"></el-input>
                 </el-form-item>
-                <el-form-item label="有效" prop="enable">
-                    <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
-                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">{{dialogState.edit ? '更新' : '保存'}}</el-button>
                     <el-button @click="resetForm('ruleForm')">重置</el-button>

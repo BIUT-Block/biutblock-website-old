@@ -72,8 +72,7 @@ class AdminGroup {
             }
             const groupObj = {
                 name: fields.name,
-                comments: fields.comments,
-                enable: fields.enable
+                comments: fields.comments
             }
 
             const newAdminGroup = new AdminGroupModel(groupObj);
@@ -113,7 +112,6 @@ class AdminGroup {
             const userObj = {
                 name: fields.name,
                 comments: fields.comments,
-                enable: fields.enable,
                 power: fields.power
             }
             const item_id = fields._id;

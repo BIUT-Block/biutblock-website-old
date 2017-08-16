@@ -17,7 +17,6 @@
                 <el-form-item label="用户组" prop="group">
                     <el-select size="small" v-model="dialogState.formData.group" placeholder="请选择用户组">
                         <el-option :key="index" v-for="(group,index) in groups" :label="group.name" :value="group._id"></el-option>
-    
                     </el-select>
                 </el-form-item>
                 <el-form-item label="电话" prop="phoneNum">
@@ -25,6 +24,9 @@
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                     <el-input size="small" v-model="dialogState.formData.email"></el-input>
+                </el-form-item>
+                <el-form-item label="有效" prop="enable">
+                    <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
                 </el-form-item>
                 <el-form-item label="备注" prop="comments">
                     <el-input size="small" type="textarea" v-model="dialogState.formData.comments"></el-input>

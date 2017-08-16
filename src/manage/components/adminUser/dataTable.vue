@@ -13,6 +13,12 @@
             </el-table-column>
             <el-table-column prop="email" label="邮箱" show-overflow-tooltip>
             </el-table-column>
+            <el-table-column prop="enable" label="是否有效" show-overflow-tooltip>
+                <template scope="scope">
+                    <i v-if="scope.row.enable" style="color:#13CE66" class="fa fa-check-circle"></i>
+                    <i v-if="!scope.row.enable" style="color:#FF4949" class="fa fa-minus-circle"></i>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="mini" @click="editUserInfo(scope.$index, dataList)">编辑</el-button>
