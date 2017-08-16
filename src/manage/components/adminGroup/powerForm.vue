@@ -33,7 +33,9 @@
                 let currentNodes = this.$refs.tree.getCheckedNodes();
                 let currentArr = [];
                 currentNodes.length > 0 && currentNodes.map((item, index) => {
-                    currentArr.push(item._id);
+                    if (item.type == '1') {
+                        currentArr.push(item._id);
+                    }
                 });
                 let params = this.roleState.formData;
                 params.power = currentArr;

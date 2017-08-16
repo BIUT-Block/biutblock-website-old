@@ -120,6 +120,7 @@ class AdminGroup {
                 await AdminGroupModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 // 更新power
                 req.session.adminPower = userObj.power;
+                req.session.adminUserInfo.group.power = userObj.power;
                 res.send({
                     state: 'success'
                 });
