@@ -228,14 +228,15 @@ app.get('/manage', authSession, function (req, res) {
     AdminResource.getAllResource(req, res, {
         type: '0'
     }).then((manageCates) => {
-        service.reWriteResourceJson(req, res, manageCates);
+        // service.reWriteResourceJson(req, res, manageCates);
+        let currentCates = manageCates ? JSON.stringify(manageCates) : [];
         if (isProd) {
             res.render('admin.html', {
                 title: 'DoraCMS后台管理',
-                manageCates
+                manageCates: currentCates
             })
         } else {
-            backend = backend.replace('__manageCates__', JSON.stringify(manageCates))
+            backend = backend.replace('__manageCates__', currentCates)
             res.send(backend)
         }
     })
