@@ -18,10 +18,6 @@ export default {
         return reqJsonData('manage/logout', {}, 'get')
     },
 
-    refreshCatesData(params = {}) {
-        return reqJsonData('manage/refreshCatesData', params, 'get')
-    },
-
     getUserSession() {
         return reqJsonData('manage/getUserSession', {}, 'get')
     },

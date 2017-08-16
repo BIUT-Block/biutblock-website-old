@@ -475,27 +475,8 @@ var system = {
         oldPsd += decipher.update(data, "hex", "utf8");
         oldPsd += decipher.final("utf8");
         return oldPsd;
-    },
-
-    reWriteCatesJson(req, res, cates) {
-        let jsonFile = process.cwd() + '/utils/routePath/indexCates.json';
-        system.writeFile(req, res, jsonFile, JSON.stringify(cates))
-    },
-
-    reWriteResourceJson(req, res, manageCates) {
-        let resJsonFile = process.cwd() + '/utils/routePath/manageCates.json';
-        let adminPower = req.session.adminPower;
-        if (manageCates.length > 0) {
-            // 菜单权限控制
-            let newCates = manageCates.map((item, index) => {
-                if (adminPower.indexOf(item._id) < 0) {
-                    item.enable = false;
-                }
-                return item;
-            })
-            system.writeFile(req, res, resJsonFile, JSON.stringify(manageCates));
-        }
     }
+
 };
 
 

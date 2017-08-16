@@ -41,29 +41,6 @@ router.get('/getUserSession', authToken, authSession, (req, res) => {
   });
 })
 
-// 更新菜单json文件
-router.get('/refreshCatesData', authToken, authSession, (req, res) => {
-  let type = req.query.type;
-  if (type === 'indexCates') {
-    ContentCategory.getAllCategories(req, res).then((result) => {
-      service.reWriteCatesJson(req, res, result);
-      res.send({
-        state: 'success'
-      });
-    });
-  } else {
-    AdminResource.getAllResource(req, res, {
-      type: '0'
-    }).then((manageCates) => {
-      service.reWriteResourceJson(req, res, manageCates);
-      res.send({
-        state: 'success'
-      });
-    })
-  }
-})
-
-
 /**
  * 管理员管理
  */

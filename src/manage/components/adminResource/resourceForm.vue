@@ -157,7 +157,6 @@ export default {
                             }
                         })
                     }
-                    services.refreshCatesData();
                 } else {
                     console.log('error submit!!');
                     return false;
