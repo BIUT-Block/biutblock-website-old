@@ -141,11 +141,12 @@ class AdminUser {
                     });
                 }
 
-            } catch (error) {
-
+            } catch (err) {
+                res.send({
+                    state: 'error',
+                    message: err.message
+                })
             }
-
-            return adminUser;
         })
     }
 
