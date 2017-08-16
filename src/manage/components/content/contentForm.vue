@@ -38,7 +38,7 @@
             </el-form-item>
             <el-form-item class="dr-submitContent">
                 <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
-                <el-button size="small" @click="resetForm('ruleForm')">重置</el-button>
+                <el-button size="small" @click="submitForm('ruleForm','draft')">存草稿</el-button>
                 <el-button size="small" @click="backToList">返回</el-button>
             </el-form-item>
         </el-form>
@@ -52,6 +52,7 @@
     padding-bottom: 50px;
     .dr-submitContent {
         position: fixed;
+        z-index: 9999999;
         padding: 10px 30px;
         text-align: right;
         right: 0;
@@ -232,11 +233,11 @@ export default {
         backToList() {
             this.$router.push('/content');
         },
-        submitForm(formName) {
+        submitForm(formName, type = '') {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log('---formdatas--', this);
                     let params = this.formState.formData;
+                    if (type === 'draft') params.state = false;
                     // 更新
                     if (this.formState.edit) {
                         services.updateContent(params).then((result) => {

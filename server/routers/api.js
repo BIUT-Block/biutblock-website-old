@@ -16,24 +16,6 @@ const authUser = require('../../utils/middleware/authUser');
 const jwt = require("jsonwebtoken");
 const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig } = require('../lib/controller');
 
-// var profiler = require('v8-profiler');
-// var fs = require('fs');
-// var snapshotNum = 1;
-// router.get('/snapshot124', (req, res, next) => {
-//   console.log('----begin to snap---');
-//   var snapshot = profiler.takeSnapshot();
-//   snapshot.export(function (error, result) {
-//     if (error) {
-//       console.log('---error---', error);
-//       res.send('error')
-//     }
-//     fs.writeFileSync((snapshotNum++) + '.heapsnapshot', result);
-//     console.log('----end to snap---');
-//     snapshot.delete();
-//     res.send('success')
-//   });
-
-// })
 
 // 查询站点地图需要的信息
 router.get('/sitemap/getList', (req, res, next) => {
@@ -57,10 +39,10 @@ router.get('/users/session', (req, res) => {
 });
 
 // 查询文档列表
-router.get('/content/getList', Content.getContents);
+router.get('/content/getList', (req, res, next) => { req.query.state = true; next() }, Content.getContents);
 
 // 查询简单的文档列表
-router.get('/content/getSimpleListByParams', Content.getContents)
+router.get('/content/getSimpleListByParams', (req, res, next) => { req.query.state = true; next() }, Content.getContents)
 
 // 查询文档详情
 router.get('/content/getContent', Content.getOneContent)

@@ -52,12 +52,18 @@ class Content {
             let tagName = req.query.tagName; // 文章tag
             let searchkey = req.query.searchkey; // 搜索关键字
             let model = req.query.model; // 查询模式 full/normal/simple
-            // console.log('--typeId----', typeId, '--sortby----', sortby);
+            let state = req.query.state;
+           
             // 条件配置
-            let queryObj = { 'state': true }, sortObj = { date: -1 }, files = null;
+            let queryObj = {}, sortObj = { date: -1 }, files = null;
+
             if (sortby) {
                 delete sortObj.date;
                 sortObj[sortby] = -1
+            }
+
+            if (state) {
+                queryObj.state = true
             }
 
             if (typeId && typeId != 'indexPage') {

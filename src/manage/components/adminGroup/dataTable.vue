@@ -8,7 +8,10 @@
             <el-table-column prop="comments" label="角色描述" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="enable" label="是否有效" show-overflow-tooltip>
-                <template scope="scope">{{scope.row.enable}}</template>
+                <template scope="scope">
+                    <i v-if="scope.row.enable" style="color:#13CE66" class="fa fa-check-circle"></i>
+                    <i v-if="!scope.row.enable" style="color:#FF4949" class="fa fa-minus-circle"></i>
+                </template>
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">

@@ -16,7 +16,7 @@
             </el-table-column>
             <el-table-column prop="isTop" label="推荐" show-overflow-tooltip>
                 <template scope="scope">
-                    <i class="fa fa-check" style="color:#13CE66" v-show="scope.row.isTop===1"></i>
+                    <i class="fa fa-star" style="color:#F7BA2A" v-show="scope.row.isTop===1"></i>
                 </template>
             </el-table-column>
             <el-table-column prop="clickNum" label="点击" show-overflow-tooltip>
@@ -24,7 +24,9 @@
             <el-table-column prop="commentNum" label="评论数" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="state" label="显示" show-overflow-tooltip>
-                <template scope="scope">{{scope.row.state}}</template>
+                <template scope="scope">
+                    <i :class="scope.row.state?'fa fa-eye':'fa fa-eye-slash'"></i>
+                </template>
             </el-table-column>
             <el-table-column prop="author.name" label="作者" show-overflow-tooltip>
             </el-table-column>
