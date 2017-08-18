@@ -3,7 +3,13 @@ const DataOptionLogModel = require("../models").DataOptionLog;
 const SystemConfigModel = require("../models").SystemConfig;
 const path = require('path')
 const formidable = require('formidable');
-const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
+const {
+    service,
+    settings,
+    validatorUtil,
+    logUtil,
+    siteFunc
+} = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
 const archiver = require('archiver')
@@ -11,7 +17,7 @@ const fs = require('fs')
 const child = require('child_process');
 const moment = require('moment')
 const _ = require('lodash')
-
+const isDev = isDev ? true : false;
 class DataItem {
     constructor() {
         // super()
@@ -22,7 +28,9 @@ class DataItem {
             let pageSize = req.query.pageSize || 10;
             let queryObj = {};
 
-            const dataBackList = await DataOptionLogModel.find(queryObj,'_id date fileName logs').sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            const dataBackList = await DataOptionLogModel.find(queryObj, '_id date fileName logs').sort({
+                date: -1
+            }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await DataOptionLogModel.count();
             res.send({
                 state: 'success',
@@ -47,20 +55,17 @@ class DataItem {
         let date = new Date();
         let ms = moment(date).format('YYYYMMDDHHmmss').toString();
         const systemConfigs = await SystemConfigModel.find({});
-     
+
         if (_.isEmpty(systemConfigs)) {
             res.send({
                 state: 'success',
                 message: '请先完善系统配置信息'
             });
         }
-        let databackforder = process.env.NODE_ENV == 'development' ? process.cwd() + '/databak/' : systemConfigs[0].databackForderPath;
+        let databackforder = isDev ? process.cwd() + '/databak/' : systemConfigs[0].databackForderPath;
         let mongoBinPath = systemConfigs[0].mongodbInstallPath;
         let dataPath = databackforder + ms;
-        //        let cmdstr = 'mongodump -o "'+dataPath+'"';
-        // console.log('---process.env.NODE_ENV---', process.env.NODE_ENV == 'development');
-        let cmdstr = process.env.NODE_ENV == 'development' ? 'mongodump -d doracms2 -o "' + dataPath + '"' : mongoBinPath + 'mongodump -u ' + settings.USERNAME + ' -p ' + settings.PASSWORD + ' -d ' + settings.DB + ' -o "' + dataPath + '"';
-        console.log('-----databackforder----', databackforder);
+        let cmdstr = isDev ? 'mongodump -d doracms2 -o "' + dataPath + '"' : mongoBinPath + 'mongodump -u ' + settings.USERNAME + ' -p ' + settings.PASSWORD + ' -d ' + settings.DB + ' -o "' + dataPath + '"';
 
         if (!fs.existsSync(databackforder)) {
             fs.mkdirSync(databackforder);
@@ -83,9 +88,7 @@ class DataItem {
                     });
 
                     archive.pipe(output);
-                    archive.bulk([{
-                        src: [dataPath + '/**']
-                    }]);
+
                     archive.finalize();
 
                     // 操作记录入库
@@ -124,16 +127,20 @@ class DataItem {
                     message: errMsg,
                 })
             }
-            let currentItem = await DataOptionLogModel.findOne({ _id: req.query.ids });
-            if(currentItem && currentItem.path){
-                 service.deleteFolder(req, res, currentItem.path);
-            }else{
+            let currentItem = await DataOptionLogModel.findOne({
+                _id: req.query.ids
+            });
+            if (currentItem && currentItem.path) {
+                service.deleteFolder(req, res, currentItem.path);
+            } else {
                 res.send({
                     state: 'error',
                     message: '操作失败，请稍后重试！'
                 });
             }
-            await DataOptionLogModel.remove({ _id: req.query.ids });
+            await DataOptionLogModel.remove({
+                _id: req.query.ids
+            });
             res.send({
                 state: 'success'
             });
