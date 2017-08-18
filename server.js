@@ -100,7 +100,7 @@ app.use(session({ //session持久化配置
     secret: settings.encrypt_key,
     // key: "kvkenskey",
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 30
+        maxAge: 1000 * 60 * 60 * 24 * 1
     },
     resave: false,
     saveUninitialized: true,

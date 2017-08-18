@@ -10,7 +10,8 @@ const {
   ContentTag,
   User,
   Message,
-  SystemConfig
+  SystemConfig,
+  DataOptionLog
 } = require('../lib/controller');
 const {
   service,
@@ -143,5 +144,13 @@ router.get('/regUser/getList', authToken, authPower, User.getUsers)
 router.post('/regUser/updateOne', authToken, authPower, User.updateUser)
 
 router.get('/regUser/deleteUser', authToken, authPower, User.delUser)
+
+
+/**
+ * 数据备份
+ */
+
+//备份数据库执行
+router.get('/backupDataManage/backUp', DataOptionLog.backUpData);
 
 module.exports = router

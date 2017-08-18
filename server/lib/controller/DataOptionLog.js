@@ -1,0 +1,147 @@
+const BaseComponent = require('../prototype/baseComponent');
+const DataOptionLogModel = require("../models").DataOptionLog;
+const SystemConfigModel = require("../models").SystemConfig;
+
+const formidable = require('formidable');
+const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
+const shortid = require('shortid');
+const validator = require('validator')
+const archiver = require('archiver')
+const fs = require('fs')
+const child = require('child_process');
+const moment = require('moment')
+const _ = require('lodash')
+
+class DataItem {
+    constructor() {
+        // super()
+    }
+    async getDataBackList(req, res, next) {
+        try {
+            let current = req.query.current || 1;
+            let pageSize = req.query.pageSize || 10;
+            let model = req.query.model; // 查询模式 full/simple
+            let searchkey = req.query.searchkey, queryObj = {};
+            if (model === 'full') {
+                pageSize = '1000'
+            }
+
+            const dataBackList = await DataOptionLogModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            const totalItems = await DataOptionLogModel.count();
+            res.send({
+                state: 'success',
+                docs: dataBackList,
+                pageInfo: {
+                    totalItems,
+                    current: Number(current) || 1,
+                    pageSize: Number(pageSize) || 10
+                }
+            })
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取DataItem失败'
+            })
+        }
+    }
+
+    async backUpData(req, res, next) {
+        let date = new Date();
+        let ms = moment(date).format('YYYYMMDDHHmmss').toString();
+        const systemConfigs = await SystemConfigModel.find({});
+        console.log('----systemConfigs----', systemConfigs);
+        if (_.isEmpty(systemConfigs)) {
+            res.send({
+                state: 'success',
+                message: '请先完善系统配置信息'
+            });
+        }
+        let databackforder = process.env.NODE_ENV == 'development' ? '/Users/xiaoshen746/Documents/doraPro/dorcmsdata/' : systemConfigs[0].databackForderPath;
+        let mongoBinPath = systemConfigs[0].mongodbInstallPath;
+        let dataPath = databackforder + ms;
+        //        let cmdstr = 'mongodump -o "'+dataPath+'"';
+        // console.log('---process.env.NODE_ENV---', process.env.NODE_ENV == 'development');
+        let cmdstr = process.env.NODE_ENV == 'development' ? 'mongodump -d doracms2 -o "' + dataPath + '"' : mongoBinPath + 'mongodump -u ' + settings.USERNAME + ' -p ' + settings.PASSWORD + ' -d ' + settings.DB + ' -o "' + dataPath + '"';
+        console.log('-----databackforder----', databackforder);
+
+        if (!fs.existsSync(databackforder)) {
+            fs.mkdirSync(databackforder);
+        }
+        if (fs.existsSync(dataPath)) {
+            console.log('已经创建过备份了');
+        } else {
+            fs.mkdirSync(dataPath);
+            child.exec(cmdstr, function (error, stdout, stderr) {
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                } else {
+                    console.log('数据备份成功');
+                    //生成压缩文件
+                    let output = fs.createWriteStream(databackforder + ms + '.zip');
+                    let archive = archiver('zip');
+
+                    archive.on('error', function (err) {
+                        throw err;
+                    });
+
+                    archive.pipe(output);
+                    archive.bulk([{
+                        src: [dataPath + '/**']
+                    }]);
+                    archive.finalize();
+
+                    // 操作记录入库
+                    let optParams = {
+                        logs: '数据备份',
+                        path: dataPath,
+                        fileName: ms + '.zip'
+                    }
+                    let newDataBack = new DataOptionLogModel(optParams);
+                    newDataBack.save((err) => {
+                        if (err) {
+                            console.log('备份失败：', err);
+                            logUtil.error(err, req);
+                        }
+                        res.send({
+                            state: 'success'
+                        });
+                    });
+                }
+            });
+        }
+
+
+    }
+
+
+    async delDataItem(req, res, next) {
+        try {
+            let errMsg = '';
+            if (!siteFunc.checkCurrentId(req.query.ids)) {
+                errMsg = '非法请求，请稍后重试！';
+            }
+            if (errMsg) {
+                res.send({
+                    state: 'error',
+                    message: errMsg,
+                })
+            }
+            await DataOptionLogModel.remove({ _id: req.query.ids });
+            res.send({
+                state: 'success'
+            });
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_IN_SAVE_DATA',
+                message: '删除数据失败:',
+            })
+        }
+    }
+
+}
+
+module.exports = new DataItem();

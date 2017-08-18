@@ -253,60 +253,7 @@ var system = {
             fs.writeFileSync(path, newContent);
         }
     },
-    backUpData: function (res, req) { // 数据备份
-        var date = new Date();
-        var ms = moment(date).format('YYYYMMDDHHmmss').toString();
-        var dataPath = settings.DATABACKFORDER + ms;
-        //        var cmdstr = 'mongodump -o "'+dataPath+'"';
-        var cmdstr = settings.MONGODBEVNPATH + 'mongodump -u ' + settings.USERNAME + ' -p ' + settings.PASSWORD + ' -d ' + settings.DB + ' -o "' + dataPath + '"';
-
-        if (!fs.existsSync(settings.DATABACKFORDER)) {
-            fs.mkdirSync(settings.DATABACKFORDER);
-        }
-        if (fs.existsSync(dataPath)) {
-
-            console.log('已经创建过备份了');
-
-        } else {
-
-            fs.mkdir(dataPath, 0777, function (err1) {
-                if (err1) throw err1;
-
-                child.exec(cmdstr, function (error, stdout, stderr) {
-                    if (error !== null) {
-                        console.log('exec error: ' + error);
-                    } else {
-                        console.log('数据备份成功');
-                        //生成压缩文件
-                        var output = fs.createWriteStream(settings.DATABACKFORDER + ms + '.zip');
-                        var archive = archiver('zip');
-
-                        archive.on('error', function (err) {
-                            throw err;
-                        });
-
-                        archive.pipe(output);
-                        archive.bulk([{
-                            src: [dataPath + '/**']
-                        }]);
-                        archive.finalize();
-
-                        // 操作记录入库
-                        // var optLog = new DataOptionLog();
-                        // optLog.logs = "数据备份";
-                        // optLog.path = dataPath;
-                        // optLog.fileName = ms +'.zip';
-                        // optLog.save(function(err3){
-                        //     if (err3) throw err3;
-                        //     res.end("success");
-                        // })
-                    }
-                });
-
-            })
-        }
-
-    },
+    
     //文件夹复制
     copyForder: function (fromPath, toPath) {
         /*
