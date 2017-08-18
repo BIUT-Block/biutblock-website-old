@@ -196,14 +196,14 @@ var system = {
                 };
                 walk(path);
                 console.log("---del folder success----");
-                callBack();
+                callBack && callBack();
             } else {
                 fs.unlink(path, function (err) {
                     if (err) {
                         console.log(err)
                     } else {
                         console.log('del file success');
-                        callBack();
+                        callBack && callBack();
                     }
                 });
             }

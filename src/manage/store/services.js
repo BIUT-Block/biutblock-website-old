@@ -152,8 +152,19 @@ export default {
 
     deleteRegUser(params) {
         return reqJsonData('manage/regUser/deleteUser', params, 'get')
-    }
+    },
 
+    getBakDataList() {
+        return reqJsonData('manage/backupDataManage/getBakList', {}, 'get')
+    },
+
+    bakUpData() {
+        return reqJsonData('manage/backupDataManage/backUp', {})
+    },
+
+    deletetBakDataItem(params) {
+        return reqJsonData('manage/backupDataManage/deleteDataItem', params, 'get')
+    },
 
 
 }

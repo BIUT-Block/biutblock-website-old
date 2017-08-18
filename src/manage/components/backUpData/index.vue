@@ -1,17 +1,15 @@
 <template>
     <div class="adminUser">
-        <TagForm :dialogState="formState"></TagForm>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <TopBar type="contentTag"></TopBar>
-                <DataTable :dataList="contentTagList.docs"></DataTable>
-                <Pagination :pageInfo="contentTagList.pageInfo" pageType="contentTag"></Pagination>
+                <TopBar type="backUpData"></TopBar>
+                <DataTable :dataList="bakDataList.docs"></DataTable>
+                <Pagination :pageInfo="bakDataList.pageInfo" pageType="backUpData"></Pagination>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-    import TagForm from './tagForm'
     import DataTable from './dataTable.vue';
     import TopBar from '../common/TopBar.vue';
     import Pagination from '../common/Pagination.vue';
@@ -30,7 +28,6 @@
         components: {
             DataTable,
             TopBar,
-            TagForm,
             Pagination
         },
         methods: mapActions([
@@ -38,18 +35,17 @@
         ]),
         computed: {
             ...mapGetters([
-                'contentTagList'
-            ]),
-            formState() {
-                return this.$store.getters.contentTagFormState
-            }
+                'bakDataList'
+            ])
         },
         mounted() {
-            this.$store.dispatch('getContentTagList');
+            this.$store.dispatch('getBakDateList');
         }
     }
+
 </script>
 
 <style lang="">
+
 
 </style>

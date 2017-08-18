@@ -25,6 +25,10 @@
             <div v-else-if="type === 'regUser'">
                 <el-button size="small" type="danger" icon="delete" @click="branchDelete('user')">批量删除</el-button>
             </div>
+            <div v-else-if="type === 'backUpData'">
+                <el-button size="small" type="primary" @click="bakUpData">
+                    <i class="el-icon-upload"></i> &nbsp;备份数据库</el-button>
+            </div>
         </div>
         <div class="dr-searchInput">
             <div v-if="type === 'content'">
@@ -156,6 +160,30 @@
             },
             delUser() {
                 // this.$store.dispatch('showAdminUserForm')
+            },
+            bakUpData() {
+                this.$confirm(`您即将执行数据备份操作, 是否继续?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    return services.bakUpData();
+                }).then((result) => {
+                    if (result.data.state === 'success') {
+                        this.$store.dispatch('getBakDateList');
+                        this.$message({
+                            message: `数据备份成功`,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(result.data.message);
+                    }
+                }).catch((err) => {
+                    this.$message({
+                        type: 'info',
+                        message: '数据备份失败:' + err
+                    });
+                });
             }
         },
         components: {

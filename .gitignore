@@ -7,4 +7,4 @@ admin.lock
 server/config/secret.js
 public/upload/
 logs/
-utils/routePath/
+databak/

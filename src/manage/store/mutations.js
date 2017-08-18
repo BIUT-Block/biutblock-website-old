@@ -226,6 +226,10 @@ const state = {
             pageInfo: {},
             docs: []
         }
+    },
+    bakDataList: {
+        pageInfo: {},
+        docs: []
     }
 }
 
@@ -439,6 +443,10 @@ const mutations = {
     },
     [types.REGUSERLIST](state, userlist) {
         state.regUser.userList = userlist
+    },
+    [types.BAKUPDATA_LIST](state, list) {
+        console.log('----list------',list);
+        state.bakDataList = list
     }
 
 }

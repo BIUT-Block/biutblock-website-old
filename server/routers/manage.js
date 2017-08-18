@@ -150,7 +150,13 @@ router.get('/regUser/deleteUser', authToken, authPower, User.delUser)
  * 数据备份
  */
 
+//获取备份数据列表
+router.get('/backupDataManage/getBakList', authToken, authPower, DataOptionLog.getDataBakList);
+
 //备份数据库执行
-router.get('/backupDataManage/backUp', DataOptionLog.backUpData);
+router.post('/backupDataManage/backUp', authToken, authPower, DataOptionLog.backUpData);
+
+//删除备份数据
+router.get('/backupDataManage/deleteDataItem', authToken, authPower, DataOptionLog.delDataItem);
 
 module.exports = router

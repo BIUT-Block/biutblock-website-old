@@ -1,7 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const DataOptionLogModel = require("../models").DataOptionLog;
 const SystemConfigModel = require("../models").SystemConfig;
-
+const path = require('path')
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
@@ -16,17 +16,13 @@ class DataItem {
     constructor() {
         // super()
     }
-    async getDataBackList(req, res, next) {
+    async getDataBakList(req, res, next) {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            let model = req.query.model; // 查询模式 full/simple
-            let searchkey = req.query.searchkey, queryObj = {};
-            if (model === 'full') {
-                pageSize = '1000'
-            }
+            let queryObj = {};
 
-            const dataBackList = await DataOptionLogModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            const dataBackList = await DataOptionLogModel.find(queryObj,'_id date fileName logs').sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await DataOptionLogModel.count();
             res.send({
                 state: 'success',
@@ -51,14 +47,14 @@ class DataItem {
         let date = new Date();
         let ms = moment(date).format('YYYYMMDDHHmmss').toString();
         const systemConfigs = await SystemConfigModel.find({});
-        console.log('----systemConfigs----', systemConfigs);
+     
         if (_.isEmpty(systemConfigs)) {
             res.send({
                 state: 'success',
                 message: '请先完善系统配置信息'
             });
         }
-        let databackforder = process.env.NODE_ENV == 'development' ? '/Users/xiaoshen746/Documents/doraPro/dorcmsdata/' : systemConfigs[0].databackForderPath;
+        let databackforder = process.env.NODE_ENV == 'development' ? process.cwd() + '/databak/' : systemConfigs[0].databackForderPath;
         let mongoBinPath = systemConfigs[0].mongodbInstallPath;
         let dataPath = databackforder + ms;
         //        let cmdstr = 'mongodump -o "'+dataPath+'"';
@@ -128,6 +124,15 @@ class DataItem {
                     message: errMsg,
                 })
             }
+            let currentItem = await DataOptionLogModel.findOne({ _id: req.query.ids });
+            if(currentItem && currentItem.path){
+                 service.deleteFolder(req, res, currentItem.path);
+            }else{
+                res.send({
+                    state: 'error',
+                    message: '操作失败，请稍后重试！'
+                });
+            }
             await DataOptionLogModel.remove({ _id: req.query.ids });
             res.send({
                 state: 'success'
@@ -137,7 +142,7 @@ class DataItem {
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
-                message: '删除数据失败:',
+                message: '删除数据失败:' + err,
             })
         }
     }

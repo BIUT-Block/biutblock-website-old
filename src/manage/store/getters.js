@@ -22,4 +22,5 @@ export default {
     contentMessageList: state => state.contentMessage.messageList,
     regUserFormState: state => state.regUser.formState,
     regUserList: state => state.regUser.userList,
+    bakDataList: state => state.bakDataList,
 }

@@ -23,4 +23,6 @@ export const CREATE_TOKEN = 'CREATE_TOKEN';
 export const DELETE_TOKEN = 'DELETE_TOKEN';
 // export const ADMING_GROUPPower = 'ADMING_GROUPPower';
 export const ADMING_LOGINSTATE = 'ADMING_LOGINSTATE';
+export const BAKUPDATA_LIST = 'BAKUPDATA_LIST';
+
 

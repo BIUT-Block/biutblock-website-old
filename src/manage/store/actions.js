@@ -325,6 +325,14 @@ export default {
         services.regUserList(params).then((result) => {
             commit(types.REGUSERLIST, result.data)
         })
+    },
+
+    getBakDateList({
+        commit
+    }, params = {}) {
+        services.getBakDataList(params).then((result) => {
+            commit(types.BAKUPDATA_LIST, result.data)
+        })
     }
 
 }

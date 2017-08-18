@@ -52,6 +52,10 @@ export default {
                 this.$store.dispatch('getRegUserList', {
                     current: val
                 });
+            }else if (this.pageType === 'backUpData') {
+                this.$store.dispatch('getBakDateList', {
+                    current: val
+                });
             }
 
         }
