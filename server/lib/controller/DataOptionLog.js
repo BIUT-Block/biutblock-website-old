@@ -17,7 +17,7 @@ const fs = require('fs')
 const child = require('child_process');
 const moment = require('moment')
 const _ = require('lodash')
-const isDev = process.env.NODE_ENV ? true : false;
+const isDev = process.env.NODE_ENV == 'development' ? true : false;
 class DataItem {
     constructor() {
         // super()
