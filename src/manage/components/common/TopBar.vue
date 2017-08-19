@@ -26,7 +26,7 @@
                 <el-button size="small" type="danger" icon="delete" @click="branchDelete('user')">批量删除</el-button>
             </div>
             <div v-else-if="type === 'backUpData'">
-                <el-button size="small" type="primary" @click="bakUpData">
+                <el-button size="small" type="primary" @click="bakUpData" :loading="loadingState">
                     <i class="el-icon-upload"></i> &nbsp;备份数据库</el-button>
             </div>
         </div>
@@ -59,6 +59,7 @@
         },
         data() {
             return {
+                loadingState: false,
                 formState: {
                     show: false
                 },
@@ -167,9 +168,11 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.loadingState = true;
                     return services.bakUpData();
                 }).then((result) => {
                     if (result.data.state === 'success') {
+                        this.loadingState = false;
                         this.$store.dispatch('getBakDateList');
                         this.$message({
                             message: `数据备份成功`,

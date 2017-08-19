@@ -50,6 +50,9 @@ router.get('/content/getContent', Content.getOneContent)
 // 用户登录
 router.post('/users/doLogin', User.loginAction);
 
+// 用户注册
+router.post('/users/doReg', User.regAction);
+
 // 用户注销
 router.get('/users/logOut', User.logOut);
 

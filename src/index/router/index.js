@@ -9,6 +9,7 @@ import index from '../views/ArticleList.vue'
 import article from '../views/Article.vue'
 import adminLogin from '../views/AdminLogin.vue'
 import userLoginForm from '../views/UserLoginForm'
+import userRegForm from '../views/UserRegForm'
 import siteMap from '../views/SiteMap.vue'
 
 Vue.use(VueRouter)
@@ -56,6 +57,7 @@ export function createRouter() {
             { name: 'search', path: '/search/:searchkey/:current(\\d+)?', component: index, meta: { typeId: 'search' } },
             { name: 'article', path: '/details/:id', component: article, meta: { notKeepAlive: true } },
             { name: 'login', path: '/users/login', component: userLoginForm },
+            { name: 'reg', path: '/users/reg', component: userRegForm },
             { name: 'adminlogin', path: '/dr-admin', component: adminLogin, meta: { typeId: 'adminlogin' } },
             { name: 'sitemap', path: '/sitemap.html', component: siteMap },
             { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }

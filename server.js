@@ -130,7 +130,7 @@ app.use('/system', system);
 // 前台路由, ssr 渲染
 app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
     '/:cate0/:cate1?___:typeId?/:current(\\d+)?', '/search/:searchkey/:current(\\d+)?',
-    '/details/:id', '/users/login', '/dr-admin', '/sitemap.html', '/tag/:tagName/:page(\\d+)?'], (req, res) => {
+    '/details/:id', '/users/login','/users/reg', '/dr-admin', '/sitemap.html', '/tag/:tagName/:page(\\d+)?'], (req, res) => {
         if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
             return res.redirect('/manage');
         }

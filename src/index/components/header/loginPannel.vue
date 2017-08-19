@@ -13,8 +13,8 @@
                 </el-dropdown>
             </li>
             <li v-else>
-                <a href="/users/login">
-                    <i class="fa fa-user" aria-hidden="true"></i>&nbsp;登录</a>
+                <a href="/users/login">登录</a>&nbsp;|&nbsp;
+                    <a href="/users/reg">注册</a>
             </li>
         </ul>
     </div>

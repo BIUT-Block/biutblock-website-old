@@ -8,6 +8,12 @@ const state = () => ({
     loginForm: {
         email: '',
         password: ''
+    },
+    regForm: {
+        userName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
     }
 })
 
@@ -29,6 +35,13 @@ const actions = {
             ...params
         })
     },
+    async ['regForm']({
+        commit
+    }, params) {
+        commit('recevieUserRegForm', {
+            ...params
+        })
+    },
 }
 
 const mutations = {
@@ -43,16 +56,26 @@ const mutations = {
             email: '',
             password: ''
         }, formData);
+    },
+    ['recevieUserRegForm'](state, { formData }) {
+        state.regForm = Object.assign({
+            userName:'',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }, formData);
     }
 }
 
 const getters = {
     ['getSessionState'](state) {
-        // console.log('----state.sessionState--', state.sessionState);
         return state.sessionState
     },
     ['loginForm'](state) {
         return state.loginForm
+    },
+    ['regForm'](state) {
+        return state.regForm
     }
 }
 

@@ -85,12 +85,11 @@ export default {
         if (valid) {
           let params = this.userLoginFormData;
           api.post('users/doLogin', params).then((result) => {
-            result = result.data;
-            if (result.state == 'success') {
+            if (result.data.state == 'success') {
               window.location = '/';
             } else {
               this.$message({
-                message: result.err,
+                message: result.data.message,
                 type: 'error'
               });
             }
@@ -130,14 +129,9 @@ export default {
   }
 
   .login-container {
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
     background-clip: padding-box; // margin: 180px auto;
     padding: 25px 35px 10px 35px;
     background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
     .title {
       margin: 0px auto 40px auto;
       text-align: center;

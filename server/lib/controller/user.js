@@ -221,6 +221,73 @@ class User {
         })
     }
 
+    async regAction(req, res, next){
+        const form = new formidable.IncomingForm();
+        form.parse(req, async (err, fields, files) => {
+            try {
+                let newPsd = service.encrypt(fields.password, settings.encrypt_key);
+                let errMsg = '';
+
+                if (!validatorUtil.checkUserName(fields.userName)) {
+                    errMsg = '5-12个英文字符!';
+                }
+                if (!validatorUtil.checkEmail(fields.email)) {
+                    errMsg = '请输入正确的邮箱'
+                } 
+                 if (!validatorUtil.checkPwd(fields.password)) {
+                    errMsg = '请输入正确的密码'
+                }
+                if(fields.password != fields.confirmPassword){
+                    errMsg = '两次输入密码不一致，请重新输入'
+                }
+                if (errMsg) {
+                    res.send({
+                        state: 'error',
+                        type: 'ERROR_PARAMS',
+                        message: errMsg
+                    })
+                    return;
+                }
+            } catch (err) {
+                console.log(err.message, err);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_PARAMS',
+                    message: err.message
+                })
+                return;
+            }
+            const userObj = {
+                userName: fields.userName,
+                email: fields.email,
+                password: service.encrypt(fields.password, settings.encrypt_key),
+            }
+            try {
+                let user = await UserModel.find().or([{'email' : fields.email},{userName : fields.userName}])
+                if (!_.isEmpty(user)) {
+                    res.send({
+                        state: 'error',
+                        message: '邮箱或用户名已存在！'
+                    });
+                } else {
+                    let newUser = new UserModel(userObj);
+                    await newUser.save();
+                    res.send({
+                        state: 'success',
+                        message: "注册成功！"
+                    });
+                }
+            } catch (err) {
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_IN_SAVE_DATA',
+                    message: err.stack
+                })
+            }
+
+        })
+    }
+
     async logOut(req, res, next) {
         req.session.destroy();
         res.clearCookie(settings.auth_cookie_name, { path: '/' });
