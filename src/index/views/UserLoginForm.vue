@@ -118,28 +118,5 @@ export default {
 </script>
 
 <style lang="scss">
-.login-form {
 
-  margin: 0 auto;
-  margin-top: 6%;
-  margin-bottom: 100px;
-
-  .submit-btn {
-    text-align: left;
-  }
-
-  .login-container {
-    background-clip: padding-box; // margin: 180px auto;
-    padding: 25px 35px 10px 35px;
-    background: #fff;
-    .title {
-      margin: 0px auto 40px auto;
-      text-align: center;
-      color: #505458;
-    }
-    .remember {
-      margin: 0px 0px 35px 0px;
-    }
-  }
-}
 </style>

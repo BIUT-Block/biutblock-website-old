@@ -13,8 +13,7 @@
                 </el-dropdown>
             </li>
             <li v-else>
-                <a href="/users/login">登录</a>&nbsp;|&nbsp;
-                    <a href="/users/reg">注册</a>
+                <a href="/users/login">登录</a>&nbsp;<a href="/users/reg">注册</a>
             </li>
         </ul>
     </div>

@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
     padding: 0;
     margin: 0;
     background: #ffffff;
@@ -7,19 +6,15 @@ body {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active, .fade-leave-active {
     transition: all .2s ease;
 }
 
-.fade-enter,
-.fade-leave-active {
+.fade-enter, .fade-leave-active {
     opacity: 0;
 }
 
-a:link,
-a:active,
-a:visited {
+a:link, a:active, a:visited {
     text-decoration: none;
     color: #6e7173;
 }
@@ -70,8 +65,7 @@ pre {
     border: none !important;
 }
 
-.normaltitle,
-.catetitle {
+.normaltitle, .catetitle {
     font-size: 14px;
     color: #fff;
     text-align: left;
@@ -111,6 +105,32 @@ pre {
     display: inline-block;
     padding: 5px 0;
     margin-bottom: -1px;
+}
+
+.login-form {
+    margin: 0 auto;
+    margin-top: 6%;
+    margin-bottom: 100px;
+}
+
+.login-form .submit-btn {
+    text-align: left;
+}
+
+.login-form .login-container {
+    background-clip: padding-box;
+    padding: 25px 35px 10px 35px;
+    background: #fff;
+}
+
+.login-form .login-container .title {
+    margin: 0px auto 40px auto;
+    text-align: center;
+    color: #505458;
+}
+
+.login-form .login-container.remember {
+    margin: 0px 0px 35px 0px;
 }
 
 @media screen and (max-width:768px) {

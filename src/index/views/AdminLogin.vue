@@ -1,6 +1,6 @@
 <template>
   <div class="dr-admin-login">
-    <div class="login-form">
+    <div class="admin-login-form">
       <el-row :gutter="10">
         <el-col :xs="2" :sm="6" :md="8" :lg="8">
           <div class="grid-content bg-purple">&nbsp;</div>
@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="scss">
-.login-form {
+.admin-login-form {
 
   margin: 0 auto;
   margin-top: 100px;
@@ -132,12 +132,10 @@ export default {
   }
 
   .login-container {
-    /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
     -webkit-border-radius: 5px;
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box; // margin: 180px auto;
-    // width: 350px;
     padding: 25px 35px 10px 35px;
     background: #fff;
     border: 1px solid #eaeaea;
