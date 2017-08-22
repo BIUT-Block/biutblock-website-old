@@ -34,7 +34,7 @@ router.get('/logout', (req, res) => {
 });
 
 // 获取管理员信息
-router.get('/getUserSession', authToken, authSession, (req, res) => {
+router.get('/getUserSession', authSession, (req, res) => {
   res.send({
     state: 'success',
     loginState: req.session.adminlogined,

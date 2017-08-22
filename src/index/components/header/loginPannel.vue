@@ -12,8 +12,9 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </li>
-            <li v-else>
-                <a href="/users/login">登录</a>&nbsp;<a href="/users/reg">注册</a>
+            <li class="login-txt" v-else>
+                <a href="/users/login">登录</a>
+                <a href="/users/reg">注册</a>
             </li>
         </ul>
     </div>
@@ -67,6 +68,11 @@ export default {
             line-height: 40px;
             display: inline-block;
             font-size: 13px;
+        }
+        .login-txt {
+            a:first-child {
+                margin-right: 10px;
+            }
         }
     }
 }
