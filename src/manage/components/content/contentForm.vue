@@ -237,7 +237,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let params = this.formState.formData;
-                    if (type === 'draft') params.state = false;
+                    params.state = type === 'draft' ? false : true;
                     // 更新
                     if (this.formState.edit) {
                         services.updateContent(params).then((result) => {
