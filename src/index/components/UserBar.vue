@@ -13,6 +13,9 @@
                         <li :class="{active : $route.fullPath == '/users/messages'}">
                             <router-link to="/users/messages">消息管理</router-link>
                         </li>
+                        <li :class="{active : $route.fullPath == '/users/replies'}">
+                            <router-link to="/users/replies">参与话题</router-link>
+                        </li>
                     </ul>
                 </div>
             </el-col>

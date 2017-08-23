@@ -16,8 +16,9 @@ class Message {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            let searchkey = req.query.searchkey; 
+            let searchkey = req.query.searchkey;
             let contentId = req.query.contentId;
+            let author = req.query.user;
             let queryObj = {};
             if (contentId) {
                 queryObj.contentId = contentId;
@@ -25,6 +26,9 @@ class Message {
             if (searchkey) {
                 let reKey = new RegExp(searchkey, 'i')
                 queryObj.content = { $regex: reKey }
+            }
+            if (author) {
+                queryObj.author = author;
             }
             const messages = await MessageModel.find(queryObj).sort({
                 date: -1

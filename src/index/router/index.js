@@ -8,6 +8,8 @@ import adminLogin from '../views/AdminLogin.vue'
 import userLoginForm from '../views/UserLoginForm'
 import userRegForm from '../views/UserRegForm'
 import userCenter from '../views/UserCenter'
+import userMessage from '../views/UserMessage'
+import userReplies from '../views/UserReplies'
 import siteMap from '../views/SiteMap.vue'
 
 Vue.use(VueRouter)
@@ -48,6 +50,8 @@ export function createRouter() {
             { name: 'login', path: '/users/login', component: userLoginForm },
             { name: 'reg', path: '/users/reg', component: userRegForm },
             { name: 'ucenter', path: '/users/center', component: userCenter },
+            { name: 'umessage', path: '/users/messages', component: userMessage },
+            { name: 'uReplies', path: '/users/replies', component: userReplies },
             { name: 'adminlogin', path: '/dr-admin', component: adminLogin, meta: { typeId: 'adminlogin' } },
             { name: 'sitemap', path: '/sitemap.html', component: siteMap },
             { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }

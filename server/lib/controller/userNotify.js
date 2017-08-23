@@ -13,8 +13,12 @@ class UserNotify {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const userNotifys = await UserNotifyModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
-            const totalItems = await UserNotifyModel.count();
+            let user = req.query.user;
+            const userNotifys = await UserNotifyModel.find({ user }).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'notify',
+                select: 'title content _id'
+            }]).exec();;
+            const totalItems = await UserNotifyModel.count({ user });
             res.send({
                 state: 'success',
                 docs: userNotifys,
@@ -76,15 +80,24 @@ class UserNotify {
         }
     }
 
-    async setMessageHasRead(messageId) {
-        let idObj = messageId.split(',');
-        let query;
-        if (idObj.length > 1) {
-            query = { '_id': { $in: idObj } };
-        } else {
-            query = { '_id': idObj[0] };
+    async setMessageHasRead(req, res, next) {
+        console.log('--query----', req.query);
+        let query = { _id: req.query.ids };
+        // 用户只能操作自己的消息
+        query.user = req.session.user._id;
+        try {
+            await UserNotifyModel.update(query, { $set: { 'isRead': true } }, { multi: true });
+            res.send({
+                state: 'success',
+                message: '设置已读成功',
+            })
+        } catch (error) {
+            res.send({
+                state: 'error',
+                message: '设置已读失败' + error,
+            })
         }
-        await UserNotifyModel.update(query, { $set: { 'isRead': true } }, { multi: true });
+
     }
 
     // 根据用户信息获取未读消息
@@ -95,7 +108,11 @@ class UserNotify {
         } else if (type == 'adminUser') {
             msgQuery = { 'systemUser': userId, 'isRead': false };
         }
-        return await UserNotifyModel.count(msgQuery);
+        let noticeCounts = await UserNotifyModel.count(msgQuery);
+        res.send({
+            state: 'success',
+            counts: noticeCounts
+        })
     }
 
 

@@ -14,6 +14,18 @@ const state = () => ({
         email: '',
         password: '',
         confirmPassword: ''
+    },
+    userNotices: {
+        docs: [],
+        pageInfo: {
+
+        }
+    },
+    userReplies: {
+        docs: [],
+        pageInfo: {
+
+        }
     }
 })
 
@@ -42,11 +54,22 @@ const actions = {
             ...params
         })
     },
+    async ['userNotices']({
+        commit
+    }, params) {
+        const { data } = await api.get('users/getUserNotifys')
+        commit('recevieUserNotices', data)
+    },
+    async ['userReplies']({
+        commit
+    }, params) {
+        const { data } = await api.get('users/getUserReplies')
+        commit('recevieUserReplies', data)
+    }
 }
 
 const mutations = {
     ['recevieSessionState'](state, { userInfo, logined }) {
-        // console.log('---userInfo----', userInfo);
         state.sessionState = {
             userInfo, logined
         }
@@ -59,11 +82,17 @@ const mutations = {
     },
     ['recevieUserRegForm'](state, { formData }) {
         state.regForm = Object.assign({
-            userName:'',
+            userName: '',
             email: '',
             password: '',
             confirmPassword: ''
         }, formData);
+    },
+    ['recevieUserNotices'](state, noticelist) {
+        state.userNotices = noticelist
+    },
+    ['recevieUserReplies'](state, replylist) {
+        state.userReplies = replylist
     }
 }
 
@@ -76,6 +105,12 @@ const getters = {
     },
     ['regForm'](state) {
         return state.regForm
+    },
+    ['noticelist'](state) {
+        return state.userNotices
+    },
+    ['replylist'](state) {
+        return state.userReplies
     }
 }
 

@@ -14,8 +14,15 @@ const {
 const authUser = require('../../utils/middleware/authUser');
 
 const jwt = require("jsonwebtoken");
-const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig } = require('../lib/controller');
-
+const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify } = require('../lib/controller');
+const _ = require('lodash');
+function checkUserSession(req, res, next) {
+  if (!_.isEmpty(req.session.user)) {
+    next()
+  } else {
+    res.redirect("/");
+  }
+}
 
 // 查询站点地图需要的信息
 router.get('/sitemap/getList', (req, res, next) => {
@@ -54,10 +61,22 @@ router.post('/users/doLogin', User.loginAction);
 router.post('/users/doReg', User.regAction);
 
 // 修改用户信息
-router.post('/users/updateInfo', User.updateUser);
+router.post('/users/updateInfo', checkUserSession, User.updateUser);
+
+// 获取用户通知信息
+router.get('/users/getUserNotifys', checkUserSession, (req, res, next) => { req.query.user = req.session.user._id; next() }, UserNotify.getUserNotifys);
+
+// 设置用户消息为已读
+router.get('/users/setNoticeRead', checkUserSession, UserNotify.setMessageHasRead);
+
+// 删除用户消息
+router.get('/users/delUserNotify', checkUserSession, UserNotify.delUserNotify);
+
+// 获取用户参与话题
+router.get('/users/getUserReplies', checkUserSession, (req, res, next) => { req.query.user = req.session.user._id; next() }, Message.getMessages);
 
 // 用户注销
-router.get('/users/logOut', User.logOut);
+router.get('/users/logOut', checkUserSession, User.logOut);
 
 // 管理员登录
 router.post('/admin/doLogin', AdminUser.loginAction);
