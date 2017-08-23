@@ -109,10 +109,10 @@ class UserNotify {
             msgQuery = { 'systemUser': userId, 'isRead': false };
         }
         let noticeCounts = await UserNotifyModel.count(msgQuery);
-        res.send({
-            state: 'success',
-            counts: noticeCounts
-        })
+        // res.send({
+        //     state: 'success',
+        //     counts: noticeCounts
+        // })
     }
 
 
