@@ -93,7 +93,7 @@ export default {
 <style lang="scss">
 .notice-list-row {
     height: 20px;
-    font-size: 12px;
+    font-size: 13px;
 
     .el-table__expand-icon {
         height: 32px;
@@ -101,7 +101,7 @@ export default {
 }
 
 .el-table__expanded-cell {
-    font-size: 12px;
+    font-size: 13px;
     padding: 10px 20px;
 }
 </style>
