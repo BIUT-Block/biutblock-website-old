@@ -51,7 +51,7 @@ class User {
                 queryObj.userName = { $regex: reKey }
             }
 
-            const Users = await UserModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            const Users = await UserModel.find(queryObj, { password: 0 }).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await UserModel.count();
             res.send({
                 state: 'success',
@@ -74,7 +74,7 @@ class User {
 
     async getOneUserByParams(req, res, params) {
         // let user_id = req.query._id;
-        return await UserModel.findOne(params);
+        return await UserModel.findOne(params, { password: 0 });
     }
 
     async updateUser(req, res, next) {
@@ -96,17 +96,20 @@ class User {
 
             const userObj = {
                 userName: fields.userName,
-                name: fields.name,
+                name: fields.name || '',
                 email: fields.email,
-                phoneNum: fields.phoneNum,
-                password: fields.password,
+                phoneNum: fields.phoneNum || '',
+                password: service.encrypt(fields.password, settings.encrypt_key),
                 confirm: fields.confirm,
                 group: fields.group
             }
             const item_id = fields._id;
-            console.log('---fields----', fields);
+         
             try {
                 await UserModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
+                // 更新缓存
+                delete userObj.password;
+                req.session.user = _.assign(req.session.user, userObj)
                 res.send({
                     state: 'success'
                 });
@@ -115,7 +118,7 @@ class User {
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
-                    message: '更新数据失败:',
+                    message: '更新数据失败:' + err,
                 })
             }
         })
@@ -221,7 +224,7 @@ class User {
         })
     }
 
-    async regAction(req, res, next){
+    async regAction(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             try {
@@ -233,11 +236,11 @@ class User {
                 }
                 if (!validatorUtil.checkEmail(fields.email)) {
                     errMsg = '请输入正确的邮箱'
-                } 
-                 if (!validatorUtil.checkPwd(fields.password)) {
+                }
+                if (!validatorUtil.checkPwd(fields.password)) {
                     errMsg = '请输入正确的密码'
                 }
-                if(fields.password != fields.confirmPassword){
+                if (fields.password != fields.confirmPassword) {
                     errMsg = '两次输入密码不一致，请重新输入'
                 }
                 if (errMsg) {
@@ -263,7 +266,7 @@ class User {
                 password: service.encrypt(fields.password, settings.encrypt_key),
             }
             try {
-                let user = await UserModel.find().or([{'email' : fields.email},{userName : fields.userName}])
+                let user = await UserModel.find().or([{ 'email': fields.email }, { userName: fields.userName }])
                 if (!_.isEmpty(user)) {
                     res.send({
                         state: 'error',

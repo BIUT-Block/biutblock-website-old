@@ -53,6 +53,9 @@ router.post('/users/doLogin', User.loginAction);
 // 用户注册
 router.post('/users/doReg', User.regAction);
 
+// 修改用户信息
+router.post('/users/updateInfo', User.updateUser);
+
 // 用户注销
 router.get('/users/logOut', User.logOut);
 

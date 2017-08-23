@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Meta from 'vue-meta'
-// import cookies from 'js-cookie'
-
-// import { inBrowser } from '../utils'
 
 import index from '../views/ArticleList.vue'
 import article from '../views/Article.vue'
 import adminLogin from '../views/AdminLogin.vue'
 import userLoginForm from '../views/UserLoginForm'
 import userRegForm from '../views/UserRegForm'
+import userCenter from '../views/UserCenter'
 import siteMap from '../views/SiteMap.vue'
 
 Vue.use(VueRouter)
@@ -41,15 +39,6 @@ export function createRouter() {
         //base: __dirname,
         // scrollBehavior,
         routes: [
-            // { name:'index', path: '/', component: index },
-            // { name:'trending', path: '/trending/:by', component: index },
-            // { name:'category', path: '/category/:id', component: index },
-            // { name:'search', path: '/search/:key', component: index },
-            // { name:'article', path: '/article/:id', component: article, meta: { scrollToTop: true } },
-            // { name:'about', path: '/about', component: about, meta: { scrollToTop: true } },
-            // { name:'account', path: '/user/account', component: account, meta: { scrollToTop: true }, beforeEnter: guardRoute },
-            // { name:'password', path: '/user/password', component: password, meta: { scrollToTop: true }, beforeEnter: guardRoute }
-
             { name: 'index', path: '/', component: index, meta: { typeId: 'indexPage' } },
             { name: 'index', path: '/page/:current(\\d+)?', component: index, meta: { typeId: 'indexPage' } },
             { name: 'category', path: '/:cate1?___:typeId?/:current(\\d+)?', component: index },
@@ -58,6 +47,7 @@ export function createRouter() {
             { name: 'article', path: '/details/:id', component: article, meta: { notKeepAlive: true } },
             { name: 'login', path: '/users/login', component: userLoginForm },
             { name: 'reg', path: '/users/reg', component: userRegForm },
+            { name: 'ucenter', path: '/users/center', component: userCenter },
             { name: 'adminlogin', path: '/dr-admin', component: adminLogin, meta: { typeId: 'adminlogin' } },
             { name: 'sitemap', path: '/sitemap.html', component: siteMap },
             { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: index, meta: { typeId: 'tags' } }

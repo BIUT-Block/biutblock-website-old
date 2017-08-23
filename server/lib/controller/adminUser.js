@@ -51,7 +51,7 @@ class AdminUser {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const adminUsers = await AdminUserModel.find({}).sort({
+            const adminUsers = await AdminUserModel.find({}, { password: 0 }).sort({
                 date: -1
             }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate({
                 path: 'group',
@@ -119,7 +119,7 @@ class AdminUser {
                     select: 'power _id enable'
                 }]).exec();
                 if (user) {
-                    if(!user.enable){
+                    if (!user.enable) {
                         res.send({
                             state: 'error',
                             err: "该用户已被限制登录，请稍后重试"

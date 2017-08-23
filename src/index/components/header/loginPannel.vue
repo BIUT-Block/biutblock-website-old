@@ -8,6 +8,7 @@
                         <i class="el-icon-caret-bottom el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="userCenter">用户中心</el-dropdown-item>
                         <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -35,6 +36,9 @@ export default {
         })
     },
     methods: {
+        userCenter() {
+            this.$router.push('/users/center');
+        },
         logout() {
             api.get('users/logOut').then((result) => {
                 if (result.data.state === 'success') {
@@ -68,12 +72,21 @@ export default {
             line-height: 40px;
             display: inline-block;
             font-size: 13px;
+            i {
+                font-size: 12px;
+            }
         }
         .login-txt {
             a:first-child {
                 margin-right: 10px;
             }
         }
+    }
+}
+
+.el-dropdown-menu {
+    li {
+        font-size: 14px;
     }
 }
 </style>
