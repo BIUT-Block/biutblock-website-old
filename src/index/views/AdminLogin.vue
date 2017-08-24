@@ -86,7 +86,6 @@ export default {
           api.post('admin/doLogin', params).then((result) => {
             result = result.data;
             if (result.state == 'success') {
-              sessionStorage.setItem('cms-token', result.token);
               window.location = '/manage';
             } else {
               this.$message({

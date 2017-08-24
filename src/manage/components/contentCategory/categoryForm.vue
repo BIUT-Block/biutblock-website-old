@@ -1,17 +1,17 @@
 <template>
     <div class="dr-AdminResourceForm">
         <el-dialog size="large" title="填写分类信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
-            <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="dialogState.formData" :rules="cateRules" ref="cateRuleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
                     <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
                 </el-form-item>
-                <el-form-item label="类别名称" prop="label">
+                <el-form-item label="类别名称" prop="name">
                     <el-input size="small" v-model="dialogState.formData.name"></el-input>
                 </el-form-item>
                 <el-form-item label="有效" prop="enable">
                     <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
                 </el-form-item>
-                <el-form-item label="SeoUrl" prop="label">
+                <el-form-item label="SeoUrl" prop="defaultUrl">
                     <el-input size="small" v-model="dialogState.formData.defaultUrl"></el-input>
                 </el-form-item>
                 <el-form-item label="排序" prop="sortId">
@@ -24,8 +24,8 @@
                     <el-input size="small" v-model="dialogState.formData.comments"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">{{dialogState.edit ? '更新' : '保存'}}</el-button>
-                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                    <el-button type="primary" @click="submitForm('cateRuleForm')">{{dialogState.edit ? '更新' : '保存'}}</el-button>
+                    <el-button @click="resetForm('cateRuleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -40,7 +40,7 @@ export default {
     },
     data() {
         return {
-            rules: {
+            cateRules: {
                 name: [{
                     required: true,
                     message: '请输入类别名称',

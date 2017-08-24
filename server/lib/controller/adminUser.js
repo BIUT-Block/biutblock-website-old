@@ -6,8 +6,6 @@ const validator = require('validator')
 const _ = require('lodash')
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 
-const jwt = require("jsonwebtoken");
-
 function checkFormData(req, res, fields) {
     let errMsg = '';
     if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
@@ -128,15 +126,9 @@ class AdminUser {
                     req.session.adminPower = user.group.power;
                     req.session.adminlogined = true;
                     req.session.adminUserInfo = user;
-                    // console.log('--req.session---', req.session);
-                    const token = jwt.sign({
-                        userName,
-                        password,
-                        exp: settings.cache_maxAge
-                    }, settings.jwt.secret);
+
                     res.send({
                         state: 'success',
-                        token,
                         adminPower: req.session.adminPower
                     });
                 } else {

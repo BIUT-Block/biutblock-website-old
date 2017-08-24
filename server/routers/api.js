@@ -13,7 +13,6 @@ const {
 } = require('../../utils');
 const authUser = require('../../utils/middleware/authUser');
 
-const jwt = require("jsonwebtoken");
 const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify } = require('../lib/controller');
 const _ = require('lodash');
 function checkUserSession(req, res, next) {

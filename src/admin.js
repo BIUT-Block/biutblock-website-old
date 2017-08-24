@@ -25,13 +25,13 @@ Object.keys(filters).forEach(key => {
 
 // axios拦截返回，拦截token过期
 Axios.interceptors.response.use(function (response) {
-    // console.log('--response--', response);
     let res = response.data;
     if (res.state === 'error') {
         if (res.err && res.err.indexOf('token') !== -1) {
-            store.dispatch("deleteToken");
-        } else if (res.err && res.err.indexOf('adminGroupPower') !== -1) {
-            // store.dispatch("loginState", { havePower: false })
+            store.dispatch("loginState", {
+                userInfo: {},
+                state: false
+            });
         }
         return response;
     }

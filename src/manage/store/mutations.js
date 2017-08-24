@@ -3,7 +3,6 @@ import getters from './getters';
 import _ from 'lodash';
 const state = {
     count: 20,
-    token: sessionStorage.getItem('cms-token'),
     loginState: {
         state: false,
         userInfo: {
@@ -239,14 +238,6 @@ const mutations = {
     },
     [types.DECREMENT](state) {
         state.count--
-    },
-    [types.CREATE_TOKEN](state, token) {
-        state.token = token;
-        sessionStorage.setItem('cms-token', token);
-    },
-    [types.DELETE_TOKEN](state) {
-        state.token = null;
-        sessionStorage.setItem('cms-token', '');
     },
     [types.ADMING_LOGINSTATE](state, params) {
         state.loginState = Object.assign({

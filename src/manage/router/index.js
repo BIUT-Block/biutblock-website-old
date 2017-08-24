@@ -26,7 +26,7 @@ function renderLeftMenu() {
   catelist = JSON.parse(cateDataDom.value);
   let addNewRoutes = [];
   let treeData = catelist;
-  
+
   let newResult = [].concat(treeData);
   let delAtArr = [];
   let childArr = _.filter(treeData, (doc) => {
@@ -80,13 +80,7 @@ function renderLeftMenu() {
 
 
 router.beforeEach((to, from, next) => {
-  // token 校验
-  if (store.getters.token) {
-    Axios.defaults.headers.common['Authorization'] = 'DoraCMS ' + router.app.$store.getters.token; // 全局设定header的token验证，注意Bearer后有个空格
-    next()
-  } else {
-    window.location = '/dr-admin';
-  }
+  next();
 })
 
 export default router;

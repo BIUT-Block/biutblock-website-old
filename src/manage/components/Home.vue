@@ -113,7 +113,6 @@ export default {
                 services.logOut().then((result) => {
                     if (result && result.data.state === 'success') {
                         window.location = '/dr-admin';
-                        sessionStorage.removeItem('cms-token');
                     } else {
                         this.$message.error('服务异常,请稍后再试');
                     }
@@ -135,7 +134,6 @@ export default {
 
                 if (result && result.data.state === 'success') {
                     window.location = '/dr-admin';
-                    this.$store.dispatch('deleteToken');
                 } else {
                     this.$message.error('服务异常,请稍后再试');
                 }
@@ -147,14 +145,12 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'token',
             'loginState'
         ])
     },
     watch: {
-        token() {
-            if (!this.$store.getters.token) {
-                this.$store.dispatch('deleteToken');
+        loginState() {
+            if (!this.$store.getters.loginState.state) {
                 this.$confirm('您的登录已超时?', '提示', {
                     showCancelButton: false,
                     closeOnClickModal: false,
@@ -167,15 +163,6 @@ export default {
                 }).catch(() => {
                     this.loading = true;
                     window.location = '/dr-admin'
-                });
-            }
-        },
-        loginState() {
-            if (!this.$store.getters.loginState.state) {
-                this.$message({
-                    showClose: true,
-                    message: '对不起，您暂无权限执行该操作',
-                    type: 'warning'
                 });
             }
         }

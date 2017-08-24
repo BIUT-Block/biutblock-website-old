@@ -38,7 +38,6 @@
             </el-form-item>
             <el-form-item class="dr-submitContent">
                 <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
-                <el-button size="small" @click="submitForm('ruleForm','draft')">存草稿</el-button>
                 <el-button size="small" @click="backToList">返回</el-button>
             </el-form-item>
         </el-form>
@@ -237,7 +236,6 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let params = this.formState.formData;
-                    params.state = type === 'draft' ? false : true;
                     // 更新
                     if (this.formState.edit) {
                         services.updateContent(params).then((result) => {
