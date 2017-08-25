@@ -154,8 +154,8 @@ export default {
         return reqJsonData('manage/regUser/deleteUser', params, 'get')
     },
 
-    getBakDataList() {
-        return reqJsonData('manage/backupDataManage/getBakList', {}, 'get')
+    getBakDataList(params) {
+        return reqJsonData('manage/backupDataManage/getBakList', params, 'get')
     },
 
     bakUpData() {
@@ -166,5 +166,16 @@ export default {
         return reqJsonData('manage/backupDataManage/deleteDataItem', params, 'get')
     },
 
+    getSystemOptionLogsList(params) {
+        return reqJsonData('manage/systemOptionLog/getList', params, 'get')
+    },
+
+    deleteSystemOptionLogs(params) {
+        return reqJsonData('manage/systemOptionLog/deleteLogItem', params, 'get')
+    },
+
+    clearSystemOptionLogs(params) {
+        return reqJsonData('manage/systemOptionLog/deleteAllLogItem', params, 'get')
+    }
 
 }

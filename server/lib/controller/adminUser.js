@@ -1,5 +1,6 @@
 const BaseComponent = require('../prototype/baseComponent');
 const AdminUserModel = require("../models").AdminUser;
+const SystemOptionLogModel = require("../models").SystemOptionLog;
 const formidable = require('formidable');
 const shortid = require('shortid');
 const validator = require('validator')
@@ -126,6 +127,16 @@ class AdminUser {
                     req.session.adminPower = user.group.power;
                     req.session.adminlogined = true;
                     req.session.adminUserInfo = user;
+
+                    // 记录登录日志
+                    let clientIp = req.headers['x-forwarded-for'] ||
+                        req.connection.remoteAddress ||
+                        req.socket.remoteAddress ||
+                        req.connection.socket.remoteAddress;
+                    let loginLog = new SystemOptionLogModel();
+                    loginLog.type = 'login';
+                    loginLog.logs = req.session.adminUserInfo.userName + ' 登录，IP:' + clientIp;
+                    await loginLog.save();
 
                     res.send({
                         state: 'success',

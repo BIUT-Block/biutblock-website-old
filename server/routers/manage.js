@@ -11,7 +11,8 @@ const {
   User,
   Message,
   SystemConfig,
-  DataOptionLog
+  DataOptionLog,
+  SystemOptionLog
 } = require('../lib/controller');
 const {
   service,
@@ -158,5 +159,17 @@ router.post('/backupDataManage/backUp', authToken, authPower, DataOptionLog.back
 
 //删除备份数据
 router.get('/backupDataManage/deleteDataItem', authToken, authPower, DataOptionLog.delDataItem);
+
+/**
+ * 系统操作日志
+ */
+
+router.get('/systemOptionLog/getList', authToken, authPower, SystemOptionLog.getSystemOptionLogs);
+
+//删除操作日志
+router.get('/systemOptionLog/deleteLogItem', authToken, authPower, SystemOptionLog.delSystemOptionLogs);
+
+// 清空日志
+router.get('/systemOptionLog/deleteAllLogItem', authToken, authPower, (req, res, next) => { req.query.ids = 'all'; next() }, SystemOptionLog.delSystemOptionLogs);
 
 module.exports = router

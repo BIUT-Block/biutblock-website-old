@@ -229,6 +229,10 @@ const state = {
     bakDataList: {
         pageInfo: {},
         docs: []
+    },
+    systemOptionLogs: {
+        pageInfo: {},
+        docs: []
     }
 }
 
@@ -436,8 +440,10 @@ const mutations = {
         state.regUser.userList = userlist
     },
     [types.BAKUPDATA_LIST](state, list) {
-        console.log('----list------',list);
         state.bakDataList = list
+    },
+    [types.SYSTEMOPTIONLOGS_LIST](state, list) {
+        state.systemOptionLogs = list
     }
 
 }

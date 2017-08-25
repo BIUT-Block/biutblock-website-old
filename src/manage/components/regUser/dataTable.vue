@@ -35,7 +35,6 @@ export default {
 
     methods: {
         handleUserSelect(val) {
-            console.log('-----', val);
             if (val && val.length > 0) {
                 let ids = val.map((item, index) => {
                     return item._id;

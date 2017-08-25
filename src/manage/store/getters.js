@@ -22,4 +22,5 @@ export default {
     regUserFormState: state => state.regUser.formState,
     regUserList: state => state.regUser.userList,
     bakDataList: state => state.bakDataList,
+    systemOptionLogs: state => state.systemOptionLogs,
 }

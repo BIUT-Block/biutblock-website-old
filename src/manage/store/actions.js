@@ -64,9 +64,9 @@ export default {
     loginState: ({
         commit
     }, params = {
-        userInfo: {},
-        state: false
-    }) => {
+            userInfo: {},
+            state: false
+        }) => {
         services.getUserSession().then((result) => {
             commit(types.ADMING_LOGINSTATE, result.data)
         })
@@ -74,9 +74,9 @@ export default {
     showAdminUserForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINUSERFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -100,9 +100,9 @@ export default {
     showAdminGroupForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINGROUP_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -119,9 +119,9 @@ export default {
     showAdminGroupRoleForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINGROUP_ROLEFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -145,10 +145,10 @@ export default {
     showAdminResourceForm: ({
         commit
     }, params = {
-        type: 'root',
-        edit: false,
-        formData: {}
-    }) => {
+            type: 'root',
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.ADMINRESOURCE_FORMSTATE, {
             show: true,
             type: params.type,
@@ -182,10 +182,10 @@ export default {
     showContentCategoryForm: ({
         commit
     }, params = {
-        type: 'root',
-        edit: false,
-        formData: {}
-    }) => {
+            type: 'root',
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.CONTENTCATEGORYS_FORMSTATE, {
             show: true,
             type: params.type,
@@ -212,9 +212,9 @@ export default {
     showContentForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.CONTENT_FORMSTATE, {
             edit: params.edit,
             formData: params.formData
@@ -239,9 +239,9 @@ export default {
     showContentTagForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.CONTENTTAG_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -265,10 +265,10 @@ export default {
     showContentMessageForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {},
-        parentformData: {}
-    }) => {
+            edit: false,
+            formData: {},
+            parentformData: {}
+        }) => {
         commit(types.CONTENTMESSAGE_FORMSTATE, {
             show: true,
             edit: params.edit,
@@ -293,9 +293,9 @@ export default {
     showRegUserForm: ({
         commit
     }, params = {
-        edit: false,
-        formData: {}
-    }) => {
+            edit: false,
+            formData: {}
+        }) => {
         commit(types.REGUSERFORMSTATE, {
             show: true,
             edit: params.edit,
@@ -322,6 +322,14 @@ export default {
     }, params = {}) {
         services.getBakDataList(params).then((result) => {
             commit(types.BAKUPDATA_LIST, result.data)
+        })
+    },
+
+    getSystemLogsList({
+        commit
+    }, params = {}) {
+        services.getSystemOptionLogsList(params).then((result) => {
+            commit(types.SYSTEMOPTIONLOGS_LIST, result.data)
         })
     }
 

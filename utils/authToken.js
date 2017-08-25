@@ -1,5 +1,4 @@
 const settings = require("./settings");
-const jwt = require("jsonwebtoken");
 
 function _clearSession(req) {
     req.session.adminlogined = false;

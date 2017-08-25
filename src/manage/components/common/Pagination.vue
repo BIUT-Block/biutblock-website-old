@@ -56,6 +56,10 @@ export default {
                 this.$store.dispatch('getBakDateList', {
                     current: val
                 });
+            }else if (this.pageType === 'systemOptionLogs') {
+                this.$store.dispatch('getSystemLogsList', {
+                    current: val
+                });
             }
 
         }

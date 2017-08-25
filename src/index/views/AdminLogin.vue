@@ -84,12 +84,11 @@ export default {
         if (valid) {
           let params = this.adminLoginFormData;
           api.post('admin/doLogin', params).then((result) => {
-            result = result.data;
-            if (result.state == 'success') {
+            if (result.data.state == 'success') {
               window.location = '/manage';
             } else {
               this.$message({
-                message: result.err,
+                message: result.data.message,
                 type: 'error'
               });
             }

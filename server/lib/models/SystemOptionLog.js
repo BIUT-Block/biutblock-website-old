@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 var Schema = mongoose.Schema;
-var adminFunc = require('./db/adminFunc');
+var moment = require('moment')
 
 var SystemOptionLogSchema = new Schema({
     _id: {
@@ -13,15 +13,15 @@ var SystemOptionLogSchema = new Schema({
         unique: true,
         'default': shortid.generate
     },
-    type : String,
+    type: String,
     date: { type: Date, default: Date.now },
-    logs : String
+    logs: String
 });
 
 SystemOptionLogSchema.statics = {
 
     //添加用户登录日志
-    addUserLoginLogs : function(req,res,targetIp){
+    addUserLoginLogs: function (req, res, targetIp) {
         var loginLog = new SystemOptionLog();
         loginLog.type = 'login';
         loginLog.logs = req.session.adminUserInfo.userName + ' 登录，IP:' + targetIp;
@@ -34,7 +34,14 @@ SystemOptionLogSchema.statics = {
 
 }
 
-var SystemOptionLog = mongoose.model("SystemOptionLog",SystemOptionLogSchema);
+SystemOptionLogSchema.set('toJSON', { getters: true, virtuals: true });
+SystemOptionLogSchema.set('toObject', { getters: true, virtuals: true });
+
+SystemOptionLogSchema.path('date').get(function (v) {
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
+});
+
+var SystemOptionLog = mongoose.model("SystemOptionLog", SystemOptionLogSchema);
 
 module.exports = SystemOptionLog;
 

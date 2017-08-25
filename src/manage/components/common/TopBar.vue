@@ -29,6 +29,10 @@
                 <el-button size="small" type="primary" @click="bakUpData" :loading="loadingState">
                     <i class="el-icon-upload"></i> &nbsp;备份数据库</el-button>
             </div>
+            <div v-else-if="type === 'systemOptionLogs'">
+                <el-button size="small" type="danger" icon="delete" @click="branchDelete('systemlogs')">批量删除</el-button>
+                <el-button size="small" type="warning" icon="warning" @click="clearSystemOptionLogs">清空日志</el-button>
+            </div>
         </div>
         <div class="dr-searchInput">
             <div v-if="type === 'content'">
@@ -51,154 +55,185 @@
     </div>
 </template>
 <script>
-    import services from '../../store/services.js';
-    export default {
-        props: {
-            type: String,
-            ids: Array
-        },
-        data() {
-            return {
-                loadingState: false,
-                formState: {
-                    show: false
-                },
-                searchkey: ''
-            }
-        },
-        methods: {
-            searchResult(ev) {
-                if (this.type == 'content') {
-                    this.$store.dispatch('getContentList', {
-                        searchkey: this.searchkey
-                    });
-                } else if (this.type == 'contentTag') {
-                    this.$store.dispatch('getContentTagList', {
-                        searchkey: this.searchkey
-                    });
-                } else if (this.type == 'contentMessage') {
-                    this.$store.dispatch('getContentMessageList', {
-                        searchkey: this.searchkey
-                    });
-                } else if (this.type == 'regUser') {
-                    this.$store.dispatch('getRegUserList', {
-                        searchkey: this.searchkey
-                    });
-                }
+import services from '../../store/services.js';
+export default {
+    props: {
+        type: String,
+        ids: Array
+    },
+    data() {
+        return {
+            loadingState: false,
+            formState: {
+                show: false
             },
-            addUser() {
-                this.$store.dispatch('showAdminUserForm')
-            },
-            addRole() {
-                this.$store.dispatch('showAdminGroupForm')
-            },
-            addResource() {
-                this.$store.dispatch('showAdminResourceForm', {
-                    type: 'root',
-                    formData: {
-                        parentId: '0'
-                    }
-                })
-            },
-            addContent() {
-                this.$store.dispatch('showContentForm');
-                this.$router.push('/addContent');
-            },
-            addTopCates() {
-                this.$store.dispatch('showContentCategoryForm', {
-                    type: 'root',
-                    formData: {
-                        parentId: '0'
-                    }
-                })
-            },
-            branchDelete(target) {
-                let _this = this,
-                    targetName;
-                if (target === 'msg') {
-                    targetName = '留言'
-                } else if (target === 'user') {
-                    targetName = '用户'
-                }
-                this.$confirm(`此操作将永久删除这些${targetName}, 是否继续?`, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let ids = (_this.ids).join();
-                    if (target === 'msg') {
-                        return services.deleteContentMessage({
-                            ids
-                        });
-                    } else if (target === 'user') {
-                        return services.deleteRegUser({
-                            ids
-                        });
-                    }
-                }).then((result) => {
-                    if (result.data.state === 'success') {
-                        if (target === 'msg') {
-                            this.$store.dispatch('getContentMessageList');
-                        } else if (target === 'user') {
-                            this.$store.dispatch('getRegUserList');
-                        }
-                        this.$message({
-                            message: `${targetName}删除成功`,
-                            type: 'success'
-                        });
-                    } else {
-                        this.$message.error(result.data.message);
-                    }
-                }).catch((err) => {
-                    this.$message({
-                        type: 'info',
-                        message: '删除失败:' + err
-                    });
-                });
-            },
-            addTag() {
-                this.$store.dispatch('showContentTagForm')
-            },
-            delUser() {
-                // this.$store.dispatch('showAdminUserForm')
-            },
-            bakUpData() {
-                this.$confirm(`您即将执行数据备份操作, 是否继续?`, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.loadingState = true;
-                    return services.bakUpData();
-                }).then((result) => {
-                    if (result.data.state === 'success') {
-                        this.loadingState = false;
-                        this.$store.dispatch('getBakDateList');
-                        this.$message({
-                            message: `数据备份成功`,
-                            type: 'success'
-                        });
-                    } else {
-                        this.$message.error(result.data.message);
-                    }
-                }).catch((err) => {
-                    this.$message({
-                        type: 'info',
-                        message: '数据备份失败:' + err
-                    });
-                });
-            }
-        },
-        components: {
-
+            searchkey: ''
         }
+    },
+    methods: {
+        searchResult(ev) {
+            if (this.type == 'content') {
+                this.$store.dispatch('getContentList', {
+                    searchkey: this.searchkey
+                });
+            } else if (this.type == 'contentTag') {
+                this.$store.dispatch('getContentTagList', {
+                    searchkey: this.searchkey
+                });
+            } else if (this.type == 'contentMessage') {
+                this.$store.dispatch('getContentMessageList', {
+                    searchkey: this.searchkey
+                });
+            } else if (this.type == 'regUser') {
+                this.$store.dispatch('getRegUserList', {
+                    searchkey: this.searchkey
+                });
+            }
+        },
+        addUser() {
+            this.$store.dispatch('showAdminUserForm')
+        },
+        addRole() {
+            this.$store.dispatch('showAdminGroupForm')
+        },
+        addResource() {
+            this.$store.dispatch('showAdminResourceForm', {
+                type: 'root',
+                formData: {
+                    parentId: '0'
+                }
+            })
+        },
+        addContent() {
+            this.$store.dispatch('showContentForm');
+            this.$router.push('/addContent');
+        },
+        addTopCates() {
+            this.$store.dispatch('showContentCategoryForm', {
+                type: 'root',
+                formData: {
+                    parentId: '0'
+                }
+            })
+        },
+        clearSystemOptionLogs() {
+            this.$confirm(`此操作将清空所有日志, 是否继续?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                return services.clearSystemOptionLogs();
+            }).then((result) => {
+                if (result.data.state === 'success') {
+                    this.$store.dispatch('getSystemLogsList');
+                    this.$message({
+                        message: `清空日志成功`,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message.error(result.data.message);
+                }
+            }).catch((err) => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        branchDelete(target) {
+            let _this = this,
+                targetName;
+            if (target === 'msg') {
+                targetName = '留言'
+            } else if (target === 'user') {
+                targetName = '用户'
+            } else if (target === 'systemlogs') {
+                targetName = '系统操作日志'
+            }
+            this.$confirm(`此操作将永久删除这些${targetName}, 是否继续?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let ids = (_this.ids).join();
+                if (target === 'msg') {
+                    return services.deleteContentMessage({
+                        ids
+                    });
+                } else if (target === 'user') {
+                    return services.deleteRegUser({
+                        ids
+                    });
+                } else if (target === 'systemlogs') {
+                    return services.deleteSystemOptionLogs({
+                        ids
+                    });
+                }
+            }).then((result) => {
+                if (result.data.state === 'success') {
+                    if (target === 'msg') {
+                        this.$store.dispatch('getContentMessageList');
+                    } else if (target === 'user') {
+                        this.$store.dispatch('getRegUserList');
+                    } else if (target === 'systemlogs') {
+                        this.$store.dispatch('getSystemLogsList');
+                    }
+                    this.$message({
+                        message: `${targetName}删除成功`,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message.error(result.data.message);
+                }
+            }).catch((err) => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        addTag() {
+            this.$store.dispatch('showContentTagForm')
+        },
+        delUser() {
+            // this.$store.dispatch('showAdminUserForm')
+        },
+        bakUpData() {
+            this.$confirm(`您即将执行数据备份操作, 是否继续?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.loadingState = true;
+                return services.bakUpData();
+            }).then((result) => {
+                if (result.data.state === 'success') {
+                    this.loadingState = false;
+                    this.$store.dispatch('getBakDateList');
+                    this.$message({
+                        message: `数据备份成功`,
+                        type: 'success'
+                    });
+                } else {
+                    this.$message.error(result.data.message);
+                }
+            }).catch((err) => {
+                this.$message({
+                    type: 'info',
+                    message: '数据备份失败:' + err
+                });
+            });
+        }
+    },
+    components: {
 
     }
+
+}
 
 </script>
 <style lang="scss">
-    .option-button {
-        display: inline-block
-    }
-
+.option-button {
+    display: inline-block
+}
 </style>
