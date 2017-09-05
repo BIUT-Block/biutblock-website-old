@@ -11,6 +11,12 @@
 ```
 ├─build // webpack 相关配置文件
 │
+├─configs // 配置文件
+│  │  
+│  └─logConfig.js  // 日志配置文件
+│ 
+├─logs // 日志目录
+│
 ├─dist  // webpack 生成文档存放目录
 │  │
 │  ├─server
@@ -26,47 +32,38 @@
 │
 ├─server    // 服务端目录
 │  │
-│  ├─api    // api 相关处理文件
+│  ├─lib    // 核心层
 │  │
-│  ├─config // api 配置文件
-│  │
-│  ├─models // mongoose 的相关 model
-│  │
-│  ├─routes // 路由文件
-│  │
-│  └─utils  // 实用工具
+│  └─routes // 路由文件
 │
 ├─src           // 客户端程序目录
 │  │
 │  ├─api        // api 配置文件
 │  │
-│  ├─assets     // 静态文件文件夹
-│  │  ├─css
-│  │  │
-│  │  └─images
-│  │
-│  ├─components // 组件文件夹
-│  │
 │  ├─filters    // 过滤器
 │  │
-│  ├─pages      // 路由组件
+│  ├─index      // 前台组件
 │  │
-│  ├─polyfill   // polyfill
-│  │
-│  ├─router     // 路由配置文件夹
-│  │
-│  ├─store      // vuex 相关文件夹
-│  │  │
-│  │  └─modules // vuex 模块文件夹
+│  ├─manage     // 后台组件
 │  │
 │  ├─template   // 初始模版
 │  │
 │  └─utils      // 实用工具
 │
-└─static
-    ├─editor.md
+└─utils
+    ├─middleware // 中间件
     │
-    ├─images
+    ├─authPower.js // 资源鉴权
+    │
+    ├─authSession.js // session 鉴权
+    │
+    ├─authToken.js // token鉴权
+    │
+    ├─logUtil.js // 日志配置
+    │
+    ├─settings.js // 关键信息配置
+    │
+    └─validatorUtil.js // 信息校验
 
 ```
 

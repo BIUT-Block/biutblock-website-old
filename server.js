@@ -228,7 +228,6 @@ app.get('/manage', authSession, function (req, res) {
     AdminResource.getAllResource(req, res, {
         type: '0'
     }).then((manageCates) => {
-        // console.log('------manageCates--------',manageCates);
         let currentCates = manageCates ? JSON.stringify(manageCates) : [];
         if (isProd) {
             res.render('admin.html', {

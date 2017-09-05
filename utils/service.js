@@ -59,7 +59,7 @@ var system = {
             toEmail = obj.email;
         }
 
-        //                发送邮件
+        // 发送邮件
         var transporter = nodemailer.createTransport({
 
             service: 'QQ',
