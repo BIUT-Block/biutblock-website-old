@@ -1,6 +1,10 @@
 const BaseComponent = require('../prototype/baseComponent');
 const UserModel = require("../models").User;
 const MessageModel = require("../models").Message;
+const NotifyModel = require("../models").Notify;
+const UserNotifyModel = require("../models").UserNotify;
+const AdminUserModel = require("../models").AdminUser;
+const SystemConfigModel = require("../models").SystemConfig;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
@@ -104,7 +108,7 @@ class User {
                 group: fields.group
             }
             const item_id = fields._id;
-         
+
             try {
                 await UserModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 // 更新缓存
@@ -275,6 +279,31 @@ class User {
                 } else {
                     let newUser = new UserModel(userObj);
                     await newUser.save();
+
+                    //发送通知邮件给用户
+                    const systemConfigs = await SystemConfigModel.find({});
+                    if (!_.isEmpty(systemConfigs)) {
+                        service.sendEmail(req, systemConfigs[0], settings.email_notice_user_reg, {
+                            email: fields.email,
+                            userName: fields.userName
+                        })
+                    }
+
+                    let noticeConfig = siteFunc.getNoticeConfig('reg', fields.userName);
+                    let notify = new NotifyModel(noticeConfig);
+                    // 发系统消息管理员
+                    let newNotify = await notify.save();
+                    let users = await AdminUserModel.find({}, '_id');
+                    if (users.length > 0) {
+                        for (let i = 0; i < users.length; i++) {
+                            let userNotify = new UserNotifyModel({
+                                systemUser: users[i]._id,
+                                notify: newNotify
+                            });
+                            await userNotify.save();
+                        }
+                    }
+
                     res.send({
                         state: 'success',
                         message: "注册成功！"

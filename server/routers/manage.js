@@ -82,7 +82,7 @@ router.get('/adminResource/deleteResource', authToken, authPower, AdminResource.
 
 /**
  * 系统配置
- * 
+ * 此api名称尽量不要改
  */
 router.get('/systemConfig/getConfig', authToken, authPower, SystemConfig.getSystemConfigs)
 

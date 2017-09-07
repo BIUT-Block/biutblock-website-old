@@ -102,6 +102,12 @@ const state = {
             siteName: '',
             siteDomain: '',
             siteDiscription: '',
+            siteKeywords: '',
+            siteEmailServer: '',
+            siteEmail: '',
+            siteEmailPwd: '',
+            mongoDBPath: '',
+            databackForderPath: ''
         }
     },
     contentCategory: {
@@ -335,7 +341,13 @@ const mutations = {
         state.systemConfig.configs = Object.assign({
             siteName: '',
             siteDomain: '',
-            siteDiscription: ''
+            siteDiscription: '',
+            siteKeywords: '',
+            siteEmailServer: '',
+            siteEmail: '',
+            siteEmailPwd: '',
+            mongoDBPath: '',
+            databackForderPath: ''
         }, config)
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {

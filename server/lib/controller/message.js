@@ -1,6 +1,8 @@
 const BaseComponent = require('../prototype/baseComponent');
 const ContentModel = require("../models").Content;
 const MessageModel = require("../models").Message;
+const SystemConfigModel = require("../models").SystemConfig;
+const UserModel = require("../models").User;
 const formidable = require('formidable');
 const _ = require('lodash');
 const shortid = require('shortid');
@@ -111,8 +113,38 @@ class Message {
 
             const newMessage = new MessageModel(messageObj);
             try {
-                await newMessage.save();
+                let currentMessage = await newMessage.save();
                 await ContentModel.findOneAndUpdate({ _id: fields.contentId }, { '$inc': { 'commentNum': 1 } })
+
+                // 给被回复用户发送提醒邮件
+                if (fields.replyAuthor) {
+                    const systemConfigs = await SystemConfigModel.find({});
+                    const msgInfo = await MessageModel.findOne({ _id: currentMessage._id }).populate([{
+                        path: 'author',
+                        select: 'email userName'
+                    },
+                    {
+                        path: 'replyAuthor',
+                        select: 'email userName'
+                    },
+                    {
+                        path: 'contentId',
+                        select: '_id title'
+                    }]).exec();
+                    if (!_.isEmpty(systemConfigs) && !_.isEmpty(msgInfo)) {
+                        let mailParams = {
+                            replyAuthor: msgInfo.replyAuthor,
+                            content: msgInfo.contentId
+                        }
+                        if (fields.utype === '1') {
+                            mailParams.adminAuthor = req.session.adminUserInfo
+                        } else {
+                            mailParams.author = replyAuthor.author
+                        }
+                        service.sendEmail(req, systemConfigs[0], settings.email_notice_user_contentMsg, mailParams);
+                    }
+                }
+
                 res.send({
                     state: 'success',
                     id: newMessage._id
@@ -122,7 +154,7 @@ class Message {
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
-                    message: '保存留言数据失败:',
+                    message: '保存留言数据失败:' + err,
                 })
             }
         })

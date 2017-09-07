@@ -11,6 +11,12 @@ function checkFormData(req, res, fields) {
     if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
         errMsg = '非法请求，请稍后重试！';
     }
+    if (!fields.siteEmailServer) {
+        errMsg = '请选择系统邮箱服务器！';
+    }
+    if (!validatorUtil.checkPwd(fields.siteEmailPwd)) {
+        errMsg = '6-12位，只能包含字母、数字和下划线!';
+    }
     if (!validatorUtil.checkEmail(fields.siteEmail)) {
         errMsg = '请填写正确的邮箱!';
     }
@@ -73,6 +79,10 @@ class SystemConfig {
         }
     }
 
+    async getConfigsByPower() {
+        return await SystemConfigModel.find({});
+    }
+
     async updateSystemConfig(req, res, next) {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
@@ -95,10 +105,12 @@ class SystemConfig {
                 siteDomain: fields.siteDomain,
                 siteDiscription: fields.siteDiscription,
                 siteKeywords: fields.siteKeywords,
+                siteEmailServer: fields.siteEmailServer,
                 siteEmail: fields.siteEmail,
                 registrationNo: fields.registrationNo,
                 databackForderPath: fields.databackForderPath,
-                mongodbInstallPath: fields.mongodbInstallPath
+                mongodbInstallPath: fields.mongodbInstallPath,
+                siteEmailPwd: service.encrypt(fields.siteEmailPwd, settings.encrypt_key)
             }
             const item_id = fields._id;
             console.log('---fields----', fields);

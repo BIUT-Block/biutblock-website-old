@@ -9,7 +9,7 @@
                 <template scope="scope">{{scope.row.content | cutWords(20)}}</template>
             </el-table-column>
             <el-table-column prop="author" label="留言者">
-                <template v-if="scope.row.author" scope="scope">{{scope.row.utype ==='0'?scope.row.author.userName:scope.row.adminAuthor.userName}}</template>
+                <template v-if="scope.row.author" scope="scope">{{scope.row.utype ==='0'?(scope.row.author?scope.row.author.userName:'匿名'):(scope.row.adminAuthor?scope.row.adminAuthor.userName:'')}}</template>
             </el-table-column>
             <el-table-column prop="replyAuthor.userName" label="关联用户(回复)">
             </el-table-column>

@@ -18,7 +18,9 @@ var SystemConfigSchema = new Schema({
     siteDomain: { type: String, default: 'http://www.html-js.cn' },
     siteDiscription: { type: String, default: '前端开发' },
     siteKeywords: String,
+    siteEmailServer: String,
     siteEmail: String,
+    siteEmailPwd: String,
     registrationNo: { type: String, default: '' },
     mongodbInstallPath: String,
     databackForderPath: String
