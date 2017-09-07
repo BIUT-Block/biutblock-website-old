@@ -176,6 +176,26 @@ export default {
 
     clearSystemOptionLogs(params) {
         return reqJsonData('manage/systemOptionLog/deleteAllLogItem', params, 'get')
+    },
+
+    getSystemNotifyList(params) {
+        return reqJsonData('manage/systemNotify/getList', params, 'get')
+    },
+
+    deleteSystemNotify(params) {
+        return reqJsonData('manage/systemNotify/deleteNotifyItem', params, 'get')
+    },
+
+    setNoticeRead(params) {
+        return reqJsonData('manage/systemNotify/setHasRead', params, 'get')
+    },
+
+    getSystemAnnounceList(params) {
+        return reqJsonData('manage/systemAnnounce/getList', params, 'get')
+    },
+
+    deleteSystemAnnounce(params) {
+        return reqJsonData('manage/systemAnnounce/deleteItem', params, 'get')
     }
 
 }

@@ -23,4 +23,6 @@ export default {
     regUserList: state => state.regUser.userList,
     bakDataList: state => state.bakDataList,
     systemOptionLogs: state => state.systemOptionLogs,
+    systemNotify: state => state.systemNotify,
+    systemAnnounce: state => state.systemAnnounce
 }

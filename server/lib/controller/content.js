@@ -179,7 +179,6 @@ class Content {
     async addContent(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -231,7 +230,6 @@ class Content {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -261,7 +259,6 @@ class Content {
                 comments: fields.comments
             }
             const item_id = fields._id;
-            console.log('---fields----', fields);
             try {
                 await ContentModel.findOneAndUpdate({ _id: item_id }, { $set: contentObj });
                 res.send({

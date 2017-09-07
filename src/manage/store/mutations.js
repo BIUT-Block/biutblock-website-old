@@ -239,6 +239,14 @@ const state = {
     systemOptionLogs: {
         pageInfo: {},
         docs: []
+    },
+    systemNotify: {
+        pageInfo: {},
+        docs: []
+    },
+    systemAnnounce: {
+        pageInfo: {},
+        docs: []
     }
 }
 
@@ -456,6 +464,12 @@ const mutations = {
     },
     [types.SYSTEMOPTIONLOGS_LIST](state, list) {
         state.systemOptionLogs = list
+    },
+    [types.SYSTEMNOTIFY_LIST](state, list) {
+        state.systemNotify = list
+    },
+    [types.SYSTEMANNOUNCE_LIST](state, list) {
+        state.systemAnnounce = list
     }
 
 }

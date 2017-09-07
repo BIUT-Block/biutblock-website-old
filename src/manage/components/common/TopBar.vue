@@ -33,6 +33,13 @@
                 <el-button size="small" type="danger" icon="delete" @click="branchDelete('systemlogs')">批量删除</el-button>
                 <el-button size="small" type="warning" icon="warning" @click="clearSystemOptionLogs">清空日志</el-button>
             </div>
+            <div v-else-if="type === 'systemNotify'">
+                <el-button size="small" @click="setHasRead()">标记为已读</el-button>
+                <el-button size="small" type="danger" icon="delete" @click="branchDelete('systemnotify')">批量删除</el-button>
+            </div>
+            <div v-else-if="type === 'systemAnnounce'">
+                <el-button type="primary" size="small">新增系统公告</el-button>
+            </div>
         </div>
         <div class="dr-searchInput">
             <div v-if="type === 'content'">
@@ -56,6 +63,7 @@
 </template>
 <script>
 import services from '../../store/services.js';
+import _ from 'lodash'
 export default {
     props: {
         type: String,
@@ -149,6 +157,15 @@ export default {
                 targetName = '用户'
             } else if (target === 'systemlogs') {
                 targetName = '系统操作日志'
+            } else if (target === 'systemnotify') {
+                targetName = '系统消息'
+            }
+            if (_.isEmpty(_this.ids)) {
+                this.$message({
+                    type: 'info',
+                    message: '请选择指定目标！'
+                });
+                return false
             }
             this.$confirm(`此操作将永久删除这些${targetName}, 是否继续?`, '提示', {
                 confirmButtonText: '确定',
@@ -168,6 +185,10 @@ export default {
                     return services.deleteSystemOptionLogs({
                         ids
                     });
+                } else if (target === 'systemnotify') {
+                    return services.deleteSystemNotify({
+                        ids
+                    });
                 }
             }).then((result) => {
                 if (result.data.state === 'success') {
@@ -177,6 +198,8 @@ export default {
                         this.$store.dispatch('getRegUserList');
                     } else if (target === 'systemlogs') {
                         this.$store.dispatch('getSystemLogsList');
+                    } else if (target === 'systemnotify') {
+                        this.$store.dispatch('getSystemNotifyList');
                     }
                     this.$message({
                         message: `${targetName}删除成功`,
@@ -223,6 +246,23 @@ export default {
                     message: '数据备份失败:' + err
                 });
             });
+        },
+        setHasRead() {
+            if (_.isEmpty(this.ids)) {
+                this.$message({
+                    type: 'info',
+                    message: '请选择指定目标！'
+                });
+                return false
+            }
+            let ids = (this.ids).join();
+            services.setNoticeRead({ ids }).then((result) => {
+                if (result.data.state === 'success') {
+                    this.$store.dispatch('getSystemNotifyList');
+                } else {
+                    this.$message.error(result.data.message);
+                }
+            })
         }
     },
     components: {

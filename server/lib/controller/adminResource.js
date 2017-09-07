@@ -71,7 +71,6 @@ class AdminResource {
     async addAdminResource(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -119,7 +118,6 @@ class AdminResource {
         console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -145,7 +143,6 @@ class AdminResource {
                 comments: fields.comments
             }
             const item_id = fields._id;
-            console.log('---fields----', fields);
             try {
                 await AdminResourceModel.findOneAndUpdate({
                     _id: item_id

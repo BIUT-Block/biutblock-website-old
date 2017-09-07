@@ -14,8 +14,15 @@ class Notify {
         try {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
-            const notifies = await NotifyModel.find({}).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
-            const totalItems = await NotifyModel.count();
+            let type = req.query.type, queryObj = {};
+            if (type) {
+                queryObj.type = type;
+            }
+            const notifies = await NotifyModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'adminSender',
+                select: 'userName -_id'
+            }]).exec();
+            const totalItems = await NotifyModel.count(queryObj);
             res.send({
                 state: 'success',
                 docs: notifies,

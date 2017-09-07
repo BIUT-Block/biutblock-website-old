@@ -66,7 +66,7 @@ router.post('/users/updateInfo', checkUserSession, User.updateUser);
 router.get('/users/getUserNotifys', checkUserSession, (req, res, next) => { req.query.user = req.session.user._id; next() }, UserNotify.getUserNotifys);
 
 // 设置用户消息为已读
-router.get('/users/setNoticeRead', checkUserSession, UserNotify.setMessageHasRead);
+router.get('/users/setNoticeRead', checkUserSession, (req, res, next) => { req.query.user = req.session.user._id; next() }, UserNotify.setMessageHasRead);
 
 // 删除用户消息
 router.get('/users/delUserNotify', checkUserSession, UserNotify.delUserNotify);

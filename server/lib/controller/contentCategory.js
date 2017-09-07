@@ -76,7 +76,6 @@ class ContentCategory {
     async addContentCategory(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -121,10 +120,8 @@ class ContentCategory {
     }
 
     async updateContentCategory(req, res, next) {
-        console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -148,7 +145,6 @@ class ContentCategory {
                 comments: fields.comments
             }
             const item_id = fields._id;
-            console.log('---fields----', fields);
             try {
                 await ContentCategoryModel.findOneAndUpdate({ _id: item_id }, { $set: cateObj });
                 res.send({

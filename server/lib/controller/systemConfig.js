@@ -84,10 +84,8 @@ class SystemConfig {
     }
 
     async updateSystemConfig(req, res, next) {
-        console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {
@@ -113,7 +111,6 @@ class SystemConfig {
                 siteEmailPwd: service.encrypt(fields.siteEmailPwd, settings.encrypt_key)
             }
             const item_id = fields._id;
-            console.log('---fields----', fields);
             try {
                 if (item_id) {
                     await SystemConfigModel.findOneAndUpdate({ _id: item_id }, { $set: systemObj });

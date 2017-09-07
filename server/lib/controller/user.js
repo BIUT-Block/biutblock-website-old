@@ -77,15 +77,12 @@ class User {
     }
 
     async getOneUserByParams(req, res, params) {
-        // let user_id = req.query._id;
         return await UserModel.findOne(params, { password: 0 });
     }
 
     async updateUser(req, res, next) {
-        console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 checkFormData(req, res, fields);
             } catch (err) {

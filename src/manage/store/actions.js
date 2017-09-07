@@ -331,6 +331,20 @@ export default {
         services.getSystemOptionLogsList(params).then((result) => {
             commit(types.SYSTEMOPTIONLOGS_LIST, result.data)
         })
+    },
+    getSystemNotifyList({
+        commit
+    }, params = {}) {
+        services.getSystemNotifyList(params).then((result) => {
+            commit(types.SYSTEMNOTIFY_LIST, result.data)
+        })
+    },
+    getSystemAnnounceList({
+        commit
+    }, params = {}) {
+        services.getSystemAnnounceList(params).then((result) => {
+            commit(types.SYSTEMANNOUNCE_LIST, result.data)
+        })
     }
 
 }

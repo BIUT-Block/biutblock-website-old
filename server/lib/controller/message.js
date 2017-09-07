@@ -64,7 +64,6 @@ class Message {
     async postMessages(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-            console.log('---fields----', fields);
             try {
                 let errMsg = '';
                 if (_.isEmpty(req.session.user) && _.isEmpty(req.session.adminUserInfo)) {

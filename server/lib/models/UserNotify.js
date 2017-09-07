@@ -27,7 +27,7 @@ UserNotifySchema.set('toJSON', { getters: true, virtuals: true });
 UserNotifySchema.set('toObject', { getters: true, virtuals: true });
 
 UserNotifySchema.path('date').get(function (v) {
-    return moment(v).startOf('hour').fromNow();
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
 });
 
 UserNotifySchema.index({ date: -1 });

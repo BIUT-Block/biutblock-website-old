@@ -1,21 +1,16 @@
 <template>
     <div>
-        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSystemLogsSelectionChange">
+        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" :row-style="setRowState" @selection-change="handleSystemNotifySelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="logs" label="行为">
+            <el-table-column prop="notify.title" label="标题">
             </el-table-column>
-            <el-table-column prop="type" label="类别">
+            <el-table-column prop="notify.content" label="内容">
                 <template scope="scope">
-                    <span v-if="scope.row.type == 'login'">系统登录</span>
+                    <span v-html="scope.row.notify.content"></span>
                 </template>
             </el-table-column>
             <el-table-column prop="date" label="发生时间">
-            </el-table-column>
-            <el-table-column label="操作" width="150">
-                <template scope="scope">
-                    <el-button size="mini" type="danger" icon="delete" @click="deleteDataItem(scope.$index, dataList)">删除</el-button>
-                </template>
             </el-table-column>
         </el-table>
     </div>
@@ -35,13 +30,23 @@ export default {
     },
 
     methods: {
-        handleSystemLogsSelectionChange(val) {
+        setRowState(row, index) {
+            if (!row.isRead) {
+                return {
+                    color: '#20A0FF',
+                    fontWeight: 'bold'
+                }
+            } else {
+                return ''
+            }
+        },
+        handleSystemNotifySelectionChange(val) {
             if (val && val.length > 0) {
                 let ids = val.map((item, index) => {
                     return item._id;
                 })
                 this.multipleSelection = ids;
-                this.$emit('changeSystemLogsSelectList', ids);
+                this.$emit('changeSystemNotifySelectList', ids);
             }
         },
         deleteDataItem(index, rows) {
@@ -50,12 +55,12 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                return services.deleteSystemOptionLogs({
+                return services.deleteSystemNotify({
                     ids: rows[index]._id,
                 });
             }).then((result) => {
                 if (result.data.state === 'success') {
-                    this.$store.dispatch('getSystemLogsList');
+                    this.$store.dispatch('getSystemNotifyList');
                     this.$message({
                         message: '删除成功',
                         type: 'success'

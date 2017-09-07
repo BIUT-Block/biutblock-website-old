@@ -12,7 +12,9 @@ const {
   Message,
   SystemConfig,
   DataOptionLog,
-  SystemOptionLog
+  SystemOptionLog,
+  UserNotify,
+  Notify
 } = require('../lib/controller');
 const {
   service,
@@ -171,5 +173,28 @@ router.get('/systemOptionLog/deleteLogItem', authToken, authPower, SystemOptionL
 
 // 清空日志
 router.get('/systemOptionLog/deleteAllLogItem', authToken, authPower, (req, res, next) => { req.query.ids = 'all'; next() }, SystemOptionLog.delSystemOptionLogs);
+
+
+/**
+ * 系统消息
+ */
+
+router.get('/systemNotify/getList', authToken, authPower, (req, res, next) => { req.query.systemUser = req.session.adminUserInfo._id; next() }, UserNotify.getUserNotifys);
+
+//删除操作日志
+router.get('/systemNotify/deleteNotifyItem', authToken, authPower, UserNotify.delUserNotify);
+
+// 设为已读消息
+router.get('/systemNotify/setHasRead', authToken, authPower, (req, res, next) => { req.query.systemUser = req.session.adminUserInfo._id; next() }, UserNotify.setMessageHasRead);
+
+/**
+ * 系统公告
+ */
+
+router.get('/systemAnnounce/getList', authToken, authPower, (req, res, next) => { req.query.type = '1'; next() }, Notify.getNotifys);
+
+// 删除公告
+router.get('/systemAnnounce/deleteItem', authToken, authPower, Notify.delNotify);
+
 
 module.exports = router

@@ -14,11 +14,18 @@ class UserNotify {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let user = req.query.user;
-            const userNotifys = await UserNotifyModel.find({ user }).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+            let systemUser = req.query.systemUser;
+            let queryObj = {};
+            if (user) {
+                queryObj.user = req.query.user;
+            } else if (systemUser) {
+                queryObj.systemUser = req.query.systemUser;
+            }
+            const userNotifys = await UserNotifyModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'notify',
                 select: 'title content _id'
             }]).exec();;
-            const totalItems = await UserNotifyModel.count({ user });
+            const totalItems = await UserNotifyModel.count(queryObj);
             res.send({
                 state: 'success',
                 docs: userNotifys,
@@ -81,10 +88,15 @@ class UserNotify {
     }
 
     async setMessageHasRead(req, res, next) {
-        console.log('--query----', req.query);
         let query = { _id: req.query.ids };
         // 用户只能操作自己的消息
-        query.user = req.session.user._id;
+        let user = req.query.user;
+        let systemUser = req.query.systemUser;
+        if (user) {
+            query.user = req.query.user;
+        } else if (systemUser) {
+            query.systemUser = req.query.systemUser;
+        }
         try {
             await UserNotifyModel.update(query, { $set: { 'isRead': true } }, { multi: true });
             res.send({

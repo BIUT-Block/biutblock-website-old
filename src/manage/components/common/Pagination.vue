@@ -52,12 +52,20 @@ export default {
                 this.$store.dispatch('getRegUserList', {
                     current: val
                 });
-            }else if (this.pageType === 'backUpData') {
+            } else if (this.pageType === 'backUpData') {
                 this.$store.dispatch('getBakDateList', {
                     current: val
                 });
-            }else if (this.pageType === 'systemOptionLogs') {
+            } else if (this.pageType === 'systemOptionLogs') {
                 this.$store.dispatch('getSystemLogsList', {
+                    current: val
+                });
+            } else if (this.pageType === 'systemNotify') {
+                this.$store.dispatch('getSystemNotifyList', {
+                    current: val
+                });
+            }else if (this.pageType === 'systemAnnounce') {
+                this.$store.dispatch('getSystemAnnounceList', {
                     current: val
                 });
             }
