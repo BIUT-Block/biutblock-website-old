@@ -159,7 +159,6 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log('---formdatas--', this);
                     let params = this.dialogState.formData;
                     // 更新
                     if (this.dialogState.edit) {

@@ -227,7 +227,6 @@ class Content {
     }
 
     async updateContent(req, res, next) {
-        console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             try {

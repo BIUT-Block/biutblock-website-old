@@ -92,7 +92,6 @@ class AdminGroup {
     }
 
     async updateAdminGroup(req, res, next) {
-        console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             try {
@@ -112,6 +111,7 @@ class AdminGroup {
                 power: fields.power
             }
             const item_id = fields._id;
+            console.log('---userObj---', userObj);
             try {
                 await AdminGroupModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 // 更新power

@@ -1,6 +1,5 @@
 <template>
     <div class="dr-contentForm">
-        {{formState}}
         <el-form :model="formState" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="标题" prop="title">
                 <el-input size="small" v-model="formState.title"></el-input>

@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
             let targetApi = (req.originalUrl).replace('/manage/', '').split("?")[0];
             if (!_.isEmpty(req.session.adminUserInfo)) {
                 let adminPower = req.session.adminUserInfo.group.power;
-                if (resourceObj.api === targetApi && adminPower.indexOf(resourceObj._id) > -1) {
+                if (resourceObj.api === targetApi && adminPower && adminPower.indexOf(resourceObj._id) > -1) {
                     hasPower = true;
                     break;
                 }
