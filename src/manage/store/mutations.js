@@ -120,6 +120,7 @@ const state = {
                 enable: false,
                 defaultUrl: '',
                 parentId: '',
+                parentObj: '',
                 sortId: 0,
                 comments: ''
             }
@@ -371,6 +372,7 @@ const mutations = {
             enable: false,
             defaultUrl: '',
             parentId: '',
+            parentObj: {},
             sortId: 0,
             comments: ''
         }, formState.formData);

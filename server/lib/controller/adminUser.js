@@ -83,7 +83,6 @@ class AdminUser {
                 userName,
                 password
             } = fields;
-            console.log('---fields---', fields);
             try {
                 let newPsd = service.encrypt(fields.password, settings.encrypt_key);
                 let errMsg = '';
@@ -205,7 +204,6 @@ class AdminUser {
     }
 
     async updateAdminUser(req, res, next) {
-        console.log('--req.params--', req.params);
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             try {

@@ -102,7 +102,7 @@ class Content {
                     discription: 1
                 }
             }
-            // console.log('---queryObj---', queryObj);
+            
             const contents = await ContentModel.find(queryObj, files).sort(sortObj).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'author',
                 select: 'name -_id'

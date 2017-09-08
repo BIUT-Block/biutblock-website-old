@@ -1,5 +1,6 @@
 const BaseComponent = require('../prototype/baseComponent');
 const UserNotifyModel = require("../models").UserNotify;
+const NotifyModel = require("../models").Notify;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
@@ -52,9 +53,11 @@ class UserNotify {
 
     async delUserNotify(req, res, next) {
         try {
-            let errMsg = '';
-            if (!siteFunc.checkCurrentId(req.query.ids)) {
+            let errMsg = '', targetIds = req.query.ids;
+            if (!siteFunc.checkCurrentId(targetIds)) {
                 errMsg = '非法请求，请稍后重试！';
+            } else {
+                targetIds = targetIds.split(',');
             }
             if (errMsg) {
                 res.send({
@@ -62,7 +65,10 @@ class UserNotify {
                     message: errMsg,
                 })
             }
-            await UserNotifyModel.remove({ _id: req.query.ids });
+            // 删除消息记录
+            await UserNotifyModel.remove({ '_id': { $in: targetIds } });
+            // 删除消息源数据
+            await NotifyModel.remove({ 'notify': { $in: targetIds } });
             res.send({
                 state: 'success'
             });
@@ -88,7 +94,19 @@ class UserNotify {
     }
 
     async setMessageHasRead(req, res, next) {
-        let query = { _id: req.query.ids };
+        let errMsg = '', targetIds = req.query.ids;
+        if (!siteFunc.checkCurrentId(targetIds)) {
+            errMsg = '非法请求，请稍后重试！';
+        } else {
+            targetIds = targetIds.split(',');
+        }
+        if (errMsg) {
+            res.send({
+                state: 'error',
+                message: errMsg,
+            })
+        }
+        let query = { '_id': { $in: targetIds } };
         // 用户只能操作自己的消息
         let user = req.query.user;
         let systemUser = req.query.systemUser;
@@ -121,10 +139,6 @@ class UserNotify {
             msgQuery = { 'systemUser': userId, 'isRead': false };
         }
         let noticeCounts = await UserNotifyModel.count(msgQuery);
-        // res.send({
-        //     state: 'success',
-        //     counts: noticeCounts
-        // })
     }
 
 

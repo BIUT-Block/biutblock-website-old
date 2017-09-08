@@ -23,6 +23,7 @@ export default {
     append(store, data) {
       let formData = {};
       formData.parentId = data._id;
+      formData.parentObj = data;
       this.$store.dispatch('showContentCategoryForm', {
         edit: false,
         type: 'children',

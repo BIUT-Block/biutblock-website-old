@@ -3,7 +3,7 @@
         <el-dialog size="large" title="填写分类信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="cateRules" ref="cateRuleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
-                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
+                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parentObj.name"></el-input>
                 </el-form-item>
                 <el-form-item label="类别名称" prop="name">
                     <el-input size="small" v-model="dialogState.formData.name"></el-input>

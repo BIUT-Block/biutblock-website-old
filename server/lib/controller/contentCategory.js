@@ -100,20 +100,27 @@ class ContentCategory {
 
             const newContentCategory = new ContentCategoryModel(groupObj);
             try {
-                await newContentCategory.save();
-                // 更新sortPath
-                let newSortPath = newContentCategory.sortPath + "," + newContentCategory._id.toString();
-                await newContentCategory.findOneAndUpdate({ _id: newContentCategory._id }, { $set: { sortPath: newSortPath } });
+                let cateObj = await newContentCategory.save();
+                // 更新sortPath defaultUrl
+                let newQuery = {};
+                if (fields.parentId == '0') {
+                    newQuery.sortPath = '0,' + cateObj._id
+                } else {
+                    let parentObj = await ContentCategoryModel.findOne({ '_id': fields.parentId }, 'sortPath defaultUrl');
+                    newQuery.sortPath = parentObj.sortPath + "," + cateObj._id;
+                    newQuery.defaultUrl = parentObj.defaultUrl + '/' + fields.defaultUrl
+                }
+                await ContentCategoryModel.findOneAndUpdate({ _id: cateObj._id }, { $set: newQuery });
                 res.send({
                     state: 'success',
-                    id: newContentCategory._id
+                    id: cateObj._id
                 });
             } catch (err) {
                 logUtil.error(err, req);
                 res.send({
                     state: 'error',
                     type: 'ERROR_IN_SAVE_DATA',
-                    message: '保存数据失败:',
+                    message: '保存数据失败:' + err,
                 })
             }
         })

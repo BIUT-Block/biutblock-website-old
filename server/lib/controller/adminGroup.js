@@ -111,7 +111,6 @@ class AdminGroup {
                 power: fields.power
             }
             const item_id = fields._id;
-            console.log('---userObj---', userObj);
             try {
                 await AdminGroupModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 // 更新power

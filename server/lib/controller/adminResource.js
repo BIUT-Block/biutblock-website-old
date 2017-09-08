@@ -61,7 +61,6 @@ class AdminResource {
     }
 
     async getAllResource(req, res, params = {}) {
-        // console.log('---params---', params);
         let files = req.query.resourcefiles || null;
         return await AdminResourceModel.find(params, files).sort({
             sortId: 1

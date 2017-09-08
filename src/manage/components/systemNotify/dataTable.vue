@@ -48,32 +48,6 @@ export default {
                 this.multipleSelection = ids;
                 this.$emit('changeSystemNotifySelectList', ids);
             }
-        },
-        deleteDataItem(index, rows) {
-            this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                return services.deleteSystemNotify({
-                    ids: rows[index]._id,
-                });
-            }).then((result) => {
-                if (result.data.state === 'success') {
-                    this.$store.dispatch('getSystemNotifyList');
-                    this.$message({
-                        message: '删除成功',
-                        type: 'success'
-                    });
-                } else {
-                    this.$message.error(result.data.message);
-                }
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
         }
     }
 }
