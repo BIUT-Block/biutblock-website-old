@@ -11,23 +11,9 @@ const projectRoot = path.resolve(__dirname, '../')
 
 var config = merge(baseConfig, {
     externals: {
-        // 'jquery': 'jQuery'
     },
     module: {
         rules: [
-            //     {
-            //     test: /\.vue$/,
-            //     loader: 'eslint-loader',
-            //     enforce: "pre",
-            //     include: projectRoot,
-            //     exclude: /node_modules/
-            // }, {
-            //     test: /\.js$/,
-            //     loader: 'eslint-loader',
-            //     enforce: "pre",
-            //     include: projectRoot,
-            //     exclude: /node_modules/
-            // },
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -35,11 +21,7 @@ var config = merge(baseConfig, {
             }]
     },
     plugins: [
-        // new webpack.ProvidePlugin({
-        //     $: 'jquery',
-        //     jQuery: 'jquery',
-        //     'window.jQuery': 'jquery'
-        // })
+
     ]
 })
 

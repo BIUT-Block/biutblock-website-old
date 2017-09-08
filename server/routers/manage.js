@@ -196,5 +196,7 @@ router.get('/systemAnnounce/getList', authToken, authPower, (req, res, next) => 
 // 删除公告
 router.get('/systemAnnounce/deleteItem', authToken, authPower, Notify.delNotify);
 
+//发布系统公告
+router.post('/systemAnnounce/addOne', authToken, authPower, Notify.addOneSysNotify);
 
 module.exports = router

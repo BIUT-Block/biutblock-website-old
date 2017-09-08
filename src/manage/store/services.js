@@ -196,6 +196,10 @@ export default {
 
     deleteSystemAnnounce(params) {
         return reqJsonData('manage/systemAnnounce/deleteItem', params, 'get')
-    }
+    },
+
+    addSystemAnnounce(params) {
+        return reqJsonData('manage/systemAnnounce/addOne', params)
+    },
 
 }

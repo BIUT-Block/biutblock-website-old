@@ -247,6 +247,10 @@ const state = {
     systemAnnounce: {
         pageInfo: {},
         docs: []
+    },
+    announceFormState: {
+        title: '',
+        content: ''
     }
 }
 
@@ -470,7 +474,14 @@ const mutations = {
     },
     [types.SYSTEMANNOUNCE_LIST](state, list) {
         state.systemAnnounce = list
-    }
+    },
+    [types.SYSTEMANNOUNCE_FORMSTATE](state, formState) {
+        state.announceFormState = Object.assign({
+            title: '',
+            content: ''
+        }, formState.formData);
+
+    },
 
 }
 

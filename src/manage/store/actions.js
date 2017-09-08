@@ -345,6 +345,13 @@ export default {
         services.getSystemAnnounceList(params).then((result) => {
             commit(types.SYSTEMANNOUNCE_LIST, result.data)
         })
-    }
+    },
+    showSysAnnounceForm: ({
+        commit
+    }, params = {}) => {
+        commit(types.SYSTEMANNOUNCE_FORMSTATE, {
+            formData: params
+        })
+    },
 
 }

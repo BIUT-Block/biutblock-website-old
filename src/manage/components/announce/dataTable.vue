@@ -68,47 +68,18 @@ export default {
                 this.$emit('handleSystemAnnounceChange', ids);
             }
         },
-        editAnnounceInfo(index, rows) {
-            let rowData = rows[index];
-            let categoryIdArr = [],
-                tagsArr = [];
-            rowData.categories && rowData.categories.map((item, index) => {
-                categoryIdArr.push(item._id);
-            })
-            rowData.tags && rowData.tags.map((item, index) => {
-                tagsArr.push(item._id);
-            })
-            rowData.categories = categoryIdArr;
-            rowData.tags = tagsArr;
-            this.$store.dispatch('showAnnounceForm', {
-                edit: true,
-                formData: rowData
-            });
-            this.$router.push('/editAnnounce/' + rowData._id);
-        },
-        topAnnounce(index, rows) {
-            let AnnounceData = rows[index];
-            AnnounceData.isTop = AnnounceData.isTop == 1 ? 0 : 1;
-            services.updateAnnounce(AnnounceData).then((result) => {
-                if (result.data.state === 'success') {
-                    this.$store.dispatch('getAnnounceList');
-                } else {
-                    this.$message.error(result.data.message);
-                }
-            });
-        },
         deleteAnnounce(index, rows) {
             this.$confirm('此操作将永久删除该公告, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                return services.deleteAnnounce({
+                return services.deleteSystemAnnounce({
                     ids: rows[index]._id
                 });
             }).then((result) => {
                 if (result.data.state === 'success') {
-                    this.$store.dispatch('getAnnounceList');
+                    this.$store.dispatch('getSystemAnnounceList');
                     this.$message({
                         message: '删除成功',
                         type: 'success'
@@ -116,10 +87,10 @@ export default {
                 } else {
                     this.$message.error(result.data.message);
                 }
-            }).catch(() => {
+            }).catch((err) => {
                 this.$message({
                     type: 'info',
-                    message: '已取消删除'
+                    message: '已取消删除:' + err
                 });
             });
         }

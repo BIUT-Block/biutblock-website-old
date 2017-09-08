@@ -24,5 +24,7 @@ export default {
     bakDataList: state => state.bakDataList,
     systemOptionLogs: state => state.systemOptionLogs,
     systemNotify: state => state.systemNotify,
-    systemAnnounce: state => state.systemAnnounce
+    systemAnnounce: state => state.systemAnnounce,
+    systemAnnounceFormState: state => state.announceFormState,
+
 }

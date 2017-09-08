@@ -38,7 +38,7 @@
                 <el-button size="small" type="danger" icon="delete" @click="branchDelete('systemnotify')">批量删除</el-button>
             </div>
             <div v-else-if="type === 'systemAnnounce'">
-                <el-button type="primary" size="small">新增系统公告</el-button>
+                <el-button type="primary" size="small" @click="addSysAnnounce">新增系统公告</el-button>
             </div>
         </div>
         <div class="dr-searchInput">
@@ -115,6 +115,10 @@ export default {
         addContent() {
             this.$store.dispatch('showContentForm');
             this.$router.push('/addContent');
+        },
+        addSysAnnounce() {
+            this.$store.dispatch('showContentForm');
+            this.$router.push('/addSysAnnounce');
         },
         addTopCates() {
             this.$store.dispatch('showContentCategoryForm', {
