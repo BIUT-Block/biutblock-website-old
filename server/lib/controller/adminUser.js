@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const AdminUserModel = require("../models").AdminUser;
 const SystemOptionLogModel = require("../models").SystemOptionLog;
 const UserNotifyModel = require("../models").UserNotify;
+const MessageModel = require("../models").Message;
 const formidable = require('formidable');
 const shortid = require('shortid');
 const validator = require('validator')
@@ -302,7 +303,7 @@ class AdminUser {
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
-                message: '删除数据失败:',
+                message: '删除数据失败:' + err,
             })
         }
     }
