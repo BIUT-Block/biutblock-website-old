@@ -1,10 +1,12 @@
 /**
- * Created by Administrator on 2015/4/15.
+ * Created by Administrator on 2017/4/15.
  * 广告管理
  */
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 var Schema = mongoose.Schema;
+var moment = require('moment')
+
 var AdsItems = require('./AdsItems');
 var AdsSchema = new Schema({
     _id: {
@@ -12,32 +14,23 @@ var AdsSchema = new Schema({
         unique: true,
         'default': shortid.generate
     },
-    name:  String,
+    name: String,
     type: { type: String, default: "0" }, // 展示形式 0文字 1图片 2友情链接
-    state : { type: String, default: "1" }, // 广告状态，是否显示
+    state: { type: String, default: "1" }, // 广告状态，是否显示
     date: { type: Date, default: Date.now },
-    items: [{ type: String , ref: 'AdsItems' }] // 广告列表id
+    items: [{ type: String, ref: 'AdsItems' }], // 广告列表id
+    comments: String, // 描述
 });
 
 
 
-AdsSchema.statics = {
+AdsSchema.set('toJSON', { getters: true, virtuals: true });
+AdsSchema.set('toObject', { getters: true, virtuals: true });
 
-    getOneAds : function(res,targetId,callBack){
-        if(shortid.isValid(targetId)){
-            Ads.findOne({'_id' : targetId}).populate('items').exec(function(err,doc){
-                if(err){
-                    res.end(err);
-                }
-                callBack(doc);
-            })
-        }else{
-            res.end('非法参数！');
-        }
-    }
+AdsSchema.path('date').get(function (v) {
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
+});
 
-};
-
-var Ads = mongoose.model("Ads",AdsSchema);
+var Ads = mongoose.model("Ads", AdsSchema);
 module.exports = Ads;
 

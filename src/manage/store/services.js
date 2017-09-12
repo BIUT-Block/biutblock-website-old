@@ -202,4 +202,12 @@ export default {
         return reqJsonData('manage/systemAnnounce/addOne', params)
     },
 
+    getAdsList(params) {
+        return reqJsonData('manage/ads/getList', params, 'get')
+    },
+
+    getOneAd(params) {
+        return reqJsonData('manage/ads/getOne', params, 'get')
+    },
+
 }

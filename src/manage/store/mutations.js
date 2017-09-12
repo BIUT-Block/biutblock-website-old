@@ -253,6 +253,26 @@ const state = {
     announceFormState: {
         title: '',
         content: ''
+    },
+    ads: {
+        list: {
+            pageInfo: {},
+            docs: []
+        },
+        infoFormState: {
+            edit: false,
+            formData: {
+                name: '',
+                type: '',
+                comments: '',
+                items: []
+            }
+        },
+        itemFormState: {
+            show: false,
+            edit: false,
+            formData: {}
+        }
     }
 }
 
@@ -486,6 +506,25 @@ const mutations = {
         }, formState.formData);
 
     },
+    [types.ADS_LIST](state, list) {
+        state.ads.list = list
+    },
+    [types.ADS_INFO_FORMSTATE](state, formState) {
+        state.ads.infoFormState.edit = formState.edit;
+        state.ads.infoFormState.formData = Object.assign({
+            name: '',
+            type: '',
+            comments: '',
+            items: []
+        }, formState.formData);
+    },
+    [types.ADS_ITEM_FORMSTATE](state, formState) {
+        state.ads.itemFormState.edit = formState.edit;
+        state.ads.itemFormState.show = formState.show;
+        state.ads.itemFormState.formData = Object.assign({
+            title
+        }, formState.formData);
+    }
 
 }
 

@@ -14,7 +14,8 @@ const {
   DataOptionLog,
   SystemOptionLog,
   UserNotify,
-  Notify
+  Notify,
+  Ads
 } = require('../lib/controller');
 const {
   service,
@@ -192,5 +193,16 @@ router.get('/systemAnnounce/deleteItem', authToken, authPower, Notify.delNotify)
 
 //发布系统公告
 router.post('/systemAnnounce/addOne', authToken, authPower, Notify.addOneSysNotify);
+
+
+/**
+ * 广告管理
+ */
+
+router.get('/ads/getList', authToken, authPower, Ads.getAds);
+
+// 获取单个广告
+router.get('/ads/getOne', authToken, authPower, Ads.getOneAd);
+
 
 module.exports = router

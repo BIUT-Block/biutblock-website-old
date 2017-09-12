@@ -34,23 +34,18 @@ class Ads {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let model = req.query.model; // 查询模式 full/simple
-            let searchkey = req.query.searchkey, queryObj = {};
+            let queryObj = {};
             if (model === 'full') {
                 pageSize = '1000'
             }
 
-            if (searchkey) {
-                let reKey = new RegExp(searchkey, 'i')
-                queryObj.name = { $regex: reKey }
-            }
-
-            const Adss = await AdsModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
-                items: 'author'
+            const Ads = await AdsModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'items'
             }]).exec();
             const totalItems = await AdsModel.count();
             res.send({
                 state: 'success',
-                docs: Adss,
+                docs: Ads,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,
@@ -62,7 +57,27 @@ class Ads {
             res.send({
                 state: 'error',
                 type: 'ERROR_DATA',
-                message: '获取Ads失败'
+                message: '获取Ads失败' + err
+            })
+        }
+    }
+
+    async getOneAd(req, res, next) {
+        try {
+            let targetId = req.query.id;
+            const ad = await AdsModel.findOne({ _id: targetId }).populate([{
+                path: 'items'
+            }]).exec();
+            res.send({
+                state: 'success',
+                doc: ad || {}
+            })
+        } catch (error) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取Ad失败' + err
             })
         }
     }
