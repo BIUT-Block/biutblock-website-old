@@ -92,7 +92,6 @@ export default {
             const isPNG = file.type === 'image/png';
             const isGIF = file.type === 'image/gif';
             const isLt2M = file.size / 1024 / 1024 < 2;
-            console.log('---file.type---', file.type);
             if (!isJPG && !isPNG && !isGIF) {
                 this.$message.error('上传头像图片只能是 JPG,PNG,GIF 格式!');
             }
