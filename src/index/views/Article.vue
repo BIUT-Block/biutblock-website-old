@@ -10,7 +10,6 @@
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18">
                                 <div>
-                                    <AdsPannel id="BJTsY0d9W" />
                                     <h2 class="content-title">{{article.doc.title}}</h2>
                                     <div class="content-author">
                                         <ul>

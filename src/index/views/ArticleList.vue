@@ -9,7 +9,6 @@
                     <el-col :xs="22" :sm="22" :md="22" :lg="22" class="content-mainbody-left">
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18" v-if="topics.data.length > 0">
-                                <AdsPannel id="rk49YAOcb" />
                                 <ItemList v-for="item in topics.data" :item="item" :key="item._id" />
                                 <div class="content-pagination">
                                     <Pagination :pageInfo="topics.pageInfo" :typeId="typeId" />
@@ -27,7 +26,6 @@
                                     </div>
                                     <Tag :tags="tags.data" />
                                     <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" />
-                                    <AdsPannel id="HkxbcCdq-" />
                                 </div>
                             </el-col>
                         </el-row>
