@@ -9,6 +9,7 @@
                     <el-col :xs="22" :sm="22" :md="22" :lg="22" class="content-mainbody-left">
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18" v-if="topics.data.length > 0">
+                                <AdsPannel id="rk49YAOcb" />
                                 <ItemList v-for="item in topics.data" :item="item" :key="item._id" />
                                 <div class="content-pagination">
                                     <Pagination :pageInfo="topics.pageInfo" :typeId="typeId" />
@@ -19,12 +20,14 @@
                             </el-col>
                             <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
+                                    <AdsPannel id="SJllJUAdcZ" />
                                     <SearchBox />
                                     <div v-if="checkCateList">
                                         <CatesMenu :typeId="$route.params.typeId" />
                                     </div>
                                     <Tag :tags="tags.data" />
                                     <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" />
+                                    <AdsPannel id="HkxbcCdq-" />
                                 </div>
                             </el-col>
                         </el-row>

@@ -28,10 +28,10 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'Ads',
     props: {
-        adsId: String
+        id: String
     },
     mounted() {
-        this.$store.dispatch('global/ads/getAdsList', { id: this.adsId })
+        this.$store.dispatch('global/ads/getAdsList', { id: this.id })
     },
     computed: {
         ...mapGetters({
