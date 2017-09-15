@@ -19,7 +19,7 @@
             </el-form-item>
 
             <div v-if="formState.formData.type == '1'">
-                <el-form-item label="广告详情" prop="items">
+                <el-form-item label="图片列表" prop="items">
                     <el-button size="small" type="primary" @click="showAdsItemForm">添加图片</el-button>
                     <div class="dr-ads-item" v-for="item in formState.formData.items" :key="item._id">
                         <div class="img">
