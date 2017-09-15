@@ -41,6 +41,10 @@
                 <el-button type="primary" size="small" @click="addSysAnnounce">
                     <i class="fa fa-bullhorn"></i> &nbsp;新增系统公告</el-button>
             </div>
+            <div v-else-if="type === 'ads'">
+                <el-button type="primary" size="small" @click="addAds">
+                    <i class="fa fa-image"></i> &nbsp;新增广告</el-button>
+            </div>
         </div>
         <div class="dr-searchInput">
             <div v-if="type === 'content'">
@@ -116,6 +120,12 @@ export default {
         addContent() {
             this.$store.dispatch('showContentForm');
             this.$router.push('/addContent');
+        },
+        addAds() {
+            this.$store.dispatch('adsInfoForm', {
+                edit: false
+            });
+            this.$router.push('/addAds');
         },
         addSysAnnounce() {
             this.$store.dispatch('showContentForm');
@@ -265,7 +275,7 @@ export default {
                 if (result.data.state === 'success') {
                     this.$store.dispatch('getSystemNotifyList');
                     let oldNoticeCounts = this.$store.getters.loginState.noticeCounts
-                    this.$store.dispatch('loginState', { noticeCounts :  oldNoticeCounts - this.ids.length })
+                    this.$store.dispatch('loginState', { noticeCounts: oldNoticeCounts - this.ids.length })
                 } else {
                     this.$message.error(result.data.message);
                 }

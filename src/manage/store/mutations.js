@@ -263,15 +263,23 @@ const state = {
             edit: false,
             formData: {
                 name: '',
-                type: '',
+                type: '1',
                 comments: '',
-                items: []
+                items: [],
+                state: true
             }
         },
         itemFormState: {
             show: false,
             edit: false,
-            formData: {}
+            formData: {
+                title: '',
+                link: '',
+                width: '',
+                height: '',
+                alt: '',
+                sImg: ''
+            }
         }
     }
 }
@@ -513,16 +521,22 @@ const mutations = {
         state.ads.infoFormState.edit = formState.edit;
         state.ads.infoFormState.formData = Object.assign({
             name: '',
-            type: '',
+            type: '1',
             comments: '',
-            items: []
+            items: [],
+            state: true
         }, formState.formData);
     },
     [types.ADS_ITEM_FORMSTATE](state, formState) {
         state.ads.itemFormState.edit = formState.edit;
         state.ads.itemFormState.show = formState.show;
         state.ads.itemFormState.formData = Object.assign({
-            title
+            title: '',
+            link: '',
+            width: '',
+            height: '',
+            alt: '',
+            sImg: '',
         }, formState.formData);
     }
 

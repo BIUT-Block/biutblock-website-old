@@ -35,7 +35,7 @@
                 </el-row>
             </div>
         </div>
-    
+
     </div>
 </template>
 <script lang="babel">
@@ -48,6 +48,7 @@ import ItemList from '../views/ItemList.vue'
 import Pagination from '../components/Pagination.vue'
 import Tag from '../components/Tag.vue'
 import CatesMenu from '../components/CatesMenu.vue'
+import AdsPannel from '../components/AdsPannel.vue'
 
 export default {
     name: 'frontend-index',
@@ -65,7 +66,8 @@ export default {
         HotContents,
         SearchBox,
         Tag,
-        CatesMenu
+        CatesMenu,
+        AdsPannel
     },
     computed: {
         ...mapGetters({

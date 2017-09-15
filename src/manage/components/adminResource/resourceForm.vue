@@ -3,9 +3,9 @@
         <el-dialog size="small" title="填写资源信息" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item v-show="dialogState.type==='children' && !dialogState.edit" label="父对象" prop="label">
-                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parentId"></el-input>
+                    <el-input size="small" :disabled="true" v-model="dialogState.formData.parent.label"></el-input>
                 </el-form-item>
-    
+
                 <el-form-item label="资源名称" prop="label">
                     <el-input size="small" v-model="dialogState.formData.label"></el-input>
                 </el-form-item>

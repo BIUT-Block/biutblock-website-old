@@ -9,10 +9,19 @@
                 <template scope="scope">
                     <span v-if="scope.row.type == '0'">文字</span>
                     <span v-if="scope.row.type == '1'">图片</span>
-                    <span v-if="scope.row.type == '2'">友情链接</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="state" label="显示" show-overflow-tooltip>
+                <template scope="scope">
+                    <i :class="scope.row.state ? 'fa fa-check-circle' : 'fa fa-minus-circle'" :style="scope.row.state ? green : red"></i>
                 </template>
             </el-table-column>
             <el-table-column prop="comments" label="广告描述" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column prop="comments" label="ID" show-overflow-tooltip>
+                <template scope="scope">
+                    <span>{{scope.row._id}}</span>
+                </template>
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">
@@ -32,7 +41,8 @@ export default {
     },
     data() {
         return {
-
+            green: { color: '#13CE66' },
+            red: { color: '#FF4949' }
         }
     },
 
@@ -54,7 +64,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                return services.deleteAds({
+                return services.delAds({
                     ids: rows[index]._id
                 });
             }).then((result) => {

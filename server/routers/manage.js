@@ -204,5 +204,14 @@ router.get('/ads/getList', authToken, authPower, Ads.getAds);
 // 获取单个广告
 router.get('/ads/getOne', authToken, authPower, Ads.getOneAd);
 
+// 新增广告
+router.post('/ads/addOne', authToken, authPower, Ads.addAds);
+
+// 更新单个广告
+router.post('/ads/updateOne', authToken, authPower, Ads.updateAds);
+
+// 删除广告
+router.get('/ads/delete', authToken, authPower, Ads.delAds);
+
 
 module.exports = router

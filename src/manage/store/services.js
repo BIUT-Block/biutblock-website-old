@@ -210,4 +210,16 @@ export default {
         return reqJsonData('manage/ads/getOne', params, 'get')
     },
 
+    addOneAd(params) {
+        return reqJsonData('manage/ads/addOne', params)
+    },
+
+    updateAds(params) {
+        return reqJsonData('manage/ads/updateOne', params)
+    },
+
+    delAds(params) {
+        return reqJsonData('manage/ads/delete', params, 'get')
+    },
+
 }
