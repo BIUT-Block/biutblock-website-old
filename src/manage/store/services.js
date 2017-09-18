@@ -22,6 +22,10 @@ export default {
         return reqJsonData('manage/getUserSession', {}, 'get')
     },
 
+    getSiteBasicInfo(params) {
+        return reqJsonData('manage/getSitBasicInfo', params, 'get')
+    },
+
     adminUserList(params) {
         return reqJsonData('manage/adminUser/getList', params, 'get')
     },
@@ -220,6 +224,7 @@ export default {
 
     delAds(params) {
         return reqJsonData('manage/ads/delete', params, 'get')
-    },
+    }
+
 
 }

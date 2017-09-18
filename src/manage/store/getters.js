@@ -28,6 +28,7 @@ export default {
     systemAnnounceFormState: state => state.announceFormState,
     adsList: state => state.ads.list,
     adsInfoForm: state => state.ads.infoFormState,
-    adsItemForm: state => state.ads.itemFormState
+    adsItemForm: state => state.ads.itemFormState,
+    basicInfo: state => state.basicInfo
 
 }

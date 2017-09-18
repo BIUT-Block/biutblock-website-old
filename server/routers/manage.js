@@ -40,6 +40,9 @@ router.get('/logout', (req, res) => {
 // 获取管理员信息
 router.get('/getUserSession', authSession, AdminUser.getUserSession)
 
+// 获取后台基础信息
+router.get('/getSitBasicInfo', authSession, authPower, AdminUser.getBasicSiteInfo)
+
 /**
  * 管理员管理
  */

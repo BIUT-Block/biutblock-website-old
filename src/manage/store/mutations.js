@@ -281,6 +281,12 @@ const state = {
                 sImg: ''
             }
         }
+    },
+    basicInfo: {
+        adminUserCount: 0,
+        regUserCount: 0,
+        contentCount: 0,
+        messageCount: 0
     }
 }
 
@@ -538,6 +544,9 @@ const mutations = {
             alt: '',
             sImg: '',
         }, formState.formData);
+    },
+    [types.MAIN_SITEBASIC_INFO](state, list) {
+        state.basicInfo = list
     }
 
 }

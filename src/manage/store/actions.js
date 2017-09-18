@@ -387,5 +387,12 @@ export default {
             show: false
         })
     },
+    getSiteBasicInfo({
+        commit
+    }, params = {}) {
+        services.getSiteBasicInfo(params).then((result) => {
+            commit(types.MAIN_SITEBASIC_INFO, result.data)
+        })
+    }
 
 }
