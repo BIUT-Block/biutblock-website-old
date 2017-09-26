@@ -7,7 +7,7 @@ const validator = require("validator");
 module.exports = {
 
     validateWords(str) {
-        let pattern = new RegExp("[- <>#$%^*+/*]");
+        let pattern = new RegExp("[<>#$%^*+*]");
         let newParams = "";
         for (let i = 0; i < str.length; i++) {
             newParams += str.substr(i, 1).replace(pattern, '');
