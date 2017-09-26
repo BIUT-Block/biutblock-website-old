@@ -31,9 +31,9 @@ export default {
                     message: '请填写留言',
                     trigger: 'blur'
                 }, {
-                    min: 2,
-                    max: 30,
-                    message: '请输入5-30个字符',
+                    min: 5,
+                    max: 200,
+                    message: '请输入5-200个字符',
                     trigger: 'blur'
                 }]
             }
