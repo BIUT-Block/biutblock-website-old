@@ -165,7 +165,7 @@
         color: #999999;
         ul {
             li.author-name {
-                color: #20A0FF;
+                color: #409EFF;
             }
             li {
                 display: inline-block;

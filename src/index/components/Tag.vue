@@ -38,8 +38,8 @@ export default {
                 border-bottom: 1px dashed #ededed;
             }
             a:hover {
-                border-bottom: 1px dashed #20A0FF;
-                color: #20A0FF
+                border-bottom: 1px dashed #409EFF;
+                color: #409EFF
             }
         }
     }

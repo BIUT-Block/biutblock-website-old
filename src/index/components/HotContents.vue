@@ -55,7 +55,7 @@ export default {
         width: 6px;
         height: 6px;
         border-radius: 3px;
-        background: #20A0FF;
+        background: #409EFF;
         content: "";
     }
 }

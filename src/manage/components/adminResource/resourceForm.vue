@@ -112,14 +112,7 @@ export default {
             console.log(value);
         },
         changeType(value) {
-            // let currentFormData = Object.assign(this.dialogState.formData, {
-            //     routePath: '',
-            //     componentPath: '',
-            //     enable: true,
-            //     api: '',
-            //     icon: ''
-            // })
-            // this.$store.dispatch('showAdminResourceForm', Object.assign(this.dialogState, { formData: currentFormData }));
+
         },
         confirm() {
             this.$store.dispatch('hideAdminResourceForm')

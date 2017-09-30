@@ -3,7 +3,7 @@
         <h3 class="pannel-title">
             <span>搜索</span>
         </h3>
-        <el-input placeholder="请输入关键字" size="small" icon="search" v-model="searchkey" :on-icon-click="handleIconClick">
+        <el-input placeholder="请输入关键字" size="small" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="handleIconClick">
         </el-input>
     </div>
 </template>

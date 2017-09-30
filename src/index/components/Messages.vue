@@ -16,7 +16,7 @@
                                 <div class="user-notice">
                                     <div v-if="loginState.logined">
                                         你好,
-                                        <span style="color: #20A0FF">{{loginState.userInfo.userName}} !</span>
+                                        <span style="color: #409EFF">{{loginState.userInfo.userName}} !</span>
                                     </div>
                                     <div v-else>
                                         <router-link to="/users/login">登录</router-link>&nbsp;后参与评论
@@ -46,7 +46,7 @@
                         <div class="user-name">
                             <div class="name" v-if="item.utype == '1'">
                                 {{item.adminAuthor.userName}}
-                                <span title="管理员" style="color: #20A0FF;font-size: 12px;">[
+                                <span title="管理员" style="color: #409EFF;font-size: 12px;">[
                                     <i class="el-icon-star-on"></i>&nbsp;管理员]</span>
                             </div>
                             <div class="name" v-else>{{item.author.userName}}</div>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="user-content">
                             <div v-if="item.replyAuthor">
-                                <span style="color: #20A0FF">{{'@'+item.replyAuthor.userName}}</span>&nbsp; {{item.content}}
+                                <span style="color: #409EFF">{{'@'+item.replyAuthor.userName}}</span>&nbsp; {{item.content}}
                             </div>
                             <div v-else>
                                 {{item.content}}
@@ -214,7 +214,7 @@ export default {
             }
             .user-name {
                 margin: 0 0 5px 0;
-                color: #20A0FF;
+                color: #409EFF;
 
                 .name {
                     display: inline-block;
@@ -240,7 +240,7 @@ export default {
             float: left;
             a:link,
             a:visited {
-                color: #20A0FF
+                color: #409EFF
             }
         }
         .send-content {

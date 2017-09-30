@@ -111,7 +111,7 @@ export default {
                     text-align: center;
 
                     a.router-link-active {
-                        color: #20A0FF
+                        color: #409EFF
                     }
                 }
             }

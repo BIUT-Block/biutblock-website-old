@@ -67,7 +67,7 @@ export default {
     text-align: right;
     ul {
         li {
-            color: #20A0FF;
+            color: #409EFF;
             height: 40px;
             line-height: 40px;
             display: inline-block;

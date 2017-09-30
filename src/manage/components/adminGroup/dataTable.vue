@@ -7,7 +7,7 @@
             </el-table-column>
             <el-table-column prop="comments" label="角色描述" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作">
                 <template scope="scope">
                     <el-button size="mini" @click="editRoleInfo(scope.$index, dataList)">编辑</el-button>
                     <el-button size="mini" @click="editPowerInfo(scope.$index, dataList)">资源</el-button>
