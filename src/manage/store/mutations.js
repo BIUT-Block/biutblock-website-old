@@ -264,6 +264,7 @@ const state = {
             formData: {
                 name: '',
                 type: '1',
+                height: '',
                 comments: '',
                 items: [],
                 state: true
@@ -525,13 +526,7 @@ const mutations = {
     },
     [types.ADS_INFO_FORMSTATE](state, formState) {
         state.ads.infoFormState.edit = formState.edit;
-        state.ads.infoFormState.formData = Object.assign({
-            name: '',
-            type: '1',
-            comments: '',
-            items: [],
-            state: true
-        }, formState.formData);
+        state.ads.infoFormState.formData = Object.assign(state.ads.infoFormState.formData, formState.formData);
     },
     [types.ADS_ITEM_FORMSTATE](state, formState) {
         state.ads.itemFormState.edit = formState.edit;

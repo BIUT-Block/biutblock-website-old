@@ -111,13 +111,10 @@ export default {
                         for (let i = 0; i < adsItems.length; i++) {
                             if (adsItems[i]._id == params._id) adsItems[i] = params;
                         }
-                        console.log('--oldFormState1--', oldFormState)
                         this.$store.dispatch('adsInfoForm', oldFormState);
                     } else {
                         // 新增
-                        console.log('----params-', params, '----', adsItems);
                         adsItems.push(params);
-                        console.log('--oldFormState2--', oldFormState)
                         this.$store.dispatch('adsInfoForm', oldFormState);
                     }
                     this.$store.dispatch('hideAdsItemForm');

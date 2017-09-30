@@ -19,6 +19,11 @@
             </el-form-item>
 
             <div v-if="formState.formData.type == '1'">
+                <el-form-item label="显示高度" prop="height">
+                    <el-input size="small" type="number" min="0" max="10" style="width:150px;" placeholder="显示高度" v-model="formState.formData.height">
+                        <template slot="append">px</template>
+                    </el-input>
+                </el-form-item>
                 <el-form-item label="图片列表" prop="items">
                     <el-button size="small" type="primary" @click="showAdsItemForm">添加图片</el-button>
                     <div class="dr-ads-item" v-for="item in formState.formData.items" :key="item._id">
