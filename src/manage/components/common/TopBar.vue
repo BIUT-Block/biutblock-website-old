@@ -2,40 +2,40 @@
     <div class="dr-toolbar">
         <div class="option-button">
             <div v-if="type === 'adminGroup'">
-                <el-button size="small" type="primary" icon="plus" @click="addRole">添加角色</el-button>
+                <el-button size="small" type="primary" suffix-icon="el-icon-plus" @click="addRole">添加角色</el-button>
             </div>
             <div v-else-if="type === 'adminUser'">
-                <el-button size="small" type="primary" icon="plus" @click="addUser">添加管理员</el-button>
+                <el-button size="small" type="primary" suffix-icon="el-icon-plus" @click="addUser">添加管理员</el-button>
             </div>
             <div v-else-if="type === 'adminResource'">
-                <el-button size="small" type="primary" icon="plus" @click="addResource">添加主菜单</el-button>
+                <el-button size="small" type="primary" suffix-icon="el-icon-plus" @click="addResource">添加主菜单</el-button>
             </div>
             <div v-else-if="type === 'content'">
-                <el-button size="small" type="primary" icon="plus" @click="addContent">添加文档</el-button>
+                <el-button size="small" type="primary" suffix-icon="el-icon-plus" @click="addContent">添加文档</el-button>
             </div>
             <div v-else-if="type === 'contentCategory'">
-                <el-button size="small" type="primary" icon="plus" @click="addTopCates">添加主分类</el-button>
+                <el-button size="small" type="primary" suffix-icon="el-icon-plus" @click="addTopCates">添加主分类</el-button>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-button size="small" type="danger" icon="delete" @click="branchDelete('msg')">批量删除</el-button>
+                <el-button size="small" type="danger" suffix-icon="el-icon-delete" @click="branchDelete('msg')">批量删除</el-button>
             </div>
             <div v-else-if="type === 'contentTag'">
-                <el-button size="small" type="primary" icon="plus" @click="addTag">添加新标签</el-button>
+                <el-button size="small" type="primary" suffix-icon="el-icon-plus" @click="addTag">添加新标签</el-button>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-button size="small" type="danger" icon="delete" @click="branchDelete('user')">批量删除</el-button>
+                <el-button size="small" type="danger" suffix-icon="el-icon-delete" @click="branchDelete('user')">批量删除</el-button>
             </div>
             <div v-else-if="type === 'backUpData'">
                 <el-button size="small" type="primary" @click="bakUpData" :loading="loadingState">
                     <i class="el-icon-upload"></i> &nbsp;备份数据库</el-button>
             </div>
             <div v-else-if="type === 'systemOptionLogs'">
-                <el-button size="small" type="danger" icon="delete" @click="branchDelete('systemlogs')">批量删除</el-button>
-                <el-button size="small" type="warning" icon="warning" @click="clearSystemOptionLogs">清空日志</el-button>
+                <el-button size="small" type="danger" suffix-icon="el-icon-delete" @click="branchDelete('systemlogs')">批量删除</el-button>
+                <el-button size="small" type="warning" suffix-icon="el-icon-warning" @click="clearSystemOptionLogs">清空日志</el-button>
             </div>
             <div v-else-if="type === 'systemNotify'">
                 <el-button size="small" @click="setHasRead()">标记为已读</el-button>
-                <el-button size="small" type="danger" icon="delete" @click="branchDelete('systemnotify')">批量删除</el-button>
+                <el-button size="small" type="danger" suffix-icon="el-icon-delete" @click="branchDelete('systemnotify')">批量删除</el-button>
             </div>
             <div v-else-if="type === 'systemAnnounce'">
                 <el-button type="primary" size="small" @click="addSysAnnounce">
@@ -48,28 +48,24 @@
         </div>
         <div class="dr-searchInput">
             <div v-if="type === 'content'">
-                <el-input size="small" placeholder="请输入关键字" icon="search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="请输入关键字" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'contentTag'">
-                <el-input size="small" placeholder="标签名称" icon="search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="标签名称" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-input size="small" placeholder="留言内容" icon="search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="留言内容" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-input size="small" placeholder="请输入用户名" icon="search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="请输入用户名" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
                 </el-input>
             </div>
             <div v-else-if="type === 'systemOptionLogs'">
                 <el-select size="small" v-model="targetSysLogType" placeholder="请选择日志类别" @change="selectSysLogType">
-                    <el-option
-                    v-for="item in systemModelTypes"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    <el-option v-for="item in systemModelTypes" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
             </div>
@@ -88,18 +84,18 @@ export default {
         return {
             systemModelTypes: [
                 {
-                value: 'all',
-                label: '全部'
+                    value: 'all',
+                    label: '全部'
                 },
                 {
-                value: 'h5-exception',
-                label: 'h5异常'
+                    value: 'h5-exception',
+                    label: 'h5异常'
                 }, {
-                value: 'node-exception',
-                label: 'nodejs异常'
+                    value: 'node-exception',
+                    label: 'nodejs异常'
                 }, {
-                value: 'login',
-                label: '系统登录'
+                    value: 'login',
+                    label: '系统登录'
                 }
             ],
             targetSysLogType: 'all',
@@ -111,11 +107,11 @@ export default {
         }
     },
     methods: {
-        selectSysLogType(type){
-             this.targetSysLogType = type;
-            if(type == 'all'){
+        selectSysLogType(type) {
+            this.targetSysLogType = type;
+            if (type == 'all') {
                 this.$store.dispatch('getSystemLogsList');
-            }else{
+            } else {
                 this.$store.dispatch('getSystemLogsList', { type });
             }
         },
