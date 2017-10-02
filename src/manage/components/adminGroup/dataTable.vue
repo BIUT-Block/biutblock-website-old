@@ -9,9 +9,9 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template scope="scope">
-                    <el-button size="mini" @click="editRoleInfo(scope.$index, dataList)">编辑</el-button>
-                    <el-button size="mini" @click="editPowerInfo(scope.$index, dataList)">资源</el-button>
-                    <el-button size="mini" type="danger" @click="deleteRole(scope.$index, dataList)">删除</el-button>
+                    <el-button size="mini" type="primary" plain @ @click="editRoleInfo(scope.$index, dataList)"><i class="fa fa-edit"></i>&nbsp;编辑</el-button>
+                    <el-button size="mini" type="warning" plain @click="editPowerInfo(scope.$index, dataList)"><i class="fa fa-superpowers"></i>&nbsp;资源</el-button>
+                    <el-button size="mini" type="danger" plain icon="el-icon-delete" @click="deleteRole(scope.$index, dataList)">&nbsp;删除</el-button>
                 </template>
             </el-table-column>
         </el-table>

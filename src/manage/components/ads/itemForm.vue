@@ -1,6 +1,6 @@
 <template>
     <div class="dr-adminGroupForm">
-        <el-dialog size="small" :title="(formState.edit?'编辑':'添加')+(adsType == '1'?'图片':'文本链接')" :visible.sync="formState.show" :close-on-click-modal="false">
+        <el-dialog width="35%" size="small" :title="(formState.edit?'编辑':'添加')+(adsType == '1'?'图片':'文本链接')" :visible.sync="formState.show" :close-on-click-modal="false">
             <el-form v-if="adsType == '1'" :model="formState.formData" :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
                 <el-form-item label="描述" prop="alt">
                     <el-input size="small" v-model="formState.formData.alt"></el-input>
@@ -15,7 +15,7 @@
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
+                    <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{formState.edit ? '更新' : '保存'}}</el-button>
                 </el-form-item>
             </el-form>
             <el-form v-if="adsType == '0'" :model="formState.formData" :rules="rules1" ref="ruleForm1" label-width="80px" class="demo-ruleForm">
@@ -26,7 +26,7 @@
                     <el-input size="small" v-model="formState.formData.link"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm1')">{{formState.edit ? '更新' : '保存'}}</el-button>
+                    <el-button size="small" type="primary" @click="submitForm('ruleForm1')">{{formState.edit ? '更新' : '保存'}}</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>

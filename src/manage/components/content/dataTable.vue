@@ -32,10 +32,10 @@
             </el-table-column>
             <el-table-column label="操作" width="130" fixed="right">
                 <template scope="scope">
-                    <el-button size="mini" type="primary" @click="editContentInfo(scope.$index, dataList)">
+                    <el-button size="mini" type="primary" plain @click="editContentInfo(scope.$index, dataList)">
                         <i class="fa fa-edit"></i>
                     </el-button>
-                    <el-button size="mini" @click="deleteContent(scope.$index, dataList)">
+                    <el-button size="mini" type="danger" plain @click="deleteContent(scope.$index, dataList)">
                         <i class="fa fa-trash-o"></i>
                     </el-button>
                 </template>

@@ -73,9 +73,9 @@ export default {
             <span>{node.label}</span>
           </span>
           <span style="float: right; margin-right: 20px">
-            <el-button type="text" on-click={() => this.append(store, data)}>添加</el-button>
-            <el-button type="text" on-click={() => this.edit(store, data)}>编辑</el-button>
-            <el-button type="text" on-click={() => this.remove(store, data)}>删除</el-button>
+            <el-button type="text" on-click={() => this.append(store, data)}><i class="fa fa-plus-square" aria-hidden="true"></i></el-button>
+            <el-button type="text" on-click={() => this.edit(store, data)}><i class="fa fa-edit"></i></el-button>
+            <el-button type="text" on-click={() => this.remove(store, data)}><i class="fa fa-trash-o"></i></el-button>
           </span>
         </span>);
     }

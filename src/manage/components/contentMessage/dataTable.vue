@@ -18,8 +18,8 @@
             </el-table-column>
             <el-table-column label="操作" width="150" fixed="right">
                 <template scope="scope">
-                    <el-button size="mini" @click="replyContentMessage(scope.$index, dataList)">回复</el-button>
-                    <el-button size="mini" type="danger" @click="deleteContentMessage(scope.$index, dataList)">删除</el-button>
+                    <el-button size="mini" type="primary" plain @click="replyContentMessage(scope.$index, dataList)"><i class="fa fa-mail-reply" aria-hidden="true"></i></el-button>
+                    <el-button size="mini" type="danger" plain icon="el-icon-delete" @click="deleteContentMessage(scope.$index, dataList)"></el-button>
                 </template>
             </el-table-column>
         </el-table>

@@ -21,8 +21,8 @@
               <el-input size="small" type="password" v-model="adminLoginFormData.password"></el-input>
             </el-form-item>
             <el-form-item class="submit-btn">
-              <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-              <el-button @click="resetForm('ruleForm')">重置</el-button>
+              <el-button size="small" type="primary" @click="submitForm('ruleForm')">登录</el-button>
+              <el-button size="small" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-form>
         </el-col>

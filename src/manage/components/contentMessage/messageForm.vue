@@ -1,6 +1,6 @@
 <template>
     <div class="dr-contentMessageForm">
-        <el-dialog size="small" title="留言回复" :visible.sync="dialogState.show" :close-on-click-modal="false">
+        <el-dialog width="35%" size="small" title="留言回复" :visible.sync="dialogState.show" :close-on-click-modal="false">
             <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="用户说">
                     {{dialogState.parentformData.content}}
@@ -9,7 +9,7 @@
                     <el-input size="small" type="textarea" v-model="dialogState.formData.content"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">{{dialogState.edit ? '更新' : '保存'}}</el-button>
+                    <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{dialogState.edit ? '更新' : '保存'}}</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
