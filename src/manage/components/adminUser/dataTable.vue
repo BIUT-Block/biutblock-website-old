@@ -20,8 +20,8 @@
             </el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
-                    <el-button size="mini" type="primary" plain @click="editUserInfo(scope.$index, dataList)"> <i class="fa fa-edit"></i></el-button>
-                    <el-button size="mini" type="danger" plain icon="el-icon-delete" @click="deleteUser(scope.$index, dataList)"></el-button>
+                    <el-button size="mini" type="primary" plain round @click="editUserInfo(scope.$index, dataList)"> <i class="fa fa-edit"></i></el-button>
+                    <el-button size="mini" type="danger" plain round icon="el-icon-delete" @click="deleteUser(scope.$index, dataList)"></el-button>
                 </template>
             </el-table-column>
         </el-table>

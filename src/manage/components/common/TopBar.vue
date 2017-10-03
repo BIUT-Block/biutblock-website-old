@@ -2,67 +2,68 @@
     <div class="dr-toolbar">
         <div class="option-button">
             <div v-if="type === 'adminGroup'">
-                <el-button size="small" type="primary" plain @click="addRole"><i class="fa fa-group" aria-hidden="true"></i>&nbsp;添加角色</el-button>
+                <el-button size="small" type="primary" plain @click="addRole" round><i class="fa fa-fw fa-plus" aria-hidden="true"></i></el-button>
             </div>
             <div v-else-if="type === 'adminUser'">
-                <el-button size="small" type="primary" plain @click="addUser"><i class="fa fa-fw fa-user"></i>&nbsp;添加管理员</el-button>
+                <el-button size="small" type="primary" plain @click="addUser" round><i class="fa fa-fw fa-plus"></i></el-button>
             </div>
             <div v-else-if="type === 'adminResource'">
-                <el-button size="small" type="primary" plain @click="addResource"><i class="fa fa-superpowers" aria-hidden="true"></i>&nbsp;添加主菜单</el-button>
+                <el-button size="small" type="primary" plain @click="addResource" round><i class="fa fa-fw fa-plus" aria-hidden="true"></i></el-button>
             </div>
             <div v-else-if="type === 'content'">
-                <el-button size="small" type="primary" plain @click="addContent"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;添加文档</el-button>
+                <el-button size="small" type="primary" plain @click="addContent" round><i class="fa fa-fw fa-plus" aria-hidden="true"></i></el-button>
             </div>
             <div v-else-if="type === 'contentCategory'">
-                <el-button size="small" type="primary" plain @click="addTopCates"><i class="fa fa-navicon" aria-hidden="true"></i>&nbsp;添加主分类</el-button>
+                <el-button size="small" type="primary" plain @click="addTopCates" round><i class="fa fa-fw fa-plus" aria-hidden="true"></i></el-button>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-button size="small" type="danger" plain icon="el-icon-delete" @click="branchDelete('msg')">批量删除</el-button>
+                <el-button size="small" type="danger" plain round @click="branchDelete('msg')"><i class="fa fa-fw fa-trash-o"></i></el-button>
             </div>
             <div v-else-if="type === 'contentTag'">
-                <el-button size="small" type="primary" plain @click="addTag"><i class="fa fa-tags" aria-hidden="true"></i>&nbsp;添加新标签</el-button>
+                <el-button size="small" type="primary" plain round @click="addTag"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></el-button>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-button size="small" type="danger" plain icon="el-icon-delete" @click="branchDelete('user')">批量删除</el-button>
+                <el-button size="small" type="danger" plain round @click="branchDelete('user')"><i class="fa fa-fw fa-trash-o"></i></el-button>
             </div>
             <div v-else-if="type === 'backUpData'">
-                <el-button size="small" type="primary" plain @click="bakUpData" :loading="loadingState">
-                    <i class="el-icon-upload"></i> &nbsp;备份数据库</el-button>
+                <el-button size="small" type="primary" plain round @click="bakUpData" :loading="loadingState"><i class="fa fa-fw fa-cloud-download" aria-hidden="true"></i></el-button>
             </div>
             <div v-else-if="type === 'systemOptionLogs'">
-                <el-button size="small" type="danger" plain icon="el-icon-delete" @click="branchDelete('systemlogs')">批量删除</el-button>
-                <el-button size="small" type="warning" plain icon="el-icon-warning" @click="clearSystemOptionLogs">清空日志</el-button>
+                <el-button size="small" type="danger" plain round @click="branchDelete('systemlogs')"><i class="fa fa-fw fa-trash-o"></i></el-button>
+                <el-button size="small" type="warning" plain round @click="clearSystemOptionLogs"><i class="fa fa-fw fa-eraser"></i></el-button>
             </div>
             <div v-else-if="type === 'systemNotify'">
-                <el-button size="small" type="primary" plain @click="setHasRead()"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;标记为已读</el-button>
-                <el-button size="small" type="danger" plain icon="el-icon-delete" @click="branchDelete('systemnotify')">批量删除</el-button>
+                <el-button size="small" type="primary" plain round @click="setHasRead()"><i class="fa fa-fw fa-eye" aria-hidden="true"></i></el-button>
+                <el-button size="small" type="danger" plain round @click="branchDelete('systemnotify')"><i class="fa fa-fw fa-trash-o"></i></el-button>
             </div>
             <div v-else-if="type === 'systemAnnounce'">
-                <el-button type="primary" size="small" plain @click="addSysAnnounce">
-                    <i class="fa fa-bullhorn"></i> &nbsp;新增系统公告</el-button>
+                <el-button type="primary" size="small" plain round @click="addSysAnnounce"><i class="fa fa-fw fa-plus"></i></el-button>
             </div>
             <div v-else-if="type === 'ads'">
-                <el-button type="primary" size="small" plain @click="addAds">
-                    <i class="fa fa-image"></i> &nbsp;新增广告</el-button>
+                <el-button type="primary" size="small" plain round @click="addAds"><i class="fa fa-fw fa-plus"></i></el-button>
             </div>
         </div>
         <div class="dr-searchInput">
            <el-form>
             <el-form-item >
             <div v-if="type === 'content'">
-                <el-input size="small" placeholder="请输入关键字" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="请输入关键字" v-model="searchkey" :on-icon-click="searchResult">
+                    <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'contentTag'">
-                <el-input size="small" placeholder="标签名称" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="标签名称" v-model="searchkey" :on-icon-click="searchResult">
+                     <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-input size="small" placeholder="留言内容" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="留言内容" v-model="searchkey" :on-icon-click="searchResult">
+                    <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-input size="small" placeholder="请输入用户名" suffix-icon="el-icon-search" v-model="searchkey" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="请输入用户名" v-model="searchkey" :on-icon-click="searchResult">
+                    <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'systemOptionLogs'">
@@ -158,7 +159,8 @@ export default {
         },
         addAds() {
             this.$store.dispatch('adsInfoForm', {
-                edit: false
+                edit: false,
+                formData:{}
             });
             this.$router.push('/addAds');
         },

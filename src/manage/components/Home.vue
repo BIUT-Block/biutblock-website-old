@@ -2,7 +2,7 @@
     <el-row class="container" v-loading.body="loading">
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-                {{collapsed?'':sysName}}
+                  <router-link :to="{path: '/main'}"><img src="../assets/images/doracms-logo.png" alt="DoraCMS内容管理系统"/></router-link>
             </el-col>
             <el-col :span="10">
                 <div class="tools" @click.prevent="collapse">
@@ -195,7 +195,7 @@ export default {
             float: right;
             .userinfo-inner {
                 cursor: pointer;
-                color: #fff;
+                color: #878D99;
                 img {
                     width: 40px;
                     height: 40px;
@@ -206,15 +206,16 @@ export default {
             }
         }
         .logo {
+            color: #409EFF;
             height: 60px;
-            font-size: 22px;
+            font-size: 26px;
             padding-left: 20px;
             padding-right: 20px;
-            border-color: rgba(238, 241, 146, 0.3);
+            border-color: #ffffff;
             border-right-width: 1px;
             border-right-style: solid;
             img {
-                width: 40px;
+                width: 100%;
                 float: left;
                 margin: 10px 10px 10px 18px;
             }
@@ -235,6 +236,7 @@ export default {
             height: 60px;
             line-height: 60px;
             cursor: pointer;
+            color:#D8DCE6
         }
     }
     .main {

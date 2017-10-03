@@ -1,7 +1,7 @@
 <template>
     <div class="dr-contentMessageForm">
         <el-dialog width="35%" size="small" title="留言回复" :visible.sync="dialogState.show" :close-on-click-modal="false">
-            <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="dialogState.formData" :rules="rules" ref="ruleForm" label-width="90px" class="demo-ruleForm">
                 <el-form-item label="用户说">
                     {{dialogState.parentformData.content}}
                 </el-form-item>

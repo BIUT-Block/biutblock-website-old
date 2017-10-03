@@ -25,7 +25,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="图片列表" prop="items">
-                    <el-button size="small" type="primary" @click="showAdsItemForm">添加图片</el-button>
+                    <el-button size="small" type="primary" plain round @click="showAdsItemForm">添加图片</el-button>
                     <div class="dr-ads-item" v-for="item in formState.formData.items" :key="item._id">
                         <div class="img">
                             <img :src="item.sImg" />
@@ -37,7 +37,7 @@
                             </ul>
                         </div>
                         <div class="options">
-                            <el-button size="mini" type="primary" @click="editAdsItemInfo(item)">
+                            <el-button size="mini" type="primary" plain round @click="editAdsItemInfo(item)">
                                 <i class="fa fa-edit"></i>
                             </el-button>
                         </div>
@@ -47,7 +47,7 @@
             </div>
             <div v-if="formState.formData.type == '0'">
                 <el-form-item label="链接列表" prop="items">
-                    <el-button size="small" type="primary" @click="showAdsItemForm">添加链接</el-button>
+                    <el-button size="small" type="primary" plain round @click="showAdsItemForm">添加链接</el-button>
                     <div v-if="formState.formData.items.length > 0">
                         <el-tag v-for="tag in formState.formData.items" :key="tag.title" type='gray' :closable="true" @close="deleteAdsItem(tag)">
                             <span @click="editAdsItemInfo(tag)">{{tag.title}}</span>

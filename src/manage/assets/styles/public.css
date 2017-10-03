@@ -7,3 +7,19 @@
     width: 200px;
     float: right;
 }
+
+.el-button--small {
+    padding: 9px 8px !important;
+}
+
+.el-button--mini {
+    padding: 9px !important;
+}
+
+.el-menu {
+    border-right: solid 1px #ffffff !important;
+}
+
+.el-input-number--small {
+    line-height: 32px !important;
+}
