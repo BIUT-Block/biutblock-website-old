@@ -28,3 +28,7 @@
     color: #5a5e66;
     text-decoration: none;
 }
+
+.el-card__header {
+    padding: 10px 10px;
+}
