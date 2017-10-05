@@ -5,7 +5,7 @@
                 <div class="grid-content bg-purple">
                     <el-card class="box-card pannel-box">
                         <div slot="header" class="clearfix">
-                            <span>概况</span>
+                            <span>统计</span>
                         </div>
                         <div class="box-body">
                             <ul class="row basic-count">
@@ -67,28 +67,15 @@
                             <div class="row user-messages">
                                 <div v-if="basicInfo.messages && basicInfo.messages.length > 0">
                                     <div class="direct-chat-msg" v-for="msg in basicInfo.messages" :key="msg._id">
-                                        <div v-if="msg.utype =='0'">
-                                            <div class="direct-chat-info clearfix">
-                                                <span class="direct-chat-name pull-left">
-                                                    <a href="#">{{msg.author.userName}}</a>
-                                                在 <a :href="'/details/'+msg.contentId._id+'.html'" target="_blank">{{msg.contentId.title}}</a> 中说
+                                        <div class="direct-chat-info clearfix">
+                                            <span class="direct-chat-name pull-left">
+                                                    <a href="#">{{msg.utype =='0'?msg.author.userName:msg.adminAuthor.userName}}</a>
+                                                在 <a class="direct-chat-contentTitle" :href="'/details/'+msg.contentId._id+'.html'" target="_blank">{{msg.contentId.stitle}}</a> 中{{msg.utype =='0'?'说':`回复 `}} <a href="#">{{msg.utype =='1'?msg.replyAuthor.userName:''}}</a>
                                             </span>
-                                                <span class="direct-chat-timestamp pull-right"><i class="fa fa-clock-o"></i> <span>{{msg.date}}</span></span>
-                                            </div>
-                                            <img alt="message user image" :src="msg.author.logo" class="direct-chat-img">
-                                            <div class="direct-chat-text" v-html="msg.content"></div>
+                                            <span class="direct-chat-timestamp pull-right"><i class="fa fa-clock-o"></i> <span>{{msg.date}}</span></span>
                                         </div>
-                                        <div v-else-if="msg.utype =='1'">
-                                            <div class="direct-chat-info clearfix">
-                                                <span class="direct-chat-name pull-left">
-                                                    <a href="#">{{msg.adminAuthor.userName}}</a>
-                                                在 <a :href="'/details/'+msg.contentId._id+'.html'" target="_blank">{{msg.contentId.title}}</a> 中回复 <a href="#">{{msg.replyAuthor.userName}}</a>
-                                            </span>
-                                                <span class="direct-chat-timestamp pull-right"><i class="fa fa-clock-o"></i> <span>{{msg.date}}</span></span>
-                                            </div>
-                                            <img alt="message user image" :src="msg.adminAuthor.logo" class="direct-chat-img">
-                                            <div class="direct-chat-text" v-html="msg.content"></div>
-                                        </div>
+                                        <img alt="message user image" :src="msg.utype =='0'?msg.author.logo:msg.adminAuthor.logo" class="direct-chat-img">
+                                        <div class="direct-chat-text" v-html="msg.content"></div>
                                     </div>
                                 </div>
                                 <div v-else>暂无数据</div>
@@ -217,6 +204,61 @@
                     line-height: 26px;
                     margin-left: 30px;
                 }
+            }
+        }
+        .direct-chat-msg {
+            margin-bottom: 8px;
+            a:link,
+            a:visited {
+                color: #409EFF;
+            }
+            .direct-chat-contentTitle:link,
+            .direct-chat-contentTitle:visited {
+                color: #5A5E66;
+                font-style: italic;
+            }
+            .direct-chat-info {
+                margin-bottom: 3px;
+            }
+            .direct-chat-timestamp {
+                color: #B4BCCC;
+                font-size: 12px;
+            }
+            .direct-chat-img {
+                border-radius: 50%;
+                width: 35px;
+                float: left;
+            }
+            .direct-chat-text {
+                border-radius: 5px;
+                position: relative;
+                padding: 5px 10px;
+                margin: 5px 0 0 50px;
+                color: #444;
+                background-color: #EDF2FC;
+                color: #878d99;
+                font-size: 13px;
+            }
+            .direct-chat-text:after,
+            .direct-chat-text:before {
+                position: absolute;
+                right: 100%;
+                top: 15px;
+                border: solid transparent;
+                border-right-color: #EDF2FC;
+                content: ' ';
+                height: 0;
+                width: 0;
+                pointer-events: none;
+                box-sizing: border-box;
+            }
+            .direct-chat-text:before {
+                border-width: 6px;
+                margin-top: -6px;
+            }
+            .direct-chat-text:after {
+                border-width: 5px;
+                margin-top: -5px;
             }
         }
     }

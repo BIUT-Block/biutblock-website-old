@@ -1,3 +1,7 @@
+a:link, a:visited {
+    text-decoration: none;
+}
+
 .dr-toolbar {
     margin: 10px auto;
     text-align: left;
@@ -24,7 +28,7 @@
     line-height: 32px !important;
 }
 
-.el-table a:link,.el-table a:visited{
+.el-table a:link, .el-table a:visited {
     color: #5a5e66;
     text-decoration: none;
 }

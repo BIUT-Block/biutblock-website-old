@@ -37,6 +37,10 @@ module.exports = {
     // 校验QQ号
     checkQqNum() {
         return RegExp(/^[1-9][0-9]{4,9}$/).test(str);
+    },
+
+    checkUrl(str){
+        return str && validator.isURL(str);
     }
 
 }

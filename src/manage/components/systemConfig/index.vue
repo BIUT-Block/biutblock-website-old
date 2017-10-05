@@ -8,7 +8,7 @@
                     </el-form-item>
                     <el-form-item label="站点域名" prop="siteDomain">
                         <el-input size="small" placeholder="请输入内容" v-model="systemConfig.configs.siteDomain">
-                            <template slot="prepend">Http://</template>
+                            <template slot="prepend">http://</template>
                         </el-input>
                     </el-form-item>
                     <el-form-item label="站点描述" prop="siteDiscription">
@@ -71,6 +71,20 @@ export default {
                 siteEmailServer: [{
                     required: true,
                     message: '请选择系统邮箱服务器',
+                    trigger: 'blur'
+                }],
+                siteDomain: [{
+                    required: true,
+                    message: '请填写系统域名',
+                    trigger: 'blur'
+                }, {
+                    validator: (rule, value, callback) => {
+                        if (!validatorUtil.checkUrl(value)) {
+                            callback(new Error('请填写正确的域名!'));
+                        } else {
+                            callback();
+                        }
+                    },
                     trigger: 'blur'
                 }],
                 siteEmail: [{

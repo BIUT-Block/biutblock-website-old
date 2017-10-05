@@ -9,7 +9,7 @@
                     <el-input size="small" type="textarea" v-model="dialogState.formData.content"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button size="small" type="primary" @click="submitForm('ruleForm')">{{dialogState.edit ? '更新' : '保存'}}</el-button>
+                    <el-button size="small" type="primary" @click="submitForm('ruleForm')">回复</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -46,7 +46,6 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log('---formdatas--', this.dialogState.parentformData);
                     let parentParams = this.dialogState.parentformData, repFormData = {};
                     repFormData.relationMsgId = parentParams._id;
                     repFormData.contentId = parentParams.contentId._id;

@@ -30,7 +30,9 @@
             </div>
             <div v-else-if="type === 'systemOptionLogs'">
                 <el-button size="small" type="danger" plain round @click="branchDelete('systemlogs')"><i class="fa fa-fw fa-trash-o"></i></el-button>
-                <el-button size="small" type="warning" plain round @click="clearSystemOptionLogs"><i class="fa fa-fw fa-eraser"></i></el-button>
+                <el-tooltip class="item" effect="dark" content="清空所有日志" placement="right-start">
+                    <el-button size="small" type="warning" plain round @click="clearSystemOptionLogs"><i class="fa fa-fw fa-window-restore"></i></el-button>
+                </el-tooltip>
             </div>
             <div v-else-if="type === 'systemNotify'">
                 <el-button size="small" type="primary" plain round @click="setHasRead()"><i class="fa fa-fw fa-eye" aria-hidden="true"></i></el-button>
@@ -328,6 +330,6 @@ export default {
 </script>
 <style lang="scss">
 .option-button {
-    display: inline-block
+    display: inline-block;
 }
 </style>

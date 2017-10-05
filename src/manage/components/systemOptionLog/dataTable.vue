@@ -18,7 +18,7 @@
             </el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
-                    <el-button size="mini" type="primary" plain round @click="showDetails(scope.$index, dataList)"><i class="fa fa-bug" aria-hidden="true"></i></el-button>
+                    <el-button size="mini" type="primary" plain round @click="showDetails(scope.$index, dataList)"><i :class="'fa ' +((scope.row.type).indexOf('exception') > -1 ? 'fa-bug' : 'fa-eye')" aria-hidden="true"></i></el-button>
                     <el-button size="mini" type="danger" plain round icon="el-icon-delete" @click="deleteDataItem(scope.$index, dataList)"></el-button>
                 </template>
             </el-table-column>
