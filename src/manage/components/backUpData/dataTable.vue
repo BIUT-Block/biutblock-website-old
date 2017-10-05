@@ -12,7 +12,7 @@
             </el-table-column>
             <el-table-column prop="date" label="备份时间">
             </el-table-column>
-            <el-table-column label="操作" width="150">
+            <el-table-column label="操作" width="120">
                 <template scope="scope">
                     <el-button size="mini" type="danger" plain round icon="el-icon-delete" @click="deleteDataItem(scope.$index, dataList)"></el-button>
                 </template>

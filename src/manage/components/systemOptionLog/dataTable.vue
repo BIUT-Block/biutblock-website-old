@@ -5,7 +5,7 @@
             </el-table-column>
             <el-table-column prop="logs" label="行为">
                 <template scope="scope">
-                    <el-tag size="medium" :type="(scope.row.type).indexOf('exception') > -1 ? 'danger' : 'gray'">{{ scope.row.logs | cutWords(50)}}</el-tag>
+                    <el-tag size="small" :type="(scope.row.type).indexOf('exception') > -1 ? 'danger' : 'gray'">{{ scope.row.logs | cutWords(50)}}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="type" label="类别">
@@ -16,7 +16,7 @@
             </el-table-column>
             <el-table-column prop="date" label="发生时间">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="mini" type="primary" plain round @click="showDetails(scope.$index, dataList)"><i class="fa fa-bug" aria-hidden="true"></i></el-button>
                     <el-button size="mini" type="danger" plain round icon="el-icon-delete" @click="deleteDataItem(scope.$index, dataList)"></el-button>

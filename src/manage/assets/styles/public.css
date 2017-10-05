@@ -23,3 +23,8 @@
 .el-input-number--small {
     line-height: 32px !important;
 }
+
+.el-table a:link,.el-table a:visited{
+    color: #5a5e66;
+    text-decoration: none;
+}

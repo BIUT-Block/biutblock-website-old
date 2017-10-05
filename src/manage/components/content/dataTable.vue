@@ -9,6 +9,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="title" label="标题" width="200" show-overflow-tooltip>
+                <template scope="scope"><a :href="'/details/'+scope.row._id+'.html'" target="_blank">{{scope.row.title}}</a></template>
             </el-table-column>
             <el-table-column prop="date" label="创建时间" width="180">
                 <template scope="scope">{{scope.row.updateDate}}</template>
@@ -30,7 +31,7 @@
             </el-table-column>
             <el-table-column prop="author.name" label="作者" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column label="操作" width="130" fixed="right">
+            <el-table-column label="操作" width="150" fixed="right">
                 <template scope="scope">
                     <el-button size="mini" type="primary" plain round @click="editContentInfo(scope.$index, dataList)">
                         <i class="fa fa-edit"></i>
