@@ -1,8 +1,5 @@
 <template>
-    <div class="content-message">
-        <h3 class="pannel-title">
-            <span>评论</span>
-        </h3>
+    <PannelBox title="评论" className="content-message">
         <div>
             <el-row :gutter="10">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24">
@@ -22,7 +19,7 @@
                                         <router-link to="/users/login">登录</router-link>&nbsp;后参与评论
                                     </div>
                                 </div>
-                                <el-button type="primary" @click="submitForm('ruleForm')" size="small">提交评论</el-button>
+                                <el-button type="primary" @click="submitForm('ruleForm')">提交评论</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -78,7 +75,7 @@
                 </el-row>
             </li>
         </ul>
-    </div>
+    </PannelBox>
 </template>
 <script>
 import {
@@ -86,6 +83,7 @@ import {
 } from 'vuex'
 import api from '~api'
 import _ from 'lodash'
+import PannelBox from './PannelBox.vue'
 export default {
     name: 'Message',
     data() {
@@ -126,6 +124,9 @@ export default {
             msgFormState: 'global/message/getMessageForm',
             loginState: 'frontend/user/getSessionState'
         })
+    },
+    components: {
+            PannelBox
     },
     methods: {
         changeReplyState(state) {
@@ -233,6 +234,8 @@ export default {
         }
     }
     .give-message {
+        padding-top: 15px;
+        margin: 0 30px;
         .el-form-item__content {
             margin-left: 0 !important;
         }

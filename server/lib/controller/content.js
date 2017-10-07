@@ -88,6 +88,7 @@ class Content {
                 files = {
                     id: 1,
                     title: 1,
+                    sImg: 1,
                     stitle: 1
                 }
             } else if (model === 'normal') {
@@ -95,6 +96,7 @@ class Content {
                     id: 1,
                     title: 1,
                     sImg: 1,
+                    isTop: 1,
                     categories: 1,
                     commentNum: 1,
                     date: 1,
@@ -109,7 +111,7 @@ class Content {
             },
             {
                 path: 'categories',
-                select: 'name _id'
+                select: 'name defaultUrl _id'
             }, {
                 path: 'tags',
                 select: 'name _id'

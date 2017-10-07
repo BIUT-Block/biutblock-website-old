@@ -76,7 +76,7 @@
                     currentId = id;
                 }
             }
-            store.dispatch('frontend/article/getHotContentList', { typeId : 'indexPage'})
+            store.dispatch('frontend/article/getHotContentList', { typeId : 'indexPage', pageSize: 5})
             store.dispatch('global/message/getUserMessageList',{contentId:currentId})
             store.dispatch('frontend/article/getRecentContentList')
             await store.dispatch(`frontend/article/getArticleItem`, { id: currentId, path })
