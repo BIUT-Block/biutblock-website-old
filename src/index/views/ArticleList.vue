@@ -10,7 +10,8 @@
                         <el-row :gutter="24">
                             <el-col :xs="24" :sm="18" :md="18" :lg="18" v-if="topics.data.length > 0">
                                 <div class="column-wrap" v-show="typeId != 'indexPage'">
-                                    <span>{{typeId == 'search' ? '搜索:' + $route.params.searchkey : currentCate.name}}</span>
+                                    <span v-if="$route.params.tagName">{{'标签：' + $route.params.tagName}}</span>
+                                    <span v-else>{{typeId == 'search' ? '搜索：' + $route.params.searchkey : currentCate.name}}</span>
                                 </div>
                                 <div>
                                     <ItemList v-for="item in topics.data" :item="item" :key="item._id" />
