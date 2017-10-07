@@ -198,10 +198,10 @@ export default {
 .content-message {
 
     ul {
+        padding: 0 30px;
         li {
-            margin: 15px 0;
-            border-top: 1px dashed #e8e8e8;
-            padding-top: 15px;
+            border-top: 1px solid #ececec;
+            padding: 24px 0;
             font-size: 14px;
             .user-logo {
 
@@ -214,7 +214,7 @@ export default {
                 color: #666666;
             }
             .user-name {
-                margin: 0 0 5px 0;
+                margin: 3px 0 15px 0;
                 color: #409EFF;
 
                 .name {
