@@ -182,11 +182,12 @@
 <style lang="scss">
     .column-wrap {
         position: relative;
-        height: 50px;
-        line-height: 50px;
-        font-size: 24px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
         color: #303030;
         padding-left: 18px;
+        margin-bottom: 10px;
     }
 
     .column-wrap:before {
@@ -196,6 +197,6 @@
         height: 21px;
         background: #f63756;
         left: 0;
-        top: 14px;
+        top: 4px;
     }
 </style>
