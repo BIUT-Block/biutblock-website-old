@@ -187,7 +187,7 @@
         font-size: 20px;
         color: #303030;
         padding-left: 18px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .column-wrap:before {
