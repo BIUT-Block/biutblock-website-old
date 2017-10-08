@@ -38,7 +38,7 @@
         .post-angle {
             position: absolute;
             left: -10px;
-            height: 24px;
+            height: 21px;
             color: #fff;
             text-align: center;
             background-color: #f63756;
@@ -46,13 +46,13 @@
             padding: 0 10px;
             z-index: 101;
             top: 0px;
-            font-size: 14px;
+            font-size: 13px;
         }
         .post-angle:after {
             content: " ";
             position: absolute;
             left: 0;
-            top: 24px;
+            top: 21px;
             width: 0;
             height: 0;
             border-top: 6px solid #cd213d;
