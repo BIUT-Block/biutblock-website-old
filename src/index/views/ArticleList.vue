@@ -3,12 +3,12 @@
         <div class="contentContainer">
             <div>
                 <el-row :gutter="0">
-                    <el-col :xs="1" :sm="1" :md="1" :lg="1">
+                    <el-col :xs="1" :sm="1" :md="3" :lg="3">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="22" :lg="22" class="content-mainbody-left">
+                    <el-col :xs="22" :sm="22" :md="18" :lg="18" class="content-mainbody-left">
                         <el-row :gutter="24">
-                            <el-col :xs="24" :sm="18" :md="18" :lg="18" v-if="topics.data.length > 0">
+                            <el-col :xs="24" :sm="17" :md="17" :lg="17" v-if="topics.data.length > 0">
                                 <div class="column-wrap" v-show="typeId != 'indexPage'">
                                     <span v-if="$route.params.tagName">{{'标签：' + $route.params.tagName}}</span>
                                     <span v-else>{{typeId == 'search' ? '搜索：' + $route.params.searchkey : currentCate.name}}</span>
@@ -20,13 +20,12 @@
                                     <Pagination :pageInfo="topics.pageInfo" :typeId="typeId" />
                                 </div>
                             </el-col>
-                            <el-col :xs="24" :sm="18" :md="18" :lg="18" v-else>
+                            <el-col :xs="24" :sm="17" :md="17" :lg="17" v-else>
                                 <div>暂无内容...</div>
                             </el-col>
-                            <el-col :xs="0" :sm="6" :md="6" :lg="6" class="content-mainbody-right">
+                            <el-col :xs="0" :sm="7" :md="7" :lg="7" class="content-mainbody-right">
                                 <div class="grid-content bg-purple-light title">
                                     <AdsPannel id="SJllJUAdcZ" />
-                                    <SearchBox />
                                     <div v-if="checkCateList">
                                         <CatesMenu :typeId="$route.params.typeId" />
                                     </div>
@@ -36,7 +35,7 @@
                             </el-col>
                         </el-row>
                     </el-col>
-                    <el-col :xs="1" :sm="1" :md="1" :lg="1">
+                    <el-col :xs="1" :sm="1" :md="3" :lg="3">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
                 </el-row>
@@ -89,7 +88,7 @@
                 typeId
             }
             store.dispatch('frontend/article/getHotContentList', {
-                pageSize: 5,
+                pageSize: 10,
                 typeId
             })
             store.dispatch('global/tags/getTagList', {

@@ -39,8 +39,8 @@
                         <el-input size="small" v-model="systemConfig.configs.databackForderPath"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button size="small" type="primary" @click="submitForm('ruleForm')">保存</el-button>
-                        <el-button size="small" @click="resetForm('ruleForm')">重置</el-button>
+                        <el-button size="medium" type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                        <el-button size="medium" @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>

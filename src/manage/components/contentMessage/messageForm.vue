@@ -9,7 +9,7 @@
                     <el-input size="small" type="textarea" v-model="dialogState.formData.content"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button size="small" type="primary" @click="submitForm('ruleForm')">回复</el-button>
+                    <el-button size="medium" type="primary" @click="submitForm('ruleForm')">回复</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>

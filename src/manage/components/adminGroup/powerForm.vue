@@ -5,8 +5,8 @@
             </el-tree>
 
             <span slot="footer" class="dialog-footer">
-                <el-button size="small" @click="closeTree">取 消</el-button>
-                <el-button size="small" type="primary" @click="savePower">确 定</el-button>
+                <el-button size="medium" @click="closeTree">取 消</el-button>
+                <el-button size="medium" type="primary" @click="savePower">确 定</el-button>
             </span>
         </el-dialog>
     </div>

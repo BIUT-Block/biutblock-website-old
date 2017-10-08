@@ -4,7 +4,7 @@ html, body {
     background: #ffffff;
     -webkit-font-smoothing: antialiased;
     color: rgb(51, 51, 51);
-    font-family: Arial, 微软雅黑, "Microsoft yahei", "Hiragino Sans GB", "冬青黑体简体中文 w3", "Microsoft Yahei", "Hiragino Sans GB", "冬青黑体简体中文 w3", STXihei, 华文细黑, SimSun, 宋体, Heiti, 黑体, sans-serif;
+    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -17,7 +17,7 @@ html, body {
 
 a:link, a:active, a:visited {
     text-decoration: none;
-    color: #6e7173;
+    color: #333333;
 }
 
 a:hover {
@@ -91,20 +91,19 @@ pre {
 }
 
 .catetitle {
-    color: #6e7173;
+    color: #333333;
 }
 
 .simpletitle {
-    /* color: #6e7173;
+    /* color: #333333;
     font-weight: 100;
     margin: 0; */
 }
 
-
 .login-form {
     margin: 0 auto;
-    margin-top: 6%;
-    margin-bottom: 100px;
+    padding-top: 6%;
+    padding-bottom: 100px;
 }
 
 .login-form .submit-btn {
@@ -115,6 +114,8 @@ pre {
     background-clip: padding-box;
     padding: 25px 35px 10px 35px;
     background: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,.1);
+    border-radius: 4px;
 }
 
 .login-form .login-container .title {
@@ -144,6 +145,9 @@ pre {
     }
     .login-pannel {
         display: none;
+    }
+    .search-pannel {
+        display: none !important;
     }
     .content-tag {
         display: none;

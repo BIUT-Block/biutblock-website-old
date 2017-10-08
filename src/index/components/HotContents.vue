@@ -7,7 +7,9 @@
                         <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
                             <img :src="item.sImg" :alt="item.title" />
                         </router-link>
-                        <router-link :to="'/details/'+item._id+'.html'">{{item.stitle?item.stitle:item.title}}</router-link>
+                        <div class="left-area">
+                            <router-link class="title" :to="'/details/'+item._id+'.html'">{{item.title}}</router-link>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -43,18 +45,21 @@
                     border: none;
                 }
                 li {
-                    padding: 30px 30px 24px 30px;
-                    border-bottom: 1px solid #f0f0f0;
+                    position: relative;
+                    padding: 10px 0;
                     overflow: hidden;
+                    font-size: 14px;
+                    display: block;
+                    height: 3.5rem;
                     img {
-                        width: 100%;
+                        width: 5rem;
+                        height: 3.5rem;
+                        position: absolute;
                     }
-                    a {
-                        display: block;
-                        width: 100%;
-                        line-height: 30px;
-                        padding: 8px 0px;
+                    .left-area{
+                        padding-left: 6rem;
                     }
+                    
                 }
             }
         }

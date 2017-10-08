@@ -3,7 +3,8 @@
         <div class="content-tag-list">
             <ul>
                 <li :key="item._id" v-for="(item,index) in tags" v-once>
-                    <router-link :to="'/tag/'+item.name">{{item.name}}</router-link>
+                    <el-button size="mini" round @click="searchTag(item)">{{item.name}}</el-button>
+                    <!-- <router-link :to="'/tag/'+item.name">{{item.name}}</router-link> -->
                 </li>
             </ul>
         </div>
@@ -20,20 +21,22 @@
         components: {
             PannelBox
         },
+        methods: {
+            searchTag(item) {
+                this.$router.push('/tag/' + item.name)
+            }
+        }
     }
 </script>
 
 <style lang="scss">
     .content-tag {
-        .content-tag-list {
-            margin: 0px 0 0 30px;
-        }
         ul {
             padding-top: 15px;
             li {
                 float: left;
                 height: 35px;
-                margin: 0 40px 20px 0;
+                margin: 0 10px 10px 0;
                 cursor: pointer;
                 text-align: left;
                 border: none;

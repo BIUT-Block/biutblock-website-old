@@ -3,7 +3,11 @@
         <div class="content-list">
             <ul>
                 <li :key='index' v-for="(item,index) in recentItems">
-                    <router-link :to="'/details/'+item._id+'.html'">{{item.stitle | cutWords(25)}}</router-link>
+                    <span class="triangle"></span>
+                    <div class="con">
+                        <router-link class="title" :to="'/details/'+item._id+'.html'">{{item.title}}</router-link>
+                        <span class="time">{{item.updateDate}}</span>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -27,17 +31,38 @@
 
 <style lang="scss">
     .recent-content-list {
-        margin-bottom: 30px;
         .content-list {
             text-align: left;
             ul {
-                margin: 0 0 0 30px;
                 li {
-                    font-size: 16px;
+                    font-size: 14px;
+                    padding: 0 0 .75rem 1rem;
+                    position: relative;
                     color: #333;
-                    height: 55px;
-                    border-bottom: 1px solid #f0f0f0;
-                    line-height: 55px;
+                    .triangle {
+                        position: absolute;
+                        top: .3rem;
+                        left: .3rem;
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-color: #fff #fff #fff #4285f4;
+                        -webkit-transform-origin: 25% center;
+                        transform-origin: 25% center;
+                        border-width: 4px;
+                    }
+                    .con {
+                        -webkit-transition: opacity .5s ease-in;
+                        transition: opacity .5s ease-in;
+                        .title{
+                            display: block;
+                        }
+                        .time {
+                            padding-top: 3px;
+                            display: inline-block;
+                            color: #a4abb1;
+                        }
+                    }
                 }
             }
         }

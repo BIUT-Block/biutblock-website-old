@@ -1,7 +1,8 @@
 <style lang='scss'>
     .post-b {
         border-bottom: 1px solid #f0f0f0;
-        padding: 30px 0;
+        margin-bottom: 20px;
+        padding: 0px 0px 10px;
     }
 
     .post-b:last-child {

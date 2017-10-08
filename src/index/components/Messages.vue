@@ -19,7 +19,7 @@
                                         <router-link to="/users/login">登录</router-link>&nbsp;后参与评论
                                     </div>
                                 </div>
-                                <el-button type="primary" @click="submitForm('ruleForm')">提交评论</el-button>
+                                <el-button type="primary" round @click="submitForm('ruleForm')">提交评论</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -28,7 +28,7 @@
         </div>
         <ul>
             <li v-for="(item,index) in userMessageList" :key="index">
-                <el-row :gutter="15">
+                <el-row>
                     <el-col :xs="3" :sm="3" :md="2" :lg="1">
                         <div class="user-logo">
                             <div v-if="item.utype == '1'">
@@ -65,7 +65,7 @@
                                             </el-input>
                                         </el-form-item>
                                         <el-form-item class="send-button">
-                                            <el-button type="primary" @click="submitForm('replyRuleForm')" size="small">回复</el-button>
+                                            <el-button type="primary" round @click="submitForm('replyRuleForm')" size="small">回复</el-button>
                                         </el-form-item>
                                     </el-form>
                                 </div>
@@ -198,11 +198,10 @@ export default {
 .content-message {
 
     ul {
-        padding: 0 30px;
         li {
-            border-top: 1px solid #ececec;
+            border-top: 1px solid #f0f0f0;
             padding: 24px 0;
-            font-size: 14px;
+            font-size: 15px;
             .user-logo {
 
                 img {
@@ -212,9 +211,10 @@ export default {
             }
             .user-content {
                 color: #666666;
+                padding-left: 15px;
             }
             .user-name {
-                margin: 3px 0 15px 0;
+                margin: 5px 0 15px 15px;
                 color: #409EFF;
 
                 .name {
@@ -235,7 +235,6 @@ export default {
     }
     .give-message {
         padding-top: 15px;
-        margin: 0 30px;
         .el-form-item__content {
             margin-left: 0 !important;
         }

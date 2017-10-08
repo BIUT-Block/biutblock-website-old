@@ -14,6 +14,7 @@
                     <h2 v-once>
                         <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                     </h2>
+                    <div class="dis">{{item.discription}}</div>
                     <ul class="post-meta">
                         <li>
                             <div v-if="item.categories && item.categories.length>1">
@@ -28,7 +29,6 @@
                             <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;&nbsp;{{item.commentNum}}</li>
                     </ul>
                 </div>
-                <div class="dis">{{item.discription}}</div>
             </el-col>
         </el-row>
     </article>
@@ -45,7 +45,7 @@
             line-height: 24px;
             padding: 0 10px;
             z-index: 101;
-            top: 18px;
+            top: 0px;
             font-size: 14px;
         }
         .post-angle:after {
@@ -83,7 +83,6 @@
         .discription {
             text-align: left;
             .post-meta {
-                margin: 15px 0;
                 a:link,
                 a:visited {
                     color: #3ca5f6;
@@ -91,7 +90,7 @@
                 li {
                     display: inline-block;
                     font-size: 13px;
-                    color: #bbbbbb;
+                    color: #b4b4b4;
                     margin: 10px 10px 10px 0;
                 }
             }
@@ -101,19 +100,11 @@
                     font-size: 18px;
                     word-break: break-all;
                 }
-                time {
-                    color: #a2a2a2;
-                    margin-top: 14px;
-                    font-style: normal;
-                    font-size: 15px;
-                    display: inline-block;
-                    margin-left: 3px;
-                    margin-bottom: 15px;
-                }
             }
             .dis {
+                margin: 12px 0;
                 font-size: 14px;
-                color: #999;
+                color: #333333;
             }
         }
     }

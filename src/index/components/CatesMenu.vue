@@ -53,15 +53,7 @@
 </script>
 <style lang="scss">
     .catesMenu {
-        margin-bottom: 30px;
-        font-size: 16px;
-        a:link,
-        a:visited {
-            color: #3ca5f6;
-        }
-        a:hover {
-            color: #337ab7
-        }
+        font-size: 14px;
         .parent-name {
             font-weight: 700;
             height: 30px;
