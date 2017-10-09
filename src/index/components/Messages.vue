@@ -126,7 +126,7 @@ export default {
         })
     },
     components: {
-            PannelBox
+        PannelBox
     },
     methods: {
         changeReplyState(state) {
@@ -212,6 +212,7 @@ export default {
             .user-content {
                 color: #666666;
                 padding-left: 15px;
+                word-break: break-all;
             }
             .user-name {
                 margin: 5px 0 15px 15px;
