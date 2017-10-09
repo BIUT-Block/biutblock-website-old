@@ -12,38 +12,37 @@
     </div>
 </template>
 <script>
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
-    export default {
-        name: 'searchbox',
-        data() {
-            return {
-                searchkey: ''
-            }
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+export default {
+    name: 'searchbox',
+    data() {
+        return {
+            searchkey: ''
+        }
+    },
+    methods: {
+        handleIconClick(ev) {
+            this.$router.replace('/search/' + this.searchkey)
         },
-        methods: {
-            handleIconClick(ev) {
-                this.$router.replace('/search/' + this.searchkey)
-            },
-            search(e) {
-                // var qs = e.target.value
-                // if (qs === "") {
-                //     return false
-                // }
-                // this.$router.replace('/search/' + qs)
-            }
+        search(e) {
+            // var qs = e.target.value
+            // if (qs === "") {
+            //     return false
+            // }
+            // this.$router.replace('/search/' + qs)
         }
     }
+}
 </script>
 <style lang="scss">
-    .search-pannel {
-        width: 180px;
-        margin-left: 10px;
-        display: inline-block;
-        .el-form-item {
-            margin-bottom: 0
-        }
+.search-pannel {
+    width: 100%;
+    display: inline-block;
+    .el-form-item {
+        margin-bottom: 0
     }
+}
 </style>

@@ -36,7 +36,7 @@ export default {
         })
     },
     methods: {
-        regUser(){
+        regUser() {
             this.$router.push("/users/reg");
         },
         userCenter() {
@@ -68,6 +68,7 @@ export default {
 <style lang="scss">
 .login-pannel {
     float: right;
+    text-align: right;
     ul {
         li {
             color: #409EFF;

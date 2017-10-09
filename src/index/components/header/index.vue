@@ -23,10 +23,14 @@
                         </nav>
                     </el-col>
                     <el-col :xs="0" :sm="7" :md="7" :lg="7">
-                        <div class="grid-content bg-purple">
-                            <SearchBox />
-                            <LoginPannel/>
-                        </div>
+                        <el-row>
+                            <el-col :xs="0" :sm="0" :md="14" :lg="14">
+                                <SearchBox />
+                            </el-col>
+                            <el-col :xs="24" :sm="24" :md="10" :lg="10">
+                                <LoginPannel/>
+                            </el-col>
+                        </el-row>
                     </el-col>
                 </el-row>
             </el-col>
