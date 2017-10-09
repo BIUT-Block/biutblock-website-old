@@ -68,8 +68,7 @@
     export default {
         name: 'frontend-article',
         async asyncData({ store, route }) {
-            const { path, params: { id } } = route
-
+            const { path, params: { id } } = route;
             let params = {}, currentId = '';
             if (id) {
                 if (id.indexOf('html') > 0) {
@@ -78,8 +77,8 @@
                     currentId = id;
                 }
             }
-            store.dispatch('frontend/article/getHotContentList', { typeId : 'indexPage', pageSize: 10})
-            store.dispatch('global/message/getUserMessageList',{contentId:currentId})
+            store.dispatch('frontend/article/getHotContentList', { typeId: 'indexPage', pageSize: 10})
+            store.dispatch('global/message/getUserMessageList',{ contentId: currentId, pageSize: 999})
             store.dispatch('frontend/article/getRecentContentList')
             await store.dispatch(`frontend/article/getArticleItem`, { id: currentId, path })
         },
