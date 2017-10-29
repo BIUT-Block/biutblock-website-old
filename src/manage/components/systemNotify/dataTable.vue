@@ -6,7 +6,7 @@
             <el-table-column prop="notify.title" label="标题">
             </el-table-column>
             <el-table-column prop="notify.content" label="内容">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <span v-html="scope.row.notify.content"></span>
                 </template>
             </el-table-column>

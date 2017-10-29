@@ -1,5 +1,6 @@
 <template>
     <article class="content-item">
+        
         <el-row :gutter="0">
             <el-col :xs="0" :sm="0" :md="7" :lg="7">
                 <div class="post-angle" v-show="item.isTop == 1">荐</div>
@@ -11,7 +12,7 @@
             </el-col>
             <el-col :xs="24" :sm="24" :md="17" :lg="17" class='discription'>
                 <div class="grid-content bg-purple-light title">
-                    <h2 v-once>
+                    <h2>
                         <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                     </h2>
                     <div class="dis">{{item.discription}}</div>
