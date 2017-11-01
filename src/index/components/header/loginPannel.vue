@@ -14,7 +14,7 @@
                 </el-dropdown>
             </li>
             <li class="login-txt" v-else>
-                <a href="/users/login">登录</a>
+                <el-button type="text" @click="login">登录</el-button>
                 <el-button type="primary" plain round size="mini" @click="regUser">注册</el-button>
             </li>
         </ul>
@@ -36,6 +36,9 @@ export default {
     })
   },
   methods: {
+    login(){
+      this.$router.push("/users/login");
+    },
     regUser() {
       this.$router.push("/users/reg");
     },

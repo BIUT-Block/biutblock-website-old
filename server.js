@@ -133,6 +133,7 @@ app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
     '/details/:id', '/users/:userPage', '/dr-admin', '/sitemap.html', '/tag/:tagName/:page(\\d+)?'], (req, res) => {
 
         // 非正常登录用户禁止访问
+        console.log('---------------',req.originalUrl.indexOf('/users'))
         if (req.originalUrl.indexOf('/users') == 0 && !req.session.logined) {
             return res.redirect('/');
         }
