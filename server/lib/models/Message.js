@@ -13,7 +13,7 @@ var Content = require('./Content');
 var MessageSchema = new Schema({
     _id: {
         type: String,
-        unique: true,
+        
         'default': shortid.generate
     },
     contentId: {

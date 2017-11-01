@@ -41,11 +41,6 @@ const actions = {
         commit,
         state
     }, config) {
-        // if (config.path === state.item.path) {
-        //     return
-        // }
-
-        // console.log('---config---', config);
         const {
             data: {
                 doc, messages, randomArticles
@@ -136,8 +131,13 @@ const mutations = {
 }
 
 const getters = {
-    ['getArticleList'](state) {
-        return state.lists
+    getArticleList: (state, getters) => (path) => {
+        if (path === state.lists.path) {
+            return state.lists
+        } else return {
+            data: {},
+            loading: true
+        }
     },
     ['getArticleItem'](state) {
         return state.item

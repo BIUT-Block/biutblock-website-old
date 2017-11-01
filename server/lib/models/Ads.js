@@ -11,7 +11,7 @@ var AdsItems = require('./AdsItems');
 var AdsSchema = new Schema({
     _id: {
         type: String,
-        unique: true,
+        
         'default': shortid.generate
     },
     name: String,

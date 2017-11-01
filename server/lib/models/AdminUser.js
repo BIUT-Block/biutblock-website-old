@@ -12,7 +12,7 @@ var AdminUserSchema = new Schema({
     id: String,
     _id: {
         type: String,
-        unique: true,
+        
         'default': shortid.generate
     },
     name: String,
