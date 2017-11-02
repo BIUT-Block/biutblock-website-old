@@ -3,6 +3,7 @@ const ContentModel = require("../models").Content;
 const MessageModel = require("../models").Message;
 const SystemConfigModel = require("../models").SystemConfig;
 const UserModel = require("../models").User;
+const AdminUserModel = require("../models").AdminUser;
 const formidable = require('formidable');
 const _ = require('lodash');
 const shortid = require('shortid');
@@ -110,6 +111,7 @@ class Message {
                 messageObj.author = req.session.user._id;
             }
 
+            // console.log('----messageObj---', messageObj);
             const newMessage = new MessageModel(messageObj);
             try {
                 let currentMessage = await newMessage.save();
@@ -118,28 +120,24 @@ class Message {
                 // 给被回复用户发送提醒邮件
                 if (fields.replyAuthor) {
                     const systemConfigs = await SystemConfigModel.find({});
-                    const msgInfo = await MessageModel.findOne({ _id: currentMessage._id }).populate([{
-                        path: 'author',
-                        select: 'email userName'
-                    },
-                    {
-                        path: 'replyAuthor',
-                        select: 'email userName'
-                    },
-                    {
-                        path: 'contentId',
-                        select: '_id title'
-                    }]).exec();
-                    if (!_.isEmpty(systemConfigs) && !_.isEmpty(msgInfo)) {
+                    const contentInfo = await ContentModel.findOne({ _id: fields.contentId });
+                    let replyAuthor = await UserModel.findOne({ _id: fields.replyAuthor });
+
+                    if (_.isEmpty(replyAuthor)) {
+                        replyAuthor = await AdminUserModel.findOne({ _id: fields.replyAuthor });
+                    }
+
+                    if (!_.isEmpty(systemConfigs) && !_.isEmpty(contentInfo) && !_.isEmpty(replyAuthor)) {
                         let mailParams = {
-                            replyAuthor: msgInfo.replyAuthor,
-                            content: msgInfo.contentId
+                            replyAuthor: replyAuthor,
+                            content: contentInfo
                         }
                         if (fields.utype === '1') {
                             mailParams.adminAuthor = req.session.adminUserInfo
                         } else {
-                            mailParams.author = msgInfo.replyAuthor.author
+                            mailParams.author = req.session.user
                         }
+                        systemConfigs[0]['siteDomain'] = 'https://' + systemConfigs[0]['siteDomain'];
                         service.sendEmail(req, systemConfigs[0], settings.email_notice_user_contentMsg, mailParams);
                     }
                 }
