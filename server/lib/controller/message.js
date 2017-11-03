@@ -41,7 +41,7 @@ class Message {
             }, {
                 path: 'author',
                 select: 'userName _id enable date logo'
-            }]).populate('replyAuthor').populate('adminAuthor').exec();
+            }]).populate('replyAuthor').populate('adminReplyAuthor').populate('adminAuthor').exec();
             const totalItems = await MessageModel.count(queryObj);
             res.send({
                 state: 'success',
@@ -101,6 +101,7 @@ class Message {
                 contentId: fields.contentId,
                 content: validatorUtil.validateWords(fields.content),
                 replyAuthor: fields.replyAuthor,
+                adminReplyAuthor: fields.adminReplyAuthor,
                 relationMsgId: fields.relationMsgId,
                 utype: fields.utype || '0'
             }
@@ -118,28 +119,28 @@ class Message {
                 await ContentModel.findOneAndUpdate({ _id: fields.contentId }, { '$inc': { 'commentNum': 1 } })
 
                 // 给被回复用户发送提醒邮件
+                const systemConfigs = await SystemConfigModel.find({});
+                const contentInfo = await ContentModel.findOne({ _id: fields.contentId });
+                let replyAuthor;
+
                 if (fields.replyAuthor) {
-                    const systemConfigs = await SystemConfigModel.find({});
-                    const contentInfo = await ContentModel.findOne({ _id: fields.contentId });
-                    let replyAuthor = await UserModel.findOne({ _id: fields.replyAuthor });
+                    replyAuthor = await UserModel.findOne({ _id: fields.replyAuthor })
+                }else{
+                    replyAuthor = await AdminUserModel.findOne({ _id: fields.adminReplyAuthor });
+                }
 
-                    if (_.isEmpty(replyAuthor)) {
-                        replyAuthor = await AdminUserModel.findOne({ _id: fields.replyAuthor });
+                if (!_.isEmpty(systemConfigs) && !_.isEmpty(contentInfo) && !_.isEmpty(replyAuthor)) {
+                    let mailParams = {
+                        replyAuthor: replyAuthor,
+                        content: contentInfo
                     }
-
-                    if (!_.isEmpty(systemConfigs) && !_.isEmpty(contentInfo) && !_.isEmpty(replyAuthor)) {
-                        let mailParams = {
-                            replyAuthor: replyAuthor,
-                            content: contentInfo
-                        }
-                        if (fields.utype === '1') {
-                            mailParams.adminAuthor = req.session.adminUserInfo
-                        } else {
-                            mailParams.author = req.session.user
-                        }
-                        systemConfigs[0]['siteDomain'] = 'https://' + systemConfigs[0]['siteDomain'];
-                        service.sendEmail(req, systemConfigs[0], settings.email_notice_user_contentMsg, mailParams);
+                    if (fields.utype === '1') {
+                        mailParams.adminAuthor = req.session.adminUserInfo
+                    } else {
+                        mailParams.author = req.session.user
                     }
+                    systemConfigs[0]['siteDomain'] = 'https://' + systemConfigs[0]['siteDomain'];
+                    service.sendEmail(req, systemConfigs[0], settings.email_notice_user_contentMsg, mailParams);
                 }
 
                 res.send({
@@ -191,6 +192,30 @@ class Message {
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
                 message: '删除数据失败:',
+            })
+        }
+    }
+
+    async reSetAdminReply(req, res){
+        try {
+            let msgs = await MessageModel.find({ replyAuthor: '4JiWCMhzg' }); 
+            console.log('--msgs--',msgs.length);
+            for (var i = 0; i < msgs.length; i++) {
+                var msg = msgs[i];
+                msg.adminReplyAuthor = '4JiWCMhzg';
+                msg.replyAuthor = ''
+                console.log('---msg1---',msg);
+                await MessageModel.findOneAndUpdate({ _id:msg._id }, { $set: msg });
+            }           
+            res.send({
+                state: 'success'
+            });
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_IN_SAVE_DATA',
+                message: '更新数据失败:',
             })
         }
     }
