@@ -195,30 +195,7 @@ class Message {
             })
         }
     }
-
-    async reSetAdminReply(req, res){
-        try {
-            let msgs = await MessageModel.find({ replyAuthor: '4JiWCMhzg' }); 
-            console.log('--msgs--',msgs.length);
-            for (var i = 0; i < msgs.length; i++) {
-                var msg = msgs[i];
-                msg.adminReplyAuthor = '4JiWCMhzg';
-                msg.replyAuthor = ''
-                console.log('---msg1---',msg);
-                await MessageModel.findOneAndUpdate({ _id:msg._id }, { $set: msg });
-            }           
-            res.send({
-                state: 'success'
-            });
-        } catch (err) {
-            logUtil.error(err, req);
-            res.send({
-                state: 'error',
-                type: 'ERROR_IN_SAVE_DATA',
-                message: '更新数据失败:',
-            })
-        }
-    }
+ 
 
 }
 

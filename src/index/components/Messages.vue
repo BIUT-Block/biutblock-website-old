@@ -54,7 +54,7 @@
                             <div v-if="item.replyAuthor">
                                 <span style="color: #409EFF">{{'@'+item.replyAuthor.userName}}</span>&nbsp; {{item.content}}
                             </div>
-                            <div v-if="item.adminReplyAuthor">
+                            <div v-else-if="item.adminReplyAuthor">
                                 <span style="color: #409EFF">{{'@'+item.adminReplyAuthor.userName}}</span>&nbsp; {{item.content}}
                             </div>
                             <div v-else>
