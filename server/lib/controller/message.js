@@ -41,7 +41,16 @@ class Message {
             }, {
                 path: 'author',
                 select: 'userName _id enable date logo'
-            }]).populate('replyAuthor').populate('adminReplyAuthor').populate('adminAuthor').exec();
+            }, {
+                path: 'replyAuthor',
+                select: 'userName _id enable date logo'
+            }, {
+                path: 'adminAuthor',
+                select: 'userName _id enable date logo'
+            }, {
+                path: 'adminReplyAuthor',
+                select: 'userName _id enable date logo'
+            }]).exec();
             const totalItems = await MessageModel.count(queryObj);
             res.send({
                 state: 'success',
