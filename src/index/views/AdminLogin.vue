@@ -21,7 +21,7 @@
               <el-input size="small" type="password" v-model="adminLoginFormData.password"></el-input>
             </el-form-item>
             <el-form-item label="验证码" prop="imageCode">
-              <el-input size="small" style="width: 50%" type="imageCode" v-model="adminLoginFormData.imageCode"></el-input>
+              <el-input size="small" style="width: 30%" type="imageCode" v-model="adminLoginFormData.imageCode"></el-input>
               <img :src="imgCodeUrl" class="imageCode" @click="reSetImgCode"/>
             </el-form-item>
             <el-form-item class="submit-btn">
@@ -156,7 +156,8 @@ export default {
   }
 
   .imageCode{
-    width: 47%;
+    width: 10rem;
+    height: 2rem;
     float: right;
   }
 
