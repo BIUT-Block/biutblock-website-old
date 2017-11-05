@@ -150,6 +150,11 @@ class AdminUser {
                 } else if (!validatorUtil.checkPwd(fields.password)) {
                     errMsg = '请输入正确的密码'
                 }
+
+                if(!fields.imageCode || fields.imageCode != req.session.imageCode){
+                    errMsg = '请输入正确的验证码'
+                }
+
                 if (errMsg) {
                     res.send({
                         state: 'error',

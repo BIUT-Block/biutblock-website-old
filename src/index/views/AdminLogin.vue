@@ -20,6 +20,10 @@
             <el-form-item label="密码" prop="password">
               <el-input size="small" type="password" v-model="adminLoginFormData.password"></el-input>
             </el-form-item>
+            <el-form-item label="验证码" prop="imageCode">
+              <el-input size="small" style="width: 50%" type="imageCode" v-model="adminLoginFormData.imageCode"></el-input>
+              <img :src="imgCodeUrl" class="imageCode" @click="reSetImgCode"/>
+            </el-form-item>
             <el-form-item class="submit-btn">
               <el-button size="small" type="primary" @click="submitForm('ruleForm')">登录</el-button>
               <el-button size="small" @click="resetForm('ruleForm')">重置</el-button>
@@ -49,6 +53,7 @@ export default {
   },
   data() {
     return {
+      imgCodeUrl: '/api/getImgCode',
       rules: {
         userName: [{
           required: true,
@@ -77,12 +82,19 @@ export default {
             }
           },
           trigger: 'blur'
-        }]
+        }],
+        imageCode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { min: 5, max: 5, message: '请输入 5 个字符', trigger: 'blur' }
+        ]
       }
 
     }
   },
   methods: {
+    reSetImgCode(){
+      this.imgCodeUrl = '/api/getImgCode?' + Math.random();
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -91,6 +103,7 @@ export default {
             if (result.data.state == 'success') {
               window.location = '/manage';
             } else {
+              this.reSetImgCode();
               this.$message({
                 message: result.data.message,
                 type: 'error'
@@ -140,6 +153,11 @@ export default {
 
   .submit-btn {
     text-align: left;
+  }
+
+  .imageCode{
+    width: 47%;
+    float: right;
   }
 
   .login-container {

@@ -15,6 +15,7 @@ const authUser = require('../../utils/middleware/authUser');
 
 const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads } = require('../lib/controller');
 const _ = require('lodash');
+
 function checkUserSession(req, res, next) {
   if (!_.isEmpty(req.session.user)) {
     next()
@@ -43,6 +44,8 @@ router.get('/users/session', (req, res) => {
     logined: req.session.logined
   })
 });
+
+router.get('/getImgCode', User.getImgCode);
 
 // 查询文档列表
 router.get('/content/getList', (req, res, next) => { req.query.state = true; next() }, Content.getContents);

@@ -50,6 +50,7 @@
     "shelljs": "^0.7.7",
     "shortid": "^2.2.8",
     "store2": "^2.5.1",
+    "trek-captcha": "^0.4.0",
     "ueditor": "^1.2.2",
     "validator": "^7.0.0",
     "vue": "^2.4.4",
