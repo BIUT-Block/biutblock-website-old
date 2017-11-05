@@ -38,10 +38,13 @@ class ContentCategory {
             let pageSize = req.query.pageSize || 10;
             let model = req.query.model; // 查询模式 full/simple
             let parentId = req.query.parentId; // 分类ID
-
+            let enable = req.query.enable;
             let queryObj = {};
             if (parentId) {
                 queryObj['parentId'] = parentId;
+            }
+            if (enable) {
+                queryObj['enable'] = enable;
             }
             if (model === 'full') {
                 pageSize = '1000'

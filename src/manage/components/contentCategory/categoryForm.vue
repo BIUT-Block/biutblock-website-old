@@ -8,7 +8,7 @@
                 <el-form-item label="类别名称" prop="name">
                     <el-input size="small" v-model="dialogState.formData.name"></el-input>
                 </el-form-item>
-                <el-form-item label="有效" prop="enable">
+                <el-form-item label="显示" prop="enable">
                     <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
                 </el-form-item>
                 <el-form-item label="SeoUrl" prop="defaultUrl">
@@ -61,8 +61,8 @@ export default {
                     message: '请填写备注',
                     trigger: 'blur'
                 }, {
-                    min: 5,
-                    max: 50,
+                    min: 4,
+                    max: 100,
                     message: '请输入5-50个字符',
                     trigger: 'blur'
                 }]

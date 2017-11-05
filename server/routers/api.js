@@ -84,7 +84,7 @@ router.get('/users/logOut', checkUserSession, User.logOut);
 router.post('/admin/doLogin', AdminUser.loginAction);
 
 // 获取类别列表
-router.get('/contentCategory/getList', ContentCategory.getContentCategories)
+router.get('/contentCategory/getList', (req, res, next) => { req.query.enable = true; next() }, ContentCategory.getContentCategories)
 
 // 获取标签列表
 router.get('/contentTag/getList', ContentTag.getContentTags)
