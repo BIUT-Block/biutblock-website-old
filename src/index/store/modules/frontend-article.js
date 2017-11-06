@@ -49,7 +49,6 @@ const actions = {
                 ...config,
                 markdown: 1
             })
-        // console.log('----data-111---', messages);
         if (doc) {
             commit('receiveArticleItem', {
                 doc,
@@ -71,7 +70,6 @@ const actions = {
                 model: 'simple',
                 cache: true
             })
-        // console.log('----getSimpleListByParams---', data);
         if (data.docs && data.state === 'success') {
             commit('receiveHotList', data)
         }
@@ -87,7 +85,6 @@ const actions = {
                 model: 'simple',
                 cache: true
             })
-        // console.log('----getRecentContentList---', data);
         if (data.docs && data.state === 'success') {
             commit('receiveRecentList', data)
         }

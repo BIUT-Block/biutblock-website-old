@@ -38,82 +38,87 @@
   </div>
 </template>
 <script>
-import api from '~api'
-const validatorUtil = require('../../../utils/validatorUtil.js')
-import {
-  mapGetters,
-  mapActions
-} from 'vuex';
+import api from "~api";
+const validatorUtil = require("../../../utils/validatorUtil.js");
+import { mapGetters, mapActions } from "vuex";
 export default {
-  name: 'adminLogin',
+  name: "adminLogin",
   metaInfo() {
     return {
-      title: '管理员登录'
-    }
+      title: "管理员登录"
+    };
   },
   data() {
     return {
-      imgCodeUrl: '/api/getImgCode',
+      imgCodeUrl: "/api/getImgCode",
       rules: {
-        userName: [{
-          required: true,
-          message: '请输入用户名',
-          trigger: 'blur'
-        }, {
-          validator: (rule, value, callback) => {
-            if (!validatorUtil.checkUserName(value)) {
-              callback(new Error('5-12个英文字符!'));
-            } else {
-              callback();
-            }
+        userName: [
+          {
+            required: true,
+            message: "请输入用户名",
+            trigger: "blur"
           },
-          trigger: 'blur'
-        }],
-        password: [{
-          required: true,
-          message: '请输入密码',
-          trigger: 'blur'
-        }, {
-          validator: (rule, value, callback) => {
-            if (!validatorUtil.checkPwd(value)) {
-              callback(new Error('6-12位，只能包含字母、数字和下划线!'));
-            } else {
-              callback();
-            }
+          {
+            validator: (rule, value, callback) => {
+              if (!validatorUtil.checkUserName(value)) {
+                callback(new Error("5-12个英文字符!"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: "请输入密码",
+            trigger: "blur"
           },
-          trigger: 'blur'
-        }],
+          {
+            validator: (rule, value, callback) => {
+              if (!validatorUtil.checkPwd(value)) {
+                callback(new Error("6-12位，只能包含字母、数字和下划线!"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
+        ],
         imageCode: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 5, max: 5, message: '请输入 5 个字符', trigger: 'blur' }
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          { min: 5, max: 5, message: "请输入 5 个字符", trigger: "blur" }
         ]
       }
-
-    }
+    };
   },
   methods: {
-    reSetImgCode(){
-      this.imgCodeUrl = '/api/getImgCode?' + Math.random();
+    reSetImgCode() {
+      this.imgCodeUrl = "/api/getImgCode?" + Math.random();
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           let params = this.adminLoginFormData;
-          api.post('admin/doLogin', params).then((result) => {
-            if (result.data.state == 'success') {
-              window.location = '/manage';
-            } else {
-              this.reSetImgCode();
-              this.$message({
-                message: result.data.message,
-                type: 'error'
-              });
-            }
-          }).catch((err) => {
-            this.$message.error(err.response.data.error)
-          })
+          api
+            .post("admin/doLogin", params)
+            .then(result => {
+              if (result.data.state == "success") {
+                window.location = "/manage";
+              } else {
+                this.reSetImgCode();
+                this.$message({
+                  message: result.data.message,
+                  type: "error"
+                });
+              }
+            })
+            .catch(err => {
+              this.$message.error(err.response.data.error);
+            });
         } else {
-          console.log('error submit!!');
+          console.log("error submit!!");
           return false;
         }
       });
@@ -125,20 +130,19 @@ export default {
   beforeMount() {
     // this.$store.dispatch('simplePage');
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     ...mapGetters({
-      adminLoginFormData: 'frontend/adminUser/loginForm'
+      adminLoginFormData: "frontend/adminUser/loginForm"
     })
   }
-}
+};
 </script>
 
 <style lang="scss">
 .admin-logo-title {
   h3 {
-    color: #99A9BF;
+    color: #99a9bf;
     font-size: 35px;
     text-align: center;
     font-weight: normal;
@@ -146,16 +150,15 @@ export default {
 }
 
 .admin-login-form {
-
   margin: 0 auto;
-  margin-top: 100px;
+  margin-top: 70px;
   margin-bottom: 100px;
 
   .submit-btn {
     text-align: left;
   }
 
-  .imageCode{
+  .imageCode {
     width: 10rem;
     height: 2rem;
     float: right;
@@ -170,6 +173,9 @@ export default {
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
+    .el-form-item {
+      margin-bottom: 15px;
+    }
     .title {
       margin: 0px auto 40px auto;
       text-align: center;
