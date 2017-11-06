@@ -1,5 +1,5 @@
 <template>
-    <article class="case-item">
+    <article class="case-box">
         
         <div class="contentContainer">
             <el-row :gutter="0">
@@ -7,8 +7,8 @@
                     &nbsp;
                 </el-col>
                 <el-col :xs="22" :sm="22" :md="18" :lg="18">
-                    <el-row>
-                      <h3>这些站点在用DoraCMS：</h3>
+                    <el-row :gutter="20">
+                      <h3 style="margin:5px auto 20px;">这些站点在用DoraCMS：</h3>
                       <AdsPannel id="BkxSmqcaAZ" />
                     </el-row>
                 </el-col>
@@ -21,7 +21,7 @@
     </article>
 </template>
 <style lang="scss">
-.case-item {
+.case-box {
   min-height: 400px;
   img {
     width: 100%;
