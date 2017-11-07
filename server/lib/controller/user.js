@@ -21,7 +21,7 @@ function checkFormData(req, res, fields) {
     if (!validatorUtil.checkUserName(fields.userName)) {
         errMsg = '5-12个英文字符!';
     }
-    if (!validatorUtil.checkName(fields.name)) {
+    if (fields.name && !validatorUtil.checkName(fields.name)) {
         errMsg = '2-6个中文字符!';
     }
     if (fields.phoneNum && !validatorUtil.checkPhoneNum(fields.phoneNum)) {
@@ -50,7 +50,7 @@ class User {
     async getImgCode(req, res) {
         const { token, buffer } = await captcha();
         req.session.imageCode = token;
-        res.writeHead(200, {'Content-Type': 'image/png'});
+        res.writeHead(200, { 'Content-Type': 'image/png' });
         res.write(buffer);
         res.end();
     }
@@ -110,6 +110,7 @@ class User {
                 userName: fields.userName,
                 name: fields.name || '',
                 email: fields.email,
+                logo: fields.logo,
                 phoneNum: fields.phoneNum || '',
                 password: service.encrypt(fields.password, settings.encrypt_key),
                 confirm: fields.confirm,
