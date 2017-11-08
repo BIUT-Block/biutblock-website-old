@@ -48,9 +48,11 @@
 <script>
 import AdsPannel from "../components/AdsPannel.vue";
 import axios from "axios";
-
+import metaMixin from '~mixins'
+import {  mapGetters } from 'vuex'
 export default {
   name: "case-item",
+  mixins: [metaMixin],
   components: {
     AdsPannel
   },
@@ -59,6 +61,16 @@ export default {
       cmsStar: 1,
       stargazersUrl: "https://github.com/doramart/DoraCMS/stargazers"
     };
+  },
+  computed: {
+    ...mapGetters({
+        systemConfig: 'global/footerConfigs/getSystemConfig'
+    }),
+    currentCate() {
+        let navs = this.$store.getters['global/category/getHeaderNavList'].data || [];
+        const obj = navs.find(item => item._id === this.$route.params.typeId);
+        return obj || {};
+    }
   },
   methods: {
     getToStar() {
@@ -74,6 +86,24 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-  }
+  },
+  metaInfo(){
+      const systemData = this.systemConfig.data[0];
+      const { siteName, siteDiscription, siteKeywords } = systemData;
+      return {
+              title: '案例 | ' + siteName,
+              meta: [{
+                      vmid: 'description',
+                      name: 'description',
+                      content: this.currentCate.comments || siteDiscription
+                  },
+                  {
+                      vmid: 'keywords',
+                      name: 'keywords',
+                      content: this.currentCate.keywords || siteKeywords
+                  }
+              ]
+          }
+    }
 };
 </script>
