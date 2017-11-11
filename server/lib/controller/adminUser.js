@@ -202,7 +202,7 @@ class AdminUser {
                     await loginLog.save();
 
                     // 站点认证
-                    if(!req.session.adminUserInfo.auth){
+                    if(validatorUtil.checkUrl(req.headers.host) && !req.session.adminUserInfo.auth){
                         const systemConfigs = await SystemConfigModel.find({});
                         const { siteName, siteEmail, siteDomain } = systemConfigs[0];
                         let authParams = {

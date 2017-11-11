@@ -67,14 +67,15 @@ class User {
             }
 
             const Users = await UserModel.find(queryObj, { password: 0 }).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
-            const totalItems = await UserModel.count();
+            const totalItems = await UserModel.count(queryObj);
             res.send({
                 state: 'success',
                 docs: Users,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,
-                    pageSize: Number(pageSize) || 10
+                    pageSize: Number(pageSize) || 10,
+                    searchkey: searchkey || ''
                 }
             })
         } catch (err) {

@@ -49,22 +49,22 @@
            <!-- <el-form>
             <el-form-item > -->
             <div v-if="type === 'content'">
-                <el-input size="small" placeholder="请输入关键字" v-model="searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="请输入关键字" v-model="pageInfo.searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                     <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'contentTag'">
-                <el-input size="small" placeholder="标签名称" v-model="searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="标签名称" v-model="pageInfo.searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                      <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'contentMessage'">
-                <el-input size="small" placeholder="留言内容" v-model="searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="留言内容" v-model="pageInfo.searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                     <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
             <div v-else-if="type === 'regUser'">
-                <el-input size="small" placeholder="请输入用户名" v-model="searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                <el-input size="small" placeholder="请输入用户名" v-model="pageInfo.searchkey" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                     <i slot="suffix" class="el-input__icon el-icon-search" @click="searchResult"></i>
                 </el-input>
             </div>
@@ -84,6 +84,7 @@ import services from "../../store/services.js";
 import _ from "lodash";
 export default {
   props: {
+    pageInfo: Object,
     type: String,
     ids: Array
   },
@@ -125,21 +126,22 @@ export default {
       }
     },
     searchResult(ev) {
+      let searchkey = this.pageInfo.searchkey;
       if (this.type == "content") {
         this.$store.dispatch("getContentList", {
-          searchkey: this.searchkey
+          searchkey
         });
       } else if (this.type == "contentTag") {
         this.$store.dispatch("getContentTagList", {
-          searchkey: this.searchkey
+          searchkey
         });
       } else if (this.type == "contentMessage") {
         this.$store.dispatch("getContentMessageList", {
-          searchkey: this.searchkey
+          searchkey
         });
       } else if (this.type == "regUser") {
         this.$store.dispatch("getRegUserList", {
-          searchkey: this.searchkey
+          searchkey
         });
       }
     },
