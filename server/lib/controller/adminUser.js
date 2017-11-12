@@ -79,6 +79,10 @@ class AdminUser {
             let regUsers = await UserModel.find({}).limit(20).sort({date: -1});
             let contentCount = await ContentModel.count();
             let messageCount = await MessageModel.count();
+            let logQuery = { type: 'login'};
+            let reKey = new RegExp(req.session.adminUserInfo.userName, 'i')
+            logQuery.logs = { $regex: reKey }
+            let loginLogs = await SystemOptionLogModel.find(logQuery).skip(1).limit(1);
             let messages = await MessageModel.find().limit(10).sort({date: -1}).populate([{
                 path: 'contentId',
                 select: 'stitle _id'
@@ -93,7 +97,8 @@ class AdminUser {
                 regUsers,
                 contentCount,
                 messageCount,
-                messages
+                messages,
+                loginLogs
             });
         } catch (error) {
             logUtil.error(err, req);
@@ -178,7 +183,7 @@ class AdminUser {
             try {
                 let user = await AdminUserModel.findOne(userObj).populate([{
                     path: 'group',
-                    select: 'power _id enable'
+                    select: 'power _id enable name'
                 }]).exec();
                 if (user) {
                     if (!user.enable) {
