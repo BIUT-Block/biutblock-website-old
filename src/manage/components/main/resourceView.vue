@@ -1,61 +1,66 @@
 <template>
   <div class="resource-details">
-        <el-dialog width="55%" size="small" title="我的权限" :visible.sync="resourceShow" :close-on-click-modal="false">
-            
-            {{renderResource()}}
-            <div v-if="resource && resource.docs.length > 0">
-
-            </div>
-            <div v-else>
-                暂无数据
-            </div>
-        </el-dialog>
+      <div v-if="resource && resource.docs.length > 0">
+        <div v-for="cate in resource.docs" :key="cate._id">
+          <!-- 主分类 -->
+          <h3 class="cate-title">{{cate.label}}</h3>
+          <div v-for="childCate in cate.children" :key="childCate._id">
+            <!-- 子类 -->
+            <el-row :gutter="10">
+              <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+                  <h4 class="child-cate-title">{{childCate.label}}</h4>
+              </el-col>
+              <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                <ul class="resource-list">
+                  <li v-for="resource in childCate.children" :key="resource._id">
+                    <i :class="resource.hasPower ? 'fa fa-check-circle' : 'fa fa-minus-circle'" :style="resource.hasPower ? green : red"></i>
+                    {{resource.label}}
+                  </li>
+                </ul>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+          暂无数据
+      </div>
   </div>
 </template>
 <script>
-import _ from "lodash";
 export default {
-  props: ["resource", "resourceShow"],
+  props: ["resource"],
   data() {
-    return {};
-  },
-  methods: {
-    renderResource() {
-      let newResult = [];
-      if (this.resource && this.resource.doc) {
-        newResult = this.resource;
-        let treeData = newResult.docs;
-        console.log("--1-", treeData);
-        //   let delAtArr = [];
-        let childArr = _.filter(treeData, doc => {
-          return doc.parentId != "0";
-        });
-
-        for (let i = 0; i < childArr.length; i++) {
-          let child = childArr[i];
-          for (let j = 0; j < treeData.length; j++) {
-            let treeItem = treeData[j];
-            if (treeItem._id == child.parentId) {
-              if (!treeItem.children) treeItem.children = [];
-              treeItem.children.push(child);
-              break;
-            }
-          }
-        }
-        console.log("---", treeData);
-        //   newResult.docs = _.filter(treeData, doc => {
-        //     return doc.parentId == "0";
-        //   });
-      }
-
-      return newResult;
-    }
-  },
-  computed: {
-    showForm() {
-      return this.resourceShow;
-    }
+    return {
+      green: { color: "#13CE66" },
+      red: { color: "#FF4949" }
+    };
   }
 };
 </script>
+<style lang="scss">
+.resource-details {
+  margin-top: -30px;
+  h3 {
+    font-size: 14px;
+    margin: 10px auto;
+    border-bottom: 1px solid #edf2fc;
+  }
+  h4 {
+    font-size: 12px;
+    margin: 0;
+  }
+  .resource-list {
+    margin: 4px 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      list-style-type: none;
+      font-size: 12px;
+      margin-right: 10px;
+    }
+  }
+}
+</style>
+
 

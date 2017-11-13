@@ -1,6 +1,8 @@
 <template>
     <div class="admin-main">
-        <ResourceView :resource="adminResourceList" :resourceShow="resourceShow"/>
+        <el-dialog width="55%" size="small" title="我的权限" :visible.sync="resourceShow" :close-on-click-modal="false">
+          <ResourceView :resource="newSourceData" />
+        </el-dialog>
         <el-row :gutter="15">
             <el-col :span="8">
                 <div class="user-basic-info">
@@ -139,6 +141,7 @@
 import { mapGetters, mapActions } from "vuex";
 import StaticPannel from "../common/StaticPannel.vue";
 import ResourceView from "./resourceView.vue";
+import { renderTreeData } from "../../store/actions";
 export default {
   name: "admin-main",
   data() {
@@ -162,7 +165,6 @@ export default {
         ip: "127.0.0.1",
         date: "1970-01-01 00:00:00"
       };
-      console.log("object", this.basicInfo.loginLogs);
       if (this.basicInfo.loginLogs && this.basicInfo.loginLogs[0]) {
         logs = {
           ip: this.basicInfo.loginLogs[0].date,
@@ -173,11 +175,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["basicInfo", "loginState", "adminResourceList"])
+    ...mapGetters(["basicInfo", "loginState"]),
+    newSourceData() {
+      return renderTreeData({ docs: this.basicInfo.resources });
+    }
   },
   mounted() {
     this.$store.dispatch("getSiteBasicInfo");
-    this.$store.dispatch("getAdminResourceList");
   }
 };
 </script>
@@ -332,13 +336,14 @@ export default {
       float: right;
       width: 100%;
       h3 {
-        font-size: 2em;
+        font-size: 1.6em;
         color: #409eff;
         margin-top: 0.4rem;
         margin-bottom: 0.2rem;
       }
       span {
         color: #878d99;
+        font-size: 13px;
       }
     }
   }
@@ -348,10 +353,11 @@ export default {
       li {
         line-height: 25px;
         color: #5a5e66;
+        font-size: 12px;
         label {
           display: inline-block;
           text-align: right;
-          width: 30%;
+          width: 35%;
           margin-right: 20px;
         }
         .el-button--text {
