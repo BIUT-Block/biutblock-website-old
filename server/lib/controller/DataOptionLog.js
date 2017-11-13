@@ -88,7 +88,9 @@ class DataItem {
                     });
 
                     archive.pipe(output);
-
+                    archive.bulk([
+                        { src: [dataPath + '/**'] }
+                    ]);
                     archive.finalize();
 
                     // 操作记录入库

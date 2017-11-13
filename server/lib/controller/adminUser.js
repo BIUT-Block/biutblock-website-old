@@ -83,7 +83,7 @@ class AdminUser {
             let logQuery = { type: 'login' };
             let reKey = new RegExp(req.session.adminUserInfo.userName, 'i')
             logQuery.logs = { $regex: reKey }
-            let loginLogs = await SystemOptionLogModel.find(logQuery).skip(1).limit(1);
+            let loginLogs = await SystemOptionLogModel.find(logQuery).sort({ date: -1 }).skip(1).limit(1);
             let messages = await MessageModel.find().limit(10).sort({ date: -1 }).populate([{
                 path: 'contentId',
                 select: 'stitle _id'
