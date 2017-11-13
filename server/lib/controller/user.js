@@ -66,7 +66,7 @@ class User {
                 queryObj.userName = { $regex: reKey }
             }
 
-            const Users = await UserModel.find(queryObj, { password: 0, email: 0}).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
+            const Users = await UserModel.find(queryObj, { password: 0}).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await UserModel.count(queryObj);
             res.send({
                 state: 'success',
