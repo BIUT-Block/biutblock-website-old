@@ -77,7 +77,7 @@ class AdminUser {
         try {
             let adminUserCount = await AdminUserModel.count();
             let regUserCount = await UserModel.count();
-            let regUsers = await UserModel.find({}).limit(20).sort({ date: -1 });
+            let regUsers = await UserModel.find({},{ password: 0 ,email: 0}).limit(20).sort({ date: -1 });
             let contentCount = await ContentModel.count();
             let messageCount = await MessageModel.count();
             let logQuery = { type: 'login' };
