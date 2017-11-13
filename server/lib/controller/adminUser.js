@@ -135,7 +135,7 @@ class AdminUser {
             let pageSize = req.query.pageSize || 10;
             const adminUsers = await AdminUserModel.find({}, { password: 0 }).sort({
                 date: -1
-            }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate({
+            }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate({
                 path: 'group',
                 select: "name _id"
             }).exec();

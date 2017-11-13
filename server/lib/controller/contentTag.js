@@ -44,7 +44,7 @@ class ContentTag {
                 queryObj.name = { $regex: reKey }
             }
 
-            const contentTags = await ContentTagModel.find(queryObj).sort({ date: -1 }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            const contentTags = await ContentTagModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await ContentTagModel.count(queryObj);
             res.send({
                 state: 'success',

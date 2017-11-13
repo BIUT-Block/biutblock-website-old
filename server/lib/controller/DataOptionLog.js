@@ -30,7 +30,7 @@ class DataItem {
 
             const dataBackList = await DataOptionLogModel.find(queryObj, '_id date fileName logs').sort({
                 date: -1
-            }).skip(10 * (Number(current) - 1)).limit(Number(pageSize));
+            }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await DataOptionLogModel.count();
             res.send({
                 state: 'success',

@@ -27,7 +27,7 @@
                                 <ul>
                                     <li><label>上次登录时间：</label>{{renderLogs().ip}}</li>
                                     <li><label>上次登录IP：</label>{{renderLogs().date}}</li>
-                                    <li><label>我的权限：</label><el-button type="text" @click="showMyResource">查看</el-button></li>
+                                    <li><label>我的权限：</label><el-button size="mini" type="text" @click="showMyResource">查看</el-button></li>
                                 </ul>
                             </div>
                             <div style="clear:both;"></div>

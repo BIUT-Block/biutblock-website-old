@@ -35,7 +35,7 @@ class Message {
             }
             const messages = await MessageModel.find(queryObj).sort({
                 date: -1
-            }).skip(10 * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+            }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'contentId',
                 select: 'stitle _id'
             }, {
