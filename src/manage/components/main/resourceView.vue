@@ -6,7 +6,7 @@
           <h3 class="cate-title">{{cate.label}}</h3>
           <div v-for="childCate in cate.children" :key="childCate._id">
             <!-- 子类 -->
-            <el-row :gutter="10">
+            <el-row :gutter="10" style="margin:5px 0;">
               <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
                   <h4 class="child-cate-title">{{childCate.label}}</h4>
               </el-col>
@@ -49,9 +49,10 @@ export default {
   h4 {
     font-size: 12px;
     margin: 0;
+    font-weight: 500;
   }
   .resource-list {
-    margin: 4px 0;
+    margin: 0;
     padding: 0;
     li {
       display: inline-block;
