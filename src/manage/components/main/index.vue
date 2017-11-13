@@ -25,8 +25,8 @@
                             </div>
                             <div class="info-pannel">
                                 <ul>
-                                    <li><label>上次登录时间：</label>{{renderLogs().ip}}</li>
-                                    <li><label>上次登录IP：</label>{{renderLogs().date}}</li>
+                                    <li><label>上次登录时间：</label>{{renderLogs.ip}}</li>
+                                    <li><label>上次登录IP：</label>{{renderLogs.date}}</li>
                                     <li><label>我的权限：</label><el-button size="mini" type="text" @click="showMyResource">查看</el-button></li>
                                 </ul>
                             </div>
@@ -159,6 +159,12 @@ export default {
     },
     getToPage(targetPage) {
       this.$router.push(targetPage);
+    }
+  },
+  computed: {
+    ...mapGetters(["basicInfo", "loginState"]),
+    newSourceData() {
+      return renderTreeData({ docs: this.basicInfo.resources });
     },
     renderLogs() {
       let logs = {
@@ -172,12 +178,6 @@ export default {
         };
       }
       return logs;
-    }
-  },
-  computed: {
-    ...mapGetters(["basicInfo", "loginState"]),
-    newSourceData() {
-      return renderTreeData({ docs: this.basicInfo.resources });
     }
   },
   mounted() {
