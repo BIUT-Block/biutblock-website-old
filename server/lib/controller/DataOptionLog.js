@@ -88,9 +88,8 @@ class DataItem {
                     });
 
                     archive.pipe(output);
-                    archive.bulk([
-                        { src: [dataPath + '/**'] }
-                    ]);
+                    // append files from a sub-directory, putting its contents at the root of archive
+                    archive.directory(dataPath + '/', false);
                     archive.finalize();
 
                     // 操作记录入库
