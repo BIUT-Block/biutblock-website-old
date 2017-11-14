@@ -84,7 +84,7 @@ class DataItem {
 
                     output.on('close', function () {
                         console.log(archive.pointer() + ' total bytes');
-                        console.log('--数据备1111份成功--');
+                        console.log('--数据备份成功--');
                         console.log('archiver has been finalized and the output file descriptor has closed.');
                         // 操作记录入库
                         let optParams = {
