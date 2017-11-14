@@ -78,36 +78,43 @@ class DataItem {
                 if (error !== null) {
                     console.log('exec error: ' + error);
                 } else {
-                    console.log('数据备份成功');
                     //生成压缩文件
                     let output = fs.createWriteStream(databackforder + ms + '.zip');
                     let archive = archiver('zip');
+
+                    output.on('close', function () {
+                        console.log(archive.pointer() + ' total bytes', '数据备份成功');
+                        console.log('archiver has been finalized and the output file descriptor has closed.');
+                        // 操作记录入库
+                        let optParams = {
+                            logs: '数据备份',
+                            path: dataPath,
+                            fileName: ms + '.zip'
+                        }
+                        let newDataBack = new DataOptionLogModel(optParams);
+                        newDataBack.save((err) => {
+                            if (err) {
+                                console.log('备份失败：', err);
+                                logUtil.error(err, req);
+                            }
+                            res.send({
+                                state: 'success'
+                            });
+                        });
+                    });
+
+                    output.on('end', function () {
+                        console.log('Data has been drained');
+                    });
+
 
                     archive.on('error', function (err) {
                         throw err;
                     });
 
                     archive.pipe(output);
-                    // append files from a sub-directory, putting its contents at the root of archive
                     archive.directory(dataPath + '/', false);
                     archive.finalize();
-
-                    // 操作记录入库
-                    let optParams = {
-                        logs: '数据备份',
-                        path: dataPath,
-                        fileName: ms + '.zip'
-                    }
-                    let newDataBack = new DataOptionLogModel(optParams);
-                    newDataBack.save((err) => {
-                        if (err) {
-                            console.log('备份失败：', err);
-                            logUtil.error(err, req);
-                        }
-                        res.send({
-                            state: 'success'
-                        });
-                    });
                 }
             });
         }
