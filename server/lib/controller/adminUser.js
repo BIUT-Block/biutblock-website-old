@@ -37,7 +37,7 @@ function checkFormData(req, res, fields) {
     if (!validatorUtil.checkEmail(fields.email)) {
         errMsg = '请填写正确的邮箱!';
     }
-    if (!validator.isLength(fields.comments, 5, 30)) {
+    if (fields.comments && !validator.isLength(fields.comments, 5, 30)) {
         errMsg = '请输入5-30个字符!';
     }
     if (errMsg) {
@@ -77,7 +77,7 @@ class AdminUser {
         try {
             let adminUserCount = await AdminUserModel.count();
             let regUserCount = await UserModel.count();
-            let regUsers = await UserModel.find({},{ password: 0 ,email: 0}).limit(20).sort({ date: -1 });
+            let regUsers = await UserModel.find({}, { password: 0, email: 0 }).limit(20).sort({ date: -1 });
             let contentCount = await ContentModel.count();
             let messageCount = await MessageModel.count();
             let logQuery = { type: 'login' };
@@ -298,13 +298,21 @@ class AdminUser {
                 comments: fields.comments
             }
 
-            const newAdminUser = new AdminUserModel(userObj);
             try {
-                await newAdminUser.save();
-                res.send({
-                    state: 'success',
-                    id: newAdminUser._id
-                });
+                let user = await AdminUserModel.find().or([{ userName: fields.userName }])
+                if (!_.isEmpty(user)) {
+                    res.send({
+                        state: 'error',
+                        message: '用户名已存在！'
+                    });
+                } else {
+                    const newAdminUser = new AdminUserModel(userObj);
+                    await newAdminUser.save();
+                    res.send({
+                        state: 'success',
+                        id: newAdminUser._id
+                    });
+                }
             } catch (err) {
                 logUtil.error(err, req);
                 res.send({
@@ -313,6 +321,7 @@ class AdminUser {
                     message: '保存数据失败:',
                 })
             }
+
         })
     }
 
