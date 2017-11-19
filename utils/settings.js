@@ -8,9 +8,12 @@ module.exports = {
     imgZip: true, // 上传图片是否压缩(如果为false则本地不需要安装gm)
     session_secret: 'doracms_secret', // 务必修改
     auth_cookie_name: 'doracms',
-    encrypt_key: 'dora',
     cache_maxAge: Math.floor(Date.now() / 1000) + 24 * 60 * 60, //1 hours
 
+	// 密码盐
+	encrypt_key: 'dora',
+	salt_aes_key: "doracms_", // 可以解密，秘钥必须为：8/16/32位
+	salt_md5_key: "dora", // MD5的盐，用于加密密码
     //    数据库配置
     URL: 'mongodb://127.0.0.1:27017/doracms2',
     DB: 'doracms2',

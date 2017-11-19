@@ -25,9 +25,9 @@ function checkFormData(req, res, fields) {
     if (!validatorUtil.checkName(fields.name)) {
         errMsg = '2-6个中文字符!';
     }
-    if (!validatorUtil.checkPwd(fields.password)) {
-        errMsg = '6-12位，只能包含字母、数字和下划线!';
-    }
+    // if (!validatorUtil.checkPwd(fields.password)) {
+    //     errMsg = '6-12位，只能包含字母、数字和下划线!';
+    // }
     if (fields.password !== fields.confirmPassword) {
         errMsg = '两次输入密码不一致!';
     }
@@ -162,17 +162,16 @@ class AdminUser {
     async loginAction(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
+
             let {
                 userName,
                 password
             } = fields;
             try {
-                let newPsd = service.encrypt(fields.password, settings.encrypt_key);
+
                 let errMsg = '';
                 if (!validatorUtil.checkUserName(fields.userName)) {
                     errMsg = '请输入正确的用户名'
-                } else if (!validatorUtil.checkPwd(fields.password)) {
-                    errMsg = '请输入正确的密码'
                 }
 
                 if (!fields.imageCode || fields.imageCode != req.session.imageCode) {
@@ -197,7 +196,7 @@ class AdminUser {
             }
             const userObj = {
                 userName: fields.userName,
-                password: service.encrypt(fields.password, settings.encrypt_key)
+                password: fields.password
             }
             try {
                 let user = await AdminUserModel.findOne(userObj).populate([{
@@ -291,7 +290,7 @@ class AdminUser {
                 name: fields.name,
                 email: fields.email,
                 phoneNum: fields.phoneNum,
-                password: service.encrypt(fields.password, settings.encrypt_key),
+                password: fields.password,
                 confirm: fields.confirm,
                 group: fields.group,
                 enable: fields.enable,
@@ -345,7 +344,7 @@ class AdminUser {
                 name: fields.name,
                 email: fields.email,
                 phoneNum: fields.phoneNum,
-                password: service.encrypt(fields.password, settings.encrypt_key),
+                password: fields.password,
                 confirm: fields.confirm,
                 group: fields.group,
                 enable: fields.enable,
