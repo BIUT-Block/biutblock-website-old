@@ -6,7 +6,7 @@
         <el-row :gutter="15">
             <el-col :span="8">
                 <div class="user-basic-info">
-                    <el-card class="box-card pannel-box">
+                    <el-card class="box-card pannel-box" v-if="loginState && loginState.userInfo">
                         <div class="box-body">
                             <div class="logo-pannel">
                                 <el-row :gutter="10">
