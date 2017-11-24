@@ -2,10 +2,10 @@
     <div class="dr-user-login">
         <div class="login-form">
             <el-row :gutter="10">
-                <el-col :xs="2" :sm="6" :md="8" :lg="8">
+                <el-col :xs="2" :sm="6" :md="8" :lg="10">
                     <div class="grid-content bg-purple">&nbsp;</div>
                 </el-col>
-                <el-col :xs="20" :sm="12" :md="8" :lg="8">
+                <el-col :xs="20" :sm="12" :md="8" :lg="4">
                     <el-form :model="userRegFormData" :rules="regRules" ref="regRuleForm" label-width="0px" class="demo-ruleForm login-container">
                         <h3 class="pannel-title">
                             <span>用户注册</span>
@@ -27,7 +27,7 @@
                         </el-form-item>
                     </el-form>
                 </el-col>
-                <el-col :xs="2" :sm="6" :md="8" :lg="8">
+                <el-col :xs="2" :sm="6" :md="8" :lg="10">
                     <div class="grid-content bg-purple">&nbsp;</div>
                 </el-col>
             </el-row>
