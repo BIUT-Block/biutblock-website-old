@@ -24,7 +24,6 @@
                         </el-form-item>
                         <el-form-item class="submit-btn">
                             <el-button size="small" round type="primary" @click="submitRegForm('regRuleForm')">提交</el-button>
-                            <el-button size="small" round @click="resetForm('regRuleForm')">重置</el-button>
                         </el-form-item>
                     </el-form>
                 </el-col>

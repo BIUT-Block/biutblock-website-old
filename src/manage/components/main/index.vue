@@ -97,7 +97,7 @@
                                                 <a href="#">{{msg.utype =='0'?msg.author.userName:msg.adminAuthor.userName}}</a>
                                                 在
                                                 <a class="direct-chat-contentTitle" :href="'/details/'+msg.contentId._id+'.html'" target="_blank">{{msg.contentId.stitle | cutWords(25)}}</a> 中{{msg.utype =='0'?'说':`回复 `}}
-                                                <a href="#">{{msg.utype =='1'?msg.replyAuthor.userName:''}}</a>
+                                                <a href="#">{{msg.utype =='1'?(msg.replyAuthor ? msg.replyAuthor.userName : (msg.adminReplyAuthor ? msg.adminReplyAuthor.userName : '')) : '匿名'}}</a>
                                             </span>
                                             <span class="direct-chat-timestamp pull-right">
                                                 <i class="fa fa-clock-o"></i>

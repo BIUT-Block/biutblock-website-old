@@ -16,6 +16,7 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const { createBundleRenderer } = require('vue-server-renderer')
+const _ = require('lodash')
 const config = require('./src/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
 
@@ -229,12 +230,12 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, re
     }
 }));
 
+
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
-    AdminResource.getAllResource(req, res, {
-        type: '0'
-    }).then((manageCates) => {
-        let currentCates = manageCates ? JSON.stringify(manageCates) : [];
+    AdminResource.getAllResource(req, res).then((manageCates) => {
+        let adminPower = req.session.adminUserInfo.group.power;
+        let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
         if (isProd) {
             res.render('admin.html', {
                 title: 'DoraCMS后台管理',
@@ -265,7 +266,7 @@ app.use(function (err, req, res) {
     res.send(err.message)
 })
 
-const port = process.env.PORT || config.port || 8080
+const port = process.env.PORT || config.port || settings.serverPort
 app.listen(port, () => {
     console.log(`server started at localhost:${port}`)
 })
