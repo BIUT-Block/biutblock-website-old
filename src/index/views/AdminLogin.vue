@@ -102,8 +102,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-         //let params = this.adminLoginFormData;
-         let params = Object.assign({},this.adminLoginFormData);
+          //let params = this.adminLoginFormData;
+          let params = Object.assign({}, this.adminLoginFormData);
           const password = params.password;
           params.password = crypto.MD5(params.password);
 
