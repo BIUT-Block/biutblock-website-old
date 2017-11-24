@@ -10,7 +10,7 @@
                         <div class="box-body">
                             <div class="logo-pannel">
                                 <el-row :gutter="10">
-                                    <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8" style="text-align:center">
+                                    <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
                                         <div class="logo">
                                             <img :src="loginState.userInfo.logo" />
                                         </div>
@@ -279,6 +279,7 @@ export default {
     .direct-chat-img {
       border-radius: 50%;
       width: 35px;
+      height: 35px;
       float: left;
     }
     .direct-chat-text {
@@ -321,13 +322,13 @@ export default {
 .user-basic-info {
   .logo-pannel {
     border-bottom: 1px solid #edf2fc;
-    padding-bottom: 15px;
+    padding-bottom: 12px;
     .logo {
       float: left;
       width: 100%;
       img {
-        width: 60%;
-        max-width: 100px;
+        width: 50%;
+        max-width: 60px;
         height: auto;
         border-radius: 50%;
       }
@@ -348,7 +349,7 @@ export default {
     }
   }
   .info-pannel {
-    padding-top: 15px;
+    padding-top: 12px;
     ul {
       li {
         line-height: 25px;
@@ -356,8 +357,7 @@ export default {
         font-size: 12px;
         label {
           display: inline-block;
-          text-align: right;
-          width: 35%;
+          width: 33%;
           margin-right: 20px;
         }
         .el-button--text {
