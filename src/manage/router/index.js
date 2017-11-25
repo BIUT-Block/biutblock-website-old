@@ -72,7 +72,7 @@ function renderLeftMenu() {
     }
     addNewRoutes.push(parentMenu);
   })
-  addNewRoutes.push({ path: '*', component: NotFind });
+  addNewRoutes.push({ path: '*', component: NotFind, hidden: 'true' });
   return addNewRoutes;
 }
 
