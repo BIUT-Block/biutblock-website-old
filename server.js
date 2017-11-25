@@ -251,7 +251,13 @@ app.use('/manage', manage);
 
 // 404 页面
 app.get('*', (req, res) => {
-    res.send('HTTP STATUS: 404')
+    let Page404 = `
+        <div style="text-align:center">
+            <h3 style="width: 25%;font-size: 12rem;color: #409eff;margin: 0 auto;margin-top: 10%;">404</h3>
+            <div style="font-size: 15px;color: #878d99;">太调皮辣，不过我喜欢...哼哼 😏👽 &nbsp;<a href="/">返回首页</a></div>
+        </div>
+    `
+    res.send(Page404)
 })
 
 app.use(function (req, res, next) {
