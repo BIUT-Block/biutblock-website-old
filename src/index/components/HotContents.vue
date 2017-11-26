@@ -50,16 +50,16 @@ export default {
         overflow: hidden;
         font-size: 14px;
         display: block;
-        height: 3.5rem;
+        height: 2rem;
         img {
-          width: 5rem;
-          height: 3.5rem;
+          width: 3rem;
+          height: 2rem;
           position: absolute;
           border-radius: 4px;
           border: 1px solid #f0f0f0;
         }
         .left-area {
-          padding-left: 6rem;
+          padding-left: 4rem;
         }
       }
     }

@@ -1,13 +1,20 @@
 <template>
     <article class="content-item">
         
-        <el-row :gutter="15">
+        <el-row :gutter="30">
+          <el-col :xs="0" :sm="7" :md="7" :lg="7" hidden-xs-only>
+                <div class="grid-content bg-purple contentImg">
+                    <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
+                        <img :src="item.sImg" :alt="item.title" />
+                    </router-link>
+                </div>
+            </el-col>
             <el-col :xs="24" :sm="17" :md="17" :lg="17" class='discription'>
                 <div class="grid-content bg-purple-light title">
                     <h2>
                         <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                     </h2>
-                    <div class="dis">{{item.discription}}</div>
+                    <div class="dis">{{item.discription | cutWords(90)}}</div>
                     <ul class="post-meta">
                         <li>
                             <div v-if="item.categories && item.categories.length>1">
@@ -23,13 +30,7 @@
                     </ul>
                 </div>
             </el-col>
-            <el-col :xs="0" :sm="7" :md="7" :lg="7" hidden-xs-only>
-                <div class="grid-content bg-purple contentImg">
-                    <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
-                        <img :src="item.sImg" :alt="item.title" />
-                    </router-link>
-                </div>
-            </el-col>
+            
         </el-row>
     </article>
 </template>
@@ -65,7 +66,7 @@
       border-radius: 4px;
       border: 1px solid #f0f0f0;
     }
-    margin-right: 30px;
+    // margin-right: 30px;
     height: auto;
     display: block;
     position: relative;
@@ -106,7 +107,7 @@
       }
     }
     .dis {
-      margin: 12px 0;
+      margin: 10px 0;
       font-size: 13px;
       color: #333333;
     }
