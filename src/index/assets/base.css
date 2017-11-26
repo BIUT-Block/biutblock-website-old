@@ -140,7 +140,7 @@ pre {
 
 @media screen and (max-width:768px) {
     .header .header-main {
-        padding: 10px 0 !important;
+        padding: 5px 0 !important;
     }
     .header .header-main .header-logo {
         width: 150px !important;

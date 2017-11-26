@@ -166,6 +166,8 @@
   }
   .content-title {
     margin-top: 0;
+    font-weight: 700;
+    font-size: 20px;
   }
   .content-author {
     color: #969696;

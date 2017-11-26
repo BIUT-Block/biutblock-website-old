@@ -89,7 +89,7 @@ export default {
 
   .header-main {
     margin: 0 auto;
-    padding: 10px 0px;
+    padding: 5px 0px;
     overflow: hidden;
     .header-logo {
       img {
