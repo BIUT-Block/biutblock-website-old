@@ -29,6 +29,12 @@ a:hover {
     color: #409EFF
 }
 
+.content-main a:link,
+.content-main a:active,
+.content-main a:visited {
+    color: #409EFF;
+}
+
 ul {
     margin: 0;
     padding: 0;

@@ -203,7 +203,15 @@ app.get('/robots.txt', function (req, res, next) {
 });
 
 // 集成ueditor
-app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), function (req, res, next) {
+let qnParams = settings.openqn ? {
+    qn: {
+        accessKey: settings.accessKey,
+        secretKey: settings.secretKey,
+        bucket: settings.bucket,
+        origin: settings.origin
+    }
+} : {};
+app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), qnParams, function (req, res, next) {
     var imgDir = '/upload/images/ueditor/' //默认上传地址为图片
     var ActionType = req.query.action;
     if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
