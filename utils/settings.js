@@ -27,8 +27,9 @@ module.exports = {
     openqn: true, //是否开启,若为true 则下面的信息必须配置正确完整
     accessKey: 'ZeS04ItPQVfTqVJIOgefn2wKC1_njJ62n4yB9ujo',
     secretKey: 'LKK2d1je3AuLrA5JKeRdmWw_KxKfdnaJqK2JMVm7',
-    bucket: 'cmsupload',
+    bucket: 'cmsupload', //上传的目标资源空间
     origin: 'http://cdn.html-js.cn', // cdn域名
+    fsizeLimit: 1024 * 1024 * 5, // 上传文件大小限制默认为5M
 
     // 站点基础信息配置
     DORACMSAPI: 'http://api.html-js.cn', // 系统服务提供商

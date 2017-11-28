@@ -21,7 +21,7 @@ let checkPathNum = 0;
 
 function uploadToQiniu(req, res, imgkey) {
     // 鉴权凭证
-    let { openqn, accessKey, secretKey, bucket, origin } = settings;
+    let { openqn, accessKey, secretKey, bucket, origin, fsizeLimit } = settings;
     let config = new qiniu.conf.Config();
     // 空间对应的机房
     config.zone = qiniu.zone.Zone_z0;
@@ -33,6 +33,8 @@ function uploadToQiniu(req, res, imgkey) {
     let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
     let options = {
         scope: bucket,
+        fsizeLimit: fsizeLimit,
+        mimeLimit: 'image/*'
     };
     let putPolicy = new qiniu.rs.PutPolicy(options);
     let uploadToken = putPolicy.uploadToken(mac);
