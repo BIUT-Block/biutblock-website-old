@@ -17,9 +17,9 @@ const mime = require('../../utils/mime').types;
 const service = require('../../utils/service');
 //站点配置
 const settings = require("../../utils/settings");
+let checkPathNum = 0;
 
-
-function uploadToQiniu(req, res, fileName) {
+function uploadToQiniu(req, res, imgkey) {
     // 鉴权凭证
     let { openqn, accessKey, secretKey, bucket, origin } = settings;
     let config = new qiniu.conf.Config();
@@ -37,14 +37,12 @@ function uploadToQiniu(req, res, fileName) {
     let putPolicy = new qiniu.rs.PutPolicy(options);
     let uploadToken = putPolicy.uploadToken(mac);
 
-    let basePath = 'upload/images/';
-    let key = basePath + fileName;
-    let localFile = process.cwd() + "/public/" + key;
+    let localFile = process.cwd() + "/public/" + imgkey;
     let formUploader = new qiniu.form_up.FormUploader(config);
     let putExtra = new qiniu.form_up.PutExtra();
 
     // 文件上传
-    formUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr,
+    formUploader.putFile(uploadToken, imgkey, localFile, putExtra, function (respErr,
         respBody, respInfo) {
         if (respErr) {
             throw respErr;
@@ -59,6 +57,30 @@ function uploadToQiniu(req, res, fileName) {
         }
     });
 }
+
+let confirmPath = (path) => {
+    return new Promise(function (resolve, reject) {
+        let waitCheck = () => {
+            setTimeout(() => {
+                if (!fs.existsSync(path)) {
+                    if (checkPathNum == 3) {
+                        resolve(fs.existsSync(path));
+                    } else {
+                        checkPathNum++;
+                        waitCheck();
+                    }
+                } else {
+                    resolve(fs.existsSync(path));
+                }
+            }, 200);
+        }
+        waitCheck();
+    })
+}
+
+let checkFilePath = async function (path) {
+    return await confirmPath(path);
+};
 
 /* GET users listing. */
 router.post('/upload', function (req, res, next) {
@@ -75,7 +97,6 @@ router.post('/upload', function (req, res, next) {
 
     //存放目录
     let updatePath = "public/upload/images/";
-    let smallImgPath = "public/upload/smallimgs/";
     let newFileName = "";
     form.uploadDir = updatePath;
 
@@ -88,7 +109,7 @@ router.post('/upload', function (req, res, next) {
         let realFileType = service.getFileMimeType(file.path);
         let contentType = mime[realFileType.fileType] || 'unknown';
         if (contentType == 'unknown') {
-            res.end('typeError');
+            res.end(settings.system_error_imageType);
         }
 
         let typeKey = "others";
@@ -109,22 +130,24 @@ router.post('/upload', function (req, res, next) {
                     }
                 })
             } else {
-                res.end('typeError');
+                res.end(settings.system_error_imageType);
             }
 
         }
 
     }).on('end', function () {
-
         // 返回文件路径
         if (settings.openqn) {
-            setTimeout(() => {
-                uploadToQiniu(req, res, newFileName)
-            });
+            let localPath = process.cwd() + '/' + updatePath + newFileName;
+            // 校验文件是否上传成功
+            if (checkFilePath(localPath)) {
+                uploadToQiniu(req, res, 'upload/images/' + newFileName)
+            } else {
+                res.end(settings.system_error_upload);
+            }
         } else {
             res.end('/upload/images/' + newFileName);
         }
-
     });
 
     form.parse(req, function (err, fields, files) {
@@ -132,6 +155,7 @@ router.post('/upload', function (req, res, next) {
         console.log('parsing done');
     });
 });
+
 
 
 
