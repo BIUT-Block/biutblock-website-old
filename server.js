@@ -17,7 +17,6 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const { createBundleRenderer } = require('vue-server-renderer')
 const _ = require('lodash')
-const config = require('./src/api/config-server')
 const resolve = file => path.resolve(__dirname, file)
 
 const serverInfo =
@@ -280,7 +279,7 @@ app.use(function (err, req, res) {
     res.send(err.message)
 })
 
-const port = process.env.PORT || config.port || settings.serverPort
+const port = process.env.PORT || settings.serverPort
 app.listen(port, () => {
     console.log(`server started at localhost:${port}`)
 })
