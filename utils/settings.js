@@ -28,7 +28,7 @@ module.exports = {
     accessKey: 'ZeS04ItPQVfTqVJIOgefn2wKC1_njJ62n4yB9ujo',
     secretKey: 'LKK2d1je3AuLrA5JKeRdmWw_KxKfdnaJqK2JMVm7',
     bucket: 'cmsupload', //上传的目标资源空间
-    origin: 'http://cdn.html-js.cn', // cdn域名
+    origin: 'https://cdn.html-js.cn', // cdn域名
     fsizeLimit: 1024 * 1024 * 5, // 上传文件大小限制默认为5M
 
     // 站点基础信息配置
