@@ -39,7 +39,7 @@ export function createRouter() {
             { name: 'uReplies', path: '/users/replies', component: UserReplies },
             { name: 'adminlogin', path: '/dr-admin', component: AdminLogin, meta: { typeId: 'adminlogin' } },
             { name: 'sitemap', path: '/sitemap.html', component: SiteMap },
-            { name: 'tagPage', path: '/tag/:tagName/:page(\\d+)?', component: ArticleList, meta: { typeId: 'tags' } }
+            { name: 'tagPage', path: '/tag/:tagName/:current(\\d+)?', component: ArticleList, meta: { typeId: 'tags' } }
         ]
     })
     return router;
