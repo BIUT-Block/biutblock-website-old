@@ -7,23 +7,12 @@ import { ArticleList, CmsCase, Article, AdminLogin, UserLoginForm, UserRegForm, 
 Vue.use(VueRouter)
 Vue.use(Meta)
 
-const scrollBehavior = to => {
-    const position = {}
-    if (to.hash) {
-        position.selector = to.hash
-    }
-    if (to.matched.some(mm => mm.meta.scrollToTop)) {
-        position.x = 0
-        position.y = 0
-    }
-    return position
-}
-
 export function createRouter() {
     const router = new VueRouter({
         mode: 'history',
-        //base: __dirname,
-        // scrollBehavior,
+        scrollBehavior(to, from, savedPosition) {
+            return { x: 0, y: 0 }
+        },
         routes: [
             { name: 'index', path: '/', component: ArticleList, meta: { typeId: 'indexPage' } },
             { name: 'index', path: '/page/:current(\\d+)?', component: ArticleList, meta: { typeId: 'indexPage' } },

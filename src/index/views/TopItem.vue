@@ -16,9 +16,12 @@
                     </h2>
                     <div class="dis">{{item.discription | cutWords(90)}}</div>
                     <ul class="post-meta">
-                        <li>
-                            <div v-if="item.categories && item.categories.length>1">
+                        <li v-if="item.categories">
+                            <div  v-if="item.categories.length>1">
                                 <router-link :to="{path: '/'+(item.categories)[item.categories.length-1].defaultUrl+ '___'+(item.categories)[item.categories.length-1]._id}">{{(item.categories)[item.categories.length-1].name}}</router-link>
+                            </div>
+                            <div v-else-if="item.categories.length == 1">
+                                <router-link :to="{path: '/'+(item.categories)[0].defaultUrl+ '___'+(item.categories)[0]._id}">{{(item.categories)[0].name}}</router-link>
                             </div>
                         </li>
                         <li>
