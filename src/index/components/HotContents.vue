@@ -4,12 +4,20 @@
             <div class="content-list">
                 <ul>
                     <li class="hot-li" v-for="(item,index) in hotItems" :key="item._id">
-                        <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
+                      <el-row :gutter="10">
+                        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="5">
+                          <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
                             <img :src="item.sImg" :alt="item.title" />
                         </router-link>
-                        <div class="left-area">
+                        </el-col>
+                        <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="19">
+                          <div class="left-area">
                             <router-link class="title" :to="'/details/'+item._id+'.html'">{{item.title}}</router-link>
                         </div>
+                        </el-col>
+                      </el-row>
+                        
+                        
                     </li>
                 </ul>
             </div>
@@ -50,16 +58,10 @@ export default {
         overflow: hidden;
         font-size: 14px;
         display: block;
-        height: 2rem;
         img {
-          width: 3rem;
-          height: 2rem;
-          position: absolute;
+          width: 100%;
           border-radius: 4px;
           border: 1px solid #f0f0f0;
-        }
-        .left-area {
-          padding-left: 4rem;
         }
       }
     }
