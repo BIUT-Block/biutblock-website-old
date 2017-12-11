@@ -148,7 +148,7 @@ export default {
             this.$store.dispatch('global/message/messageform', { reply: true, formData:  formParams})
         },
         submitForm(formName) {
-            if (!this.loginState.logined) {
+            if (!this.loginState.loginState) {
                 this.$router.push('/users/login');
             } else {
                 let targetForm = this.msgFormState.reply ? this.$refs[formName][0] : this.$refs[formName];

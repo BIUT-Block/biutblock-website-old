@@ -187,6 +187,26 @@ class Content {
         }
     }
 
+    async updateLikeNum(req, res, next) {
+        let targetId = req.query.contentId;
+        let userId = req.session.userInfo._id;
+        ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'likeNum': 1 }, '$push': { 'likeUserIds': userId } })
+            .then((rs) => {
+                res.send({
+                    state: 'success',
+                    likeNum: rs.likeNum
+                });
+            }).catch((err) => {
+                logUtil.error(err, req);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_IN_SAVE_DATA',
+                    message: '更新数据失败:',
+                })
+            })
+
+    }
+
     async addContent(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
@@ -216,7 +236,8 @@ class Content {
                 isTop: fields.isTop,
                 from: fields.from,
                 discription: fields.discription,
-                comments: fields.comments
+                comments: fields.comments,
+                likeUserIds: []
             }
 
             const newContent = new ContentModel(groupObj);

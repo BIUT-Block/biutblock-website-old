@@ -82,7 +82,7 @@
     import HotContents from '../components/HotContents.vue'
     import CatesMenu from '../components/CatesMenu.vue'
     import AdsPannel from '../components/AdsPannel.vue'
-
+    import api from "~api";
     export default {
         name: 'frontend-article',
         async asyncData({ store, route }) {
@@ -113,7 +113,8 @@
                 article: 'frontend/article/getArticleItem',
                 hotlist: 'frontend/article/getHotContentList',
                 messages: 'global/message/getUserMessageList',
-                recentArticle: 'frontend/article/getRecentContentList'
+                recentArticle: 'frontend/article/getRecentContentList',
+                loginState: 'frontend/user/getSessionState'
             }),
             cateName() {
                 let catesArr = this.article.doc.categories;
@@ -147,7 +148,23 @@
                 return content.replace(/<a(.*?)href="http/g, '<a$1target="_blank" href="http')
             },
             likeIt(itemId){
-                
+                if (!this.loginState.loginState) {
+                    this.$router.push('/users/login');
+                }else{
+                   api.get("content/updateLikeNum", { contentId: itemId }).then(result => {
+                        let data = result.data;
+                        if (data.state == "success") {
+                            this.article.doc.likeNum = data.likeNum;
+                        } else {
+                            this.$message({
+                                    message: data.message,
+                                    type: 'error'
+                                });
+                        }
+                    }).catch((err) => {
+                            this.$message.error(err.response.data.error)
+                    }); 
+                }  
             }
         },
         mounted() {
@@ -214,17 +231,16 @@
     text-align: right;
     ul {
       li {
-        width: 50px;
-        height: 50px;
+        width: 3rem;
+        height: 3rem;
         margin-left: 5px;
         text-align: center;
         border: 1px solid #dcdcdc;
         border-radius: 50%;
         vertical-align: middle;
         display: inline-block;
-
+        cursor: pointer;
         i {
-          //   margin-top: 10px;
           font-size: 24px;
           line-height: 2;
         }

@@ -55,6 +55,9 @@ router.get('/content/getSimpleListByParams', (req, res, next) => { req.query.sta
 // 查询文档详情
 router.get('/content/getContent', Content.getOneContent)
 
+// 更新喜欢文档
+router.get('content/updateLikeNum', checkUserSession, Content.updateLikeNum)
+
 // 用户登录
 router.post('/users/doLogin', User.loginAction);
 
