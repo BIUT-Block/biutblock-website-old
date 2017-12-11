@@ -29,6 +29,24 @@
                                     </div>
                                     <div v-html="article.doc.comments" class="content-main">
                                     </div>
+                                    <div class="meta-bottom">
+                                        <el-row :gutter="10">
+                                        <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                            <div class="like"> <el-button type="danger" plain round @click="likeIt(article.doc._id)"><i class="fa fa-heart-o"></i>&nbsp;喜欢 | {{article.doc.likeNum}}</el-button></div>
+                                        </el-col>
+                                        <el-col :xs="19" :sm="19" :md="19" :lg="19" :xl="19">
+                                            <div class="share-group">
+                                                <ul>
+                                                    <li class="qq"><i class="fa fa-qq"></i></li>
+                                                    <el-tooltip class="item" effect="dark" content="分享到微信" placement="top">
+                                                    <li class="wechat"><i class="fa fa-wechat"></i></li>
+                                                    </el-tooltip>
+                                                    <li class="weibo"><i class="fa fa-weibo"></i></li>
+                                                </ul>
+                                            </div>
+                                        </el-col>
+                                        </el-row>
+                                    </div>
                                     <RandomArticle :articles="article.randomArticles" />
                                     <Messages :userMessageList="messages.data" :contentId="article.doc._id" />
                                 </div>
@@ -127,6 +145,9 @@
             addTarget(content) {
                 if (!content) return ''
                 return content.replace(/<a(.*?)href="http/g, '<a$1target="_blank" href="http')
+            },
+            likeIt(itemId){
+                
             }
         },
         mounted() {
@@ -184,6 +205,43 @@
   }
   .content-main {
     font-size: 15px;
+  }
+  .meta-bottom {
+    margin-top: 30px;
+    margin-bottom: 80px;
+  }
+  .share-group {
+    text-align: right;
+    ul {
+      li {
+        width: 50px;
+        height: 50px;
+        margin-left: 5px;
+        text-align: center;
+        border: 1px solid #dcdcdc;
+        border-radius: 50%;
+        vertical-align: middle;
+        display: inline-block;
+
+        i {
+          //   margin-top: 10px;
+          font-size: 24px;
+          line-height: 2;
+        }
+        .fa-qq {
+          color: #4296d3;
+        }
+        .fa-wechat {
+          color: #00bb29;
+        }
+        .fa-weibo {
+          color: #e05244;
+        }
+      }
+      li.more {
+        border: none;
+      }
+    }
   }
 }
 </style>
