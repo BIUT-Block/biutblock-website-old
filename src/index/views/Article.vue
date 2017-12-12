@@ -35,14 +35,36 @@
                                             <div class="like"> <el-button type="danger" plain round @click="likeIt(article.doc._id)"><i class="fa fa-heart-o"></i>&nbsp;喜欢 | {{article.doc.likeNum}}</el-button></div>
                                         </el-col>
                                         <el-col :xs="19" :sm="19" :md="19" :lg="19" :xl="19">
-                                            <div class="share-group">
+                                            <div class="share-group" v-if="systemConfig.data">
                                                 <ul>
-                                                    <li class="qq"><i class="fa fa-qq"></i></li>
-                                                    <el-tooltip class="item" effect="dark" content="分享到微信" placement="top">
-                                                    <li class="wechat"><i class="fa fa-wechat"></i></li>
-                                                    </el-tooltip>
-                                                    <li class="weibo"><i class="fa fa-weibo"></i></li>
+                                                    <el-popover
+                                                    ref="popover1"
+                                                    placement="top-start"
+                                                    width="200"
+                                                    trigger="hover"
+                                                    popper-class="prop-wechat"
+                                                    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                                                     <template slot-scope="scope">
+                                                         <h5>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h5>
+                                                         <img :src="'/api/qrImg?detailLink='+systemConfig.data[0].siteDomain+'/details/'+article.doc._id+'.html'" :alt="article.doc.title">
+                                                     </template>
+                                                    </el-popover>
+                                                    <li class="wechat">
+                                                        <a v-popover:popover1>
+                                                            <i class="fa fa-wechat"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="weibo">
+                                                        <a :href="'http://service.weibo.com/share/share.php?url='+systemConfig.data[0].siteDomain+'/details/'+article.doc._id+'.html&amp;title='+article.doc.title+'&amp;pic='+systemConfig.data[0].siteDomain+article.doc.sImg+'&amp;appkey=902932546 target=_blank'">
+                                                        <i class="fa fa-weibo"></i>
+                                                        </a>
+                                                    </li>
                                                 </ul>
+                                                <div class="jiathis_style_32x32">
+                                                <a class="jiathis_button_qzone"></a>
+                                                <a class="jiathis_button_tsina"></a>
+                                                <a class="jiathis_button_weixin"></a>
+                                                </div>
                                             </div>
                                         </el-col>
                                         </el-row>
@@ -114,7 +136,8 @@
                 hotlist: 'frontend/article/getHotContentList',
                 messages: 'global/message/getUserMessageList',
                 recentArticle: 'frontend/article/getRecentContentList',
-                loginState: 'frontend/user/getSessionState'
+                loginState: 'frontend/user/getSessionState',
+                systemConfig: 'global/footerConfigs/getSystemConfig'
             }),
             cateName() {
                 let catesArr = this.article.doc.categories;
@@ -148,7 +171,7 @@
                 return content.replace(/<a(.*?)href="http/g, '<a$1target="_blank" href="http')
             },
             likeIt(itemId){
-                if (!this.loginState.loginState) {
+                if (!this.loginState.logined) {
                     this.$router.push('/users/login');
                 }else{
                    api.get("content/updateLikeNum", { contentId: itemId }).then(result => {
@@ -166,6 +189,7 @@
                     }); 
                 }  
             }
+
         },
         mounted() {
             // this.$options.asyncData({store: this.$store})
@@ -191,6 +215,18 @@
 
 </script>
 <style lang="scss">
+.prop-wechat {
+  text-align: center;
+  h5 {
+    line-height: 25px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  img {
+    width: 10rem;
+    height: 10rem;
+  }
+}
 .content-detail {
   color: #3f3f3f;
   margin-top: 20px;
@@ -224,8 +260,10 @@
     font-size: 15px;
   }
   .meta-bottom {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 50px;
     margin-top: 30px;
-    margin-bottom: 80px;
+    margin-bottom: 50px;
   }
   .share-group {
     text-align: right;

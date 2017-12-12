@@ -6,7 +6,7 @@ const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
-
+const _ = require('lodash')
 function checkFormData(req, res, fields) {
     let errMsg = '';
     if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
@@ -189,22 +189,29 @@ class Content {
 
     async updateLikeNum(req, res, next) {
         let targetId = req.query.contentId;
-        let userId = req.session.userInfo._id;
-        ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'likeNum': 1 }, '$push': { 'likeUserIds': userId } })
-            .then((rs) => {
-                res.send({
-                    state: 'success',
-                    likeNum: rs.likeNum
-                });
-            }).catch((err) => {
-                logUtil.error(err, req);
+        let userId = req.session.user._id;
+        try {
+            let oldContent = await ContentModel.findOne({ _id: targetId });
+            if (!_.isEmpty(oldContent) && (oldContent.likeUserIds).indexOf(userId) > -1) {
                 res.send({
                     state: 'error',
-                    type: 'ERROR_IN_SAVE_DATA',
-                    message: '更新数据失败:',
+                    type: 'ERROR_IN_UPDATE_DATA',
+                    message: '不可重复提交',
                 })
+            } else {
+                let newContent = await ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'likeNum': 1 }, '$push': { 'likeUserIds': userId } });
+                res.send({
+                    state: 'success',
+                    likeNum: newContent.likeNum++
+                });
+            }
+        } catch (error) {
+            res.send({
+                state: 'error',
+                type: 'ERROR_IN_SAVE_DATA',
+                message: '更新数据失败:' + error,
             })
-
+        }
     }
 
     async addContent(req, res, next) {
