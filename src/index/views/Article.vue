@@ -55,7 +55,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="weibo">
-                                                        <a :href="'http://service.weibo.com/share/share.php?url='+systemConfig.data[0].siteDomain+'/details/'+article.doc._id+'.html&amp;title='+article.doc.title+'&amp;pic='+systemConfig.data[0].siteDomain+article.doc.sImg+'&amp;appkey=902932546 target=_blank'">
+                                                        <a :href="'http://service.weibo.com/share/share.php?url='+systemConfig.data[0].siteDomain+'/details/'+article.doc._id+'.html&amp;title='+article.doc.title+'&amp;pic='+((article.doc.sImg).indexOf('cdn')?'':systemConfig.data[0].siteDomain)+article.doc.sImg+'&amp;appkey=902932546 target=_blank'">
                                                         <i class="fa fa-weibo"></i>
                                                         </a>
                                                     </li>
