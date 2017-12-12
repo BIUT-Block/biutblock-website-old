@@ -202,7 +202,7 @@ class Content {
                 let newContent = await ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'likeNum': 1 }, '$push': { 'likeUserIds': userId } });
                 res.send({
                     state: 'success',
-                    likeNum: newContent.likeNum++
+                    likeNum: newContent.likeNum + 1
                 });
             }
         } catch (error) {
