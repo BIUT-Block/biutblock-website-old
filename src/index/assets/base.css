@@ -156,11 +156,29 @@ pre {
         border-left: none !important;
         margin-left: 0 !important;
     }
-    .footer .sitemap {
+    .footer {
         display: none !important;
     }
-    .content-item {
-        padding-bottom: 15px !important;
+    .main-list {
+        padding: 0 !important;
+    }
+    .content-item .contentImg {
+        height: 7rem !important;
+        overflow-y: hidden !important;
+    }
+    .content-item .contentImg img {
+        border-radius: 0 !important;
+        border: none !important;
+    }
+    .content-item .image,
+    .content-item .discription {
+        padding: 0 30px !important;
+    }
+    .content-item .image {
+        margin-bottom: 15px;
+    }
+    .page-component-up {
+        display: none !important;
     }
 }
 

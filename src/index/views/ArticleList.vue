@@ -8,7 +8,7 @@
                     </el-col>
                     <el-col :xs="22" :sm="22" :md="18" :lg="18" :xl="12" class="content-mainbody-left">
                         <el-row :gutter="24">
-                            <el-col :xs="24" :sm="17" :md="17" :lg="17" v-if="topics.data.length > 0">
+                            <el-col :xs="24" :sm="17" :md="17" :lg="17" v-if="topics.data.length > 0" class="main-list">
                                 <div class="column-wrap" v-show="typeId != 'indexPage'">
                                     <span v-if="$route.params.tagName">{{'标签：' + $route.params.tagName}}</span>
                                     <span v-else>{{typeId == 'search' ? '搜索：' + $route.params.searchkey : currentCate.name}}</span>
@@ -36,7 +36,7 @@
                         </el-row>
                     </el-col>
                     <el-col :xs="1" :sm="1" :md="3" :lg="3" :xl="6">
-                        <div class="grid-content bg-purple">&nbsp;</div>
+                        <BackTop/>
                     </el-col>
                 </el-row>
             </div>
@@ -57,6 +57,7 @@
     import Tag from '../components/Tag.vue'
     import CatesMenu from '../components/CatesMenu.vue'
     import AdsPannel from '../components/AdsPannel.vue'
+    import BackTop from '../components/BackTop.vue'
 
     export default {
         name: 'frontend-index',
@@ -109,7 +110,8 @@
             SearchBox,
             Tag,
             CatesMenu,
-            AdsPannel
+            AdsPannel,
+            BackTop
         },
         computed: {
             ...mapGetters({

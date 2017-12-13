@@ -84,7 +84,7 @@
                         </el-row>
                     </el-col>
                     <el-col :xs="1" :sm="1" :md="3" :lg="3" :xl="6">
-                        <div class="grid-content bg-purple">&nbsp;</div>
+                        <BackTop/>
                     </el-col>
                 </el-row>
             </div>
@@ -104,6 +104,7 @@
     import HotContents from '../components/HotContents.vue'
     import CatesMenu from '../components/CatesMenu.vue'
     import AdsPannel from '../components/AdsPannel.vue'
+    import BackTop from '../components/BackTop.vue'
     import api from "~api";
     export default {
         name: 'frontend-article',
@@ -163,7 +164,8 @@
             SearchBox,
             HotContents,
             CatesMenu,
-            AdsPannel
+            AdsPannel,
+            BackTop
         },
         methods: {
             addTarget(content) {
