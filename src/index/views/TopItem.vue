@@ -67,7 +67,6 @@
       border-radius: 4px;
       border: 1px solid #f0f0f0;
     }
-    // margin-right: 30px;
     height: auto;
     display: block;
     position: relative;

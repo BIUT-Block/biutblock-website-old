@@ -168,6 +168,8 @@ pre {
     .content-item .contentImg {
         height: 7rem !important;
         overflow-y: hidden !important;
+        border-radius: 4px;
+        border: 1px solid #f0f0f0;
     }
     .content-item .contentImg img {
         border-radius: 0 !important;
@@ -176,6 +178,13 @@ pre {
     .content-item .image,
     .content-item .discription {
         padding: 0 20px !important;
+    }
+    .content-item .discription .dis {
+        color: #999999 !important;
+    }
+    .content-item .discription .title h2 {
+        line-height: 25px;
+        font-weight: 400 !important;
     }
     .content-item .image {
         margin-bottom: 15px;
