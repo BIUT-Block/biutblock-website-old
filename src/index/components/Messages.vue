@@ -81,195 +81,215 @@
     </PannelBox>
 </template>
 <script>
-import {
-    mapGetters
-} from 'vuex'
-import api from '~api'
-import _ from 'lodash'
-import PannelBox from './PannelBox.vue'
+import { mapGetters } from "vuex";
+import api from "~api";
+import _ from "lodash";
+import PannelBox from "./PannelBox.vue";
 export default {
-    name: 'Message',
-    data() {
-        return {
-            replyObj: {},
-            rules: {
-                content: [{
-                    required: true,
-                    message: '请填写评论',
-                    trigger: 'blur'
-                }, {
-                    min: 5,
-                    max: 200,
-                    message: '请输入5-200个字符',
-                    trigger: 'blur'
-                }]
-            },
-            replyRules: {
-                replyContent: [{
-                    required: true,
-                    message: '请填写回复',
-                    trigger: 'blur'
-                }, {
-                    min: 5,
-                    max: 200,
-                    message: '请输入5-200个字符',
-                    trigger: 'blur'
-                }]
-            }
-        }
+  name: "Message",
+  data() {
+    return {
+      replyObj: {},
+      rules: {
+        content: [
+          {
+            required: true,
+            message: "请填写评论",
+            trigger: "blur"
+          },
+          {
+            min: 5,
+            max: 200,
+            message: "请输入5-200个字符",
+            trigger: "blur"
+          }
+        ]
+      },
+      replyRules: {
+        replyContent: [
+          {
+            required: true,
+            message: "请填写回复",
+            trigger: "blur"
+          },
+          {
+            min: 5,
+            max: 200,
+            message: "请输入5-200个字符",
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  },
+  props: {
+    userMessageList: Array,
+    contentId: String
+  },
+  computed: {
+    ...mapGetters({
+      msgFormState: "global/message/getMessageForm",
+      loginState: "frontend/user/getSessionState"
+    })
+  },
+  components: {
+    PannelBox
+  },
+  methods: {
+    changeReplyState(state) {
+      if (!state) this.replyObj = {};
+      this.$store.dispatch("global/message/messageform", { reply: state });
     },
-    props: {
-        userMessageList: Array,
-        contentId: String
+    replyMsg(item) {
+      this.replyObj = item;
+      let currentMsgAuthor = !_.isEmpty(item.author)
+        ? item.author
+        : item.adminAuthor;
+      let formParams = {
+        replyAuthor: "",
+        adminReplyAuthor: "",
+        relationMsgId: item._id,
+        replyContent: "@" + currentMsgAuthor.userName + " "
+      };
+      if (!_.isEmpty(item.author)) {
+        formParams.replyAuthor = currentMsgAuthor._id;
+      } else {
+        formParams.adminReplyAuthor = currentMsgAuthor._id;
+      }
+      this.$store.dispatch("global/message/messageform", {
+        reply: true,
+        formData: formParams
+      });
     },
-    computed: {
-        ...mapGetters({
-            msgFormState: 'global/message/getMessageForm',
-            loginState: 'frontend/user/getSessionState'
-        })
-    },
-    components: {
-        PannelBox
-    },
-    methods: {
-        changeReplyState(state) {
-            if (!state) this.replyObj = {};
-            this.$store.dispatch('global/message/messageform', { reply: state })
-        },
-        replyMsg(item) {
-            this.replyObj = item;
-            let currentMsgAuthor = !_.isEmpty(item.author) ? item.author : item.adminAuthor;
-            let formParams = { replyAuthor: '', adminReplyAuthor: '', relationMsgId: item._id, replyContent: "@" + currentMsgAuthor.userName + " " };
-            if(!_.isEmpty(item.author)){
-                formParams.replyAuthor = currentMsgAuthor._id;
-            }else{
-                formParams.adminReplyAuthor = currentMsgAuthor._id
-            }
-            this.$store.dispatch('global/message/messageform', { reply: true, formData:  formParams})
-        },
-        submitForm(formName) {
-            if (!this.loginState.loginState) {
-                this.$router.push('/users/login');
+    submitForm(formName) {
+      if (!this.loginState.logined) {
+        this.$router.push("/users/login");
+      } else {
+        let targetForm = this.msgFormState.reply
+          ? this.$refs[formName][0]
+          : this.$refs[formName];
+        targetForm.validate(valid => {
+          if (valid) {
+            let params = this.msgFormState.formData;
+            if (this.msgFormState.formData.replyContent) {
+              let currentMsgAuthor = !_.isEmpty(this.replyObj.author)
+                ? this.replyObj.author
+                : this.replyObj.adminAuthor;
+              let oldContent = this.msgFormState.formData.replyContent;
+              params.content = oldContent.replace(
+                "@" + currentMsgAuthor.userName + " ",
+                ""
+              );
             } else {
-                let targetForm = this.msgFormState.reply ? this.$refs[formName][0] : this.$refs[formName];
-                targetForm.validate((valid) => {
-                    if (valid) {
-                        let params = this.msgFormState.formData;
-                        if (this.msgFormState.formData.replyContent) {
-                            let currentMsgAuthor = !_.isEmpty(this.replyObj.author) ? this.replyObj.author : this.replyObj.adminAuthor;
-                            let oldContent = this.msgFormState.formData.replyContent;
-                            params.content = oldContent.replace("@" + currentMsgAuthor.userName + " ", "");
-                        } else {
-                            params['replyAuthor'] = '';
-                            params['relationMsgId'] = '';
-                            params['replyContent'] = '';
-                        }
-                        params.contentId = this.contentId;
-                        api.post('message/post', params).then((result) => {
-                            if (result.data.state === 'success') {
-                                this.$store.dispatch('global/message/getUserMessageList', {
-                                    contentId: this.contentId
-                                })
-                                this.$message({
-                                    message: '发布成功',
-                                    type: 'success'
-                                });
-                                this.$store.dispatch('global/message/messageform', {
-                                    reply: false,
-                                    formData: {
-                                        content: '',
-                                        replyContent: ''
-                                    }
-                                })
-
-                            } else {
-                                this.$message({
-                                    message: result.data.message,
-                                    type: 'error'
-                                });
-                            }
-                        }).catch((err) => {
-                            this.$message.error(err.response.data.error)
-                        })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+              params["replyAuthor"] = "";
+              params["relationMsgId"] = "";
+              params["replyContent"] = "";
             }
-        }
+            params.contentId = this.contentId;
+            api
+              .post("message/post", params)
+              .then(result => {
+                if (result.data.state === "success") {
+                  this.$store.dispatch("global/message/getUserMessageList", {
+                    contentId: this.contentId
+                  });
+                  this.$message({
+                    message: "发布成功",
+                    type: "success"
+                  });
+                  this.$store.dispatch("global/message/messageform", {
+                    reply: false,
+                    formData: {
+                      content: "",
+                      replyContent: ""
+                    }
+                  });
+                } else {
+                  this.$message({
+                    message: result.data.message,
+                    type: "error"
+                  });
+                }
+              })
+              .catch(err => {
+                this.$message.error(err.response.data.error);
+              });
+          } else {
+            console.log("error submit!!");
+            return false;
+          }
+        });
+      }
     }
-
-}
+  }
+};
 </script>
 
 <style lang="scss">
 .content-message {
-
-    ul {
-        li {
-            border-top: 1px solid #f0f0f0;
-            padding: 24px 0;
-            font-size: 15px;
-            .user-logo {
-
-                img {
-                    width: 100%;
-                    border-radius: 50%
-                }
-            }
-            .user-content {
-                color: #666666;
-                padding-left: 15px;
-                word-break: break-all;
-            }
-            .user-name {
-                margin: 5px 0 15px 15px;
-                color: #409EFF;
-
-                .name {
-                    display: inline-block;
-                }
-                .time {
-                    font-size: 11px;
-                    display: inline-block;
-                    color: #777;
-                }
-                .fa-reply {
-                    float: right;
-                    color: #D3DCE6;
-                    display: block;
-                }
-            }
+  ul {
+    li {
+      border-top: 1px solid #f0f0f0;
+      padding: 24px 0;
+      font-size: 15px;
+      .user-logo {
+        img {
+          width: 100%;
+          border-radius: 50%;
         }
+      }
+      .user-content {
+        color: #666666;
+        padding-left: 15px;
+        word-break: break-all;
+      }
+      .user-name {
+        margin: 5px 0 15px 15px;
+        color: #409eff;
+
+        .name {
+          display: inline-block;
+        }
+        .time {
+          font-size: 11px;
+          display: inline-block;
+          color: #777;
+        }
+        .fa-reply {
+          float: right;
+          color: #d3dce6;
+          display: block;
+        }
+      }
     }
-    .give-message {
-        padding-top: 15px;
-        .el-form-item__content {
-            margin-left: 0 !important;
-        }
-        .user-notice {
-            float: left;
-            a:link,
-            a:visited {
-                color: #409EFF
-            }
-        }
-        .send-content {
-            margin-bottom: 10px;
-        }
-        .send-button {
-            margin-top: 5px;
-            text-align: right;
-        }
+  }
+  .give-message {
+    padding-top: 15px;
+    .el-form-item__content {
+      margin-left: 0 !important;
     }
+    .user-notice {
+      float: left;
+      a:link,
+      a:visited {
+        color: #409eff;
+      }
+    }
+    .send-content {
+      margin-bottom: 10px;
+    }
+    .send-button {
+      margin-top: 5px;
+      text-align: right;
+    }
+  }
 
-    .reply-message {
-        margin-top: 15px;
-        padding-left: 25px;
-        .el-form-item {
-            margin-bottom: 20px;
-        }
+  .reply-message {
+    margin-top: 15px;
+    padding-left: 25px;
+    .el-form-item {
+      margin-bottom: 20px;
     }
+  }
 }
 </style>
