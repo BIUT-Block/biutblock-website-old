@@ -241,11 +241,9 @@ export default {
       });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      let logo = this.loginState.userInfo.logo;
+      this.loginState.userInfo = Object.assign({}, { logo });
     }
-  },
-  beforeMount() {
-    // this.$store.dispatch('simplePage');
   },
   computed: {
     ...mapGetters({
