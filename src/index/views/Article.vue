@@ -239,6 +239,7 @@
   }
   img {
     max-width: 100% !important;
+    height: auto;
   }
   .content-title {
     margin-top: 0;
