@@ -26,7 +26,6 @@
           <div class="grid-content bg-purple">&nbsp;</div>
         </el-col>
       </el-row>
-  
     </div>
   </div>
 </template>
@@ -34,6 +33,7 @@
 import api from "~api";
 const validatorUtil = require("../../../utils/validatorUtil.js");
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "userLogin",
   metaInfo() {
@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+      referPath: "/",
       rules: {
         email: [
           {
@@ -81,6 +82,11 @@ export default {
       }
     };
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      from.path && (vm.referPath = from.path);
+    });
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -90,7 +96,7 @@ export default {
             .post("users/doLogin", params)
             .then(result => {
               if (result.data.state == "success") {
-                window.location = "/";
+                window.location = this.referPath;
               } else {
                 this.$message({
                   message: result.data.message,
@@ -110,9 +116,6 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  },
-  beforeMount() {
-    // this.$store.dispatch('simplePage');
   },
   computed: {
     ...mapGetters({
