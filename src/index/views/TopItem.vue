@@ -1,6 +1,6 @@
 <template>
     <article class="content-item">
-        <el-row :gutter="30">
+        <el-row :gutter="30" class="row-list">
           <el-col :xs="24" :sm="7" :md="7" :lg="7" class='image'>
               <div class="grid-content bg-purple contentImg">
                   <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
