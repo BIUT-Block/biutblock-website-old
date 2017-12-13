@@ -7,13 +7,51 @@
             <el-col :xs="22" :sm="22" :md="18" :lg="18" :xl="12">
                 <el-row :gutter="10" class="grid-content bg-purple-light">
                     <el-col :xs="24" :sm="4" :md="4" :lg="4">
-                        <div class="header-logo">
-                            <router-link :to="{path: '/'}">
-                                <img src="../../assets/logo.png" />
-                            </router-link>
-                        </div>
+                      <el-row>
+                        <el-col :xs="7" :sm="0" :md="0" :lg="0" :xl="0">
+                          <el-dropdown trigger="click">
+                          <el-button class="toggle-menu" size="mini" plain><i class="fa fa-align-justify"></i></el-button>
+                          <el-dropdown-menu class="drop-menu" slot="dropdown">
+                            <el-dropdown-item v-for="(nav,index) in headerNav" :key="index" v-once>
+                                <router-link :to="{path: '/'+nav.defaultUrl+ '___'+nav._id}">{{nav.name}}</router-link>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided v-if="loginState.logined && loginState.userInfo">
+                              <div>{{loginState.userInfo.userName}}
+                                &nbsp;<el-button type="text" @click="logOut">退出</el-button>
+                              </div>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided v-else>
+                              <div>
+                                <el-button type="text" @click="login">登录</el-button>
+                                <el-button type="text" @click="regUser">注册</el-button>
+                              </div>
+                            </el-dropdown-item>
+                          </el-dropdown-menu>
+                          </el-dropdown>
+                        </el-col>
+                        <el-col :xs="10" :sm="24" :md="24" :lg="24" :xl="24">
+                          <div class="header-logo">
+                              <router-link :to="{path: '/'}">
+                                  <img src="../../assets/logo.png" />
+                              </router-link>
+                          </div>
+                        </el-col>
+                        <el-col :xs="7" :sm="0" :md="0" :lg="0" :xl="0">
+                          <el-popover
+                            ref="popoverSearch"
+                            placement="bottom"
+                            width="100%"
+                            v-model="visibleSearchPannel">
+                            <div>
+                              <el-input size="small" placeholder="请输入关键字" v-model="searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult">
+                              </el-input>
+                            </div>
+                          </el-popover>
+                          <el-button v-popover:popoverSearch class="toggle-search" size="mini" plain><i class="fa fa-search"></i></el-button>
+                        </el-col>
+                      </el-row>                   
                     </el-col>
-                    <el-col :xs="24" :sm="13" :md="13" :lg="13">
+                    <el-col :xs="0" :sm="13" :md="13" :lg="13">
                         <nav class="header-nav">
                             <el-row type="flex">
                                 <el-col v-for="(nav,index) in headerNav" :key="index" v-once>
@@ -28,7 +66,7 @@
                                 <SearchBox />
                             </el-col>
                             <el-col :xs="24" :sm="24" :md="24" :lg="10">
-                                <LoginPannel/>
+                                <LoginPannel ref="loginPannel"/>
                             </el-col>
                         </el-row>
                     </el-col>
@@ -65,9 +103,15 @@ export default {
     navs: Array
   },
   data() {
-    return {};
+    return {
+      visibleSearchPannel: false,
+      searchkey: ""
+    };
   },
   computed: {
+    ...mapGetters({
+      loginState: "frontend/user/getSessionState"
+    }),
     headerNav() {
       let fullNav = this.$store.getters["global/category/getHeaderNavList"];
       let navs = fullNav.data;
@@ -78,6 +122,22 @@ export default {
       } else {
         return [];
       }
+    }
+  },
+  methods: {
+    searchResult() {
+      this.visibleSearchPannel = false;
+      this.$router.replace("/search/" + this.searchkey);
+      this.searchkey = "";
+    },
+    login() {
+      this.$router.push("/users/login");
+    },
+    regUser() {
+      this.$router.push("/users/reg");
+    },
+    logOut() {
+      this.$refs.loginPannel.logout();
     }
   }
 };
@@ -94,6 +154,7 @@ export default {
     .header-logo {
       img {
         max-height: 40px;
+        width: 100%;
       }
     }
 
@@ -116,5 +177,20 @@ export default {
       }
     }
   }
+  .toggle-menu,
+  .toggle-search {
+    color: #aaaaaa;
+    font-size: 18px;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    border: none;
+    margin-top: 0.4rem;
+  }
+  .toggle-search {
+    float: right;
+  }
+}
+.el-dropdown-menu.drop-menu {
+  width: 96%;
 }
 </style>

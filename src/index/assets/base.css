@@ -149,8 +149,8 @@ pre {
         padding: 5px 0 !important;
     }
     .header .header-main .header-logo {
-        width: 150px !important;
-        margin: 0 auto;
+        /* width: 150px !important; */
+        margin-top: .5rem;
     }
     .header .header-main .header-nav {
         border-left: none !important;

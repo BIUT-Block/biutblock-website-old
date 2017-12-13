@@ -41,7 +41,7 @@
                                                     ref="popover1"
                                                     placement="top-start"
                                                     width="200"
-                                                    trigger="hover"
+                                                    trigger="click"
                                                     popper-class="prop-wechat"
                                                     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
                                                      <template slot-scope="scope">
