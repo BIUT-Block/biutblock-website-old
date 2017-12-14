@@ -1,23 +1,33 @@
 <template>
     <div>
         <div class="contentContainer">
-            <div>
+            <div class="main container">
                 <el-row :gutter="0">
-                    <el-col :xs="1" :sm="1" :md="3" :lg="3" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="6">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="18" :lg="18" :xl="12" class="content-mainbody-left">
-                        <el-row :gutter="24">
-                            <el-col :xs="24" :sm="17" :md="17" :lg="17" v-if="topics.data.length > 0" class="main-list">
-                                <div class="column-wrap" v-show="typeId != 'indexPage'">
+                    <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="12" class="content-mainbody-left">
+                        <el-row :gutter="15">
+                            <el-col :xs="24" :sm="17" :md="17" :lg="17" v-if="topics.data.length > 0">
+                                <div class="main-list">
+                                    <div class="column-wrap" v-show="typeId != 'indexPage'">
                                     <span v-if="$route.params.tagName">{{'标签：' + $route.params.tagName}}</span>
                                     <span v-else>{{typeId == 'search' ? '搜索：' + $route.params.searchkey : currentCate.name}}</span>
-                                </div>
-                                <div>
-                                    <ItemList v-for="item in topics.data" :item="item" :key="item._id" />
-                                </div>
-                                <div class="content-pagination">
-                                    <Pagination :pageInfo="topics.pageInfo" :typeId="typeId" />
+                                    </div>
+                                    <div>
+                                        <div class="cate-pannle-menu">
+                                            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                                            <el-menu-item index="1">处理中心</el-menu-item>
+                                            <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+                                            </el-menu>
+                                        </div>
+                                        <div class="article-list">
+                                            <ItemList v-for="item in topics.data" :item="item" :key="item._id" />
+                                        </div>
+                                    </div>
+                                    <div class="content-pagination">
+                                        <Pagination :pageInfo="topics.pageInfo" :typeId="typeId" />
+                                    </div>
                                 </div>
                             </el-col>
                             <el-col :xs="24" :sm="17" :md="17" :lg="17" v-else>
@@ -35,7 +45,7 @@
                             </el-col>
                         </el-row>
                     </el-col>
-                    <el-col :xs="1" :sm="1" :md="3" :lg="3" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="6">
                         <BackTop/>
                     </el-col>
                 </el-row>
@@ -99,7 +109,8 @@
         },
         data(){
             return{
-                loadingState: false
+                loadingState: false,
+                activeIndex: '1',
             }
         },
         mixins: [metaMixin],
@@ -138,16 +149,18 @@
             }
         },
         methods: {
-
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            }
         },
-        activated() {
-            this.$options.asyncData({
-                store: this.$store,
-                route: this.$route
-            }, {
-                current: 1
-            })
-        },
+        // activated() {
+        //     this.$options.asyncData({
+        //         store: this.$store,
+        //         route: this.$route
+        //     }, {
+        //         current: 1
+        //     })
+        // },
         metaInfo() {
             const systemData = this.systemConfig.data[0];
             const {

@@ -1,6 +1,6 @@
 <style lang='scss'>
 .contentContainer {
-    margin-top: 30px;
+    // padding-top: 30px;
 }
 </style>
 <template>

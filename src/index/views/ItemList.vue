@@ -1,12 +1,20 @@
 <style lang='scss'>
 .post-b {
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 25px;
-  padding: 0px 0px 15px;
+  border-bottom: 1px solid #efefef;
+  // margin-bottom: 25px;
+  padding: 20px 0px;
 }
 
 .post-b:last-child {
   border: none;
+}
+.post-b:hover {
+  margin: 0 -15px;
+  padding: 20px 15px;
+  background: #fafafa;
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
 }
 </style>
 <template>

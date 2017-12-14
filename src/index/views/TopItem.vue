@@ -1,15 +1,15 @@
 <template>
     <article class="content-item">
         <el-row :gutter="30" class="row-list">
-          <el-col :xs="24" :sm="7" :md="7" :lg="7" class='image'>
+          <el-col :xs="24" :sm="8" :md="8" :lg="8" class='image'>
               <div class="grid-content bg-purple contentImg">
                   <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
                       <img :src="item.sImg" :alt="item.title" />
                   </router-link>
               </div>
           </el-col>
-          <el-col :xs="24" :sm="17" :md="17" :lg="17" class='discription'>
-              <div class="grid-content bg-purple-light title">
+          <el-col :xs="24" :sm="16" :md="16" :lg="16">
+              <div class="discription">
                   <h2>
                       <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">{{item.title}}</router-link>
                   </h2>
@@ -37,6 +37,9 @@
 </template>
 <style lang="scss">
 .content-item {
+  .row-list {
+    // min-height: 142px;
+  }
   .post-angle {
     position: absolute;
     left: -10px;
@@ -61,11 +64,20 @@
     border-left: 10px solid transparent;
   }
   .contentImg {
+    width: 100%;
+    overflow: hidden;
+    -webkit-transition: -webkit-box-shadow 0.3s ease 0s;
+    transition: -webkit-box-shadow 0.3s ease 0s;
+    -o-transition: box-shadow 0.3s ease 0s;
+    transition: box-shadow 0.3s ease 0s;
+    transition: box-shadow 0.3s ease 0s, -webkit-box-shadow 0.3s ease 0s;
     img {
       width: 100%;
       min-height: 6rem;
-      border-radius: 4px;
-      border: 1px solid #f0f0f0;
+      vertical-align: top;
+      -webkit-transition: all 0.3s ease-out 0s;
+      -o-transition: all 0.3s ease-out 0s;
+      transition: all 0.3s ease-out 0s;
     }
     height: auto;
     display: block;
@@ -84,32 +96,55 @@
       z-index: 11;
     }
   }
+  .contentImg:hover {
+    -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transition: -webkit-box-shadow 0.3s ease 0s;
+    transition: -webkit-box-shadow 0.3s ease 0s;
+    -o-transition: box-shadow 0.3s ease 0s;
+    transition: box-shadow 0.3s ease 0s;
+    transition: box-shadow 0.3s ease 0s, -webkit-box-shadow 0.3s ease 0s;
+  }
+  .contentImg {
+    img:hover {
+      -webkit-transform: scale(1.03);
+      -ms-transform: scale(1.03);
+      transform: scale(1.03);
+      -webkit-transition: all 0.3s ease-out 0s;
+      -o-transition: all 0.3s ease-out 0s;
+      transition: all 0.3s ease-out 0s;
+    }
+  }
   .discription {
     text-align: left;
+    // min-height: 152px;
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      word-break: break-all;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .dis {
+      margin: 10px 0;
+      font-size: 13px;
+      color: #666666;
+    }
+
     .post-meta {
       a:link,
       a:visited {
         color: #3ca5f6;
       }
+      position: absolute;
+      bottom: 0;
       li {
         display: inline-block;
         font-size: 13px;
         color: #b4b4b4;
-        margin: 10px 10px 10px 0;
+        margin: 0px 10px 0px 0;
       }
-    }
-    .title {
-      h2 {
-        margin: 0;
-        font-size: 18px;
-        word-break: break-all;
-        font-weight: 700;
-      }
-    }
-    .dis {
-      margin: 10px 0;
-      font-size: 13px;
-      color: #333333;
     }
   }
 }

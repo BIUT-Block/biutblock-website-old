@@ -3,13 +3,13 @@
         <div class="content-detail">
             <div class="readme">
                 <el-row :gutter="0" class="header-main">
-                    <el-col :xs="1" :sm="1" :md="3" :lg="3" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="6">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="18" :lg="18" :xl="12">
-                        <el-row :gutter="24">
-                            <el-col :xs="24" :sm="17" :md="17" :lg="17">
-                                <div>
+                    <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="12" class="main-details">
+                        <el-row :gutter="15">
+                            <el-col :xs="24" :sm="17" :md="17" :lg="17" >
+                                <div class="hentry">
                                     <h2 class="content-title">{{article.doc.title}}&nbsp;<span v-show="article.doc.from == '2'" class="from">[转]</span></h2>
                                     <div class="content-author">
                                         <ul>
@@ -37,6 +37,9 @@
                                         <el-col :xs="19" :sm="19" :md="19" :lg="19" :xl="19">
                                             <div class="share-group" v-if="systemConfig.data">
                                                 <ul>
+                                                    <li class="qq" @click="shareToQq(article.doc)">
+                                                        <a><i class="fa fa-qq"></i></a>
+                                                    </li>
                                                     <el-popover
                                                     ref="popover1"
                                                     placement="top-start"
@@ -60,11 +63,6 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                <div class="jiathis_style_32x32">
-                                                <a class="jiathis_button_qzone"></a>
-                                                <a class="jiathis_button_tsina"></a>
-                                                <a class="jiathis_button_weixin"></a>
-                                                </div>
                                             </div>
                                         </el-col>
                                         </el-row>
@@ -83,7 +81,7 @@
                             </el-col>
                         </el-row>
                     </el-col>
-                    <el-col :xs="1" :sm="1" :md="3" :lg="3" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="6">
                         <BackTop/>
                     </el-col>
                 </el-row>
@@ -190,8 +188,14 @@
                             this.$message.error(err.response.data.error)
                     }); 
                 }  
+            },
+            shareToQq(content){
+                let { title, discription, _id, sImg } = content;
+                let url = this.systemConfig.data[0].siteDomain+'/details/' + _id;
+                let picurl = (sImg.indexOf('cdn') > -1 ? '' : this.systemConfig.data[0].siteDomain) + sImg;
+                let shareqqzonestring='http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?summary='+title+'.'+discription+'&url='+url+'&pics='+picurl;
+                window.open(shareqqzonestring,'newwindow','height=400,width=400,top=100,left=100');
             }
-
         },
         mounted() {
             // this.$options.asyncData({store: this.$store})
@@ -231,7 +235,15 @@
 }
 .content-detail {
   color: #3f3f3f;
-  margin-top: 20px;
+  margin-top: 62px;
+  .main-details {
+    margin-top: 20px;
+  }
+  .hentry {
+    background: #fff;
+    padding: 30px;
+    margin-bottom: 20px;
+  }
   .from {
     color: #fa5555;
     font-size: 13px;
@@ -264,7 +276,7 @@
   }
   .meta-bottom {
     border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
     margin-top: 30px;
     margin-bottom: 50px;
   }
