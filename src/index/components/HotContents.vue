@@ -39,9 +39,9 @@ export default {
   .content-list {
     text-align: left;
     .hot-li {
-      margin: 0 0 20px;
+      margin: 0 0 10px;
       .continue-reading {
-        min-height: 6rem;
+        min-height: 5.8rem;
         display: inline-block;
       }
       img {
@@ -53,6 +53,8 @@ export default {
         word-break: break-all;
         line-height: 16px;
         display: inline-block;
+        height: 52px;
+        vertical-align: text-top;
       }
     }
   }
