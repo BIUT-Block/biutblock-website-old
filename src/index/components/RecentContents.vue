@@ -40,7 +40,7 @@ export default {
         .triangle {
           position: absolute;
           top: 0.5rem;
-          left: 0.3rem;
+          left: 0;
           width: 0;
           height: 0;
           border-style: solid;

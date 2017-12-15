@@ -230,9 +230,3 @@ pre {
         display: none !important;
     }
 }
-
-@media screen and (max-width:1200px) {
-    .search-pannel {
-        display: none !important;
-    }
-}
