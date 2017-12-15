@@ -169,7 +169,7 @@ class Content {
             content && (content.commentNum = commentNum);
             // 推荐文章查询
             const totalContents = await ContentModel.count({});
-            const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(4);
+            const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(6);
             res.send({
                 state: 'success',
                 doc: content || {},
