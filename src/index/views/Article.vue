@@ -3,10 +3,10 @@
         <div class="content-detail">
             <div class="readme">
                 <el-row :gutter="0" class="header-main">
-                    <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="12" class="main-details">
+                    <el-col :xs="22" :sm="22" :md="22" :lg="20" :xl="12" class="main-details">
                         <el-row :gutter="15">
                             <el-col :xs="24" :sm="17" :md="17" :lg="17" >
                                 <div class="hentry">
@@ -81,7 +81,7 @@
                             </el-col>
                         </el-row>
                     </el-col>
-                    <el-col :xs="1" :sm="1" :md="1" :lg="1" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
                         <BackTop/>
                     </el-col>
                 </el-row>

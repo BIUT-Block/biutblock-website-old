@@ -37,7 +37,6 @@ export default {
         font-size: 14px;
         padding: 0 0 0.75rem 1rem;
         position: relative;
-        color: #666666;
         .triangle {
           position: absolute;
           top: 0.5rem;
@@ -65,6 +64,9 @@ export default {
         .con a:link,
         .con a:visited {
           color: #666666;
+        }
+        .con a:hover {
+          color: #409eff;
         }
       }
     }
