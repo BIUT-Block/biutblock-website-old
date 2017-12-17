@@ -65,7 +65,7 @@
                               <el-button size="mini" class="reply" type="text" @click="replyMsg(item)">回复</el-button>
                           </div>
                           <el-collapse-transition>
-                                  <div class="reply-message" @click="hideReplyPannel" v-if="msgFormState.reply && replyObj._id == item._id">
+                                  <div class="reply-message" v-if="msgFormState.reply && replyObj._id == item._id">
                                       <el-form :model="msgFormState.formData" :rules="replyRules" ref="replyRuleForm" label-width="0px" class="demo-ruleForm">
                                           <el-form-item class="send-content" prop="replyContent">
                                               <el-input @focus="changeReplyState(true)" :autofocus="true" type="textarea" :autosize="{ minRows: 4, maxRows: 8}" :placeholder="replyPlaceholder" v-model="msgFormState.formData.replyContent">
@@ -170,10 +170,6 @@ export default {
         formData: formParams
       });
     },
-    hideReplyPannel(e) {
-      e.preventDefault();
-      this.replyObj = {};
-    },
     submitForm(formName) {
       if (!this.loginState.logined) {
         this.$router.push("/users/login");
@@ -236,122 +232,5 @@ export default {
 </script>
 
 <style lang="scss">
-.content-message,
-.content-message-list {
-  padding: 0 !important;
-  h3 {
-    padding: 0;
-    border: none;
-    font-size: 18px;
-    margin: 30px 0 20px;
-    font-weight: 500;
-  }
-}
-.content-message {
-  .give-message {
-    .el-form-item {
-      margin-bottom: 0;
-    }
-    .el-form-item__content {
-      margin-left: 0 !important;
-    }
-    .el-textarea__inner {
-      border-color: #efefef;
-      border-bottom-color: #f5f5f5;
-    }
-    .el-form-item__error {
-      padding-top: 20px;
-      text-align: right;
-      right: 100px;
-    }
-    .user-notice {
-      float: left;
-      font-size: 13px;
-      a:link,
-      a:visited {
-        color: #409eff;
-      }
-    }
-    .send-content {
-      // margin-bottom: 10px;
-    }
-    .send-button {
-      padding: 5px 15px;
-      text-align: right;
-      background: #fbfbfb;
-      border: 1px solid #efefef;
-      border-top: 0;
-      -webkit-border-bottom-left-radius: 2px;
-      border-bottom-left-radius: 2px;
-      -webkit-border-bottom-right-radius: 2px;
-      border-bottom-right-radius: 2px;
-      overflow: hidden;
-    }
-  }
-}
-.content-message-list {
-  ul {
-    li {
-      border-top: 1px solid #efefef;
-      padding: 15px 0 24px;
-      font-size: 14px;
-      .user-logo {
-        img {
-          width: 82%;
-          min-height: 2rem;
-          border-radius: 50%;
-        }
-      }
-      .user-content {
-        position: relative;
-        color: #666666;
-        padding-left: 15px;
-        word-break: break-all;
-        .reply {
-          position: absolute;
-          display: none;
-          bottom: -20px;
-          right: 0;
-        }
-      }
-      .reply-message {
-        margin-top: 30px;
-        padding-left: 25px;
-        .el-form-item {
-          margin-bottom: 0px;
-          margin-top: 5px;
-          text-align: right;
-          .el-form-item__error {
-            right: 100px;
-            padding-top: 20px;
-          }
-        }
-      }
-      .user-name {
-        margin: 0px 0 0px 15px;
-        color: #409eff;
 
-        .name {
-          display: inline-block;
-        }
-        .time {
-          font-size: 11px;
-          display: inline-block;
-          color: #777;
-        }
-      }
-    }
-    li:hover {
-      margin: 0 -30px;
-      padding: 15px 30px 24px;
-      background: #fafafa;
-      -webkit-transition: all 0.3s ease-out 0s;
-      -o-transition: all 0.3s ease-out 0s;
-      transition: all 0.3s ease-out 0s;
-      .reply {
-        display: block;
-      }
-    }
-  }
-}
 </style>

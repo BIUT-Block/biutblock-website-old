@@ -1,7 +1,5 @@
 <style lang='scss'>
-.contentContainer {
-    // padding-top: 30px;
-}
+
 </style>
 <template>
     <div>

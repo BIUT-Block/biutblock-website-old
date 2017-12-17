@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <div class="content-detail">
-            <div class="readme">
-                <el-row :gutter="0" class="header-main">
+    <div class="contentContainer">
+        <div class="mainbody content-detail">
+            <el-row :gutter="0">
                     <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
@@ -34,13 +33,13 @@
                                     </div> -->
                                     <div class="meta-bottom">
                                         <el-row :gutter="10">
-                                        <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                        <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14">
                                             <!-- <div class="like"> <el-button type="primary" plain  @click="likeIt(article.doc._id)"><i class="fa fa-heart-o"></i>&nbsp;喜欢 ({{article.doc.likeNum}})</el-button></div> -->
                                             <div class="meta-tags" v-if="article.doc.tags && article.doc.tags.length>0">
                                                 <el-button type="primary" @click="searchByTag(tag.name)" plain v-for="tag in article.doc.tags" size="mini" :key="tag._id">{{tag.name}}</el-button>
                                             </div>
                                         </el-col>
-                                        <el-col :xs="19" :sm="19" :md="19" :lg="19" :xl="19">
+                                        <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10">
                                             <div class="share-group" v-if="systemConfig.data">
                                                 <ul>
                                                     <li class="like">
@@ -94,7 +93,6 @@
                         <BackTop/>
                     </el-col>
                 </el-row>
-            </div>
         </div>
     </div>
 </template>
@@ -233,124 +231,5 @@
 
 </script>
 <style lang="scss">
-.prop-wechat {
-  text-align: center;
-  h5 {
-    line-height: 25px;
-    font-weight: 700;
-    margin-bottom: 0;
-  }
-  img {
-    width: 10rem;
-    height: 10rem;
-  }
-}
-.content-detail {
-  color: #3f3f3f;
-  margin-top: 62px;
-  .main-details {
-    margin-top: 20px;
-  }
-  .hentry {
-    background: #fff;
-    padding: 30px;
-    margin-bottom: 20px;
-  }
-  .from {
-    color: #fa5555;
-    font-size: 13px;
-    font-weight: normal;
-  }
-  img {
-    max-width: 100% !important;
-    height: auto;
-  }
-  .content-title {
-    margin-top: 0;
-    font-weight: 700;
-    font-size: 20px;
-  }
-  .content-author {
-    color: #969696;
-    ul {
-      li.author-name {
-        color: #409eff;
-      }
-      li {
-        display: inline-block;
-        margin-bottom: 10px;
-        font-size: 13px;
-      }
-    }
-  }
-  .content-main {
-    font-size: 15px;
-  }
-  .meta-tags {
-    button {
-      //   border: 1px solid #999;
-      //   color: #666666;
-    }
-  }
-  .meta-bottom {
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 40px;
-    margin-top: 40px;
-    margin-bottom: 50px;
-  }
-  .share-group {
-    text-align: right;
-    ul {
-      li {
-        padding: 0 10px;
-        // text-align: center;
-        // border: 1px solid #dcdcdc;
-        // border-radius: 50%;
-        vertical-align: middle;
-        display: inline-block;
-        cursor: pointer;
-        // color: #cccccc;
-        // a:link {
-        //   color: #cccccc;
-        // }
-        // a:hover {
-        //   color: #409eff;
-        // }
 
-        i {
-          font-size: 18px;
-          //   line-height: 2;
-        }
-        .fa-qq {
-          color: #4296d3;
-        }
-        .fa-wechat {
-          color: #00bb29;
-        }
-        .fa-weibo {
-          color: #e05244;
-        }
-        .fa-heart {
-          color: #cccccc;
-        }
-        .fa-heart:hover {
-          color: #e05244;
-        }
-      }
-      li.like {
-        height: 18px;
-        line-height: 18px;
-        color: #cccccc;
-        border-right: 1px solid #ccc;
-        padding-right: 20px;
-        span {
-          font-size: 12px;
-        }
-      }
-      li.more {
-        border: none;
-      }
-    }
-  }
-}
 </style>

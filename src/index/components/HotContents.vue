@@ -34,29 +34,5 @@ export default {
 </script>
 
 <style lang="scss">
-.hot-content-list {
-  margin-bottom: 30px;
-  .content-list {
-    text-align: left;
-    .hot-li {
-      margin: 0 0 10px;
-      .continue-reading {
-        min-height: 5.8rem;
-        display: inline-block;
-      }
-      img {
-        width: 100%;
-        border-radius: 2px;
-      }
-      .title {
-        font-size: 12px;
-        word-break: break-all;
-        line-height: 16px;
-        display: inline-block;
-        height: 52px;
-        vertical-align: text-top;
-      }
-    }
-  }
-}
+
 </style>

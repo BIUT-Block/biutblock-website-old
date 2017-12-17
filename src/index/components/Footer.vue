@@ -42,22 +42,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.footer {
-  font-size: 14px;
-  padding: 35px 0;
-  color: #5f676f;
-  background: #2d3237;
 
-  ul {
-    li {
-      text-align: center;
-      line-height: 35px;
-      padding: 0 10px;
-      a:link,
-      a:visited {
-        color: #76818c;
-      }
-    }
-  }
-}
 </style>

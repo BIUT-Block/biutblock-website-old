@@ -92,7 +92,8 @@ textarea {
     border-radius: 0 !important;
 }
 
-.contentContainer {
+
+/* .contentContainer {
     padding-top: 62px;
 }
 
@@ -102,8 +103,10 @@ textarea {
 
 .contentContainer .content-mainbody-left .main-list {
     background-color: #fff;
-}
+} */
 
+
+/* 
 .contentContainer .content-mainbody-left .cate-pannle-menu {
     position: relative;
     padding: 0 15px;
@@ -130,13 +133,10 @@ textarea {
 .cate-pannle-menu .el-menu--horizontal .el-menu-item.is-active {
     color: #3ca5f6;
     font-weight: 500;
-}
+} */
 
-.content-item:last-child {
-    border: none !important;
-}
 
-.normaltitle,
+/* .normaltitle,
 .catetitle {
     font-size: 14px;
     color: #fff;
@@ -156,28 +156,33 @@ textarea {
 
 .catetitle {
     color: #333333;
-}
+} */
 
-.dr-user-login {}
 
-.login-box {
+/* .dr-user-login {} */
+
+
+/* .login-box {
     width: 50%;
     margin: 0 auto;
-}
+} */
 
-.login-form {
+
+/* .login-form {
     margin: 0 auto;
     padding-top: 62px;
     padding-bottom: 20px;
-}
+} */
 
-.login-form .login-main {
+
+/* .login-form .login-main {
     margin-top: 20px;
     background-color: #fff;
     padding: 20px 0px 100px;
-}
+} */
 
-.login-form .title {
+
+/* .login-form .title {
     text-align: center;
     font-size: 24px;
     position: relative;
@@ -192,29 +197,41 @@ textarea {
     margin-left: -10px;
     background: #999;
     content: '';
-}
+} */
 
-.login-form label {
+
+/* .login-form label,
+.info-form label {
     line-height: 22px;
     padding-bottom: 0 !important;
     font-weight: 600;
     font-size: 15px;
+} */
+
+.login-form .el-input__inner,
+.info-form .el-input__inner,
+.info-form .el-textarea {
+    /* border: 2px solid #dddddd; */
 }
 
-.login-form .el-input__inner {
-    border: 2px solid #dddddd;
-}
 
-.login-form .el-button {
+/* .login-form .el-button {
     width: 100%;
-    padding: 16px 20px;
-}
+    padding: 10px 20px;
+} */
 
-.login-form .submit-btn {
+
+/* .info-form .el-button {
+    padding: 12px 50px;
+    font-size: 15px;
+} */
+
+
+/* .login-form .submit-btn {
     text-align: left;
-}
+} */
 
-.login-form .login-container {
+/* .login-form .login-container {
     background-clip: padding-box;
     padding: 25px 35px 10px 35px;
 }
@@ -227,6 +244,16 @@ textarea {
 
 .login-form .login-container.remember {
     margin: 0px 0px 35px 0px;
+} */
+
+/* .user-center {
+    padding-top: 62px;
+} */
+
+.user-center .user-info,
+.user-center .user-message {
+    /* margin: 15px 0; */
+    /* background-color: #ffffff; */
 }
 
 @media screen and (max-width:768px) {

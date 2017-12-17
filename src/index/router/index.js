@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Meta from 'vue-meta'
 
-import { ArticleList, CmsCase, Article, AdminLogin, UserLoginForm, UserRegForm, UserCenter, UserMessage, UserReplies, SiteMap } from 'create-route'
+import { ArticleList, CmsCase, Article, AdminLogin, UserLoginForm, UserRegForm, UserCenter, UserPwd, UserMessage, UserReplies, SiteMap } from 'create-route'
 
 Vue.use(VueRouter)
 Vue.use(Meta)
@@ -46,6 +46,7 @@ export function createRouter() {
             { name: 'login', path: '/users/login', component: UserLoginForm },
             { name: 'reg', path: '/users/reg', component: UserRegForm },
             { name: 'ucenter', path: '/users/center', component: UserCenter },
+            { name: 'upassword', path: '/users/password', component: UserPwd },
             { name: 'umessage', path: '/users/messages', component: UserMessage },
             { name: 'uReplies', path: '/users/replies', component: UserReplies },
             { name: 'adminlogin', path: '/dr-admin', component: AdminLogin, meta: { typeId: 'adminlogin' } },

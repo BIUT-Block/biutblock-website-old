@@ -22,16 +22,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.random-articls {
-  margin-top: 40px;
-  margin-bottom: 25px;
-  .title {
-    font-size: 14px;
-    display: block;
-    text-align: left;
-    padding: 0px;
-    min-height: 52px;
-    line-height: 20px;
-  }
-}
+
 </style>
