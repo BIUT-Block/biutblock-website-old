@@ -14,7 +14,7 @@ var AdminUser = require('./AdminUser');
 var ContentSchema = new Schema({
     _id: {
         type: String,
-        
+
         'default': shortid.generate
     },
     title: String,
@@ -48,7 +48,7 @@ ContentSchema.path('date').get(function (v) {
     return moment(v).startOf('hour').fromNow();
 });
 ContentSchema.path('updateDate').get(function (v) {
-    return moment(v).format("YYYY-MM-DD HH:mm");
+    return moment(v).format("YYYY-MM-DD");
 });
 
 var Content = mongoose.model("Content", ContentSchema);

@@ -1,44 +1,42 @@
  // 近期文档
  .recent-content-list {
-    .content-list {
-        text-align: left;
-        ul {
-            li {
-                font-size: 14px;
-                padding: 0 0 0.75rem 1rem;
-                position: relative;
-                .triangle {
-                    position: absolute;
-                    top: 0.5rem;
-                    left: 0;
-                    width: 0;
-                    height: 0;
-                    border-style: solid;
-                    border-color: #fff #fff #fff #cccccc;
-                    -webkit-transform-origin: 25% center;
-                    transform-origin: 25% center;
-                    border-width: 4px;
-                }
-                .con {
-                    -webkit-transition: opacity 0.5s ease-in;
-                    transition: opacity 0.5s ease-in;
-                    .title {
-                        display: block;
-                    }
-                    .time {
-                        padding-top: 3px;
-                        display: inline-block;
-                        color: #a4abb1;
-                    }
-                }
-                .con a:link,
-                .con a:visited {
-                    color: #666666;
-                }
-                .con a:hover {
-                    color: $color-primary;
-                }
-            }
-        }
-    }
-}
+     margin-bottom: 30px;
+     .content-list {
+         text-align: left;
+         ul {
+             .hot-li:last-child {
+                 border: none;
+             }
+             li {
+                 position: relative;
+                 margin: 0;
+                 padding: 7px 0 8px;
+                 overflow: hidden;
+                 font-size: 14px;
+                 display: block;
+                 img {
+                     width: 100%;
+                     vertical-align: top;
+                     border-radius: 2px;
+                 }
+                 .right-text {
+                     position: relative;
+                     line-height: 1.4;
+                     .title {
+                         font-size: 13px;
+                         height: 2.3rem;
+                         display: block;
+                         margin-bottom: 10px;
+                     }
+                     span {
+                         display: block;
+                         margin: 0;
+                         font-size: 12px;
+                         color: #999;
+                         line-height: 14px; //  margin-top: 10px;
+                     }
+                 }
+             }
+         }
+     }
+ }

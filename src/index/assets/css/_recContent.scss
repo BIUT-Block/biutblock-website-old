@@ -5,13 +5,14 @@
          text-align: left;
          .hot-li {
              margin: 0 0 10px;
-             .continue-reading {
-                 min-height: 5.8rem;
-                 display: inline-block;
-             }
-             img {
-                 width: 100%;
-                 border-radius: 2px;
+             display: inline-block;
+             .contentImg {
+                 height: 5.2rem;
+                 display: block;
+                 img {
+                     width: 100%;
+                     border-radius: 2px;
+                 }
              }
              .title {
                  font-size: 12px;

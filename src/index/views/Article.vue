@@ -33,13 +33,13 @@
                                     </div> -->
                                     <div class="meta-bottom">
                                         <el-row :gutter="10">
-                                        <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14">
+                                        <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
                                             <!-- <div class="like"> <el-button type="primary" plain  @click="likeIt(article.doc._id)"><i class="fa fa-heart-o"></i>&nbsp;喜欢 ({{article.doc.likeNum}})</el-button></div> -->
                                             <div class="meta-tags" v-if="article.doc.tags && article.doc.tags.length>0">
                                                 <el-button type="primary" @click="searchByTag(tag.name)" plain v-for="tag in article.doc.tags" size="mini" :key="tag._id">{{tag.name}}</el-button>
                                             </div>
                                         </el-col>
-                                        <el-col :xs="10" :sm="10" :md="10" :lg="10" :xl="10">
+                                        <el-col :xs="24" :sm="10" :md="10" :lg="10" :xl="10">
                                             <div class="share-group" v-if="systemConfig.data">
                                                 <ul>
                                                     <li class="like">
@@ -83,7 +83,7 @@
                                 <div class="grid-content bg-purple-light title">
                                     <CatesMenu :typeId="typeId" />
                                     <RecentContents :recentItems="recentArticle" />
-                                    <RecommendContents :reclist="reclist" :typeId="$route.params.typeId" v-if="reclist.length > 0" />
+                                    <!-- <RecommendContents :reclist="reclist" :typeId="$route.params.typeId" v-if="reclist.length > 0" /> -->
                                     <AdsPannel id="Sk_n90ucb" />
                                 </div>
                             </el-col>

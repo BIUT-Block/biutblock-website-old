@@ -32,7 +32,7 @@
                             <el-col :xs="24" :sm="17" :md="17" :lg="17" v-else>
                                 <div style="height:300px;" v-loading="loadingState">&nbsp;</div>
                             </el-col>
-                            <el-col :xs="0" :sm="7" :md="7" :lg="7">
+                            <el-col :xs="0" :sm="7" :md="7" :lg="7" >
                                 <div class="main-right">
                                     <AdsPannel id="SJllJUAdcZ" />
                                     <div v-if="checkCateList">
