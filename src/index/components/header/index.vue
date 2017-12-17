@@ -54,7 +54,7 @@
                     <el-col :xs="0" :sm="12" :md="12" :lg="12">
                         <nav class="header-nav">
                           <ul>
-                            <li><router-link :to="{path: '/'}">首页</router-link></li>
+                            <li :class="{active : $route.fullPath == '/'}"><router-link :to="{path: '/'}">首页</router-link></li>
                             <li>
                               <el-dropdown size="medium">
                               <span class="el-dropdown-link">
@@ -67,6 +67,7 @@
                               </el-dropdown-menu>
                             </el-dropdown>
                             </li>
+                            <li :class="{active : $route.fullPath == '/cmscase___SkCL09aCb'}"><router-link :to="{path: '/cmscase___SkCL09aCb'}">应用案例</router-link></li>
                           </ul>
                         </nav>
                     </el-col>
@@ -153,6 +154,5 @@ export default {
 };
 </script>
 <style lang="scss">
-
 
 </style>

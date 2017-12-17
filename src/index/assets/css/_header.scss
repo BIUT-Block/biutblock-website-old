@@ -46,6 +46,12 @@
                         color: #333333;
                     }
                 }
+                li.active {
+                    a:link,
+                    a:visited {
+                        color: $color-primary;
+                    }
+                }
             }
         }
         .right-pannel {
