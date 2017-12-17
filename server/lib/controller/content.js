@@ -63,9 +63,12 @@ class Content {
             }
 
             if (sortby) {
-                for (const item of sortby) {
-                    sortObj[item] = -1
-                }
+                // for (const item of sortby) {
+                //     sortObj[item] = -1
+                // }
+                delete sortObj.date;
+                sortObj[sortby] = -1;
+
             }
 
             if (state) {

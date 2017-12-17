@@ -1,16 +1,16 @@
 <template>
     <div>
-        <PannelBox title="推荐文章" className="hot-content-list">
+        <PannelBox title="热门文章" className="hot-content-list">
             <div class="content-list">
-                <el-row :gutter="10">
-                  <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="hot-li" v-for="(item,index) in hotItems" :key="item._id">
-                    <router-link :to="'/details/'+item._id+'.html'" class="continue-reading">
-                      <img :src="item.sImg" :alt="item.title" />
-                    </router-link>
-                    <router-link class="title" :to="'/details/'+item._id+'.html'">{{item.title | cutWords(25)}}</router-link>
-                  </el-col>
-                </el-row>
-            </div>
+            <ul>
+                <li :key='index' v-for="(item,index) in hotItems">
+                    <span class="triangle"></span>
+                    <div class="con">
+                        <router-link class="title" :to="'/details/'+item._id+'.html'">{{item.title}}</router-link>
+                    </div>
+                </li>
+            </ul>
+        </div>
         </PannelBox>
     </div>
 </template>

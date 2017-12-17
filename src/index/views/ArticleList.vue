@@ -38,8 +38,8 @@
                                     <div v-if="checkCateList">
                                         <CatesMenu :typeId="$route.params.typeId" />
                                     </div>
-                                    <Tag :tags="tags.data" />
                                     <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" />
+                                    <RecommendContents :reclist="reclist" :typeId="$route.params.typeId" v-if="reclist.length > 0" />
                                 </div>
                             </el-col>
                         </el-row>
@@ -59,6 +59,7 @@
         mapGetters
     } from 'vuex'
     import metaMixin from '~mixins'
+    import RecommendContents from '../components/RecommendContents.vue'
     import HotContents from '../components/HotContents.vue'
     import SearchBox from '../components/SearchBox.vue'
     import ItemList from '../views/ItemList.vue'
@@ -72,8 +73,8 @@
         name: 'frontend-index',
         async asyncData({ store, route }, config = { current: 1, model: 'normal'}) {
             const { params: { id,  key, tagName, current, typeId, searchkey },path} = route
-            const base = { ...config,  pageSize: 10, id,  path, searchkey, tagName, current,   typeId}
-            store.dispatch('frontend/article/getHotContentList', {
+            const base = { ...config,  pageSize: 10, id,  path, searchkey, tagName, current, typeId}
+            store.dispatch('frontend/article/getRecContentList', {
                 pageSize: 10,
                 typeId
             })
@@ -81,6 +82,7 @@
                 pageSize: 30
             })
             await store.dispatch('frontend/article/getArticleList', base)
+            await store.dispatch('frontend/article/getHotContentList', base)
         },
         data(){
             return{
@@ -92,6 +94,7 @@
         components: {
             ItemList,
             Pagination,
+            RecommendContents,
             HotContents,
             SearchBox,
             Tag,
@@ -101,6 +104,7 @@
         },
         computed: {
             ...mapGetters({
+                reclist: 'frontend/article/getRecContentList',
                 hotlist: 'frontend/article/getHotContentList',
                 tags: 'global/tags/getTagList',
                 systemConfig: 'global/footerConfigs/getSystemConfig'

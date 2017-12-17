@@ -83,7 +83,7 @@
                                 <div class="grid-content bg-purple-light title">
                                     <CatesMenu :typeId="typeId" />
                                     <RecentContents :recentItems="recentArticle" />
-                                    <HotContents :hotItems="hotlist" :typeId="$route.params.typeId" v-if="hotlist.length > 0" />
+                                    <RecommendContents :reclist="reclist" :typeId="$route.params.typeId" v-if="reclist.length > 0" />
                                     <AdsPannel id="Sk_n90ucb" />
                                 </div>
                             </el-col>
@@ -106,7 +106,7 @@
     import RandomArticle from '../components/RandomArticle.vue'
     import RecentContents from '../components/RecentContents.vue'
     import SearchBox from '../components/SearchBox.vue'
-    import HotContents from '../components/HotContents.vue'
+    import RecommendContents from '../components/RecommendContents.vue'
     import CatesMenu from '../components/CatesMenu.vue'
     import AdsPannel from '../components/AdsPannel.vue'
     import BackTop from '../components/BackTop.vue'
@@ -123,7 +123,7 @@
                     currentId = id;
                 }
             }
-            store.dispatch('frontend/article/getHotContentList', { typeId: 'indexPage', pageSize: 10})
+            store.dispatch('frontend/article/getRecContentList', { typeId: 'indexPage', pageSize: 10})
             store.dispatch('global/message/getUserMessageList',{ contentId: currentId, pageSize: 999})
             store.dispatch('frontend/article/getRecentContentList')
             await store.dispatch(`frontend/article/getArticleItem`, { id: currentId, path })
@@ -139,7 +139,7 @@
         computed: {
             ...mapGetters({
                 article: 'frontend/article/getArticleItem',
-                hotlist: 'frontend/article/getHotContentList',
+                reclist: 'frontend/article/getRecContentList',
                 messages: 'global/message/getUserMessageList',
                 recentArticle: 'frontend/article/getRecentContentList',
                 loginState: 'frontend/user/getSessionState',
@@ -167,7 +167,7 @@
             RandomArticle,
             RecentContents,
             SearchBox,
-            HotContents,
+            RecommendContents,
             CatesMenu,
             AdsPannel,
             BackTop
