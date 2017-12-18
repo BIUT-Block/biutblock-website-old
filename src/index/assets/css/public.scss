@@ -289,11 +289,11 @@ textarea {
         } // 缩略图效果
         .contentImg {
             overflow: hidden;
-            -webkit-transition: -webkit-box-shadow 0.3s ease 0s;
-            transition: -webkit-box-shadow 0.3s ease 0s;
-            -o-transition: box-shadow 0.3s ease 0s;
-            transition: box-shadow 0.3s ease 0s;
-            transition: box-shadow 0.3s ease 0s, -webkit-box-shadow 0.3s ease 0s;
+            -webkit-transition: -webkit-box-shadow .3s ease 0s;
+            transition: -webkit-box-shadow .3s ease 0s;
+            -o-transition: box-shadow .3s ease 0s;
+            transition: box-shadow .3s ease 0s;
+            transition: box-shadow .3s ease 0s, -webkit-box-shadow .3s ease 0s;
             img {
                 -webkit-transition: all 0.3s ease-out 0s;
                 -o-transition: all 0.3s ease-out 0s;
@@ -303,19 +303,19 @@ textarea {
                 -webkit-transform: scale(1.03);
                 -ms-transform: scale(1.03);
                 transform: scale(1.03);
-                -webkit-transition: all 0.3s ease-out 0s;
-                -o-transition: all 0.3s ease-out 0s;
-                transition: all 0.3s ease-out 0s;
+                -webkit-transition: all .3s ease-out 0s;
+                -o-transition: all .3s ease-out 0s;
+                transition: all .3s ease-out 0s;
             }
         }
         .contentImg:hover {
             -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
             box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
-            -webkit-transition: -webkit-box-shadow 0.3s ease 0s;
-            transition: -webkit-box-shadow 0.3s ease 0s;
-            -o-transition: box-shadow 0.3s ease 0s;
-            transition: box-shadow 0.3s ease 0s;
-            transition: box-shadow 0.3s ease 0s, -webkit-box-shadow 0.3s ease 0s;
+            -webkit-transition: -webkit-box-shadow .3s ease 0s;
+            transition: -webkit-box-shadow .3s ease 0s;
+            -o-transition: box-shadow .3s ease 0s;
+            transition: box-shadow .3s ease 0s;
+            transition: box-shadow .3s ease 0s, -webkit-box-shadow .3s ease 0s;
         }
     } // 文档详情
     .content-detail {
@@ -356,10 +356,8 @@ textarea {
             font-size: 15px;
         }
         .meta-bottom {
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 40px;
             margin-top: 40px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
         .share-group {
             text-align: right;
@@ -536,6 +534,7 @@ textarea {
                     height: auto !important;
                     img {
                         width: 100% !important;
+                        margin-top: 0;
                     }
                 }
             }
@@ -577,7 +576,12 @@ textarea {
     }
     .contentContainer {
         .mainbody {
-            padding: 10px 0px 10px
+            padding: 10px 0px 10px;
+            .main-list {
+                .cate-pannle-menu {
+                    display: none !important;
+                }
+            }
         }
         .content-detail {
             .hentry {

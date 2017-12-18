@@ -1,7 +1,11 @@
  // 随机文档
  .random-articls {
-     margin-top: 40px;
+     margin-top: 10px;
      margin-bottom: 25px;
+     .contentImg {
+         height: 8rem;
+         margin-bottom: 8px;
+     }
      .title {
          font-size: 14px;
          display: block;

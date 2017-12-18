@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PannelBox title="评论" className="content-message">
+    <PannelBox title="发表评论" className="content-message">
           <div>
               <el-row :gutter="10">
                   <el-col :xs="24" :sm="24" :md="24" :lg="24">
@@ -28,7 +28,7 @@
               </el-row>
           </div>
       </PannelBox>
-      <PannelBox :title="messagelistTitle" className="content-message-list">
+      <PannelBox :title="messagelistTitle" className="content-message-list" v-if="userMessageList.length > 0">
             <ul>
               <li v-for="(item,index) in userMessageList" :key="index">
                   <el-row>

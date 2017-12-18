@@ -7,10 +7,11 @@
              margin: 0 0 10px;
              display: inline-block;
              .contentImg {
-                 height: 5.2rem;
+                 height: 4.7rem;
                  display: block;
                  img {
                      width: 100%;
+                     height: 100%;
                      border-radius: 2px;
                  }
              }
@@ -19,7 +20,7 @@
                  word-break: break-all;
                  line-height: 16px;
                  display: inline-block;
-                 height: 52px;
+                 height: 45px;
                  vertical-align: text-top;
              }
          }
