@@ -2,10 +2,10 @@
   <div class="contentContainer">
     <div class="mainbody user-center">
       <el-row :gutter="0" class="header-main">
-        <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="6">
+        <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="5">
           <div class="grid-content bg-purple">&nbsp;</div>
         </el-col>
-        <el-col :xs="22" :sm="22" :md="20" :lg="20" :xl="12">
+        <el-col :xs="22" :sm="22" :md="20" :lg="20" :xl="14">
           <div class="user-message">
             <UserBar />
             <div v-if="replylist">
@@ -19,7 +19,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="6">
+        <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="5">
           <div class="grid-content bg-purple">
             &nbsp;
           </div>

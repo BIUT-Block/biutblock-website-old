@@ -1,10 +1,10 @@
 <template>
     <header class="header">
         <el-row :gutter="0" class="header-main">
-            <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
+            <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="5">
                 <div class="grid-content bg-purple">&nbsp;</div>
             </el-col>
-            <el-col :xs="22" :sm="22" :md="22" :lg="20" :xl="12">
+            <el-col :xs="22" :sm="22" :md="22" :lg="20" :xl="14">
                 <el-row :gutter="15" class="grid-content bg-purple-light">
                     <el-col :xs="24" :sm="4" :md="4" :lg="4">
                       <el-row>
@@ -83,7 +83,7 @@
                     </el-col>
                 </el-row>
             </el-col>
-            <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
+            <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="5">
                 <div class="grid-content bg-purple">
                     &nbsp;
                 </div>

@@ -1,5 +1,5 @@
 <template>
-    <PannelBox title="最新文章" className="recent-content-list">
+    <PannelBox title="最新文章" :className="recentClassName">
         <div class="content-list">
             <ul>
                 <li class="hot-li" v-for="item in recentItems" :key="item._id">
@@ -29,7 +29,8 @@ export default {
   name: "recentlyContents",
   data() {
     return {
-      loadingState: true
+      loadingState: true,
+      recentClassName: "recent-content-list"
     };
   },
   components: {

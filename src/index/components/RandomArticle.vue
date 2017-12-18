@@ -2,7 +2,7 @@
     <PannelBox title="相关推荐" className="content-message">
         <div class="random-articls" v-if="articles && articles.length > 0">
             <el-row class="grid-content bg-purple-light" :gutter="15">
-                <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="6" v-for="(item,index) in articles" :key="index">
+                <el-col :xs="12" :sm="12" :md="8" :lg="8" :xl="8" v-for="(item,index) in articles" :key="index">
                     <div class="contentImg">
                     <router-link :to="'/details/'+item._id+'.html'" class="continue-reading"><img :src="item.sImg" :alt="item.title" /></router-link>
                     </div>

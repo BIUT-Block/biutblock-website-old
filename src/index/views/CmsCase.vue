@@ -2,10 +2,10 @@
     <article class="contentContainer">
         <div class="mainbody case-box">
             <el-row :gutter="0">
-                <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="6">
+                <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="5">
                     &nbsp;
                 </el-col>
-                <el-col :xs="22" :sm="22" :md="20" :lg="20" :xl="12" >
+                <el-col :xs="22" :sm="22" :md="20" :lg="20" :xl="14" >
                     <div class="case-list">
                       <h3>
                           这些站点在用DoraCMS：
@@ -18,7 +18,7 @@
                       <div style="clear:both"></div>
                     </div>
                 </el-col>
-                <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="6">
+                <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="5">
                     &nbsp;
                 </el-col>
             </el-row>

@@ -2,10 +2,10 @@
     <div class="contentContainer">
         <div class="mainbody content-detail">
             <el-row :gutter="0">
-                    <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="5">
                         <div class="grid-content bg-purple">&nbsp;</div>
                     </el-col>
-                    <el-col :xs="22" :sm="22" :md="22" :lg="20" :xl="12" class="main-details">
+                    <el-col :xs="22" :sm="22" :md="20" :lg="20" :xl="14" class="main-details">
                         <el-row :gutter="15">
                             <el-col :xs="24" :sm="17" :md="17" :lg="17" >
                                 <div class="hentry">
@@ -89,7 +89,7 @@
                             </el-col>
                         </el-row>
                     </el-col>
-                    <el-col :xs="1" :sm="1" :md="1" :lg="2" :xl="6">
+                    <el-col :xs="1" :sm="1" :md="2" :lg="2" :xl="5">
                         <BackTop/>
                     </el-col>
                 </el-row>
