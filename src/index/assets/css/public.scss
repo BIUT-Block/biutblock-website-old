@@ -588,7 +588,6 @@ textarea {
                 padding: 10px !important;
             }
             .meta-bottom {
-                padding-bottom: 20px;
                 margin-top: 20px;
                 margin-bottom: 25px;
                 .meta-tags {
@@ -597,6 +596,11 @@ textarea {
             }
             .share-group {
                 text-align: center !important;
+            }
+            .random-articls {
+                .contentImg {
+                    height: 5rem !important;
+                }
             }
         }
         .login-main {
