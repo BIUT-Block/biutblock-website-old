@@ -33,9 +33,9 @@ module.exports = {
 
     // redis配置
     openRedis: true, //是否开启,若为true 则下面的信息必须配置正确完整
-    redis_host: '127.0.0.1',
+    redis_host: '10.116.144.31',
     redis_port: 6379,
-    redis_psd: 'Yoooyu0617241Xiaoshen@@520',
+    redis_psd: 'HuiPing520@Xiaoshen@520',
     redis_db: 0,
 
     // 站点基础信息配置
