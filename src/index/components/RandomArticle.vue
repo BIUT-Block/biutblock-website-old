@@ -6,7 +6,9 @@
                     <div class="contentImg">
                     <router-link :to="'/details/'+item._id+'.html'" class="continue-reading"><img :src="item.sImg" :alt="item.title" /></router-link>
                     </div>
-                    <span class="title">{{item.stitle}}</span>
+                    <span class="title">
+                        <router-link class="title" :to="'/details/'+item._id+'.html'">{{item.stitle?item.stitle:item.title}}</router-link>
+                    </span>
                 </el-col>
             </el-row>
         </div>
