@@ -74,14 +74,8 @@
         async asyncData({ store, route }, config = { current: 1, model: 'normal'}) {
             const { params: { id,  key, tagName, current, typeId, searchkey },path} = route
             const base = { ...config,  pageSize: 10, id,  path, searchkey, tagName, current, typeId}
-            store.dispatch('frontend/article/getRecContentList', {
-                pageSize: 10,
-                typeId
-            })
-            store.dispatch('global/tags/getTagList', {
-                pageSize: 30
-            })
-            await store.dispatch('frontend/article/getArticleList', base)
+            store.dispatch('frontend/article/getRecContentList', { pageSize: 10,typeId })
+            store.dispatch('frontend/article/getArticleList', base)
             await store.dispatch('frontend/article/getHotContentList', base)
         },
         data(){
@@ -106,7 +100,7 @@
             ...mapGetters({
                 reclist: 'frontend/article/getRecContentList',
                 hotlist: 'frontend/article/getHotContentList',
-                tags: 'global/tags/getTagList',
+                // tags: 'global/tags/getTagList',
                 systemConfig: 'global/footerConfigs/getSystemConfig'
             }),
             topics(){
@@ -133,26 +127,13 @@
             }
         },
         activated() {
-            this.$options.asyncData({
-                store: this.$store,
-                route: this.$route
-            }, {
-                current: 1
-            })
+            this.$options.asyncData({ store: this.$store, route: this.$route}, { current: 1})
         },
         metaInfo() {
             const systemData = this.systemConfig.data[0];
-            const {
-                siteName,
-                siteDiscription,
-                siteKeywords
-            } = systemData;
+            const { siteName, siteDiscription, siteKeywords } = systemData;
             let title = '首页';
-            const {
-                tagName,
-                typeId,
-                searchkey
-            } = this.$route.params
+            const { tagName, typeId, searchkey } = this.$route.params
             if (typeId) {
                 const obj = this.currentCate;
                 if (obj) {
