@@ -364,7 +364,7 @@
         xssFilterRules: true
         //input xss过滤
         ,
-        inputXssFilter: true
+        inputXssFilter: false
         //output xss过滤
         ,
         outputXssFilter: true
