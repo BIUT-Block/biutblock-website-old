@@ -59,6 +59,11 @@ router.get('/content/getContent', Content.getOneContent)
 // 更新喜欢文档
 router.get('/content/updateLikeNum', checkUserSession, Content.updateLikeNum)
 
+// 添加或更新文章
+router.post('/content/addOne', checkUserSession, Content.addContent)
+
+router.post('/content/updateOne', checkUserSession, Content.updateContent)
+
 //文章二维码生成
 router.get('/qrImg', (req, res, next) => {
   let detailLink = req.query.detailLink;

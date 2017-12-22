@@ -32,7 +32,7 @@ module.exports = {
     fsizeLimit: 1024 * 1024 * 5, // 上传文件大小限制默认为5M
 
     // redis配置
-    openRedis: true, //是否开启,若为true 则下面的信息必须配置正确完整
+    openRedis: false, //是否开启,若为true 则下面的信息必须配置正确完整
     redis_host: '10.116.144.31',
     redis_port: 6379,
     redis_psd: 'HuiPing520@Xiaoshen@520',

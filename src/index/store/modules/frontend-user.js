@@ -26,6 +26,39 @@ const state = () => ({
         pageInfo: {
 
         }
+    },
+    content: {
+        formState: {
+            edit: false,
+            formData: {
+                title: '',
+                stitle: '',
+                type: '',
+                categories: [],
+                sortPath: '',
+                tags: [],
+                keywords: '',
+                sImg: '',
+                discription: '',
+                author: {},
+                state: true,
+                isTop: 0,
+                clickNum: 0,
+                comments: '',
+                commentNum: 0,
+                likeNum: 0,
+                likeUserIds: '',
+                from: '1'
+            }
+        },
+        contentList: {
+            pageInfo: {},
+            docs: []
+        },
+        addContent: {
+            state: '',
+            err: {}
+        }
     }
 })
 
@@ -65,7 +98,15 @@ const actions = {
     }, params) {
         const { data } = await api.get('users/getUserReplies')
         commit('recevieUserReplies', data)
-    }
+    },
+    async ['contentForm']({
+        commit
+    }, params) {
+        commit('showContentForm', {
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
 }
 
 const mutations = {
@@ -93,6 +134,29 @@ const mutations = {
     },
     ['recevieUserReplies'](state, replylist) {
         state.userReplies = replylist
+    },
+    ['showContentForm'](state, formState) {
+        state.content.formState.edit = formState.edit;
+        state.content.formState.formData = Object.assign({
+            title: '',
+            stitle: '',
+            type: '',
+            categories: [],
+            sortPath: '',
+            tags: [],
+            keywords: '',
+            sImg: '',
+            discription: '',
+            author: {},
+            state: true,
+            isTop: 0,
+            clickNum: 0,
+            comments: '',
+            commentNum: 0,
+            likeNum: 0,
+            likeUserIds: '',
+            from: '1'
+        }, formState.formData);
     }
 }
 
@@ -111,6 +175,9 @@ const getters = {
     },
     ['replylist'](state) {
         return state.userReplies
+    },
+    ['contentFormState'](state) {
+        return state.content.formState
     }
 }
 

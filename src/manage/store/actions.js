@@ -6,6 +6,7 @@ import _ from 'lodash';
  * 渲染树形目录数据
  */
 export function renderTreeData(result) {
+    console.log('--11--', result);
     let newResult = result;
     let treeData = newResult.docs;
     let delAtArr = [];
