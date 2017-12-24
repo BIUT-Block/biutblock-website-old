@@ -58,5 +58,9 @@ router.get('/sitemap.xml', (req, res, next) => {
 
 })
 
+router.get('/hello', (req, res, next) => {
+  res.render(settings.SYSTEMTEMPFORDER + 'test.html', { text: 'hello doraCMS!' });
+})
+
 
 module.exports = router
