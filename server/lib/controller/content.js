@@ -45,6 +45,7 @@ class Content {
     }
     async getContents(req, res, next) {
         try {
+            let modules = req.query.modules;
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let sortby = req.query.sortby; //排序规则
@@ -54,7 +55,6 @@ class Content {
             let searchkey = req.query.searchkey; // 搜索关键字
             let model = req.query.model; // 查询模式 full/normal/simple
             let state = req.query.state;
-
             // 条件配置
             let queryObj = {}, sortObj = { date: -1 }, files = null;
 
@@ -74,7 +74,6 @@ class Content {
             if (typeId && typeId != 'indexPage') {
                 queryObj.categories = typeId
             }
-
             if (tagName) {
                 let targetTag = await ContentTagModel.findOne({ name: tagName });
                 if (targetTag) {
@@ -83,7 +82,6 @@ class Content {
                     delete queryObj.categories;
                 }
             }
-
             if (searchkey) {
                 let reKey = new RegExp(searchkey, 'i')
                 queryObj.comments = { $regex: reKey }
@@ -110,7 +108,6 @@ class Content {
                     discription: 1
                 }
             }
-
             const contents = await ContentModel.find(queryObj, files).sort(sortObj).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'author',
                 select: 'name -_id'
@@ -123,7 +120,7 @@ class Content {
                 select: 'name _id'
             }]).exec();
             const totalItems = await ContentModel.count(queryObj);
-            res.send({
+            let contentData = {
                 state: 'success',
                 docs: contents,
                 pageInfo: {
@@ -132,7 +129,13 @@ class Content {
                     pageSize: Number(pageSize) || 10,
                     searchkey: searchkey || ''
                 }
-            })
+            };
+            if (modules && modules.length > 0) {
+                return contentData;
+            } else {
+                res.send(contentData);
+            }
+
         } catch (err) {
             logUtil.error(err, req)
             res.send({

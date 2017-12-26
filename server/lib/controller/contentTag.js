@@ -31,6 +31,7 @@ class ContentTag {
     }
     async getContentTags(req, res, next) {
         try {
+            let modules = req.query.modules;
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let model = req.query.model; // 查询模式 full/simple
@@ -46,7 +47,8 @@ class ContentTag {
 
             const contentTags = await ContentTagModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await ContentTagModel.count(queryObj);
-            res.send({
+
+            let tagsData = {
                 state: 'success',
                 docs: contentTags,
                 pageInfo: {
@@ -55,7 +57,12 @@ class ContentTag {
                     pageSize: Number(pageSize) || 10,
                     searchkey: searchkey || ''
                 }
-            })
+            };
+            if (modules && modules.length > 0) {
+                return tagsData;
+            } else {
+                res.send(tagsData);
+            }
         } catch (err) {
             logUtil.error(err, req);
             res.send({

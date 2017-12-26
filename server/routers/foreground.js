@@ -3,6 +3,7 @@ const router = express.Router()
 const fs = require('fs')
 const path = require('path')
 const { authSession, settings } = require('../../utils');
+const generalFun = require('../../utils/generalFun');
 const { ContentCategory, Content, SystemConfig } = require('../lib/controller');
 const moment = require('moment');
 
@@ -58,9 +59,7 @@ router.get('/sitemap.xml', (req, res, next) => {
 
 })
 
-router.get('/hello', (req, res, next) => {
-  res.render(settings.SYSTEMTEMPFORDER + 'test.html', { text: 'hello doraCMS!' });
-})
+router.get('/', generalFun.getDataForIndexPage);
 
 
 module.exports = router

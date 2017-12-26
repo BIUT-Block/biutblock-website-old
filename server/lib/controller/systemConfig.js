@@ -53,6 +53,7 @@ class SystemConfig {
     }
     async getSystemConfigs(req, res, next) {
         try {
+            let modules = req.query.modules;
             let model = req.query.model, files = null; // 查询模式 full/simple
             if (model === 'simple') {
                 files = {
@@ -65,10 +66,17 @@ class SystemConfig {
                 }
             }
             const systemConfigs = await SystemConfigModel.find({}, files);
-            res.send({
+
+            let configData = {
                 state: 'success',
                 docs: systemConfigs
-            })
+            };
+            if (modules && modules.length > 0) {
+                return configData;
+            } else {
+                res.send(configData);
+            }
+
         } catch (err) {
             logUtil.error(err, req);
             res.send({

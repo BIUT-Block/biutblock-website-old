@@ -34,6 +34,7 @@ class ContentCategory {
     }
     async getContentCategories(req, res, next) {
         try {
+            let modules = req.query.modules;
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let model = req.query.model; // 查询模式 full/simple
@@ -52,7 +53,8 @@ class ContentCategory {
 
             const ContentCategories = await ContentCategoryModel.find(queryObj).sort({ sortId: 1 });
             const totalItems = await ContentCategoryModel.count(queryObj);
-            res.send({
+
+            let cateData = {
                 state: 'success',
                 docs: ContentCategories,
                 pageInfo: {
@@ -60,7 +62,13 @@ class ContentCategory {
                     current: Number(current) || 1,
                     pageSize: Number(pageSize) || 10
                 }
-            })
+            };
+            if (modules && modules.length > 0) {
+                return cateData;
+            } else {
+                res.send(cateData);
+            }
+
         } catch (err) {
             logUtil.error(err, req);
             res.send({
