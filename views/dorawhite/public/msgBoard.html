@@ -7,7 +7,7 @@
 <div class="msgBoard" ng-app="webApp" ng-controller="msgBoard">
     <div class="row">
 
-        <%messageList.forEach(function(item){%>
+        <%messageList.docs.forEach(function(item){%>
         <%var targetAuthor;if(item.utype && item.utype == '1'){targetAuthor = item.adminAuthor}else{targetAuthor = item.author}%>
 
         <div class="col-md-12 col-sm-12 msgList">
@@ -20,7 +20,7 @@
                     <%if(item.utype && item.utype == '1'){%>
                     <span title="管理员" style="color: #0da3e2;font-size: 12px;">[<i class="fa fa-user"></i>&nbsp;管理员]</span>
                     <%}%>
-                    <span><small><%=myDateFormat(item.date)%></small><a href="###" ng-click="replyMsg('<%=item._id%>','<%=targetAuthor._id%>','<%=targetAuthor.userName%>','<%=targetAuthor.email%>')" class="pull-right reply">回复</a></span>
+                    <span><small><%=item.date%></small><a href="###" ng-click="replyMsg('<%=item._id%>','<%=targetAuthor._id%>','<%=targetAuthor.userName%>','<%=targetAuthor.email%>')" class="pull-right reply">回复</a></span>
                 </h3>
                 <%if(item.replyAuthor){%>
                 <%var beReply = '<span style="color: #0da3e2">@'+item.replyAuthor.userName+'</span>&nbsp;'%>

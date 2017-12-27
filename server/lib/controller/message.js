@@ -17,6 +17,7 @@ class Message {
     }
     async getMessages(req, res, next) {
         try {
+            let modules = req.query.modules;
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let searchkey = req.query.searchkey;
@@ -52,7 +53,8 @@ class Message {
                 select: 'userName _id enable date logo'
             }]).exec();
             const totalItems = await MessageModel.count(queryObj);
-            res.send({
+
+            let messageData = {
                 state: 'success',
                 docs: messages,
                 pageInfo: {
@@ -61,7 +63,13 @@ class Message {
                     pageSize: Number(pageSize) || 10,
                     searchkey: searchkey || ''
                 }
-            })
+            };
+            if (modules && modules.length > 0) {
+                return messageData;
+            } else {
+                res.send(messageData);
+            }
+
         } catch (err) {
             logUtil.error(err, req);
             res.send({

@@ -153,6 +153,7 @@ class Content {
 
     async getOneContent(req, res, next) {
         try {
+            let modules = req.query.modules;
             let targetId = req.query.id;
             let updateNum = req.query.apiSource == 'server' ? 1 : 0;
             const content = await ContentModel.findOneAndUpdate({ _id: targetId }, { '$inc': { 'clickNum': updateNum } }).populate([{
@@ -170,14 +171,21 @@ class Content {
             const commentNum = await MessageModel.count({ contentId: targetId });
             content && (content.commentNum = commentNum);
             // 推荐文章查询
-            const totalContents = await ContentModel.count({});
-            const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(6);
-            res.send({
+            // const totalContents = await ContentModel.count({});
+            // const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(6);
+
+            let contentData = {
                 state: 'success',
                 doc: content || {},
                 // messages,
-                randomArticles
-            })
+                // randomArticles
+            };
+            if (modules && modules.length > 0) {
+                return contentData.doc;
+            } else {
+                res.send(contentData)
+            }
+
 
         } catch (err) {
             logUtil.error(err, req)
@@ -187,6 +195,13 @@ class Content {
                 message: '获取Content失败'
             })
         }
+    }
+
+    // 获取随机文档
+    async getRadomContents(req, res, next) {
+        const totalContents = await ContentModel.count({});
+        const randomArticles = await ContentModel.find({}, 'stitle sImg').skip(Math.floor(totalContents * Math.random())).limit(6);
+        return randomArticles;
     }
 
     async updateLikeNum(req, res, next) {

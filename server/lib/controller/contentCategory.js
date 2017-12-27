@@ -1,9 +1,11 @@
 const BaseComponent = require('../prototype/baseComponent');
 const ContentCategoryModel = require("../models").ContentCategory;
+const ContentModel = require("../models").Content;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
+const _ = require('lodash');
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -64,7 +66,7 @@ class ContentCategory {
                 }
             };
             if (modules && modules.length > 0) {
-                return cateData;
+                return cateData.docs;
             } else {
                 res.send(cateData);
             }
@@ -75,6 +77,50 @@ class ContentCategory {
                 state: 'error',
                 type: 'ERROR_DATA',
                 message: '获取ContentCategories失败'
+            })
+        }
+    }
+
+    // 根据类别id或者文档id查询子类
+    async getCurrentCategoriesById(req, res, next) {
+        try {
+            let contentId = req.query.contentId;
+            let typeId = req.query.typeId;
+            let cates = [], parents = [];
+            let contentObj = await ContentModel.findOne({ '_id': contentId }, 'categories').populate([{
+                path: 'categories',
+                select: 'name _id'
+            }]).exec();
+
+            if (typeId || !_.isEmpty(contentObj)) {
+                let fullNav = await ContentCategoryModel.find({});
+                let parentTypeId = typeId ? typeId : (contentObj.categories)[0]._id;
+
+                let parentObj = _.filter(fullNav, (doc) => {
+                    return doc._id == parentTypeId;
+                });
+
+                if (parentObj.length > 0) {
+                    let parentId = parentObj[0].sortPath.split(',')[1] || '0';
+                    cates = _.filter(fullNav, (doc) => {
+                        return (doc.sortPath).indexOf(parentId) > 0
+                    });
+                    parents = _.filter(cates, (doc) => {
+                        return doc.parentId === '0'
+                    });
+                }
+            }
+
+            return {
+                parents,
+                cates
+            };
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取ContentCategories失败' + err
             })
         }
     }

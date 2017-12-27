@@ -29,22 +29,19 @@
                         <%}%>
                     </h2>
                     <ul class="post-meta">
-                        <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;<%=documentInfo.author.name%></li>
-                        <li><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<%=myDateFormat(documentInfo.date)%></li>
+                        <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;<%=documentInfo.author.userName%></li>
+                        <li><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<%=documentInfo.date%></li>
                         <li> <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;阅读(<%=documentInfo.clickNum%>)</li>
                         <li> <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;评论(<%=documentInfo.commentNum%>)</li>
                     </ul>
                     <div class="post-content"><%- documentInfo.comments%></div>
                 </article>
-                <% include ../public/reCommendList %>
-                <% include ../public/msgBoard %>
+                <% include ../public/reCommendList.html %>
+                <% include ../public/msgBoard.html %>
             </div>
             <div class="col-md-3 right-frame">
-                <% include ../public/searchBoard %>
-                <% include ../public/leftNav %>
-                <% include ../public/newItemList %>
-                <% include ../public/hotNewsList %>
-                <% include ../public/friendLink %>
+                <% include ../public/leftNav.html %>
+                <% include ../public/newItemList.html %>
                 <div id="blogRightAds1"></div>
             </div>
         </div>

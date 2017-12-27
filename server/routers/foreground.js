@@ -6,6 +6,7 @@ const { authSession, settings } = require('../../utils');
 const generalFun = require('../../utils/generalFun');
 const { ContentCategory, Content, SystemConfig } = require('../lib/controller');
 const moment = require('moment');
+const shortid = require('shortid');
 
 
 //配置站点地图和robots抓取
@@ -61,5 +62,35 @@ router.get('/sitemap.xml', (req, res, next) => {
 
 router.get('/', generalFun.getDataForIndexPage);
 
+// 内容详情入口
+router.get('/details/:id.html', (req, res, next) => {
+  console.log('------', req.params.id);
+  let contentId = req.params.id;
+  if (contentId) {
+    if (!shortid.isValid(contentId)) {
+      res.redirect('/');
+    } else {
+      req.query.id = contentId;
+      next();
+    }
+  } else {
+    res.redirect('/');
+  }
+}, generalFun.getDataForContentDetails);
 
+// 类别入口
+router.get(['/:cate1?___:typeId?/:current(\\d+)?', '/:cate0/:cate1?___:typeId?/:current(\\d+)?'], (req, res, next) => {
+  let typeId = req.params.typeId;
+  console.log('-----', typeId);
+  if (typeId) {
+    if (!shortid.isValid(typeId)) {
+      res.redirect('/');
+    } else {
+      req.query.typeId = typeId;
+      next();
+    }
+  } else {
+    res.redirect('/');
+  }
+}, generalFun.getDataForCatePage)
 module.exports = router
