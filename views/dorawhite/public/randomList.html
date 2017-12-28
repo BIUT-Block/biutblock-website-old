@@ -1,7 +1,7 @@
 <!--文章推荐模块-->
 <div class="row reCommendList">
-    <%if(reCommendListData.docs.length>0){%>
-        <%reCommendListData.docs.forEach(function(item){%>
+    <%if(randomListData.length>0){%>
+        <%randomListData.forEach(function(item){%>
             <dl class="col-xs-6 col-md-3">
                 <dt>
                     <a title="<%=item.title%>" href="/details/<%=item._id%>.html">

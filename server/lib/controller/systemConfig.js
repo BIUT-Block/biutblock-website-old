@@ -72,7 +72,7 @@ class SystemConfig {
                 docs: systemConfigs
             };
             if (modules && modules.length > 0) {
-                return configData;
+                return configData.docs;
             } else {
                 res.send(configData);
             }
