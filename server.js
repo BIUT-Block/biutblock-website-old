@@ -146,70 +146,68 @@ app.use('/api', routes);
 app.use('/system', system);
 
 // 前台路由, ssr 渲染
-// app.get(['/', '/page/:current(\\d+)?', '/:cate1?___:typeId?/:current(\\d+)?',
-//     '/:cate0/:cate1?___:typeId?/:current(\\d+)?', '/search/:searchkey/:current(\\d+)?',
-//     '/details/:id', '/users/:userPage', '/dr-admin', '/sitemap.html', '/tag/:tagName/:page(\\d+)?'], (req, res) => {
+app.get(['/dr-admin'], (req, res) => {
 
-//         // 非正常登录用户禁止访问
-//         if (req.originalUrl.indexOf('/users') == 0 && !req.session.logined) {
-//             return res.redirect('/');
-//         }
+    // 非正常登录用户禁止访问
+    if (req.originalUrl.indexOf('/users') == 0 && !req.session.logined) {
+        return res.redirect('/');
+    }
 
-//         if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
-//             return res.redirect('/manage');
-//         }
+    if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
+        return res.redirect('/manage');
+    }
 
-//         if (!renderer) {
-//             return res.end('waiting for compilation... refresh in a moment.')
-//         }
-//         const s = Date.now()
+    if (!renderer) {
+        return res.end('waiting for compilation... refresh in a moment.')
+    }
+    const s = Date.now()
 
-//         res.setHeader("Content-Type", "text/html")
-//         res.setHeader("Server", serverInfo)
+    res.setHeader("Content-Type", "text/html")
+    res.setHeader("Server", serverInfo)
 
-//         const errorHandler = err => {
-//             if (err && err.code === 404) {
-//                 res.status(404).end('404 | Page Not Found')
-//             } else {
-//                 // Render Error Page or Redirect
-//                 res.status(500).end('Internal Error 500')
-//                 console.error(`error during render : ${req.url}`)
-//                 console.error(err)
-//             }
-//         }
+    const errorHandler = err => {
+        if (err && err.code === 404) {
+            res.status(404).end('404 | Page Not Found')
+        } else {
+            // Render Error Page or Redirect
+            res.status(500).end('Internal Error 500')
+            console.error(`error during render : ${req.url}`)
+            console.error(err)
+        }
+    }
 
-//         const cacheable = isCacheable(req)
-//         if (cacheable) {
-//             const hit = microCache.get(req.url)
+    const cacheable = isCacheable(req)
+    if (cacheable) {
+        const hit = microCache.get(req.url)
 
-//             if (hit) {
-//                 if (!isProd) {
-//                     console.log('cache hit!')
-//                 }
-//                 console.log(`whole request from cache: ${Date.now() - s}ms`)
-//                 return res.end(hit);
-//             }
-//         }
+        if (hit) {
+            if (!isProd) {
+                console.log('cache hit!')
+            }
+            console.log(`whole request from cache: ${Date.now() - s}ms`)
+            return res.end(hit);
+        }
+    }
 
-//         const context = {
-//             title: '前端开发俱乐部',
-//             description: '前端开发俱乐部',
-//             keywords: 'doracms',
-//             url: req.url,
-//             cookies: req.cookies
-//         }
-//         renderer.renderToString(context, (err, html) => {
-//             if (err) {
-//                 return errorHandler(err)
-//             }
-//             res.end(html)
-//             if (cacheable) {
-//                 microCache.set(req.url, html)
-//             }
-//             console.log(`whole request: ${Date.now() - s}ms`)
-//         })
+    const context = {
+        title: '前端开发俱乐部',
+        description: '前端开发俱乐部',
+        keywords: 'doracms',
+        url: req.url,
+        cookies: req.cookies
+    }
+    renderer.renderToString(context, (err, html) => {
+        if (err) {
+            return errorHandler(err)
+        }
+        res.end(html)
+        if (cacheable) {
+            microCache.set(req.url, html)
+        }
+        console.log(`whole request: ${Date.now() - s}ms`)
+    })
 
-//     })
+})
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {

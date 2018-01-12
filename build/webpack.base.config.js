@@ -9,7 +9,7 @@ const config = {
         hints: isProd ? 'warning' : false
     },
     entry: {
-        index: './public/themes/dorawhite/js/main.js',
+        // index: './public/themes/dorawhite/js/main.js',
         app: './src/entry-client.js',
         admin: './src/admin.js',
         vendor: ['./src/polyfill']
