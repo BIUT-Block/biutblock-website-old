@@ -4,8 +4,8 @@ import Vue from 'vue'
 import App from './manage/App.vue'
 import router from './manage/router'
 import ElementUI from 'element-ui'
-import '../node_modules/element-ui/lib/theme-chalk/index.css'
-import '../node_modules/font-awesome/css/font-awesome.min.css'
+// import '../node_modules/element-ui/lib/theme-chalk/index.css'
+// import '../node_modules/font-awesome/css/font-awesome.min.css'
 import './manage/assets/styles/public.css';
 import Axios from 'axios';
 // 自定义全局组件Loading

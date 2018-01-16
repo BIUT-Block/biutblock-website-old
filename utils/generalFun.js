@@ -57,20 +57,31 @@ let generalFun = {
         await mainCtrl.getPageData(req, res, next);
     },
 
-    async getDataForErr(errNo) {
-        req.query.tempPage = 'public/do' + errNo + '.html';
+    async getDataForErr() {
+        req.query.tempPage = 'public/do' + req.query.errNo + '.html';
         req.query.modules = [
-            { action: 'get_error_info_' + errNo }
+            { action: 'get_error_info_' + req.query.errNo }
         ];
         await mainCtrl.getPageData(req, res, next);
     },
 
-    async getDataForUserCenter() {
-        req.query.tempPage = 'users/userCenter.html';
+    async getDataForUserLoginAndReg(req, res, next) {
+        req.query.modules = [
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple' } }
+        ];
         await mainCtrl.getPageData(req, res, next);
     },
 
-    async getDataForUserReply() {
+    async getDataForUserCenter(req, res, next) {
+        req.query.modules = [
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+
+    async getDataForUserReply(req, res, next) {
         req.query.tempPage = 'users/userReplies.html';
         req.query.modules = [
             { action: 'get_user_replies_list', params: { user: req.session.user._id } }
@@ -78,7 +89,7 @@ let generalFun = {
         await mainCtrl.getPageData(req, res, next);
     },
 
-    async getDataForUserNotice() {
+    async getDataForUserNotice(req, res, next) {
         req.query.tempPage = 'users/userNotice.html';
         req.query.modules = [
             { action: 'get_user_notice_list', params: { user: req.session.user._id } }

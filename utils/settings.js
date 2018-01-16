@@ -30,6 +30,7 @@ module.exports = {
     bucket: 'cmsupload', //上传的目标资源空间
     origin: 'https://cdn.html-js.cn', // cdn域名
     fsizeLimit: 1024 * 1024 * 5, // 上传文件大小限制默认为5M
+    assetsCdn: true, // 静态资源使用cnd.请在build完成后将 elemt.*.js 上传的七牛的融合cdn
 
     // redis配置
     openRedis: false, //是否开启,若为true 则下面的信息必须配置正确完整

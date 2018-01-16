@@ -9,22 +9,32 @@
     />
     <meta name="keywords" content="{{ keywords }}" />
     <meta name="description" content="{{ description }}">
-    <link href="/editor.md/css/editormd.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.0.10/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.3/polyfill.min.js"></script>
     <script>
         var _hmt = _hmt || [];
-        (function () {
+        var env = "{{env}}";
+        var title = "{{title}}";
+        function createScript(url) {
             var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?00bedeafedf2236ccbe9706d3a9e09b3";
+            hm.src = url;
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
+        }
+        (function () {
+            var htmlClass = title === '管理员登录' ? 'adlogin' : '';
+            document.getElementsByTagName('html')[0].setAttribute('class', htmlClass);
+            if (env === 'production') {
+                createScript("https://hm.baidu.com/hm.js?00bedeafedf2236ccbe9706d3a9e09b3")
+            }
         })();
     </script>
 </head>
 
 <body>
     <!--vue-ssr-outlet-->
-    <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/editor.md/editormd.min.js"></script>
 </body>
+
 
 </html>

@@ -64,7 +64,6 @@ router.get('/', generalFun.getDataForIndexPage);
 
 // 内容详情入口
 router.get('/details/:id.html', (req, res, next) => {
-  console.log('------', req.params.id);
   let contentId = req.params.id;
   if (contentId) {
     if (!shortid.isValid(contentId)) {

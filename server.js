@@ -31,6 +31,7 @@ const { AdminResource } = require('./server/lib/controller');
 // 引入 api 路由
 const routes = require('./server/routers/api')
 const foreground = require('./server/routers/foreground')
+const users = require('./server/routers/users')
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 
@@ -115,7 +116,8 @@ if (settings.openRedis) {
     sessionConfig = {
         secret: settings.encrypt_key,
         cookie: {
-            maxAge: 1000 * 60 * 10
+            // maxAge: 1000 * 5
+            maxAge: 1000 * 60 * 60
         },
         resave: false,
         saveUninitialized: true,
@@ -143,6 +145,7 @@ app.use(expressLayouts);
 // api 路由
 app.use('/', foreground);
 app.use('/api', routes);
+app.use('/users', users);
 app.use('/system', system);
 
 // 前台路由, ssr 渲染
@@ -194,7 +197,8 @@ app.get(['/dr-admin'], (req, res) => {
         description: '前端开发俱乐部',
         keywords: 'doracms',
         url: req.url,
-        cookies: req.cookies
+        cookies: req.cookies,
+        env: process.env.NODE_ENV
     }
     renderer.renderToString(context, (err, html) => {
         if (err) {
@@ -258,7 +262,8 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), config = qnParams
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
     AdminResource.getAllResource(req, res).then((manageCates) => {
-        let adminPower = req.session.adminUserInfo.group.power;
+        let adminPower = req.session.adminPower;
+        console.log('adminPower', adminPower);
         let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
         if (isProd) {
             res.render('admin.html', {
@@ -266,7 +271,7 @@ app.get('/manage', authSession, function (req, res) {
                 manageCates: currentCates
             })
         } else {
-            backend = backend.replace('__manageCates__', currentCates)
+            backend = backend.replace(/\[[^\]]+\]/g, currentCates)
             res.send(backend)
         }
     })

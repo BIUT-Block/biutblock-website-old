@@ -112,24 +112,21 @@ export default {
     collapse: function() {
       this.collapsed = !this.collapsed;
     },
-    showMenu(i, status) {
-      this.$refs.menuCollapsed.getElementsByClassName(
-        "submenu-hook-" + i
-      )[0].style.display = status ? "block" : "none";
-    },
-    sendLogOut() {
-      services.logOut().then(result => {
-        if (result && result.data.state === "success") {
-          window.location = "/dr-admin";
-        } else {
-          this.$message.error("服务异常,请稍后再试");
-        }
-      });
+    savePageInfo(route) {
+      if (route === "/addContent") {
+        let params = this.contentFormState.formData,
+          postState = this.contentFormState.edit ? "editContent" : "addContent";
+        localStorage.setItem(postState, JSON.stringify(params));
+      }
+      window.location = "/dr-admin";
     }
   },
   mounted() {},
   computed: {
-    ...mapGetters(["loginState"])
+    ...mapGetters(["loginState"]),
+    contentFormState() {
+      return this.$store.getters.contentFormState;
+    }
   },
   watch: {
     loginState() {
@@ -143,7 +140,7 @@ export default {
         })
           .then(() => {
             this.loading = true;
-            window.location = "/dr-admin";
+            this.savePageInfo(this.$route.path);
           })
           .catch(() => {
             this.loading = true;
@@ -218,7 +215,8 @@ export default {
     }
   }
   .main {
-    display: flex; // background: #324057;
+    display: flex;
+    background: #ffffff;
     position: absolute;
     top: 60px;
     bottom: 0px;

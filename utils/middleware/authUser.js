@@ -29,7 +29,7 @@ exports.auth = function (req, res, next) {
                     currentUser = user;
                     return UserNotify.getNoReadNotifyCountByUserId(user._id, 'user');
                 }).then((count) => {
-                    currentUser.msg_count = count;
+                    // currentUser.msg_count = count;
                     req.session.user = currentUser;
                     req.session.logined = true;
                     return next();

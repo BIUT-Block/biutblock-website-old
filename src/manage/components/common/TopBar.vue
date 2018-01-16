@@ -122,7 +122,7 @@ export default {
       }
     },
     searchResult(ev) {
-      let searchkey = this.pageInfo.searchkey;
+      let searchkey = this.pageInfo ? this.pageInfo.searchkey : "";
       if (this.type == "content") {
         this.$store.dispatch("getContentList", {
           searchkey

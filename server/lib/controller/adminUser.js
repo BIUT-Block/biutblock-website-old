@@ -41,11 +41,7 @@ function checkFormData(req, res, fields) {
         errMsg = '请输入5-30个字符!';
     }
     if (errMsg) {
-        res.send({
-            state: 'error',
-            type: 'ERROR_PARAMS',
-            message: errMsg
-        })
+        throw new siteFunc.UserException(errMsg);
     }
 }
 
@@ -169,9 +165,10 @@ class AdminUser {
     }
 
     async loginAction(req, res, next) {
+        const systemConfigs = await SystemConfigModel.find({});
+        const { siteName, siteEmail, siteDomain, showImgCode } = systemConfigs[0];
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
-
             let {
                 userName,
                 password
@@ -182,16 +179,12 @@ class AdminUser {
                     errMsg = '请输入正确的用户名'
                 }
 
-                if (!fields.imageCode || fields.imageCode != req.session.imageCode) {
+                if (showImgCode && (!fields.imageCode || fields.imageCode != req.session.imageCode)) {
                     errMsg = '请输入正确的验证码'
                 }
 
                 if (errMsg) {
-                    res.send({
-                        state: 'error',
-                        type: 'ERROR_PARAMS',
-                        message: errMsg
-                    })
+                    throw new siteFunc.UserException(errMsg);
                 }
             } catch (err) {
                 console.log(err.message, err);
@@ -234,8 +227,7 @@ class AdminUser {
 
                     // 站点认证
                     if (validatorUtil.checkUrl(req.headers.host) && !req.session.adminUserInfo.auth) {
-                        const systemConfigs = await SystemConfigModel.find({});
-                        const { siteName, siteEmail, siteDomain } = systemConfigs[0];
+
                         let authParams = {
                             domain: req.headers.host,
                             ipAddress: clientIp,
@@ -387,10 +379,7 @@ class AdminUser {
                 errMsg = '非法请求，请稍后重试！';
             }
             if (errMsg) {
-                res.send({
-                    state: 'error',
-                    message: errMsg,
-                })
+                throw new siteFunc.UserException(errMsg);
             }
             let adminUserMsg = await MessageModel.find({ 'adminAuthor': req.query.ids });
             if (!_.isEmpty(adminUserMsg)) {
@@ -410,7 +399,7 @@ class AdminUser {
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
-                message: '删除数据失败:' + err,
+                message: '删除数据失败:' + err.message,
             })
         }
     }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 import config from './config-client'
 
 axios.interceptors.request.use(config => {
@@ -46,7 +46,8 @@ export default {
             }
         }).then(checkStatus).then(checkCode)
     },
-    get(url, params) {
+    get(url, params = {}) {
+        params.apiSource = 'client';
         return axios({
             method: 'get',
             url: config.api + url,

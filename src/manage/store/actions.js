@@ -6,10 +6,8 @@ import _ from 'lodash';
  * 渲染树形目录数据
  */
 export function renderTreeData(result) {
-    console.log('--11--', result);
     let newResult = result;
     let treeData = newResult.docs;
-    let delAtArr = [];
     let childArr = _.filter(treeData, (doc) => {
         return doc.parentId != '0'
     });
@@ -21,8 +19,6 @@ export function renderTreeData(result) {
             if (treeItem._id == child.parentId) {
                 if (!treeItem.children) treeItem.children = [];
                 treeItem.children.push(child);
-                // 记录需要删除的索引
-                delAtArr.push(_.indexOf(treeData, child));
                 break;
             }
         }

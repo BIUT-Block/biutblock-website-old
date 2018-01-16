@@ -16,6 +16,9 @@
                     <el-form-item label="站点关键字" prop="siteKeywords">
                         <el-input size="small" v-model="systemConfig.configs.siteKeywords"></el-input>
                     </el-form-item>
+                     <el-form-item label="显示验证码" prop="showImgCode">
+                        <el-switch on-text="是" off-text="否" v-model="systemConfig.configs.showImgCode"></el-switch>
+                    </el-form-item>
                     <el-form-item label="系统邮箱服务器" prop="siteEmailServer">
                         <el-select size="small" v-model="systemConfig.configs.siteEmailServer" placeholder="请选择服务器">
                             <el-option v-for="item in serverOptions" :key="item.value" :label="item.label" :value="item.value">
