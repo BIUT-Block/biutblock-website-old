@@ -50,10 +50,7 @@ router.get('/reg', function (req, res, next) {
 
 
 // 用户注册
-router.post('/doReg', function (req, res, next) {
-
-
-});
+router.post('/doReg', User.regAction);
 
 //忘记密码页面
 router.get('/lostPassword', function (req, res, next) {

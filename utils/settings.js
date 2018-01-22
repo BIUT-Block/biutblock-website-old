@@ -8,7 +8,7 @@ module.exports = {
     session_secret: 'doracms_secret', // 务必修改
     auth_cookie_name: 'doracms',
     cache_maxAge: Math.floor(Date.now() / 1000) + 24 * 60 * 60, //1 hours
-    serverPort: 8080,
+    serverPort: 8082,
 
     // 密码盐
     encrypt_key: 'dora',
@@ -41,7 +41,7 @@ module.exports = {
 
     // 站点基础信息配置
     DORACMSAPI: 'http://api.html-js.cn', // 系统服务提供商
-    SYSTEMTEMPFORDER : process.cwd()+'/views/dorawhite/', // 系统模板安装目录
+    SYSTEMTEMPFORDER: process.cwd() + '/views/dorawhite/', // 系统模板安装目录
     SYSTEMLOGPATH: '/home/doraData/logsdir/doracms', // 服务器日志保存目录
 
     // 邮件相关设置

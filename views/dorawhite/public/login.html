@@ -1,19 +1,16 @@
 <!--用户登录模块-->
 <div class="loginBoard" ms-controller="userlogin">
-    <form name="loginForm">
-        {{@aaa}}
+    <form name="loginForm" ms-validate="@validate">
         <h3>用户登录 &nbsp;
-            <small class="text-danger hide" id="errorInfo">邮箱和密码不匹配</small>
+            <small class="text-danger" :visible="@showErr" ms-html="@message"></small>
         </h3>
         <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="请填写邮箱" required>
-            <label for="inputError" class="control-label text-danger">
-                <i class="glyphicon glyphicon-info-sign"></i> 请填写正确的邮箱地址</label>
+            <input type="email" class="form-control" name="email" ms-duplex="@email" placeholder="请填写邮箱" ms-rules="{required:true, pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/ }"
+                data-required-message="邮箱不能为空" data-message="请填写正确的邮箱地址">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="请输入密码" required>
-            <label for="inputError" class="control-label text-danger">
-                <i class="glyphicon glyphicon-info-sign"></i> 6-12位，只能包含字母、数字和下划线</label>
+            <input type="password" class="form-control" name="password" placeholder="请输入密码" ms-duplex="@password" ms-rules="{required: true,pattern: /(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{5,}/}"
+                data-required-message="请输入密码" data-message="6-12位，只能包含字母、数字和下划线">
         </div>
         <div id="ul-s5">
             <button type="submit" class="btn btn-default">登录</button>&nbsp;
@@ -25,34 +22,50 @@
 </div>
 
 <script>
-    var vm = avalon.define({
+    var loginVm = avalon.define({
         $id: 'userlogin',
-        aaa: 'hello world'
+        password: '',
+        email: '',
+        message: '',
+        showErr: false,
+        validate: {
+            onError: function (reasons) {
+                reasons.forEach(function (reason) {
+                    console.log(reason.getMessage())
+                })
+            },
+            onValidateAll: function (reasons) {
+                if (reasons.length) {
+                    console.log('有表单没有通过', reasons)
+                    loginVm.showErr = true;
+                    loginVm.message = reasons[0].message;
+                } else {
+                    console.log('全部通过');
+                    var params = {
+                        email: loginVm.email,
+                        password: loginVm.password
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8', // 很重要
+                        traditional: true,
+                        data: JSON.stringify(params),
+                        url: '/users/doLogin',
+                        success: function (data) {
+                            console.log('success:', data)
+                            if (data.state == 'success') {
+                                window.location.href = "/";
+                            } else {
+                                loginVm.showErr = true;
+                                loginVm.message = data.message;
+                            }
+                        },
+                        error: function (d) {
+                            console.log('error:', d)
+                        }
+                    })
+                }
+            }
+        }
     })
-    //如果你将vm定义在jQuery的ready方法内部,那么avalon的扫描就会失效,需要手动扫描
-    // avalon.scan(document.body) //现在只要传入扫描范围的根节点就行
-    // var doraApp = angular.module("webApp", []);
-    // doraApp.controller("userlogin", function ($scope, $http) {
-    //     $scope.processLogForm = function (isValid) {
-
-    //         if (isValid) {
-    //             $http({
-    //                 method: 'POST',
-    //                 url: "/users/doLogin",
-    //                 data: $scope.logFormData
-    //             })
-    //                 .success(function (data) {
-    //                     if (data.success === "success") {
-    //                         alert('登录成功！');
-    //                         window.location = '/';
-    //                     } else {
-    //                         $('#errorInfo').removeClass('hide').text(data.message);
-    //                     }
-    //                 });
-    //         }
-    //         else {
-    //             alert("error");
-    //         }
-    //     };
-    // })
 </script>
