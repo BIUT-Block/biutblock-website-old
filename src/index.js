@@ -1,0 +1,1 @@
+require("./index/assets/css/public.scss");
