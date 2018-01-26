@@ -18,6 +18,7 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const { createBundleRenderer } = require('vue-server-renderer')
+const nunjucks = require('nunjucks')
 const _ = require('lodash')
 const resolve = file => path.resolve(__dirname, file)
 
@@ -85,9 +86,13 @@ if (isProd) {
 const serve = (path, cache) => express.static(resolve(path), { maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0 })
 
 // 引用 esj 模板引擎
-app.set('views', path.join(__dirname, 'dist'))
-app.engine('.html', require('ejs').__express)
-app.set('view engine', 'ejs')
+app.set('nunjucks', path.join(__dirname, 'dist'))
+// app.engine('.html', require('ejs').__express)
+nunjucks.configure(path.join(__dirname, 'views'), { // 设置模板文件的目录，为views
+    autoescape: true,
+    express: app
+});
+app.set('view engine', 'html');
 
 app.use(favicon('./favicon.ico'))
 app.use(compression({ threshold: 0 }))

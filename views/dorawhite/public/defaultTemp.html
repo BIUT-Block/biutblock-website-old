@@ -6,23 +6,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<%=siteInfo.cmsDescription%>">
-    <meta content="<%=siteInfo.keywords%>" name="keywords" />
+    <meta name="description" content="{{siteInfo.cmsDescription}}">
+    <meta content="{{siteInfo.keywords}}" name="keywords" />
     <meta name="author" content="DoraCMS">
     <title>
-        <%=siteInfo.title%>
+        {{siteInfo.title}}
     </title>
     <!-- 引入样式 -->
-    <link href="/plugins/bootstrap/css/bootstrap.min.css?vesion=<%=siteInfo.version%>" rel="stylesheet">
+    <link href="/plugins/bootstrap/css/bootstrap.min.css?vesion={{siteInfo.version}}" rel="stylesheet">
     <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css">
     <!-- 引入组件库 -->
-    <script src="/javascripts/jquery-1.10.2.min.js?vesion=<%=siteInfo.version%>" type="text/javascript"></script>
-    <script src="/javascripts/bootstrap.min.js?vesion=<%=siteInfo.version%>" type="text/javascript"></script>
+    <script src="/javascripts/jquery-1.10.2.min.js?vesion={{siteInfo.version}}" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap.min.js?vesion={{siteInfo.version}}" type="text/javascript"></script>
     <script src="https://cdn.bootcss.com/json3/3.3.2/json3.min.js"></script>
-    <script src="/javascripts/dora.public.js?vesion=<%=siteInfo.version%>"></script>
+    <script src="/javascripts/dora.public.js?vesion={{siteInfo.version}}"></script>
     <!--default theme-->
-    <script src="/themes/<%=staticforder%>/js/dora.front.js?vesion=<%=siteInfo.version%>" type="text/javascript"></script>
-    <link href="/themes/<%=staticforder%>/css/white.css?vesion=<%=siteInfo.version%>" rel="stylesheet">
+    <script src="/themes/{{staticforder}}/js/dora.front.js?vesion={{siteInfo.version}}" type="text/javascript"></script>
+    <link href="/themes/{{staticforder}}/css/white.css?vesion={{siteInfo.version}}" rel="stylesheet">
     <!--以下脚本为百度统计，可以删除-->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,14 +32,10 @@
       <script src="https://cdn.bootcss.com/json3/3.3.2/json3.min.js"></script>
       <script src="/javascripts/promise.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
-    <%- include('header.html') %>
-        <%-body %>
-            <!-- BEGIN FOOTER -->
-            <%- include('footer.html') %>
+    {% block content %}{% endblock %}
 </body>
 
 </html>
