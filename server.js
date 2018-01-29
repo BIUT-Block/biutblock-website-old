@@ -42,25 +42,6 @@ const microCache = lurCache({
     maxAge: 1000
 })
 
-function createRenderer(bundle, template) {
-    // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-    return createBundleRenderer(bundle, {
-        template,
-
-        // for component caching
-        cache: lurCache({
-            max: 1000,
-            maxAge: 1000 * 60 * 15
-        }),
-
-        // this is only needed when vue-server-renderer is npm-linked
-        basedir: resolve('./dist'),
-
-        // recommended for performance
-        runInNewContext: false
-    })
-}
-
 const app = express()
 
 // 由 html-webpack-plugin 生成
@@ -68,18 +49,9 @@ let frontend
 let backend
 // 创建来自 webpack 生成的服务端包
 let renderer
-if (isProd) {
-    // 生产模式: 从 fs 创建服务器 HTML 渲染器和索引
-    // const bundle = require('./dist/vue-ssr-bundle.json')
-    // frontend = fs.readFileSync(resolve('./dist/server.html'), 'utf-8')
-    // renderer = createRenderer(bundle, frontend)
-} else {
-    // 开发模式: 设置带有热重新加载的 dev 服务器，并在文件更改时更新渲染器和索引 HTML
+if (!isProd) {
     require('./build/setup-dev-server')(app, (_template) => {
-
-        // frontend = _template.frontend
         backend = _template.backend
-        // renderer = createRenderer(bundle, frontend)
     })
 }
 
@@ -87,8 +59,6 @@ if (isProd) {
 const serve = (path, cache) => express.static(resolve(path), { maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0 })
 
 // 引用 esj 模板引擎
-// app.set('nunjucks', path.join(__dirname, 'dist'))
-// app.engine('.html', require('ejs').__express)
 nunjucks.configure(path.join(__dirname, 'views'), { // 设置模板文件的目录，为views
     autoescape: true,
     express: app
