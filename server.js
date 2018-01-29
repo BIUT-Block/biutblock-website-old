@@ -70,15 +70,16 @@ let backend
 let renderer
 if (isProd) {
     // 生产模式: 从 fs 创建服务器 HTML 渲染器和索引
-    const bundle = require('./dist/vue-ssr-bundle.json')
-    frontend = fs.readFileSync(resolve('./dist/server.html'), 'utf-8')
-    renderer = createRenderer(bundle, frontend)
+    // const bundle = require('./dist/vue-ssr-bundle.json')
+    // frontend = fs.readFileSync(resolve('./dist/server.html'), 'utf-8')
+    // renderer = createRenderer(bundle, frontend)
 } else {
     // 开发模式: 设置带有热重新加载的 dev 服务器，并在文件更改时更新渲染器和索引 HTML
-    require('./build/setup-dev-server')(app, (bundle, _template) => {
-        frontend = _template.frontend
+    require('./build/setup-dev-server')(app, (_template) => {
+
+        // frontend = _template.frontend
         backend = _template.backend
-        renderer = createRenderer(bundle, frontend)
+        // renderer = createRenderer(bundle, frontend)
     })
 }
 
@@ -154,69 +155,69 @@ app.use('/users', users);
 app.use('/system', system);
 
 // 前台路由, ssr 渲染
-app.get(['/dr-admin'], (req, res) => {
+// app.get(['/dr-admin'], (req, res) => {
 
-    // 非正常登录用户禁止访问
-    if (req.originalUrl.indexOf('/users') == 0 && !req.session.logined) {
-        return res.redirect('/');
-    }
+//     // 非正常登录用户禁止访问
+//     if (req.originalUrl.indexOf('/users') == 0 && !req.session.logined) {
+//         return res.redirect('/');
+//     }
 
-    if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
-        return res.redirect('/manage');
-    }
+//     if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
+//         return res.redirect('/manage');
+//     }
 
-    if (!renderer) {
-        return res.end('waiting for compilation... refresh in a moment.')
-    }
-    const s = Date.now()
+//     if (!renderer) {
+//         return res.end('waiting for compilation... refresh in a moment.')
+//     }
+//     const s = Date.now()
 
-    res.setHeader("Content-Type", "text/html")
-    res.setHeader("Server", serverInfo)
+//     res.setHeader("Content-Type", "text/html")
+//     res.setHeader("Server", serverInfo)
 
-    const errorHandler = err => {
-        if (err && err.code === 404) {
-            res.status(404).end('404 | Page Not Found')
-        } else {
-            // Render Error Page or Redirect
-            res.status(500).end('Internal Error 500')
-            console.error(`error during render : ${req.url}`)
-            console.error(err)
-        }
-    }
+//     const errorHandler = err => {
+//         if (err && err.code === 404) {
+//             res.status(404).end('404 | Page Not Found')
+//         } else {
+//             // Render Error Page or Redirect
+//             res.status(500).end('Internal Error 500')
+//             console.error(`error during render : ${req.url}`)
+//             console.error(err)
+//         }
+//     }
 
-    const cacheable = isCacheable(req)
-    if (cacheable) {
-        const hit = microCache.get(req.url)
+//     const cacheable = isCacheable(req)
+//     if (cacheable) {
+//         const hit = microCache.get(req.url)
 
-        if (hit) {
-            if (!isProd) {
-                console.log('cache hit!')
-            }
-            console.log(`whole request from cache: ${Date.now() - s}ms`)
-            return res.end(hit);
-        }
-    }
+//         if (hit) {
+//             if (!isProd) {
+//                 console.log('cache hit!')
+//             }
+//             console.log(`whole request from cache: ${Date.now() - s}ms`)
+//             return res.end(hit);
+//         }
+//     }
 
-    const context = {
-        title: '前端开发俱乐部',
-        description: '前端开发俱乐部',
-        keywords: 'doracms',
-        url: req.url,
-        cookies: req.cookies,
-        env: process.env.NODE_ENV
-    }
-    renderer.renderToString(context, (err, html) => {
-        if (err) {
-            return errorHandler(err)
-        }
-        res.end(html)
-        if (cacheable) {
-            microCache.set(req.url, html)
-        }
-        console.log(`whole request: ${Date.now() - s}ms`)
-    })
+//     const context = {
+//         title: '前端开发俱乐部',
+//         description: '前端开发俱乐部',
+//         keywords: 'doracms',
+//         url: req.url,
+//         cookies: req.cookies,
+//         env: process.env.NODE_ENV
+//     }
+//     renderer.renderToString(context, (err, html) => {
+//         if (err) {
+//             return errorHandler(err)
+//         }
+//         res.end(html)
+//         if (cacheable) {
+//             microCache.set(req.url, html)
+//         }
+//         console.log(`whole request: ${Date.now() - s}ms`)
+//     })
 
-})
+// })
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {
@@ -268,14 +269,16 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), config = qnParams
 app.get('/manage', authSession, function (req, res) {
     AdminResource.getAllResource(req, res).then((manageCates) => {
         let adminPower = req.session.adminPower;
-        console.log('adminPower', adminPower);
-        let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
+        // console.log('adminPower', adminPower);
+        // let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
+        let currentCates = JSON.stringify(manageCates);
         if (isProd) {
             res.render('admin.html', {
                 title: 'DoraCMS后台管理',
                 manageCates: currentCates
             })
         } else {
+            console.log('-backend---', backend);
             backend = backend.replace(/\[[^\]]+\]/g, currentCates)
             res.send(backend)
         }

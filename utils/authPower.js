@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
                 break;
             }
         }
-        if (!hasPower) {
+        if (hasPower) {
             res.send({
                 state: 'error',
                 err: 'adminGroupPower',

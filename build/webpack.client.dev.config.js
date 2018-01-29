@@ -22,15 +22,15 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             names: ["vendor"]
         }),
-        new HtmlWebpackPlugin({
-            chunks: [
-                'vendor',
-                 'app'
-            ],
-            filename: 'server.html',
-            template: 'src/template/server.html',
-            inject: true,
-        }),
+        // new HtmlWebpackPlugin({
+        //     chunks: [
+        //         'vendor',
+        //          'app'
+        //     ],
+        //     filename: 'server.html',
+        //     template: 'src/template/server.html',
+        //     inject: true,
+        // }),
         new HtmlWebpackPlugin({
             chunks: [
                 'vendor',

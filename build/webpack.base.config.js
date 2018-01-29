@@ -9,7 +9,7 @@ const config = {
         hints: isProd ? 'warning' : false
     },
     entry: {
-        app: './src/entry-client.js',
+        // app: './src/entry-client.js',
         admin: './src/admin.js'
     },
     output: {
