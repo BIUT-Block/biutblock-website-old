@@ -33,7 +33,8 @@ class UserNotify {
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,
-                    pageSize: Number(pageSize) || 10
+                    pageSize: Number(pageSize) || 10,
+                    totalPage: Math.ceil(totalItems / pageSize)
                 }
             })
         } catch (err) {

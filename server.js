@@ -10,7 +10,7 @@ const express = require('express')
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const RedisStore = require('connect-redis')(session);
-const expressLayouts = require('express-ejs-layouts')
+// const expressLayouts = require('express-ejs-layouts')
 const compression = require('compression')
 const lurCache = require('lru-cache')
 const ueditor = require("ueditor")
@@ -86,7 +86,7 @@ if (isProd) {
 const serve = (path, cache) => express.static(resolve(path), { maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0 })
 
 // 引用 esj 模板引擎
-app.set('nunjucks', path.join(__dirname, 'dist'))
+// app.set('nunjucks', path.join(__dirname, 'dist'))
 // app.engine('.html', require('ejs').__express)
 nunjucks.configure(path.join(__dirname, 'views'), { // 设置模板文件的目录，为views
     autoescape: true,
@@ -146,7 +146,7 @@ app.use('/server', serve('./dist/server', true))
 app.use('/static', serve('./dist/static', true))
 app.use('/manifest.json', serve('./manifest.json'))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
-app.use(expressLayouts);
+// app.use(expressLayouts);
 // api 路由
 app.use('/', foreground);
 app.use('/api', routes);

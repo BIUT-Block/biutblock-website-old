@@ -1,67 +1,65 @@
 <!--分页模块-->
 <div class="pagenation text-center">
     <ul>
-        <%var localUrl;var param ='',pageInfo=documentList.pageInfo;%>
-            <%if(pageType == 'index'){
-            localUrl = "/page";
-        }else if(pageType == 'cate'){
-            localUrl = '/'+ cateInfo.defaultUrl + '___' + cateInfo._id;
-        }else if(pageType == 'search'){
-            param = '?searchKey=' + pageInfo.searchKey;
-            localUrl = '/content/searchResult/items';
-        }else if(pageType == 'replies'){
-            localUrl = '/users/userReplies/p';
-        }else if(pageType == 'notifies'){
-            localUrl = '/users/userNotifies/p';
-        }
-        %>
+        {% if documentList.pageInfo.totalItems > 0 %}
+            {% set localUrl = "" %}
+            {% set param = "" %}
+            {% set pageInfo = documentList.pageInfo %}
 
-                <%var totalItems = pageInfo.totalItems;var limit = pageInfo.limit%>
-                    <%var totalPage = Math.ceil(totalItems / limit) ;%>
+            {% if pageType == 'index' %}
+            {% set localUrl = "/page" %}
+            {% elif pageType == 'cate' %}
+            {% set localUrl = '/'+ cateInfo.defaultUrl + '___' + cateInfo._id %}
+            {% elif pageType == 'search' %}
+            {% set param = '?searchKey=' + pageInfo.searchKey %}
+            {% set localUrl = '/content/searchResult/items' %}
+            {% elif pageType == 'replies' %}
+            {% set localUrl = '/users/userReplies/p' %}
+            {% elif pageType == 'notifies' %}
+            {% set localUrl = '/users/userNotifies/p' %}    
+            {% endif %}
 
-                        <%
-        var page_start = pageInfo.current - 2 > 0 ? pageInfo.current - 2 : 1;
-        var page_end = page_start + 4 >= totalPage ? totalPage : page_start + 4;
-        %>
+            {% set totalItems = pageInfo.totalItems %}
+            {% set pageSize = pageInfo.pageSize %}
+            {% set totalPage = pageInfo.totalPage%}
 
-                            <%if(pageInfo.current != 1){%>
-                                <li>
-                                    <a href="<%=localUrl%>—1.html<%=param%>">«</a>
-                                </li>
-                                <%}%>
+            {% if pageInfo.current - 2 > 0 %}
+                {% set page_start = pageInfo.current - 2 %}
+            {% else %}
+                {% set page_start = 1 %}   
+            {% endif %}
 
-                                    <% if (page_start > 1) { %>
-                                        <li>
-                                            <a>...</a>
-                                        </li>
-                                        <% } %>
+            {% if page_start + 4 >= totalPage %}
+                {% set page_end = totalPage %}
+            {% else %}
+                {% set page_end = page_start + 4 %}   
+            {% endif %}
 
-                                            <%for(var i=page_start;i<=page_end;i++){%>
-                                                <%if(i == pageInfo.current){%>
-                                                    <li class="active">
-                                                        <a>
-                                                            <%=i%>
-                                                        </a>
-                                                    </li>
-                                                    <%}else{%>
-                                                        <li>
-                                                            <a href="<%=localUrl%>—<%=i%>.html<%=param%>">
-                                                                <%=i%>
-                                                            </a>
-                                                        </li>
-                                                        <%}%>
-                                                            <%}%>
+            {% if pageInfo.current != 1 %}
+                <li><a href="{{localUrl}}—1.html{{param}}">«</a></li>
+            {% endif %}
 
-                                                                <% if (page_end < totalPage ) { %>
-                                                                    <li>
-                                                                        <a>...</a>
-                                                                    </li>
-                                                                    <% } %>
+            {% if page_start > 1 %}
+                <li><a>...</a></li>
+            {% endif %}
 
-                                                                        <%if(pageInfo.current != totalPage){%>
-                                                                            <li>
-                                                                                <a href="<%=localUrl%>—<%=totalPage%>.html<%=param%>">»</a>
-                                                                            </li>
-                                                                            <%}%>
+            {% for i in range(page_start, page_end) -%}
+                {% if i ==  pageInfo.current%}
+                <li class="active"><a>{{i}}</a></li>
+                {% else %}    
+                <li><a href="{{localUrl}}/{{i}}.html{{param}}">{{i}}</a></li>
+                {% endif %}
+            {%- endfor %}
+
+            {% if page_end < totalPage %}
+                <li><a>...</a></li>
+            {% endif %}
+
+            {% if pageInfo.current != totalPage %}
+                <li><a href="{{localUrl}}/{{totalPage}}.html{{param}}">»</a></li>
+            {% endif %}
+
+        {% endif %}
+        
     </ul>
 </div>

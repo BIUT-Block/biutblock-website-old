@@ -62,7 +62,8 @@ class Message {
                     totalItems,
                     current: Number(current) || 1,
                     pageSize: Number(pageSize) || 10,
-                    searchkey: searchkey || ''
+                    searchkey: searchkey || '',
+                    totalPage: Math.ceil(totalItems / pageSize)
                 }
             };
             if (modules && modules.length > 0) {

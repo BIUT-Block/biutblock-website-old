@@ -151,8 +151,8 @@ let mainCtrl = {
         // 当前类别
         pageData.cateInfo = '';
 
-        pageData.layout = settings.SYSTEMTEMPFORDER + 'public/defaultTemp.html';
-        console.log('---pageData.userInfo----', pageData.userInfo);
+        // pageData.layout = settings.SYSTEMTEMPFORDER + 'public/defaultTemp.html';
+        // console.log('---pageData.documentList----', pageData.documentList);
         res.render(settings.SYSTEMTEMPFORDER + req.query.tempPage, pageData);
     }
 

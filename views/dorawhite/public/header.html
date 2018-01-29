@@ -1,55 +1,50 @@
 <!--头部模板-->
-
 <header class="clearfix" id="header">
     <div class="container">
         <div class="text-right topNav">
             <ul>
-                <% if(!logined){ %>
-                    <li>
-                        <a rel="nofollow" href="/users/login">登录</a>
-                    </li>
-                    <li>
-                        <a rel="nofollow" href="/users/reg">注册</a>
-                    </li>
-                    <% }else{ %>
-
-                        <li>您好&nbsp;
-                            <a href="/users/userCenter">
-                                <%=userInfo.userName%>
-                            </a>
-                            <%if(userInfo.msg_count && userInfo.msg_count>0){%>
-                                <a href="/users/userMessage">
-                                    <span class="badge" id="u_notify_num">
-                                        <%=userInfo.msg_count%>
-                                    </span>
-                                </a>
-                                <%}%>
-                        </li>
-                        <li>
-                            <a rel="nofollow" href="#" id="userLoginOut">退出</a>
-                        </li>
-                        <% } %>
+                {% if logined %}
+                <li>
+                    <a rel="nofollow" href="/users/login">登录</a>
+                </li>
+                <li>
+                    <a rel="nofollow" href="/users/reg">注册</a>
+                </li>
+                {% else %}
+                <li>您好&nbsp;
+                    <a href="/users/userCenter">
+                        {{userInfo.userName}}
+                    </a>
+                    {% if userInfo.msg_count > 0 %}
+                    <a href="/users/userMessage">
+                        <span class="badge" id="u_notify_num">
+                            {{userInfo.msg_count}}
+                        </span>
+                    </a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a rel="nofollow" href="#" id="userLoginOut">退出</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
         <div class="col-group">
             <div class="site-name ">
                 <a href="/" id="logo">
-                    <img src="/themes/<%=staticforder%>/images/logo.png" width="162" height="40" alt="前端开发俱乐部" />
+                    <img src="/themes/{{staticforder}}/images/logo.png" width="162" height="40" alt="前端开发俱乐部" />
                 </a>
                 </a>
             </div>
             <div class="site-nav">
                 <ul>
-                    <%for(var i=0;i<cateTypes.length;i++){%>
-                        <li id="nav_<%=cateTypes[i]._id%>">
-                            <a href="/<%=cateTypes[i].defaultUrl%>___<%=cateTypes[i]._id%>">
-                                <%=cateTypes[i].name%>
+                    {% for cate in cateTypes %}
+                        <li id="nav_{{cate._id}}">
+                            <a href="/{{cate.defaultUrl}}___{{cate._id}}">
+                                {{cate.name}}
                             </a>
                         </li>
-                        <%}%>
-                            <li class="pull-right" style="padding-top: 8px">
-                                <!-- Place this tag where you want the button to render. -->
-                            </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
