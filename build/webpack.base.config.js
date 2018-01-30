@@ -9,6 +9,7 @@ const config = {
         hints: isProd ? 'warning' : false
     },
     entry: {
+        // index: './src/index/dorawhite/js/main.js',
         admin: './src/admin.js'
     },
     output: {

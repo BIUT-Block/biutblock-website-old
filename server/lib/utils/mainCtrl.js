@@ -38,7 +38,8 @@ let mainCtrl = {
             title: pageTitle,
             discription,
             key,
-            configs: configs[0] || []
+            configs: configs[0] || [],
+            version: 2.1
         }
     },
 
@@ -152,7 +153,7 @@ let mainCtrl = {
         pageData.cateInfo = '';
 
         // pageData.layout = settings.SYSTEMTEMPFORDER + 'public/defaultTemp.html';
-        // console.log('---pageData.documentList----', pageData.documentList);
+        // console.log('---pageData.userInfo----', pageData.userInfo, '-----', pageData.logined);
         res.render(settings.SYSTEMTEMPFORDER + req.query.tempPage, pageData);
     }
 

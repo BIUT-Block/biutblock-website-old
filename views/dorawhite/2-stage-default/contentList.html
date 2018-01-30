@@ -1,18 +1,20 @@
+{% extends "../public/defaultTemp.html" %} 
+{% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
 
             <div class="col-md-9 left-frame">
-                <h3 class="archive-title">分类 <%=cateInfo.name%> 下的文章</h3>
-                <% include ../public/itemListTemp.html %>
-                <% include ../public/pagination.html %>
+                <h3 class="archive-title">分类 {{cateInfo.name}} 下的文章</h3>
+                {% include "../public/itemListTemp.html" %}
+                {% include "../public/pagination.html" %}
             </div>
             <div class="col-md-3 right-frame">
             
-                <% include ../public/leftNav.html %>
-                <% include ../public/hotNewsList.html %>
+               
 
             </div>
         </div>
     </div>
 </div>
+{% endblock %}

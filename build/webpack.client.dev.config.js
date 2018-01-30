@@ -5,6 +5,9 @@ module.exports = {
     devtool: '#source-map',
     module: {
         rules: [{
+            test: /\.scss$/,
+            loader: 'style-loader!css-loader!postcss-loader!sass-loader'
+        }, {
             test: /\.css$/,
             loader: 'style-loader!css-loader!postcss-loader'
         }, {
@@ -25,7 +28,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             chunks: [
                 'vendor',
-                 'admin'
+                'admin'
             ],
             filename: 'admin.html',
             template: 'src/template/admin.html',
