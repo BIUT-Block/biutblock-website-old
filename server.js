@@ -47,6 +47,7 @@ const serve = (path, cache) => express.static(resolve(path), { maxAge: cache && 
 
 // 引用 esj 模板引擎
 nunjucks.configure(path.join(__dirname, 'views'), { // 设置模板文件的目录，为views
+    noCache: process.env.NODE_ENV !== 'production',
     autoescape: true,
     express: app
 });
