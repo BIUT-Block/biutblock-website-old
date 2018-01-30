@@ -62,14 +62,6 @@ module.exports = {
             staticFileGlobsIgnorePatterns: [/server\.html$/, /admin\.html$/, /\.map$/],
             stripPrefixMulti: prefixMulti
         }),
-        // new HtmlWebpackPlugin({
-        //     chunks: [
-        //         'manifest', 'vendor', 'element', 'app',
-        //     ],
-        //     filename: 'server.html',
-        //     template: 'src/template/server.html',
-        //     inject: true
-        // }),
         new HtmlWebpackPlugin({
             chunks: [
                 'manifest', 'vendor', 'element', 'admin',

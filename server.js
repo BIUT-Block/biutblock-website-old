@@ -1,7 +1,6 @@
 process.env.VUE_ENV = 'server'
 const isProd = process.env.NODE_ENV === 'production'
 global.NODE_ENV = isProd
-const useMicroCache = process.env.MICRO_CACHE !== 'false'
 
 const fs = require('fs')
 const path = require('path')
@@ -10,25 +9,20 @@ const express = require('express')
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const RedisStore = require('connect-redis')(session);
-// const expressLayouts = require('express-ejs-layouts')
 const compression = require('compression')
-const lurCache = require('lru-cache')
 const ueditor = require("ueditor")
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const { createBundleRenderer } = require('vue-server-renderer')
 const nunjucks = require('nunjucks')
 const _ = require('lodash')
 const resolve = file => path.resolve(__dirname, file)
 
-const serverInfo =
-    `express/${require('express/package.json').version} ` +
-    `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 const { service, settings, authSession, logUtil, siteFunc } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
 const { AdminResource } = require('./server/lib/controller');
+
 // 引入 api 路由
 const routes = require('./server/routers/api')
 const foreground = require('./server/routers/foreground')
@@ -36,16 +30,9 @@ const users = require('./server/routers/users')
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 
-const isCacheable = () => useMicroCache
-const microCache = lurCache({
-    max: 100,
-    maxAge: 1000
-})
-
 const app = express()
 
 // 由 html-webpack-plugin 生成
-let frontend
 let backend
 // 创建来自 webpack 生成的服务端包
 let renderer
@@ -70,7 +57,6 @@ app.use(compression({ threshold: 0 }))
 // 日志
 app.use(logger('":method :url" :status :res[content-length] ":referrer" ":user-agent"'))
 // body 解析中间件
-// app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 // cookie 解析中间件
 app.use(cookieParser(settings.session_secret));
@@ -92,7 +78,6 @@ if (settings.openRedis) {
     sessionConfig = {
         secret: settings.encrypt_key,
         cookie: {
-            // maxAge: 1000 * 5
             maxAge: 1000 * 60 * 60
         },
         resave: false,
@@ -117,77 +102,11 @@ app.use('/server', serve('./dist/server', true))
 app.use('/static', serve('./dist/static', true))
 app.use('/manifest.json', serve('./manifest.json'))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
-// app.use(expressLayouts);
 // api 路由
 app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
-
-// 前台路由, ssr 渲染
-// app.get(['/dr-admin'], (req, res) => {
-
-//     // 非正常登录用户禁止访问
-//     if (req.originalUrl.indexOf('/users') == 0 && !req.session.logined) {
-//         return res.redirect('/');
-//     }
-
-//     if (req.originalUrl === '/dr-admin' && req.session.adminlogined) {
-//         return res.redirect('/manage');
-//     }
-
-//     if (!renderer) {
-//         return res.end('waiting for compilation... refresh in a moment.')
-//     }
-//     const s = Date.now()
-
-//     res.setHeader("Content-Type", "text/html")
-//     res.setHeader("Server", serverInfo)
-
-//     const errorHandler = err => {
-//         if (err && err.code === 404) {
-//             res.status(404).end('404 | Page Not Found')
-//         } else {
-//             // Render Error Page or Redirect
-//             res.status(500).end('Internal Error 500')
-//             console.error(`error during render : ${req.url}`)
-//             console.error(err)
-//         }
-//     }
-
-//     const cacheable = isCacheable(req)
-//     if (cacheable) {
-//         const hit = microCache.get(req.url)
-
-//         if (hit) {
-//             if (!isProd) {
-//                 console.log('cache hit!')
-//             }
-//             console.log(`whole request from cache: ${Date.now() - s}ms`)
-//             return res.end(hit);
-//         }
-//     }
-
-//     const context = {
-//         title: '前端开发俱乐部',
-//         description: '前端开发俱乐部',
-//         keywords: 'doracms',
-//         url: req.url,
-//         cookies: req.cookies,
-//         env: process.env.NODE_ENV
-//     }
-//     renderer.renderToString(context, (err, html) => {
-//         if (err) {
-//             return errorHandler(err)
-//         }
-//         res.end(html)
-//         if (cacheable) {
-//             microCache.set(req.url, html)
-//         }
-//         console.log(`whole request: ${Date.now() - s}ms`)
-//     })
-
-// })
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {
@@ -224,7 +143,6 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), config = qnParams
     }
     //客户端发起图片列表请求
     else if (ActionType === 'listimage') {
-
         res.ue_list(imgDir); // 客户端会列出 dir_url 目录下的所有图片
     }
     // 客户端发起其它请求
@@ -240,8 +158,7 @@ app.get('/manage', authSession, function (req, res) {
     AdminResource.getAllResource(req, res).then((manageCates) => {
         let adminPower = req.session.adminPower;
         // console.log('adminPower', adminPower);
-        // let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
-        let currentCates = JSON.stringify(manageCates);
+        let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
         if (isProd) {
             res.render('admin.html', {
                 title: 'DoraCMS后台管理',

@@ -91,7 +91,7 @@
 <script>
 import services from "../../store/services.js";
 import Ueditor from "../common/Ueditor.vue";
-import MarkDownEditor from "../../../index/components/mkeditor";
+import MarkDownEditor from "../common/mkeditor";
 
 import _ from "lodash";
 import { mapGetters, mapActions } from "vuex";
