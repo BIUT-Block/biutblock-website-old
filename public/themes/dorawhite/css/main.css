@@ -20,6 +20,7 @@
 
 html,
 body {
+    height: 100%;
     padding: 0;
     margin: 0;
     -webkit-font-smoothing: antialiased;
@@ -897,6 +898,17 @@ label {
 .footer ul li img {
     width: 100%;
     height: 100%;
+}
+
+
+/* referra-page-one */
+
+.top-banner.referra-page-one {
+    height: 100% !important;
+}
+
+.top-banner.referra-page-one .center-logo {
+    background-image: url(../images/referrer_bg.jpg);
 }
 
 @media (max-width:768px) {

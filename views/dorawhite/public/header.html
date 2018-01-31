@@ -6,8 +6,10 @@
         <div class="logo">
             <img src="/themes/{{staticforder}}/images/logo.png" alt="">
         </div>
+        
         <div class="navs">
             <ul>
+                {% if pageType != 'referral' %}
                 <li>
                     <a href="#" class="i18n" name='home'>home</a>
                 </li>
@@ -35,6 +37,7 @@
                 <li>
                     <a href="#contact" class="i18n" name='contact-us'>contact us</a>
                 </li>
+                {% endif %}
                 <li class="swich-language">
                     <div class="button-group">
                         <span class="zh-CN active">中文</span>
@@ -43,6 +46,7 @@
                 </li>
             </ul>
         </div>
+        
     </div>
     <div class="col-xs-1 col-md-1">&nbsp;</div>
 </div>

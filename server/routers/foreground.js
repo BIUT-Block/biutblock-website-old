@@ -62,6 +62,12 @@ router.get('/sitemap.xml', (req, res, next) => {
 
 router.get('/', generalFun.getDataForIndexPage);
 
+// 糖果入口1
+router.get('/referral', generalFun.getDataForReferralPage);
+
+// 糖果入口1
+router.get('/referralShare', generalFun.getDataForReferralPage);
+
 // 内容详情入口
 router.get('/details/:id.html', (req, res, next) => {
   let contentId = req.params.id;

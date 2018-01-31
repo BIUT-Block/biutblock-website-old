@@ -35,7 +35,9 @@
 <body>
     {% include "./header.html" %}
     {% block content %}{% endblock %}
-    {% include "./footer.html" %}
+    {% if pageType != 'referral' %}
+         {% include "./footer.html" %}
+    {% endif %}
 </body>
 
 </html>

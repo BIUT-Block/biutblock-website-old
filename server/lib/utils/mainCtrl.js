@@ -141,6 +141,8 @@ let mainCtrl = {
                 pageData.errInfo = req.query.message;
             } else if (md.action == 'get_site_info') {
                 pageData.siteInfo = await mainCtrl.getSiteInfo(req, res, next);
+            } else if (md.action == 'get_referral_Info') {
+                pageData.pageType = 'referral';
             }
         }
 

@@ -12,10 +12,23 @@ let generalFun = {
     async getDataForIndexPage(req, res, next) {
         req.query.tempPage = 'index.html';
         req.query.modules = [
-            { action: 'get_document_list' },
-            { action: 'get_document_rec_list' },
-            { action: 'get_document_hot_list' },
+            // { action: 'get_document_list' },
+            // { action: 'get_document_rec_list' },
+            // { action: 'get_document_hot_list' },
             { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+
+    async getDataForReferralPage(req, res, next) {
+        req.query.tempPage = 'referral.html';
+        req.query.modules = [
+            // { action: 'get_document_list' },
+            // { action: 'get_document_rec_list' },
+            // { action: 'get_document_hot_list' },
+            { action: 'get_category_list' },
+            { action: 'get_referral_Info' },
             { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
         ];
         await mainCtrl.getPageData(req, res, next);
