@@ -5,26 +5,26 @@
 
 module.exports = {
 
-    session_secret: 'doracms_secret', // 务必修改
-    auth_cookie_name: 'doracms',
+    session_secret: 'secblock_secret', // 务必修改
+    auth_cookie_name: 'secblock',
     cache_maxAge: Math.floor(Date.now() / 1000) + 24 * 60 * 60, //1 hours
     serverPort: 8082,
 
     // 密码盐
     encrypt_key: 'dora',
-    salt_aes_key: "doracms_", // 可以解密，秘钥必须为：8/16/32位
+    salt_aes_key: "secblock_", // 可以解密，秘钥必须为：8/16/32位
     salt_md5_key: "dora", // MD5的盐，用于加密密码
 
     //    数据库配置
-    URL: 'mongodb://127.0.0.1:27017/doracms2',
-    DB: 'doracms2',
-    HOST: '120.25.150.169',
+    URL: 'mongodb://127.0.0.1:27017/secblock',
+    DB: 'secblock',
+    HOST: '103.71.237.43',
     PORT: 27017,
-    USERNAME: 'xiaoshen888',
-    PASSWORD: 'YoooYu520~~',
+    USERNAME: 'secblockio',
+    PASSWORD: 'secblock123Io',
 
     // 七牛配置
-    openqn: true, //是否开启,若为true 则下面的信息必须配置正确完整
+    openqn: false, //是否开启,若为true 则下面的信息必须配置正确完整
     accessKey: 'ZeS04ItPQVfTqVJIOgefn2wKC1_njJ62n4yB9ujo',
     secretKey: 'LKK2d1je3AuLrA5JKeRdmWw_KxKfdnaJqK2JMVm7',
     bucket: 'cmsupload', //上传的目标资源空间
@@ -33,16 +33,16 @@ module.exports = {
     assetsCdn: true, // 静态资源使用cnd.请在build完成后将 elemt.*.js 上传的七牛的融合cdn
 
     // redis配置
-    openRedis: false, //是否开启,若为true 则下面的信息必须配置正确完整
-    redis_host: '10.116.144.31',
+    openRedis: true, //是否开启,若为true 则下面的信息必须配置正确完整
+    redis_host: '127.0.0.1',
     redis_port: 6379,
     redis_psd: 'HuiPing520@Xiaoshen@520',
     redis_db: 0,
 
     // 站点基础信息配置
-    DORACMSAPI: 'http://api.html-js.cn', // 系统服务提供商
+    secblockAPI: 'http://api.html-js.cn', // 系统服务提供商
     SYSTEMTEMPFORDER: process.cwd() + '/views/dorawhite/', // 系统模板安装目录
-    SYSTEMLOGPATH: '/home/doraData/logsdir/doracms', // 服务器日志保存目录
+    SYSTEMLOGPATH: '/home/doraData/logsdir/secblock', // 服务器日志保存目录
 
     // 邮件相关设置
     email_findPsd: 'findPsd',

@@ -13,7 +13,7 @@ const {
 } = require('../../utils');
 const authUser = require('../../utils/middleware/authUser');
 
-const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads } = require('../lib/controller');
+const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog } = require('../lib/controller');
 const _ = require('lodash');
 const qr = require('qr-image')
 
@@ -133,5 +133,9 @@ router.get('/ads/getOne', (req, res, next) => { req.query.state = true; next() }
 // 获取可见的所有广告信息
 router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }, Ads.getAds)
 
+
+
+//--------------------secblock---------------------------
+router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
 module.exports = router

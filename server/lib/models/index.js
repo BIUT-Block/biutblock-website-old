@@ -3,7 +3,7 @@ const isProd = process.env.NODE_ENV === 'production'
 const { settings } = require('../../../utils');
 
 if (!isProd) {
-    mongoose.connect("mongodb://localhost/doracms2", { useMongoClient: true });
+    mongoose.connect("mongodb://localhost/secblock", { useMongoClient: true });
 } else {
     mongoose.connect('mongodb://' + settings.USERNAME + ':' + settings.PASSWORD + '@' + settings.HOST + ':' + settings.PORT + '/' + settings.DB + '', { useMongoClient: true });
 }
@@ -41,3 +41,4 @@ exports.DataOptionLog = require('./DataOptionLog');
 exports.SystemOptionLog = require('./SystemOptionLog');
 exports.Ads = require('./Ads');
 exports.AdsItems = require('./AdsItems');
+exports.SecCandyLog = require('./SecCandyLog');

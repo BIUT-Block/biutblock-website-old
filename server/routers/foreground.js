@@ -91,5 +91,16 @@ router.get(['/:cate1?___:typeId?/:current(\\d+)?', '/:cate0/:cate1?___:typeId?/:
   } else {
     res.redirect('/');
   }
-}, generalFun.getDataForCatePage)
+}, generalFun.getDataForCatePage);
+
+
+// 管理员登录
+router.get('/dr-admin', (req, res, next) => {
+  if (req.session.adminlogined) {
+    res.redirect('/manage');
+  } else {
+    next();
+  }
+}, generalFun.getDataForAdminUserLogin)
+
 module.exports = router
