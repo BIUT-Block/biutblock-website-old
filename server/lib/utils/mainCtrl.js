@@ -156,7 +156,7 @@ let mainCtrl = {
         if (req.query.tempPage && (req.query.tempPage).indexOf('adminUserLogin') >= 0) {
             defaultTemp = process.cwd() + '/dist/admin.html'
         }
-        // console.log('---pageData.userInfo----', pageData.userInfo, '-----', pageData.logined);
+        console.log('---defaultTemp----', defaultTemp);
         res.render(defaultTemp, pageData);
     }
 
