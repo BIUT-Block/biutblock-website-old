@@ -71,7 +71,7 @@ module.exports = {
             ],
             filename: 'admin.html',
             template: 'src/template/admin.html',
-            manageCates: '<%= manageCates%>',
+            manageCates: '{{manageCates}}',
             inject: true
         })
     ]

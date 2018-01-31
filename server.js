@@ -166,7 +166,6 @@ app.get('/manage', authSession, function (req, res) {
                 manageCates: currentCates
             })
         } else {
-            console.log('-backend---', backend);
             backend = backend.replace(/\[[^\]]+\]/g, currentCates)
             res.send(backend)
         }
