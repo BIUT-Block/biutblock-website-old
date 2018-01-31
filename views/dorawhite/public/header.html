@@ -1,74 +1,48 @@
 <!--头部模板-->
-<header class="clearfix" id="header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <div class="col-md-2">
-                    <div class="site-name ">
-                        <a href="/" id="logo">
-                            <img src="/themes/{{staticforder}}/images/logo.png" width="162" height="40" alt="前端开发俱乐部" />
-                        </a>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="site-nav">
-                        <ul>
-                            <li><a href="/">首页</a></li>
-                            <li>
-                                <div class="dropdown">
-                                    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">文章分类
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                        {% for cate in cateTypes %}
-                                            {% if cate.parentId == '0' %}
-                                                <li role="presentation">
-                                                    <a role="menuitem" tabindex="-1" href="/{{cate.defaultUrl}}___{{cate._id}}">{{cate.name}}</a>
-                                                </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="text-right topNav">
-                        <ul>
-                            {% if logined == undefined %}
-                            <li>
-                                <a rel="nofollow" href="/users/login">登录</a>
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="/users/reg">注册</a>
-                            </li>
-                            {% else %}
-                            <li>您好&nbsp;
-                                <a href="/users/userCenter">
-                                    {{userInfo.userName}}
-                                </a>
-                                {% if userInfo.msg_count > 0 %}
-                                <a href="/users/userMessage">
-                                    <span class="badge" id="u_notify_num">
-                                        {{userInfo.msg_count}}
-                                    </span>
-                                </a>
-                                {% endif %}
-                            </li>
-                            <li>
-                                <a rel="nofollow" href="#" id="userLoginOut">退出</a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-1"></div>
+<div class="row top-menu">
+    <div class="col-xs-1 col-md-1">&nbsp;</div>
+    <div class="col-xs-10 col-md-10 ">
+        <span id="showMenu" class="icon iconfont right-menu" aria-hidden="true" style="display:none;">&#xe726;</span>
+        <div class="logo">
+            <img src="/themes/{{staticforder}}/images/logo.png" alt="">
         </div>
-        
-        
+        <div class="navs">
+            <ul>
+                <li>
+                    <a href="#" class="i18n" name='home'>home</a>
+                </li>
+                <li>
+                    <a href="#project" class="i18n" name='SECTokens'>SEC Tokens</a>
+                </li>
+                <li>
+                    <a href="#about-chain" class="i18n" name='project'>project</a>
+                </li>
+                <li>
+                    <a href="http://www.secblock.io/doc/SEC-whitepaper-v3.65.pdf" target="_blank" class="i18n" name='white-paper'>white paper</a>
+                </li>
+                <li>
+                    <a href="#application" class="i18n" name='application'>application</a>
+                </li>
+                <li>
+                    <a href="#teamwork" class="i18n" name='team'>team</a>
+                </li>
+                <li>
+                    <a href="#roadmap" class="i18n" name='roadmap'>Roadmap</a>
+                </li>
+                <li style="display:none;">
+                    <a href="#partners" class="i18n" name='partners'>partners</a>
+                </li>
+                <li>
+                    <a href="#contact" class="i18n" name='contact-us'>contact us</a>
+                </li>
+                <li class="swich-language">
+                    <div class="button-group">
+                        <span class="zh-CN active">中文</span>
+                        <span class="en">/EN</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-</header>
+    <div class="col-xs-1 col-md-1">&nbsp;</div>
+</div>
