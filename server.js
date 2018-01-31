@@ -161,7 +161,7 @@ app.get('/manage', authSession, function (req, res) {
         // console.log('adminPower', adminPower);
         let currentCates = JSON.stringify(siteFunc.renderNoPowerMenus(manageCates, adminPower));
         if (isProd) {
-            res.render(settings.SYSTEMTEMPFORDER + 'admin.html', {
+            res.render(process.cwd() + '/views/' + 'admin.html', {
                 title: 'DoraCMS后台管理',
                 manageCates: currentCates
             })
