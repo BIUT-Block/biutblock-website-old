@@ -45,7 +45,7 @@ if (!isProd) {
 // 设置静态文件缓存时间
 const serve = (path, cache) => express.static(resolve(path), { maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0 })
 
-// 引用 esj 模板引擎
+// 引用 nunjucks 模板引擎
 nunjucks.configure(path.join(__dirname, 'views'), { // 设置模板文件的目录，为views
     noCache: process.env.NODE_ENV !== 'production',
     autoescape: true,

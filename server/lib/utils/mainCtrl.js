@@ -152,9 +152,12 @@ let mainCtrl = {
         // 当前类别
         pageData.cateInfo = '';
 
-        // pageData.layout = settings.SYSTEMTEMPFORDER + 'public/defaultTemp.html';
+        let defaultTemp = settings.SYSTEMTEMPFORDER + req.query.tempPage;
+        if (req.query.tempPage && (req.query.tempPage).indexOf('adminUserLogin') >= 0) {
+            defaultTemp = process.cwd() + '/dist/admin.html'
+        }
         // console.log('---pageData.userInfo----', pageData.userInfo, '-----', pageData.logined);
-        res.render(settings.SYSTEMTEMPFORDER + req.query.tempPage, pageData);
+        res.render(defaultTemp, pageData);
     }
 
 }
