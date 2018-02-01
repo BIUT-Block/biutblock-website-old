@@ -911,6 +911,32 @@ label {
     background-image: url(../images/referrer_bg.jpg);
 }
 
+.top-banner.referra-page-one .add-Group {
+    text-align: center;
+    font-size: 13px;
+    padding: 8px 18px;
+}
+
+.top-banner.referra-page-one .join-notice {
+    padding: 0 100px;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+}
+
+.top-banner.referra-page-one .add-Group .btn-default {
+    border-radius: 20px;
+    border-color: #c1dc14;
+    filter: alpha(opacity=100 finishopacity=50 style=1 startx=0, starty=0, finishx=0, finishy=150) progid:DXImageTransform.Microsoft.gradient(startcolorstr=#c1dc14, endcolorstr=#dcfc12, gradientType=0);
+    -ms-filter: alpha(opacity=100 finishopacity=50 style=1 startx=0, starty=0, finishx=0, finishy=150) progid:DXImageTransform.Microsoft.gradient(startcolorstr=#c1dc14, endcolorstr=#dcfc12, gradientType=0);
+    /*IE8*/
+    background: #c1dc14;
+    /* 一些不支持背景渐变的浏览器 */
+    background: -moz-linear-gradient(top, #c1dc14, #dcfc12);
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#c1dc14), to(#dcfc12));
+    background: -o-linear-gradient(top, #c1dc14, #dcfc12);
+}
+
 @media (max-width:768px) {
     .top-menu {
         position: relative;
