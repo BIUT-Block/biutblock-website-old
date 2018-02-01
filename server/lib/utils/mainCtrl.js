@@ -143,6 +143,9 @@ let mainCtrl = {
                 pageData.siteInfo = await mainCtrl.getSiteInfo(req, res, next);
             } else if (md.action == 'get_referral_Info') {
                 pageData.pageType = 'referral';
+                // 记录是否已经登记过
+                pageData.addWalletSuccess = req.session.addWalletSuccess;
+                pageData.shareId = req.session.shareId;
             }
         }
 

@@ -32,7 +32,7 @@
 
 </head>
 
-<body>
+<body class="{{pageType}}">
     {% include "./header.html" %}
     {% block content %}{% endblock %}
     {% if pageType != 'referral' %}

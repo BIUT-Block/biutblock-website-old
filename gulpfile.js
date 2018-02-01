@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 
-var doraWhiteSassPath = './src/index/dorawhite/css/white.scss';
+var doraWhiteSassPath = './src/index/dorawhite/css/main.scss';
 var doraWhiteCssPath = './public/themes/dorawhite/css';
 
 

@@ -42,3 +42,4 @@ exports.SystemOptionLog = require('./SystemOptionLog');
 exports.Ads = require('./Ads');
 exports.AdsItems = require('./AdsItems');
 exports.SecCandyLog = require('./SecCandyLog');
+exports.Wallets = require('./Wallets');

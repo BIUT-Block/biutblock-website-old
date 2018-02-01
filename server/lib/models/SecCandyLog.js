@@ -10,12 +10,11 @@ var moment = require('moment')
 var SecCandyLogSchema = new Schema({
     _id: {
         type: String,
-
         'default': shortid.generate
     },
     type: String,
-    wallet: String,
-    randomCode: String,
+    wallets: [{ type: String, ref: 'Wallets' }], // 被分享用户
+    passiveCode: String, // 被分享Code
     date: { type: Date, default: Date.now },
     logs: String
 });

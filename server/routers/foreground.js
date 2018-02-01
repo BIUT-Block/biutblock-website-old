@@ -63,7 +63,17 @@ router.get('/sitemap.xml', (req, res, next) => {
 router.get('/', generalFun.getDataForIndexPage);
 
 // 糖果入口1
-router.get('/referral', generalFun.getDataForReferralPage);
+router.get('/referral', (req, res, next) => {
+  if (req.query.code && shortid.isValid(req.query.code)) {
+    console.log('--req.query.code--', req.query.code);
+    req.session.passiveCode = req.query.code;
+    // req.session.addWalletSuccess = false;
+    next();
+  } else {
+    // 请求非法
+    res.redirect('/');
+  }
+}, generalFun.getDataForReferralPage);
 
 // 糖果入口1
 router.get('/referralShare', generalFun.getDataForReferralPage);
