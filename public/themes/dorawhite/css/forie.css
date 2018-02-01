@@ -1,6 +1,11 @@
 .top-banner .center-logo {
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/banner_bg.jpg', sizingMethod='scale');
-    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/banner_bg.jpg', sizingMethod='scale')";
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='themes/dorawhite/images/banner_bg.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='themes/dorawhite/images/banner_bg.jpg', sizingMethod='scale')";
+}
+
+.top-banner.referra-page-one .center-logo {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='themes/dorawhite/images/referrer_bg.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='themes/dorawhite/images/referrer_bg.jpg', sizingMethod='scale')";
 }
 
 .top-banner .center-logo .logo-text h3 {

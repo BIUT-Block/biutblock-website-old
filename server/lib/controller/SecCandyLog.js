@@ -99,12 +99,12 @@ class SecCandyLog {
                 let wallets = targetCandyLog.wallets
                 return {
                     rcvNum: wallets.length,
-                    rcvScore: wallets.length * 20
+                    rcvScore: wallets.length * 20 + 20
                 }
             } else {
                 return {
                     rcvNum: 0,
-                    rcvScore: 0
+                    rcvScore: 20
                 }
             }
         } catch (error) {
