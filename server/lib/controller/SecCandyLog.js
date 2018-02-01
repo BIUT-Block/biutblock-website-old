@@ -90,6 +90,35 @@ class SecCandyLog {
         })
     }
 
+    async getSecCandyInfoByCode(req, res, next) {
+        let shareId = req.session.shareId;
+        console.log('---req.session.shareId----', req.session.shareId);
+        try {
+            const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId });
+            if (targetCandyLog && targetCandyLog._id) {
+                let wallets = targetCandyLog.wallets
+                return {
+                    rcvNum: wallets.length,
+                    rcvScore: wallets.length * 20
+                }
+            } else {
+                return {
+                    rcvNum: 0,
+                    rcvScore: 0
+                }
+            }
+        } catch (error) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_IN_SAVE_DATA',
+                message: '保存数据失败:' + error,
+            })
+        }
+
+
+    }
+
 }
 
 module.exports = new SecCandyLog();

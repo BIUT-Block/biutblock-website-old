@@ -715,25 +715,35 @@ label {
     background: -moz-linear-gradient(top, #dcfc12, #c1dc14);
     background: -webkit-gradient(linear, 0 0, 0 bottom, from(#dcfc12), to(#c1dc14));
     background: -o-linear-gradient(top, #dcfc12, #c1dc14); }
-  .top-banner.referra-page-one .share-to-others li {
-    font-size: 12px; }
-    .top-banner.referra-page-one .share-to-others li .share-input {
-      margin: 15px auto; }
-  .top-banner.referra-page-one .share-tongji ul {
-    border-radius: 4px;
-    border: 1px solid #daf912;
-    padding: 8px; }
-    .top-banner.referra-page-one .share-tongji ul li {
-      font-size: 9px;
-      padding: 0 7px 0 0;
-      text-align: center; }
-      .top-banner.referra-page-one .share-tongji ul li span {
-        display: block; }
-      .top-banner.referra-page-one .share-tongji ul li h3 {
-        color: #daf912; }
-    .top-banner.referra-page-one .share-tongji ul li:last-child {
-      padding: 0 0 0 7px;
-      border-left: 1px solid #99ab43; }
+  .top-banner.referra-page-one .share-to-others {
+    padding-top: 17rem; }
+    .top-banner.referra-page-one .share-to-others .share-input {
+      margin: 20px auto; }
+      .top-banner.referra-page-one .share-to-others .share-input .input-group {
+        width: 400px;
+        margin: 0 auto; }
+        .top-banner.referra-page-one .share-to-others .share-input .input-group .form-control {
+          width: 100%; }
+  .top-banner.referra-page-one .share-tongji {
+    width: 350px;
+    margin: 30px auto; }
+    .top-banner.referra-page-one .share-tongji ul {
+      border-radius: 4px;
+      border: 1px solid #daf912;
+      padding: 8px; }
+      .top-banner.referra-page-one .share-tongji ul li {
+        font-size: 9px;
+        padding: 0 7px 0 0;
+        text-align: center; }
+        .top-banner.referra-page-one .share-tongji ul li span {
+          display: block; }
+        .top-banner.referra-page-one .share-tongji ul li h3 {
+          color: #daf912;
+          height: 40px;
+          line-height: 40px; }
+      .top-banner.referra-page-one .share-tongji ul li:last-child {
+        padding: 0 0 0 7px;
+        border-left: 1px solid #99ab43; }
 
 @media (max-width: 768px) {
   .top-menu {
@@ -987,6 +997,16 @@ label {
       font-size: 13px; }
     .top-banner.referra-page-one .wallet-input .form-control,
     .top-banner.referra-page-one .share-to-others .form-control {
+      width: 100%; }
+    .top-banner.referra-page-one .share-to-others {
+      padding-top: 10rem; }
+      .top-banner.referra-page-one .share-to-others li {
+        font-size: 12px; }
+        .top-banner.referra-page-one .share-to-others li .share-input {
+          margin: 15px auto; }
+          .top-banner.referra-page-one .share-to-others li .share-input .input-group {
+            width: 100%; }
+    .top-banner.referra-page-one .share-tongji {
       width: 100%; } }
 
 @media (min-width: 1300px) {

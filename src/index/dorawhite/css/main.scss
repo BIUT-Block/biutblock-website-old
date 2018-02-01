@@ -888,14 +888,21 @@ label {
         background: -o-linear-gradient(top, #dcfc12, #c1dc14);
     }
     .share-to-others {
-        li {
-            font-size: 12px;
-            .share-input {
-                margin: 15px auto;
+        padding-top: 17rem;
+        .share-input {
+            margin: 20px auto;
+            .input-group {
+                width: 400px;
+                margin: 0 auto;
+                .form-control {
+                    width: 100%;
+                }
             }
         }
     }
     .share-tongji {
+        width: 350px;
+        margin: 30px auto;
         ul {
             border-radius: 4px;
             border: 1px solid #daf912;
@@ -909,6 +916,8 @@ label {
                 }
                 h3 {
                     color: #daf912;
+                    height: 40px;
+                    line-height: 40px;
                 }
             }
             li:last-child {
@@ -1287,6 +1296,21 @@ label {
             .form-control {
                 width: 100%;
             }
+        }
+        .share-to-others {
+            padding-top: 10rem;
+            li {
+                font-size: 12px;
+                .share-input {
+                    margin: 15px auto;
+                    .input-group {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .share-tongji {
+            width: 100%;
         }
     }
 }

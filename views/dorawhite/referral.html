@@ -9,9 +9,9 @@
             {% if addWalletSuccess %}
                 <div class="col-xs-10 col-md-8" ms-controller="shareLink"> 
                     <ul class="share-to-others">
-                        <li>1.Join the SEC's Official Telegram Group.</li>
+                        <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
                         <li>
-                            <div>2.You can get 20 SEC awards by sending the following code to a group</div>
+                            <div class="i18n" name='share-step-two'>2.You can get 20 SEC awards by sending the following code to a group</div>
                             <div class="share-input">
                                 <div class="input-group">
                                     <input type="text" class="form-control" value="{{shareId}}">
@@ -22,7 +22,7 @@
                             </div>
                         </li>
                         <li>
-                            <div>3. Share the following links to your friends.  For each successful recommendation, you  can get another 20 SEC awards!</div>
+                            <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another 20 SEC awards!</div>
                             <div class="share-input">
                                 <div class="input-group">
                                     <input type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?'+shareId}}">
@@ -36,12 +36,12 @@
                     <div class="share-tongji">
                         <ul class="row">
                             <li class="col-xs-6 col-md-6">
-                                <span>Successful invitation (Person time)</span>
-                                <h3>0</h3>
+                                <span class="i18n" name='share-invitation'>Successful invitation (Person time)</span>
+                                <h3>{{rcvInfo.rcvNum}}</h3>
                             </li>
                             <li class="col-xs-6 col-md-6">
-                                <span>Earned SEC (Number of pieces)</span>
-                                <h3>0</h3>
+                                <span class="i18n" name='share-earned'>Earned SEC (Number of pieces)</span>
+                                <h3>{{rcvInfo.rcvScore}}</h3>
                             </li>
                         </ul>
                     </div>
@@ -110,7 +110,7 @@
                         success: function (data) {
                             console.log('success:', data)
                             if (data.state == 'success') {
-                               // window.location.href = "/";
+                               window.location.reload();
                             } else {
                                 addWalletVm.showErr = true;
                                 addWalletVm.message = data.message;

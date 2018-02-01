@@ -17,7 +17,8 @@ const {
     SystemOptionLog,
     UserNotify,
     Notify,
-    Ads
+    Ads,
+    SecCandyLog
 } = require('../controller');
 const settings = require("../../../utils/settings");
 
@@ -88,6 +89,11 @@ let mainCtrl = {
         return await ContentTag.getContentTags(req, res, next);
     },
 
+    // 统计用户糖果
+    async getSecCandyByCode(req, res, next) {
+        return await SecCandyLog.getSecCandyInfoByCode(req, res, next);
+    },
+
     async getPageData(req, res, next) {
         let _this = this; pageData = { pageType: 'index' }, modules = req.query.modules;
         for (let md of modules) {
@@ -146,6 +152,8 @@ let mainCtrl = {
                 // 记录是否已经登记过
                 pageData.addWalletSuccess = req.session.addWalletSuccess;
                 pageData.shareId = req.session.shareId;
+                console.log('-----2222----');
+                pageData.rcvInfo = await mainCtrl.getSecCandyByCode(req, res, next);
             }
         }
 
