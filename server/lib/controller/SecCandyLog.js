@@ -10,7 +10,7 @@ const _ = require('lodash');
 function checkFormData(req, res, fields) {
     let errMsg = '';
 
-    if (!fields.walletAddress || fields.walletAddress.length < 42) {
+    if (!fields.walletAddress || !/^[a-zA-Z0-9]{42,43}$/.test(fields.walletAddress)) {
         errMsg = '请填写正确的钱包地址!';
     }
     if (!req.session.passiveCode || !shortid.isValid(req.session.passiveCode)) {
