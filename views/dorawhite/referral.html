@@ -1,6 +1,7 @@
 {% extends "./public/defaultTemp.html" %} 
 {% block content %}
 <script src="/javascripts/avalon.js"></script>
+<script src="/plugins/clipboard/dist/clipboard.min.js"></script>
 <div class="row top-banner referra-page-one">
     <div class="center-logo">
         <div class="row" style="margin:0;">
@@ -14,9 +15,9 @@
                             <div class="i18n" name='share-step-two'>2.You can get 20 SEC awards by sending the following code to a group</div>
                             <div class="share-input">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" value="{{shareId}}">
+                                    <input id="codeValue" type="text" class="form-control" value="{{shareId}}">
                                     <span class="input-group-btn">
-                                        <button class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                        <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
                                     </span>
                                 </div><!-- /input-group -->
                             </div>
@@ -25,9 +26,9 @@
                             <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another 20 SEC awards!</div>
                             <div class="share-input">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?'+shareId}}">
+                                    <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?'+shareId}}">
                                     <span class="input-group-btn">
-                                        <button class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                        <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
                                     </span>
                                 </div><!-- /input-group -->
                             </div>
@@ -65,7 +66,7 @@
                         <form class="form-inline" id="addWalletForm" ms-validate="@validate">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址" ms-rules="{required:true}" placeholder="">
+                                    <input type="text" class="form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址" ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}" placeholder="">
                                     <span class="input-group-btn">
                                         <button class="i18n btn btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
                                     </span>
@@ -80,6 +81,35 @@
     </div>
 </div>
 <script>
+    var walletErr = "您输入的钱包地址不正确，请重新输入！";
+    $(function(){
+        // 弹出信息国际化
+        var cpSuccess = "复制成功!";
+        var cpInfo = "请手动选择输入框内容复制!";
+        if($('body').hasClass('type-en')){
+            cpSuccess = "Copy success!";
+            cpInfo="Please manually select the content copy of the input box!";
+            walletErr = "The address of the wallet you entered is not correct, please reenter it"
+        }
+        //复制分享码
+        var cpCodeBtn = new Clipboard('#copyCode-btn');
+        cpCodeBtn.on('success', function(e) {
+            alert(cpSuccess);
+            e.clearSelection();
+        });
+        cpCodeBtn.on('error', function(e) {
+            alert(cpInfo);
+        });
+        // 复制分享链接
+        var slinkBtn = new Clipboard('#shareLikn-btn');
+        slinkBtn.on('success', function(e) {
+            alert(cpSuccess);
+            e.clearSelection();
+        });
+        slinkBtn.on('error', function(e) {
+            alert(cpInfo);
+        });
+    })
     var addWalletVm = avalon.define({
         $id: 'addWallet',
         walletAddress: '',
@@ -96,6 +126,7 @@
                     console.log('有表单没有通过', reasons)
                     addWalletVm.showErr = true;
                     addWalletVm.message = reasons[0].message;
+                    alert(walletErr);
                 } else {
                     console.log('全部通过');
                     var params = {
@@ -114,6 +145,7 @@
                             } else {
                                 addWalletVm.showErr = true;
                                 addWalletVm.message = data.message;
+                                alert(walletErr);
                             }
                         },
                         error: function (d) {

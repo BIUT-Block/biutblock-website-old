@@ -153,7 +153,7 @@ let mainCtrl = {
                 pageData.addWalletSuccess = req.session.addWalletSuccess;
                 pageData.shareId = req.session.shareId;
                 console.log('-----2222----');
-                pageData.rcvInfo = await mainCtrl.getSecCandyByCode(req, res, next);
+                req.session.shareId && (pageData.rcvInfo = await mainCtrl.getSecCandyByCode(req, res, next));
             }
         }
 

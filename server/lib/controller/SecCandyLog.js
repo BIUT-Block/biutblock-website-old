@@ -53,23 +53,26 @@ class SecCandyLog {
                     myShareId = targetWallet.myCode;
                 } else {
                     // 创建钱包并生成分享ID
-                    console.log('---myShareId---', myShareId);
+                    // console.log('---myShareId---', myShareId);
                     const newWallet = new WalletsModel({ walletId: fields.walletAddress, myCode: myShareId });
                     const newWalletObj = await newWallet.save();
-                    console.log('---newWalletObj---', newWalletObj);
+                    // console.log('---newWalletObj---', newWalletObj);
                     userWalletId = newWalletObj._id;
                 }
                 const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
                 if (targetCandyLog && targetCandyLog._id) {
+                    // console.log('---userWalletId--', userWalletId);
                     // 去重
-                    let currentWallets = _.uniq(targetCandyLog.wallets.push(userWalletId));
-                    let newContent = await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$push': { 'wallets': currentWallets } });
+                    targetCandyLog.wallets.push(userWalletId);
+                    // console.log('----targetCandyLog.wallets--', targetCandyLog.wallets);
+                    let currentWallets = _.uniq(targetCandyLog.wallets);
+                    let newContent = await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { 'wallets': currentWallets });
                 } else {
                     let currentWallets = [];
                     currentWallets.push(userWalletId)
-                    console.log('-----userWalletId---', userWalletId, '----', currentWallets);
+                    // console.log('-----userWalletId---', userWalletId, '----', currentWallets);
                     walletObj.wallets = currentWallets;
-                    console.log('---walletObj---', walletObj);
+                    // console.log('---walletObj---', walletObj);
                     const newSecCandyLog = new SecCandyLogModel(walletObj);
                     await newSecCandyLog.save();
                 }
