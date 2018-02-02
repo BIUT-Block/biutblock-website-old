@@ -62,7 +62,7 @@ class SecCandyLog {
                 const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
                 if (targetCandyLog && targetCandyLog._id) {
                     // 去重
-                    let currentWallets = _.uniq(targetCandyLog.wallets.push(fields.walletAddress));
+                    let currentWallets = _.uniq(targetCandyLog.wallets.push(userWalletId));
                     let newContent = await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$push': { 'wallets': currentWallets } });
                 } else {
                     let currentWallets = [];
