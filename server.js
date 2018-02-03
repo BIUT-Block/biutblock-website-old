@@ -24,7 +24,7 @@ const resolve = file => path.resolve(__dirname, file)
 
 const { service, settings, authSession, logUtil, siteFunc } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
-const { AdminResource } = require('./server/lib/controller');
+const { AdminResource, SecCandyLog } = require('./server/lib/controller');
 
 // 引入 api 路由
 const routes = require('./server/routers/api')
@@ -159,21 +159,25 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), config = qnParams
 // Telegraf监听
 const bot = new Telegraf('543268685:AAHR6T7TgykrH6zsgQM78u0i0lYoF3Xbrds')
 console.log('------', '初始化');
-bot.hears('hi', (ctx) => {
-    console.log('--------');
-    ctx.reply('Hey there!')
-})
-bot.on('text', ({ message, replyWithHTML }) => {
+// bot.hears('hi', (ctx) => {
+//     console.log('--------');
+//     ctx.reply('Hey there!')
+// })
+bot.on('text', async ({ message, replyWithHTML }) => {
     console.log('----message---', message.text);
     if (message) {
         let currentCode = (message.text).trim();
         console.log('---currentCode---', currentCode);
         if (shortid.isValid(currentCode)) {
-            let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
-            try {
-                replyWithHTML('<a>点击链接 ' + currentLink + ' 领糖果咯！</a>')
-            } catch (error) {
-                console.log('--error----', error);
+            let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
+            if (myWallet && myWallet._id) {
+                console.log('----', myWallet);
+                let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
+                try {
+                    replyWithHTML('<a>点击链接 ' + currentLink + ' 领糖果咯！</a>')
+                } catch (error) {
+                    console.log('--error----', error);
+                }
             }
         }
     } else {

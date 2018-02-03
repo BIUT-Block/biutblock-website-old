@@ -124,6 +124,9 @@ class SecCandyLog {
 
     }
 
+    async checkCurrentCode(code) {
+        return await WalletsModel.findOne({ myCode: code });
+    }
 }
 
 module.exports = new SecCandyLog();
