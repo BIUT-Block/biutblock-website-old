@@ -16,6 +16,8 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const nunjucks = require('nunjucks')
 const _ = require('lodash')
+const Telegraf = require('telegraf')
+const { reply } = Telegraf
 const resolve = file => path.resolve(__dirname, file)
 
 
@@ -153,7 +155,15 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), config = qnParams
     }
 }));
 
-
+// Telegraf监听
+const bot = new Telegraf('543268685:AAHR6T7TgykrH6zsgQM78u0i0lYoF3Xbrds')
+console.log('------', '初始化');
+bot.hears('hi', (ctx) => {
+    console.log('--------');
+    ctx.reply('Hey there!')
+})
+bot.telegram.sendMessage("File content at: " + new Date() + " is: \n");
+bot.startPolling()
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
     AdminResource.getAllResource(req, res).then((manageCates) => {

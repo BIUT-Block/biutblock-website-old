@@ -98,16 +98,18 @@ class SecCandyLog {
         console.log('---req.session.shareId----', req.session.shareId);
         try {
             const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId });
+            const myWallet = await WalletsModel.findOne({ myCode: req.session.shareId });
+            let baseCoin = myWallet.hasSend ? 20 : 0;
             if (targetCandyLog && targetCandyLog._id) {
                 let wallets = targetCandyLog.wallets
                 return {
                     rcvNum: wallets.length,
-                    rcvScore: wallets.length * 20 + 20
+                    rcvScore: wallets.length * 20 + baseCoin
                 }
             } else {
                 return {
                     rcvNum: 0,
-                    rcvScore: 20
+                    rcvScore: baseCoin
                 }
             }
         } catch (error) {

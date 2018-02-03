@@ -66,7 +66,17 @@ router.get('/', generalFun.getDataForIndexPage);
 router.get('/referral', (req, res, next) => {
   if (req.query.code && shortid.isValid(req.query.code)) {
     console.log('--req.query.code--', req.query.code);
-    req.session.passiveCode = req.query.code;
+    if (!req.session.passiveCode) {
+      req.session.passiveCode = req.query.code;
+    } else {
+      // 已更换推荐码，重新记录
+      if (req.query.code != req.session.passiveCode) {
+        req.session.addWalletSuccess = false;
+        req.session.shareId = '';
+        req.session.passiveCode = req.query.code;
+      }
+    }
+
     // req.session.addWalletSuccess = false;
     next();
   } else {
