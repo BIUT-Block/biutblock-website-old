@@ -173,10 +173,14 @@ bot.on('text', async ({ message, replyWithHTML }) => {
                 let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
                 if (myWallet && myWallet._id) {
                     console.log('----', myWallet);
-                    let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
-                    replyWithHTML('<a>加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。点击链接 ' + currentLink + ' 领糖果咯！</a>')
-                    // 标记已关注群并发送
-                    await SecCandyLog.activeUserWallet(currentCode);
+                    if (myWallet) {
+                        replyWithHTML('Your code: /aI876yGB, Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet._id + '，校验失败，每个Telegram用户仅可校验一次。')
+                    } else {
+                        let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
+                        replyWithHTML('<a>加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。点击链接 ' + currentLink + ' 领糖果咯！</a>')
+                        // 标记已关注群并发送
+                        await SecCandyLog.activeUserWallet(currentCode);
+                    }
                 }
             } catch (error) {
                 console.log('--error----', error);
