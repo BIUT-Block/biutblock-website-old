@@ -164,9 +164,9 @@ bot.hears('hi', (ctx) => {
     ctx.reply('Hey there!')
 })
 bot.on('text', ({ message, replyWithHTML }) => {
-    console.log('----message---', message);
-    if (message && shortid.isValid(message)) {
-        let currentLink = "https://www.secblock.io/referral?code=" + message;
+    console.log('----message---', message.text);
+    if (message && shortid.isValid(message.text.trim())) {
+        let currentLink = "https://www.secblock.io/referral?code=" + message.text.trim();
         replyWithHTML('<a href="' + currentLink + '>点击链接 ' + currentLink + ' 领糖果咯！</a>')
     }
 })
