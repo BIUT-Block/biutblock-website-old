@@ -170,7 +170,11 @@ bot.on('text', ({ message, replyWithHTML }) => {
         console.log('---currentCode---', currentCode);
         if (shortid.isValid(currentCode)) {
             let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
-            replyWithHTML('<a href="' + currentLink + '>点击链接 ' + currentLink + ' 领糖果咯！</a>')
+            try {
+                replyWithHTML('<a>点击链接 ' + currentLink + ' 领糖果咯！</a>')
+            } catch (error) {
+                console.log('--error----', error);
+            }
         }
     } else {
         console.log('--nothing--');
