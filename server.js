@@ -18,6 +18,7 @@ const nunjucks = require('nunjucks')
 const _ = require('lodash')
 const Telegraf = require('telegraf')
 const { reply } = Telegraf
+const shortid = require('shortid');
 const resolve = file => path.resolve(__dirname, file)
 
 
@@ -162,7 +163,13 @@ bot.hears('hi', (ctx) => {
     console.log('--------');
     ctx.reply('Hey there!')
 })
-bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hey there!</b>'))
+bot.on('text', ({ message, replyWithHTML }) => {
+    console.log('----message---', message);
+    if (message && shortid.isValid(message)) {
+        let currentLink = "https://www.secblock.io/referral?code=" + message;
+        replyWithHTML('<a href="' + currentLink + '>点击链接 ' + currentLink + ' 领糖果咯！</a>')
+    }
+})
 bot.startPolling()
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
