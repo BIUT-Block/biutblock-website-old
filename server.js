@@ -165,9 +165,15 @@ bot.hears('hi', (ctx) => {
 })
 bot.on('text', ({ message, replyWithHTML }) => {
     console.log('----message---', message.text);
-    if (message && shortid.isValid(message.text.trim())) {
-        let currentLink = "https://www.secblock.io/referral?code=" + message.text.trim();
-        replyWithHTML('<a href="' + currentLink + '>点击链接 ' + currentLink + ' 领糖果咯！</a>')
+    if (message) {
+        let currentCode = (message.text).trim();
+        console.log('---currentCode---', currentCode);
+        if (shortid.isValid(currentCode)) {
+            let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
+            replyWithHTML('<a href="' + currentLink + '>点击链接 ' + currentLink + ' 领糖果咯！</a>')
+        }
+    } else {
+        console.log('--nothing--');
     }
 })
 bot.startPolling()
