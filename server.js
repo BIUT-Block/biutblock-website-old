@@ -162,7 +162,7 @@ bot.hears('hi', (ctx) => {
     console.log('--------');
     ctx.reply('Hey there!')
 })
-bot.telegram.sendMessage("File content at: " + new Date() + " is: \n");
+bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hey there!</b>'))
 bot.startPolling()
 // 后台渲染
 app.get('/manage', authSession, function (req, res) {
