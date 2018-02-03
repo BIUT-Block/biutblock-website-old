@@ -127,6 +127,10 @@ class SecCandyLog {
     async checkCurrentCode(code) {
         return await WalletsModel.findOne({ myCode: code });
     }
+
+    async activeUserWallet(code) {
+        return await WalletsModel.update({ myCode: code }, { $set: { hasSend: true } });
+    }
 }
 
 module.exports = new SecCandyLog();

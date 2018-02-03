@@ -169,15 +169,17 @@ bot.on('text', async ({ message, replyWithHTML }) => {
         let currentCode = (message.text).trim();
         console.log('---currentCode---', currentCode);
         if (shortid.isValid(currentCode)) {
-            let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
-            if (myWallet && myWallet._id) {
-                console.log('----', myWallet);
-                let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
-                try {
+            try {
+                let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
+                if (myWallet && myWallet._id) {
+                    console.log('----', myWallet);
+                    let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
                     replyWithHTML('<a>点击链接 ' + currentLink + ' 领糖果咯！</a>')
-                } catch (error) {
-                    console.log('--error----', error);
+                    // 标记已关注群并发送
+                    await SecCandyLog.activeUserWallet(currentCode);
                 }
+            } catch (error) {
+                console.log('--error----', error);
             }
         }
     } else {
