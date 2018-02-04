@@ -45,6 +45,11 @@ label {
   font-weight: normal;
   margin-bottom: 0; }
 
+.loginBoard h3 {
+  font-size: 20px;
+  margin: 10px;
+  text-align: center; }
+
 .top-menu {
   height: 50px;
   line-height: 50px;

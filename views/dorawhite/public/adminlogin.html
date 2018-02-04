@@ -1,7 +1,7 @@
 <!--用户登录模块-->
 <div class="loginBoard" ms-controller="userlogin">
     <form name="loginForm" ms-validate="@validate">
-        <h3>用户登录 &nbsp;
+        <h3>管理员登录 &nbsp;
             <small class="text-danger" :visible="@showErr" ms-html="@message"></small>
         </h3>
         <div class="form-group">
@@ -14,9 +14,6 @@
         </div>
         <div id="ul-s5">
             <button type="submit" class="btn btn-default">登录</button>&nbsp;
-            <small>
-                <a href="/users/lostPassword">忘记密码？</a>
-            </small>
         </div>
     </form>
 </div>

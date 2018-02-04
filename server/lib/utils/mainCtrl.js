@@ -152,8 +152,9 @@ let mainCtrl = {
                 // 记录是否已经登记过
                 pageData.addWalletSuccess = req.session.addWalletSuccess;
                 pageData.shareId = req.session.shareId;
-                console.log('-----2222----');
                 req.session.shareId && (pageData.rcvInfo = await mainCtrl.getSecCandyByCode(req, res, next));
+            } else if (md.action == 'get_adminlogin_Info') {
+                pageData.pageType = 'adminlogin';
             }
         }
 

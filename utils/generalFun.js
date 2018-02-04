@@ -114,6 +114,7 @@ let generalFun = {
         req.query.tempPage = 'adminUserLogin.html';
         req.query.modules = [
             { action: 'get_category_list' },
+            { action: 'get_adminlogin_Info' },
             { action: 'get_site_info', params: { modal: 'simple' } }
         ];
         await mainCtrl.getPageData(req, res, next);

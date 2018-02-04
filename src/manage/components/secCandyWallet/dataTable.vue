@@ -9,7 +9,7 @@
             </el-table-column>
             <el-table-column prop="state" label="校验状态" show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <i :class="scope.row.hasSend ? 'fa fa-check-circle' : 'fa fa-minus-circle'" :style="scope.row.state ? green : red"></i>
+                    <i :class="scope.row.hasSend ? 'fa fa-check-circle' : 'fa fa-minus-circle'" :style="scope.row.hasSend ? green : red"></i>
                 </template>
             </el-table-column>
             <el-table-column prop="date" label="更新时间">
