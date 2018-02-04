@@ -15,7 +15,8 @@ const {
   SystemOptionLog,
   UserNotify,
   Notify,
-  Ads
+  Ads,
+  SecCandyLog
 } = require('../lib/controller');
 const {
   service,
@@ -215,6 +216,15 @@ router.post('/ads/updateOne', authToken, authPower, Ads.updateAds);
 
 // 删除广告
 router.get('/ads/delete', authToken, authPower, Ads.delAds);
+
+
+
+// sec糖果信息
+// 获取分享链接统计列表
+router.get('/secCandy/getShareCodeList', authToken, authPower, SecCandyLog.getSecCandyList);
+
+// 获取已登记钱包记录列表
+router.get('/secCandy/getWalletList', authToken, authPower, SecCandyLog.getWalletsList);
 
 
 module.exports = router

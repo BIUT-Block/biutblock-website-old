@@ -291,6 +291,23 @@ const state = {
         regUserCount: 0,
         contentCount: 0,
         messageCount: 0
+    },
+    secCandyCodeList: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {}
+        },
+        list: {
+            pageInfo: {},
+            docs: []
+        }
+    },
+    secCandyWalletList: {
+        list: {
+            pageInfo: {},
+            docs: []
+        }
     }
 }
 
@@ -555,7 +572,18 @@ const mutations = {
     },
     [types.MAIN_SITEBASIC_INFO](state, list) {
         state.basicInfo = list
-    }
+    },
+    [types.SECCANDYCODELIST](state, list) {
+        state.secCandyCodeList.list = list
+    },
+    [types.SECCANDYWALLETLIST](state, list) {
+        state.secCandyWalletList.list = list
+    },
+    [types.SECCANDYCODEDETAILFORMSTATE](state, formState) {
+        state.secCandyCodeList.formState.show = formState.show;
+        state.secCandyCodeList.formState.edit = formState.edit;
+        state.secCandyCodeList.formState.formData = formState.formData;
+    },
 
 }
 

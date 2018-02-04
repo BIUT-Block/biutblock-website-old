@@ -83,6 +83,16 @@ export default {
           current: val,
           searchkey
         });
+      } else if (this.pageType === "secCandyCode") {
+        this.$store.dispatch("getSecCandyCodeList", {
+          current: val,
+          searchkey
+        });
+      } else if (this.pageType === "secCandyWallet") {
+        this.$store.dispatch("getSecCandyWalletList", {
+          current: val,
+          searchkey
+        });
       }
     }
   },

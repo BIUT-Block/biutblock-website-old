@@ -390,6 +390,39 @@ export default {
         services.getSiteBasicInfo(params).then((result) => {
             commit(types.MAIN_SITEBASIC_INFO, result.data)
         })
+    },
+    getSecCandyCodeList({
+        commit
+    }, params = {}) {
+        services.secCandyCodeList(params).then((result) => {
+            commit(types.SECCANDYCODELIST, result.data)
+        })
+    },
+    getSecCandyWalletList({
+        commit
+    }, params = {}) {
+        services.secCandyWalletList(params).then((result) => {
+            commit(types.SECCANDYWALLETLIST, result.data)
+        })
+    },
+    showSecCandyForm: ({
+        commit
+    }, params = {
+            edit: false,
+            formData: {}
+        }) => {
+        commit(types.SECCANDYCODEDETAILFORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideSecCandyDetails: ({
+        commit
+    }) => {
+        commit(types.SECCANDYCODEDETAILFORMSTATE, {
+            show: false
+        })
     }
 
 }

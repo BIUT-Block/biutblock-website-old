@@ -70,6 +70,10 @@
                     </el-option>
                 </el-select>
             </div>
+            <div v-else-if="type === 'secCandyCode'">
+                <el-input size="small" placeholder="分享码" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                </el-input>
+            </div>
             <!-- </el-form-item>
         </el-form> -->
         </div>
@@ -137,6 +141,14 @@ export default {
         });
       } else if (this.type == "regUser") {
         this.$store.dispatch("getRegUserList", {
+          searchkey
+        });
+      } else if (this.type == "secCandyCode") {
+        this.$store.dispatch("getSecCandyCodeList", {
+          searchkey
+        });
+      } else if (this.type == "secCandyWallet") {
+        this.$store.dispatch("getSecCandyWalletList", {
           searchkey
         });
       }

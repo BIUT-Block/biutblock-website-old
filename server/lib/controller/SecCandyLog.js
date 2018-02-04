@@ -27,6 +27,95 @@ class SecCandyLog {
         // super()
     }
 
+    async getSecCandyList(req, res, next) {
+        try {
+            let modules = req.query.modules;
+            let current = req.query.current || 1;
+            let pageSize = req.query.pageSize || 10;
+            let model = req.query.model; // 查询模式 full/simple
+            let searchkey = req.query.searchkey, queryObj = {};
+            if (model === 'full') {
+                pageSize = '1000'
+            }
+
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.passiveCode = { $regex: reKey }
+            }
+
+            const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'wallets',
+                select: 'walletId hasSend -_id'
+            }]).exec();
+            const totalItems = await SecCandyLogModel.count(queryObj);
+
+            let tagsData = {
+                state: 'success',
+                docs: secCandyList,
+                pageInfo: {
+                    totalItems,
+                    current: Number(current) || 1,
+                    pageSize: Number(pageSize) || 10,
+                    searchkey: searchkey || ''
+                }
+            };
+            if (modules && modules.length > 0) {
+                return tagsData;
+            } else {
+                res.send(tagsData);
+            }
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取ContentTag失败'
+            })
+        }
+    }
+
+    async getWalletsList(req, res, next) {
+        try {
+            let modules = req.query.modules;
+            let current = req.query.current || 1;
+            let pageSize = req.query.pageSize || 10;
+            let model = req.query.model; // 查询模式 full/simple
+            let searchkey = req.query.searchkey, queryObj = {};
+            if (model === 'full') {
+                pageSize = '1000'
+            }
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.walletId = { $regex: reKey }
+            }
+            const secWalletList = await WalletsModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
+            const totalItems = await WalletsModel.count(queryObj);
+
+            let tagsData = {
+                state: 'success',
+                docs: secWalletList,
+                pageInfo: {
+                    totalItems,
+                    current: Number(current) || 1,
+                    pageSize: Number(pageSize) || 10,
+                    searchkey: searchkey || ''
+                }
+            };
+            if (modules && modules.length > 0) {
+                return tagsData;
+            } else {
+                res.send(tagsData);
+            }
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取ContentTag失败'
+            })
+        }
+    }
+
     async addSecCandyLog(req, res, next) {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {

@@ -220,7 +220,14 @@ export default {
 
     delAds(params) {
         return reqJsonData('manage/ads/delete', params, 'get')
-    }
+    },
 
+    secCandyCodeList(params) {
+        return reqJsonData('manage/secCandy/getShareCodeList', params, 'get')
+    },
+
+    secCandyWalletList(params) {
+        return reqJsonData('manage/secCandy/getWalletList', params, 'get')
+    },
 
 }

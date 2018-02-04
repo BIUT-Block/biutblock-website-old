@@ -29,6 +29,9 @@ export default {
     adsList: state => state.ads.list,
     adsInfoForm: state => state.ads.infoFormState,
     adsItemForm: state => state.ads.itemFormState,
-    basicInfo: state => state.basicInfo
+    basicInfo: state => state.basicInfo,
+    secCandyCodeList: state => state.secCandyCodeList.list,
+    secCandyCodeDetailFormState: state => state.secCandyCodeList.formState,
+    secCandyWalletList: state => state.secCandyWalletList.list
 
 }

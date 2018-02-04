@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const { authSession, settings } = require('../../utils');
 const generalFun = require('../../utils/generalFun');
-const { ContentCategory, Content, SystemConfig } = require('../lib/controller');
+const { ContentCategory, Content, SystemConfig, SecCandyLog } = require('../lib/controller');
 const moment = require('moment');
 const shortid = require('shortid');
 
@@ -63,24 +63,30 @@ router.get('/sitemap.xml', (req, res, next) => {
 router.get('/', generalFun.getDataForIndexPage);
 
 // 糖果入口1
-router.get('/referral', (req, res, next) => {
+router.get('/referral', async (req, res, next) => {
   if (req.query.code && shortid.isValid(req.query.code)) {
     console.log('--req.query.code--', req.query.code);
-    if (!req.session.passiveCode) {
-      req.session.passiveCode = req.query.code;
-    } else {
-      // 已更换推荐码，重新记录
-      if (req.query.code != req.session.passiveCode) {
-        req.session.addWalletSuccess = false;
-        req.session.shareId = '';
+    // 查询是否是真实推荐码
+    let oldWallet = await SecCandyLog.checkCurrentCode(req.query.code);
+    if (oldWallet && oldWallet._id) {
+      if (!req.session.passiveCode) {
         req.session.passiveCode = req.query.code;
+      } else {
+        // 已更换推荐码，重新记录
+        if (req.query.code != req.session.passiveCode) {
+          req.session.addWalletSuccess = false;
+          req.session.shareId = '';
+          req.session.passiveCode = req.query.code;
+        }
       }
+      next();
+    } else {
+      console.log('非法推荐码');
+      res.redirect('/');
     }
-
-    // req.session.addWalletSuccess = false;
-    next();
   } else {
     // 请求非法
+    console.log('非法推荐码');
     res.redirect('/');
   }
 }, generalFun.getDataForReferralPage);
