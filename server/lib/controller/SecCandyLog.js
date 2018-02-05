@@ -188,19 +188,27 @@ class SecCandyLog {
         try {
             const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId });
             const myWallet = await WalletsModel.findOne({ myCode: req.session.shareId });
-            let baseCoin = myWallet.hasSend ? 20 : 0;
-            if (targetCandyLog && targetCandyLog._id) {
-                let wallets = targetCandyLog.wallets
-                return {
-                    rcvNum: wallets.length,
-                    rcvScore: wallets.length * 20 + baseCoin
+            if (myWallet && myWallet.hasSend) {
+                let baseCoin = myWallet.hasSend ? 20 : 0;
+                if (targetCandyLog && targetCandyLog._id) {
+                    let wallets = targetCandyLog.wallets
+                    return {
+                        rcvNum: wallets.length,
+                        rcvScore: wallets.length * 20 + baseCoin
+                    }
+                } else {
+                    return {
+                        rcvNum: 0,
+                        rcvScore: baseCoin
+                    }
                 }
             } else {
                 return {
                     rcvNum: 0,
-                    rcvScore: baseCoin
+                    rcvScore: 0
                 }
             }
+
         } catch (error) {
             logUtil.error(err, req);
             res.send({

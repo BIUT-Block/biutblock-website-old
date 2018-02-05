@@ -74,6 +74,10 @@
                 <el-input size="small" placeholder="分享码" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                 </el-input>
             </div>
+             <div v-else-if="type === 'secCandyWallet'">
+                <el-input size="small" placeholder="钱包地址" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                </el-input>
+            </div>
             <!-- </el-form-item>
         </el-form> -->
         </div>
