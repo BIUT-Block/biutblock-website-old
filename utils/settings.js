@@ -58,7 +58,10 @@ module.exports = {
     system_atLeast_one: '请选择至少一项后再执行删除操作！',
     system_batch_delete_not_allowed: '对不起，该模块不允许批量删除！',
     system_error_imageType: '文件格式不正确，请重新上传',
-    system_error_upload: '上传失败，请稍后重试'
+    system_error_upload: '上传失败，请稍后重试',
+
+    // 糖果配置
+    maxSecShareNum: 2
 };
 
 

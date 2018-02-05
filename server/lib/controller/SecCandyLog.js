@@ -190,6 +190,9 @@ class SecCandyLog {
             const myWallet = await WalletsModel.findOne({ myCode: req.session.shareId });
             if (myWallet && myWallet.hasSend) {
                 let baseCoin = myWallet.hasSend ? 20 : 0;
+                let shareNum = wallets.length;
+                if (shareNum > settings.maxSecShareNum) shareNum = settings.maxSecShareNum;
+                let totalWallet = shareNum * 20 + baseCoin;
                 if (targetCandyLog && targetCandyLog._id) {
                     let wallets = targetCandyLog.wallets
                     return {
