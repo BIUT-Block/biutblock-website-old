@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+router.caseSensitive = true
+router.strict = true
 const fs = require('fs')
 const path = require('path')
 const { authSession, settings } = require('../../utils');

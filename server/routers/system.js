@@ -4,6 +4,8 @@
  */
 const express = require('express');
 const router = express.Router();
+router.caseSensitive = true;
+router.strict = true
 //文件上传类
 const formidable = require('formidable'),
     util = require('util'),

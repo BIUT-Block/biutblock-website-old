@@ -208,7 +208,7 @@ app.get('*', (req, res) => {
     let Page404 = `
         <div style="text-align:center">
             <h3 style="width: 25%;font-size: 12rem;color: #409eff;margin: 0 auto;margin-top: 10%;">404</h3>
-            <div style="font-size: 15px;color: #878d99;">太调皮辣，不过我喜欢...哼哼 😏👽 &nbsp;<a href="/">返回首页</a></div>
+            <div style="font-size: 15px;color: #878d99;">您访问的页面不存在，或请稍后重试！ &nbsp;<a href="/">返回首页</a></div>
         </div>
     `
     res.send(Page404)

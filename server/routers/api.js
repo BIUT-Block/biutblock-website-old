@@ -4,6 +4,8 @@
  */
 const express = require('express')
 const router = express.Router()
+router.caseSensitive = true
+router.strict = true
 const {
   authSession,
   cache,
