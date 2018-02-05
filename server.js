@@ -157,22 +157,14 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public'), config = qnParams
 }));
 
 // Telegraf监听
-const bot = new Telegraf('543268685:AAHR6T7TgykrH6zsgQM78u0i0lYoF3Xbrds')
-console.log('------', '初始化');
-// bot.hears('hi', (ctx) => {
-//     console.log('--------');
-//     ctx.reply('Hey there!')
-// })
+const bot = new Telegraf('543268685:AAHR6T7TgykrH6zsgQM78u0i0lYoF3Xbrds');
 bot.on('text', async ({ message, replyWithHTML }) => {
-    // console.log('----message---', message.text);
     if (message) {
         let currentCode = (message.text).trim();
-        // console.log('---currentCode---', currentCode);
         if (shortid.isValid(currentCode)) {
             try {
                 let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
                 if (myWallet && myWallet._id) {
-                    console.log('----', myWallet);
                     if (myWallet) {
                         replyWithHTML('Your code: ' + myWallet._id + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet._id + '，校验失败，每个Telegram用户仅可校验一次。')
                     } else {

@@ -36,7 +36,7 @@
                 </div>
             </el-col>
             <el-col :span="16">
-                <div class="data-statistics">
+                <div class="data-statistics" style="display:none">
                     <el-row :gutter="10">
                         <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
                             <StaticPannel icon="fa-user" :num="basicInfo.adminUserCount" type="primary" text="管理员总数"/>
@@ -52,7 +52,7 @@
                         </el-col>
                     </el-row>
                 </div>
-                <div class="grid-content bg-purple">
+                <div class="grid-content bg-purple"  style="display:none">
                     <el-card class="box-card pannel-box">
                         <div slot="header" class="clearfix">
                             <span>快捷操作</span>
@@ -87,7 +87,7 @@
         </el-row>
         <el-row :gutter="15">
             <el-col :span="12">
-                <div class="grid-content bg-purple-light">
+                <div class="grid-content bg-purple-light" style="display:none">
                     <el-card class="box-card pannel-box">
                         <div slot="header" class="clearfix">
                             <span>近期评论</span>
@@ -119,7 +119,7 @@
                 </div>
             </el-col>
             <el-col :span="12">
-                <div class="grid-content bg-purple">
+                <div class="grid-content bg-purple"  style="display:none">
                     <el-card class="box-card pannel-box">
                         <div slot="header" class="clearfix">
                             <span>新注册用户</span>
