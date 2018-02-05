@@ -194,11 +194,9 @@ class SecCandyLog {
                     let wallets = targetCandyLog.wallets
                     let shareNum = wallets.length;
                     if (shareNum > settings.maxSecShareNum) shareNum = settings.maxSecShareNum;
-                    let totalWallet = shareNum * 20 + baseCoin;
-
                     return {
                         rcvNum: wallets.length,
-                        rcvScore: wallets.length * 20 + baseCoin
+                        rcvScore: shareNum * 20 + baseCoin
                     }
                 } else {
                     return {
