@@ -165,7 +165,7 @@ bot.on('text', async ({ message, replyWithHTML }) => {
             try {
                 let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
                 if (myWallet && myWallet._id) {
-                    if (myWallet) {
+                    if (myWallet.hasSend) {
                         replyWithHTML('Your code: ' + myWallet._id + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet._id + '，校验失败，每个Telegram用户仅可校验一次。')
                     } else {
                         let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
