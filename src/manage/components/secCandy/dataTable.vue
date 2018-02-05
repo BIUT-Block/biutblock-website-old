@@ -5,9 +5,14 @@
             </el-table-column>
             <el-table-column prop="passiveCode" label="分享码" width="120">
             </el-table-column>
-            <el-table-column prop="wallets" label="被分享次数">
+            <el-table-column prop="wallets" label="被分享总数">
                 <template slot-scope="scope">
                     {{scope.row.wallets.length}}
+                </template>
+            </el-table-column>
+            <el-table-column prop="wallets" label="有效被分享次数">
+                <template slot-scope="scope">
+                    {{currentShareNum(scope.row.wallets)}}
                 </template>
             </el-table-column>
             <el-table-column prop="date" label="更新时间">
@@ -24,6 +29,7 @@
 
 <script>
 import services from "../../store/services.js";
+import _ from "lodash";
 export default {
   props: {
     dataList: Array,
@@ -35,8 +41,14 @@ export default {
       multipleSelection: []
     };
   },
-
+  computed: {},
   methods: {
+    currentShareNum(wallets) {
+      let currentWallets = _.filter(wallets, wallet => {
+        return wallet.hasSend;
+      });
+      return currentWallets.length;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },

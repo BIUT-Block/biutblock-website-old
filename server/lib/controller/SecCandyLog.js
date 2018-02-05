@@ -134,20 +134,19 @@ class SecCandyLog {
                 passiveCode: req.session.passiveCode,
             }
             try {
-                // 先看钱包是否已经绑定过
+                // 先看钱包是否已经绑定过 如果已通过其他链接绑定，则此处再分享是无效的
                 const targetWallet = await WalletsModel.findOne({ walletId: fields.walletAddress });
                 let userWalletId = "", myShareId = shortid.generate();
+
                 if (targetWallet && targetWallet._id) {
-                    userWalletId = targetWallet._id;
                     myShareId = targetWallet.myCode;
                 } else {
                     // 创建钱包并生成分享ID
                     const newWallet = new WalletsModel({ walletId: fields.walletAddress, myCode: myShareId });
                     const newWalletObj = await newWallet.save();
                     userWalletId = newWalletObj._id;
-                }
-                
-                if (req.session.passiveCode != myShareId) {
+
+                    // 更新分享记录
                     const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
                     if (targetCandyLog && targetCandyLog._id) {
                         // 去重
@@ -184,16 +183,24 @@ class SecCandyLog {
         let shareId = req.session.shareId;
         console.log('---req.session.shareId----', req.session.shareId);
         try {
-            const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId });
+            const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId }).populate([{
+                path: 'wallets',
+                select: 'walletId hasSend -_id'
+            }]).exec();
             const myWallet = await WalletsModel.findOne({ myCode: req.session.shareId });
             if (myWallet && myWallet.hasSend) {
                 let baseCoin = 20;
                 if (targetCandyLog && targetCandyLog._id) {
-                    let wallets = targetCandyLog.wallets
-                    let shareNum = wallets.length;
+                    let wallets = targetCandyLog.wallets;
+                    // 通过电报群校验的被推荐者才计算
+                    let checkedWallets = _.filter(wallets, (wallet) => {
+                        return wallet.hasSend;
+                    });
+
+                    let shareNum = checkedWallets.length;
                     if (shareNum > settings.maxSecShareNum) shareNum = settings.maxSecShareNum;
                     return {
-                        rcvNum: wallets.length,
+                        rcvNum: shareNum,
                         rcvScore: shareNum * 20 + baseCoin
                     }
                 } else {

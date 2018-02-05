@@ -1,80 +1,84 @@
-{% extends "./public/defaultTemp.html" %} 
-{% block content %}
+{% extends "./public/defaultTemp.html" %} {% block content %}
 <script src="/javascripts/avalon.js"></script>
 <script src="/plugins/clipboard/dist/clipboard.min.js"></script>
 <div class="row top-banner referra-page-one">
     <div class="center-logo">
         <div class="row" style="margin:0;">
-         <div class="particles-js" id="particles-js"></div>
+            <div class="particles-js" id="particles-js"></div>
             <div class="col-xs-1 col-md-2">&nbsp;</div>
             {% if addWalletSuccess %}
-                <div class="col-xs-10 col-md-8" ms-controller="shareLink"> 
-                    <ul class="share-to-others">
-                        <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
-                        <li>
-                            <div class="i18n" name='share-step-two'>2.You can get 20 SEC awards by sending the following code to a group</div>
-                            <div class="share-input">
-                                <div class="input-group">
-                                    <input id="codeValue" type="text" class="form-control" value="{{shareId}}">
-                                    <span class="input-group-btn">
-                                        <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
-                                    </span>
-                                </div><!-- /input-group -->
+            <div class="col-xs-10 col-md-8" ms-controller="shareLink">
+                <ul class="share-to-others">
+                    <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
+                    <li>
+                        <div class="i18n" name='share-step-two'>2.You can get 20 SEC awards by sending the following code to a group</div>
+                        <div class="share-input">
+                            <div class="input-group">
+                                <input id="codeValue" type="text" class="form-control" value="{{shareId}}">
+                                <span class="input-group-btn">
+                                    <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                </span>
                             </div>
+                            <!-- /input-group -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another
+                            20 SEC awards!</div>
+                        <div class="share-input">
+                            <div class="input-group">
+                                <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
+                                <span class="input-group-btn">
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                    </li>
+                </ul>
+                <div class="share-tongji">
+                    <ul class="row">
+                        <li class="col-xs-6 col-md-6">
+                            <span class="i18n" name='share-invitation'>Successful invitation (Person time)</span>
+                            <h3>{{rcvInfo.rcvNum}}</h3>
                         </li>
-                        <li>
-                            <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another 20 SEC awards!</div>
-                            <div class="share-input">
-                                <div class="input-group">
-                                    <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
-                                    <span class="input-group-btn">
-                                        <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
-                                    </span>
-                                </div><!-- /input-group -->
-                            </div>
+                        <li class="col-xs-6 col-md-6">
+                            <span class="i18n" name='share-earned'>Earned SEC (Number of pieces)</span>
+                            <h3>{{rcvInfo.rcvScore}}</h3>
                         </li>
                     </ul>
-                    <div class="share-tongji">
-                        <ul class="row">
-                            <li class="col-xs-6 col-md-6">
-                                <span class="i18n" name='share-invitation'>Successful invitation (Person time)</span>
-                                <h3>{{rcvInfo.rcvNum}}</h3>
-                            </li>
-                            <li class="col-xs-6 col-md-6">
-                                <span class="i18n" name='share-earned'>Earned SEC (Number of pieces)</span>
-                                <h3>{{rcvInfo.rcvScore}}</h3>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
+            </div>
             {% else %}
-                <div class="col-xs-10 col-md-8" ms-controller="addWallet"> 
-                    <div class="logo-text">
-                        <span class="i18n" name='secdes'>the next generation of block-chain protocols in the e-commerce domain based on social trust</span>
-                    </div>
-                    <div class="add-Group">
-                        <button type="button" class="i18n btn btn-default" name='addGroupBtn'>The SEC's Official Telegram Group</button>
-                    </div>
-                    <div class="join-notice">
-                        <span class="i18n" name='join-notice'>Join the SEC's official Telegram group to get 20 awards of SEC.
-    An additional 20 awards of SEC are available for each successful invitation.</span>
-                    </div>
-                    <div class="i18n wallet-info" name='wallet-info'>
-                        Please enter the ETH wallet address
-                    </div>
-                    <div class="wallet-input">
-                        <form class="form-inline" id="addWalletForm" ms-validate="@validate">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址" ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}" placeholder="">
-                                    <span class="input-group-btn">
-                                        <button class="i18n btn btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
-                                    </span>
-                                </div><!-- /input-group -->
-                            </div>
-                        </form>
-                    </div>
+            <div class="col-xs-10 col-md-8" ms-controller="addWallet">
+                <div class="logo-text">
+                    <span class="i18n" name='secdes'>the next generation of block-chain protocols in the e-commerce domain based on social trust</span>
                 </div>
+                <div class="add-Group">
+                    <button type="button" :click="openTelegram" class="i18n btn btn-default" name='addGroupBtn'>The SEC's Official Telegram Group</button>
+                </div>
+                <div class="join-notice">
+                    <span class="i18n" name='join-notice'>Join the SEC's official Telegram group to get 20 awards of SEC. An additional 20 awards of SEC are available
+                        for each successful invitation.</span>
+                </div>
+                <div class="i18n wallet-info" name='wallet-info'>
+                    Please enter the ETH wallet address
+                </div>
+                <div class="wallet-input">
+                    <form class="form-inline" id="addWalletForm" ms-validate="@validate">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址"
+                                    ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}" placeholder="">
+                                <span class="input-group-btn">
+                                    <button class="i18n btn btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                    </form>
+                </div>
+            </div>
             {% endif %}
             <div class="col-xs-1 col-md-2">&nbsp;</div>
         </div>
@@ -83,31 +87,31 @@
 </div>
 <script>
     var walletErr = "您输入的钱包地址不正确，请重新输入！";
-    $(function(){
+    $(function () {
         // 弹出信息国际化
         var cpSuccess = "复制成功!";
         var cpInfo = "请手动选择输入框内容复制!";
-        if($('body').hasClass('type-en')){
+        if ($('body').hasClass('type-en')) {
             cpSuccess = "Copy success!";
-            cpInfo="Please manually select the content copy of the input box!";
+            cpInfo = "Please manually select the content copy of the input box!";
             walletErr = "The address of the wallet you entered is not correct, please reenter it"
         }
         //复制分享码
         var cpCodeBtn = new Clipboard('#copyCode-btn');
-        cpCodeBtn.on('success', function(e) {
+        cpCodeBtn.on('success', function (e) {
             alert(cpSuccess);
             e.clearSelection();
         });
-        cpCodeBtn.on('error', function(e) {
+        cpCodeBtn.on('error', function (e) {
             alert(cpInfo);
         });
         // 复制分享链接
         var slinkBtn = new Clipboard('#shareLikn-btn');
-        slinkBtn.on('success', function(e) {
+        slinkBtn.on('success', function (e) {
             alert(cpSuccess);
             e.clearSelection();
         });
-        slinkBtn.on('error', function(e) {
+        slinkBtn.on('error', function (e) {
             alert(cpInfo);
         });
     })
@@ -116,6 +120,9 @@
         walletAddress: '',
         message: '',
         showErr: false,
+        openTelegram: function () {
+            window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+        },
         validate: {
             onError: function (reasons) {
                 reasons.forEach(function (reason) {
@@ -142,7 +149,7 @@
                         success: function (data) {
                             console.log('success:', data)
                             if (data.state == 'success') {
-                               window.location.reload();
+                                window.location.reload();
                             } else {
                                 addWalletVm.showErr = true;
                                 addWalletVm.message = data.message;
@@ -160,7 +167,6 @@
 
     var shareLinkVm = avalon.define({
         $id: 'shareLink',
-        myCode:''
+        myCode: ''
     })
-</script>
-{% endblock %}
+</script> {% endblock %}

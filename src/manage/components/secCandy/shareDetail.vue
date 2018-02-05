@@ -4,7 +4,7 @@
             <div v-if="dialogState.formData && dialogState.formData.wallets && dialogState.formData.wallets.length>0">
                 <ol>
                     <li v-for="wallet in dialogState.formData.wallets" :key="wallet._id">
-                        <span>{{wallet.walletId}}</span>
+                        <span :style="wallet.hasSend ? green : gray">{{wallet.walletId}}</span>
                     </li>
                 </ol>
             </div>
@@ -23,7 +23,10 @@ export default {
     groups: Array
   },
   data() {
-    return {};
+    return {
+      green: { color: "#13CE66", fontWeight: "bold" },
+      gray: { color: "gray" }
+    };
   },
   methods: {
     confirm() {
