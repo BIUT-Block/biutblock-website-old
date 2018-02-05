@@ -189,12 +189,13 @@ class SecCandyLog {
             const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId });
             const myWallet = await WalletsModel.findOne({ myCode: req.session.shareId });
             if (myWallet && myWallet.hasSend) {
-                let baseCoin = myWallet.hasSend ? 20 : 0;
-                let shareNum = wallets.length;
-                if (shareNum > settings.maxSecShareNum) shareNum = settings.maxSecShareNum;
-                let totalWallet = shareNum * 20 + baseCoin;
+                let baseCoin = 20;
                 if (targetCandyLog && targetCandyLog._id) {
                     let wallets = targetCandyLog.wallets
+                    let shareNum = wallets.length;
+                    if (shareNum > settings.maxSecShareNum) shareNum = settings.maxSecShareNum;
+                    let totalWallet = shareNum * 20 + baseCoin;
+
                     return {
                         rcvNum: wallets.length,
                         rcvScore: wallets.length * 20 + baseCoin
@@ -213,7 +214,7 @@ class SecCandyLog {
             }
 
         } catch (error) {
-            logUtil.error(err, req);
+            logUtil.error(error, req);
             res.send({
                 state: 'error',
                 type: 'ERROR_IN_SAVE_DATA',
