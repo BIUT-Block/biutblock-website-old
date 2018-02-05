@@ -142,29 +142,27 @@ class SecCandyLog {
                     myShareId = targetWallet.myCode;
                 } else {
                     // 创建钱包并生成分享ID
-                    // console.log('---myShareId---', myShareId);
                     const newWallet = new WalletsModel({ walletId: fields.walletAddress, myCode: myShareId });
                     const newWalletObj = await newWallet.save();
-                    // console.log('---newWalletObj---', newWalletObj);
                     userWalletId = newWalletObj._id;
                 }
-                const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
-                if (targetCandyLog && targetCandyLog._id) {
-                    // console.log('---userWalletId--', userWalletId);
-                    // 去重
-                    targetCandyLog.wallets.push(userWalletId);
-                    // console.log('----targetCandyLog.wallets--', targetCandyLog.wallets);
-                    let currentWallets = _.uniq(targetCandyLog.wallets);
-                    let newContent = await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { 'wallets': currentWallets });
-                } else {
-                    let currentWallets = [];
-                    currentWallets.push(userWalletId)
-                    // console.log('-----userWalletId---', userWalletId, '----', currentWallets);
-                    walletObj.wallets = currentWallets;
-                    // console.log('---walletObj---', walletObj);
-                    const newSecCandyLog = new SecCandyLogModel(walletObj);
-                    await newSecCandyLog.save();
+                
+                if (req.session.passiveCode != myShareId) {
+                    const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
+                    if (targetCandyLog && targetCandyLog._id) {
+                        // 去重
+                        targetCandyLog.wallets.push(userWalletId);
+                        let currentWallets = _.uniq(targetCandyLog.wallets);
+                        await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { 'wallets': currentWallets });
+                    } else {
+                        let currentWallets = [];
+                        currentWallets.push(userWalletId)
+                        walletObj.wallets = currentWallets;
+                        const newSecCandyLog = new SecCandyLogModel(walletObj);
+                        await newSecCandyLog.save();
+                    }
                 }
+
                 // 标记该用户已接受分享成功
                 req.session.addWalletSuccess = true;
                 req.session.shareId = myShareId;
