@@ -200,7 +200,7 @@ class SecCandyLog {
                     let shareNum = checkedWallets.length;
                     if (shareNum > settings.maxSecShareNum) shareNum = settings.maxSecShareNum;
                     return {
-                        rcvNum: shareNum,
+                        rcvNum: checkedWallets.length,
                         rcvScore: shareNum * 20 + baseCoin
                     }
                 } else {
