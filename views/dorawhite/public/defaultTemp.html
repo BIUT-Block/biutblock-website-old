@@ -1,6 +1,6 @@
 <!--默认全局模板框架-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="html-{{pageType}}">
 
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.js"></script>
     <![endif]-->
 
-    <script src="/themes/{{staticforder}}/plugins/jquery/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script src="/themes/{{staticforder}}/plugins/jquery/jquery.i18n.properties-1.0.9.js"></script>
     {% if pageType != 'adminlogin' %}
     <script>
