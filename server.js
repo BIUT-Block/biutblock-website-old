@@ -66,6 +66,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser(settings.session_secret));
 // session配置
 let sessionConfig = {};
+console.log('Redis状态开关：', settings.openRedis);
 if (settings.openRedis) {
     sessionConfig = {
         secret: settings.session_secret,
