@@ -49,9 +49,17 @@ class SecCandyLog {
             }]).exec();
             const totalItems = await SecCandyLogModel.count(queryObj);
 
+            let newCandyList = JSON.parse(JSON.stringify(secCandyList));
+            for (let item of newCandyList) {
+                let currentWallet = await WalletsModel.findOne({ myCode: item.passiveCode });
+                if (currentWallet && currentWallet._id) {
+                    item.passiveWallet = currentWallet;
+                }
+            }
+
             let tagsData = {
                 state: 'success',
-                docs: secCandyList,
+                docs: newCandyList,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,

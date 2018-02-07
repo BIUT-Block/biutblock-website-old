@@ -3,20 +3,31 @@
         <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="passiveCode" label="分享码" width="120">
+            <el-table-column prop="passiveWallet" label="被分享(钱包地址)" width="380">
+                <template slot-scope="scope">
+                    {{scope.row.passiveWallet.walletId}}
+                </template>
             </el-table-column>
-            <el-table-column prop="wallets" label="被分享总数">
+            <!-- <el-table-column prop="passiveCode" label="分享码" >
+            </el-table-column> -->
+            <el-table-column prop="wallets" label="被分享总数" width="100">
                 <template slot-scope="scope">
                     {{scope.row.wallets.length}}
                 </template>
             </el-table-column>
-            <el-table-column prop="wallets" label="有效被分享次数">
-                <template slot-scope="scope">
-                    {{currentShareNum(scope.row.wallets)}}
-                </template>
+            <el-table-column prop="wallets" label="获得奖励" width="180">
+              <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                  <p>状态: {{ scope.row.passiveWallet.hasSend ?'未校验':'已校验' }}</p>
+                  <p>有效分享: {{currentShareNum(scope.row).currentShareNum}} &nbsp;次</p>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag size="medium" type="success">{{currentShareNum(scope.row).currentShareCoin}}&nbsp;SEC</el-tag>
+                  </div>
+                </el-popover>
+              </template>
             </el-table-column>
-            <el-table-column prop="date" label="更新时间">
-            </el-table-column>
+            <!-- <el-table-column prop="date" label="更新时间">
+            </el-table-column> -->
             <el-table-column label="详情" width="150">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" plain round @click="editSecCandy(scope.$index, dataList)"><i class="fa fa-edit"></i></el-button>
@@ -43,11 +54,32 @@ export default {
   },
   computed: {},
   methods: {
-    currentShareNum(wallets) {
-      let currentWallets = _.filter(wallets, wallet => {
-        return wallet.hasSend;
-      });
-      return currentWallets.length;
+    currentShareNum(row) {
+      let wallets = row.wallets;
+      // TODO生产环境需要修改
+      let limitShareNum = 2;
+      let currentShareNum = 0,
+        currentShareCoin = 0,
+        currentWallets = [];
+      // 判断被分享者是否被激活
+      if (row.passiveWallet.hasSend) {
+        currentWallets = _.filter(wallets, wallet => {
+          return wallet.hasSend;
+        });
+        currentShareNum =
+          currentWallets.length > limitShareNum
+            ? limitShareNum
+            : currentWallets.length;
+        currentShareCoin = currentShareNum * 20 + 20;
+      } else {
+        currentShareNum = 0;
+        currentShareCoin = 0;
+      }
+
+      return {
+        currentShareNum,
+        currentShareCoin
+      };
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
