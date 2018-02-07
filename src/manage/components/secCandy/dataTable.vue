@@ -18,7 +18,7 @@
             <el-table-column prop="wallets" label="获得奖励" width="180">
               <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
-                  <p>状态: {{ scope.row.passiveWallet.hasSend ?'未校验':'已校验' }}</p>
+                  <p>状态: {{ scope.row.passiveWallet.hasSend ?'已校验':'未校验' }}</p>
                   <p>有效分享: {{currentShareNum(scope.row).currentShareNum}} &nbsp;次</p>
                   <div slot="reference" class="name-wrapper">
                     <el-tag size="medium" type="success">{{currentShareNum(scope.row).currentShareCoin}}&nbsp;SEC</el-tag>
