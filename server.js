@@ -148,7 +148,6 @@ app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
-app.use(botClient.webhookCallback('/' + webhookToken))
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {
@@ -212,6 +211,7 @@ app.get('/manage', authSession, function (req, res) {
     })
 });
 app.use('/manage', manage);
+app.use(botClient.webhookCallback('/' + webhookToken));
 
 // 404 页面
 app.get('*', (req, res) => {
