@@ -36,9 +36,14 @@ const system = require('./server/routers/system');
 const message = require('./server/routers/message');
 
 // 机器人配置
-const botClient = require('./botClient');
+// const botClient = require('./botClient');
+// botClient.setWebhook(settings.BASE_URL + '/' + webhookToken);
+
+const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
+botClient.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hey there!</b>'))
+// Set telegram webhook
 let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
-botClient.setWebhook(settings.BASE_URL + '/' + webhookToken);
+botClient.telegram.setWebhook(settings.BASE_URL + '/' + webhookToken)
 
 const app = express()
 
@@ -117,11 +122,12 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 
 // api 路由
-app.use('/' + webhookToken, message);
+// app.use('/' + webhookToken, message);
 app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
+app.use(botClient.webhookCallback('/' + webhookToken))
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {
