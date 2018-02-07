@@ -8,8 +8,8 @@
                     {{scope.row.passiveWallet.walletId}}
                 </template>
             </el-table-column>
-            <!-- <el-table-column prop="passiveCode" label="分享码" >
-            </el-table-column> -->
+            <el-table-column prop="passiveCode" label="分享码" width="100">
+            </el-table-column>
             <el-table-column prop="wallets" label="分享总数" width="100">
                 <template slot-scope="scope">
                     {{scope.row.wallets.length}}
