@@ -7,7 +7,7 @@
                 <template slot-scope="scope">
                     {{scope.row.passiveWallet.walletId}}
                 </template>
-            <!-- </el-table-column> -->
+            </el-table-column>
             <!-- <el-table-column prop="passiveCode" label="分享码" >
             </el-table-column> -->
             <el-table-column prop="wallets" label="被分享总数" width="100">
@@ -15,7 +15,7 @@
                     {{scope.row.wallets.length}}
                 </template>
             </el-table-column>
-            <el-table-column prop="wallets" label="获得奖励" width="180">
+            <el-table-column prop="wallets" label="获得奖励">
               <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
                   <p>状态: {{ scope.row.passiveWallet.hasSend ?'已校验':'未校验' }}</p>
@@ -30,8 +30,7 @@
             </el-table-column> -->
             <el-table-column label="详情" width="150">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="primary" plain round @click="editSecCandy(scope.$index, dataList)"><i class="fa fa-edit"></i></el-button>
-                    <!-- <el-button size="mini" type="danger" plain round icon="el-icon-delete" @click="deleteSecCandy(scope.$index, dataList)"></el-button> -->
+                    <el-button size="mini" type="primary" plain round @click="editSecCandy(scope.$index, dataList)"><i class="fa fa-file-text"></i></el-button>
                 </template>
             </el-table-column>
         </el-table>
