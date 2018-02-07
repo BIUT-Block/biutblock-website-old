@@ -19,6 +19,7 @@ const _ = require('lodash')
 const Telegraf = require('telegraf')
 const { reply } = Telegraf
 const shortid = require('shortid');
+const randomstring = require('randomstring');
 const resolve = file => path.resolve(__dirname, file)
 
 
@@ -32,6 +33,7 @@ const foreground = require('./server/routers/foreground')
 const users = require('./server/routers/users')
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
+const message = require('./server/routes/message');
 
 const app = express()
 
@@ -112,6 +114,11 @@ app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
+// 机器人配置
+const botClient = require('./botClient');
+let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
+botClient.setWebhook(settings.BASE_URL + '/' + webhookToken);
+app.use('/' + webhookToken, message);
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {

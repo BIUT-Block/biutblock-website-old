@@ -61,6 +61,9 @@ module.exports = {
     system_error_upload: '上传失败，请稍后重试',
 
     // 糖果配置
+    TELEGRAM_API_TOKEN: "543268685:AAHR6T7TgykrH6zsgQM78u0i0lYoF3Xbrds",
+    BASE_URL: "https://www.secblock.io",
+    WEBHOOK_TOKEN: "",
     maxSecShareNum: 2
 };
 
