@@ -37,7 +37,7 @@ const message = require('./server/routers/message');
 
 // 机器人配置
 const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
-bot.on('text', async ({ message, replyWithHTML }) => {
+botClient.on('text', async ({ message, replyWithHTML }) => {
     if (message) {
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
