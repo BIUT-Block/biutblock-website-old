@@ -4,6 +4,7 @@ var botClient = require('../../botClient');
 var router = express.Router();
 
 router.post('/', function (req, res, next) {
+    console.log('---------cc-', req.originalUrl);
     console.log('--telegrame--', req.body.message);
     if (req.body.message) {
         botClient
