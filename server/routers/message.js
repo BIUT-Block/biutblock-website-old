@@ -17,7 +17,7 @@ router.post('/', function (req, res, next) {
             .catch(next);
     } else {
         console.log('--999---');
-        next();
+        res.end();
     }
 
 });
