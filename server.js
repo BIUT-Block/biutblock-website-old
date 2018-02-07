@@ -33,7 +33,7 @@ const foreground = require('./server/routers/foreground')
 const users = require('./server/routers/users')
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
-const message = require('./server/routes/message');
+const message = require('./server/routers/message');
 
 const app = express()
 
