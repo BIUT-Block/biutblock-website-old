@@ -33,7 +33,6 @@ const foreground = require('./server/routers/foreground')
 const users = require('./server/routers/users')
 const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
-const message = require('./server/routers/message');
 
 // 机器人配置
 const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
@@ -144,7 +143,7 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 
 // api 路由
-// app.use('/' + webhookToken, message);
+
 app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
