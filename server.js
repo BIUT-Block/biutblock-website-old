@@ -110,16 +110,17 @@ app.use('/static', serve('./dist/static', true))
 app.use('/manifest.json', serve('./manifest.json'))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
-// 机器人配置
-const botClient = require('./botClient');
-let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
-botClient.setWebhook(settings.BASE_URL + '/' + webhookToken);
-app.use('/' + webhookToken, message);
+
 // api 路由
 app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
+// 机器人配置
+const botClient = require('./botClient');
+let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
+botClient.setWebhook(settings.BASE_URL + '/message/' + webhookToken);
+app.use('/message/' + webhookToken, message);
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {
