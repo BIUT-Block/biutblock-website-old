@@ -1,5 +1,5 @@
 var express = require('express');
-var botClient = require('./../botClient');
+var botClient = require('../../botClient');
 
 var router = express.Router();
 
