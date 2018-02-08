@@ -235,4 +235,7 @@ $(function () {
 
     renderTimeLine('left');
     renderTimeLine('right');
+
+    $('.type-zh-CN .submit-txt').attr('href', 'http://cn.mikecrm.com/FNWGSAO')
+    $('.type-en .submit-txt').attr('href', 'http://cn.mikecrm.com/vsOwP3d')
 });

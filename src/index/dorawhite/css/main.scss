@@ -385,6 +385,11 @@ label {
                             word-break: break-all;
                             font-size: 13px;
                         }
+                        .submit-txt {
+                            font-size: 13px; // position: absolute;
+                            color: #ffffff;
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
