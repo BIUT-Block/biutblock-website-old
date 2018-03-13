@@ -56,7 +56,7 @@ export default {
     currentShareNum(row) {
       let wallets = row.wallets;
       // TODO生产环境需要修改
-      let limitShareNum = 2;
+      let maxSecShareNum = 29;
       let currentShareNum = 0,
         currentShareCoin = 0,
         currentWallets = [];
@@ -66,8 +66,8 @@ export default {
           return wallet.hasSend;
         });
         currentShareNum =
-          currentWallets.length > limitShareNum
-            ? limitShareNum
+          currentWallets.length > maxSecShareNum
+            ? maxSecShareNum
             : currentWallets.length;
         currentShareCoin = currentShareNum * 20 + 20;
       } else {
