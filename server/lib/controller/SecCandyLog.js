@@ -6,6 +6,7 @@ const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../.
 const shortid = require('shortid');
 const validator = require('validator')
 const _ = require('lodash');
+const axios = require('axios');
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -168,11 +169,35 @@ class SecCandyLog {
                         const newSecCandyLog = new SecCandyLogModel(walletObj);
                         await newSecCandyLog.save();
                     }
+
+
+                    // 针对被分享的用户进行发币处理
+                    // 1、获取被分享者的信息
+                    let targetSecCandy = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
+                    if (targetSecCandy && targetSecCandy._id) {
+                        let shareTotalNum = targetSecCandy.wallets.length;
+                        // 2、在约定的分享次数范围内进行发币
+                        if (shareTotalNum < settings.maxSecShareNum) {
+                            let currentWallet = await WalletsModel.findOne({ myCode: req.session.passiveCode });
+                            if (currentWallet && currentWallet._id) {
+                                // 获取需要发币的钱包
+                                let targetWallet = currentWallet.walletId;
+                                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
+                                if (writeState.status == 'success') {
+                                    logUtil.info(targetWallet, '转账成功！')
+                                } else {
+                                    logUtil.info(targetWallet, '转账失败！')
+                                }
+                            }
+                        }
+                    }
+
                 }
 
                 // 标记该用户已接受分享成功
                 req.session.addWalletSuccess = true;
                 req.session.shareId = myShareId;
+
                 res.send({
                     state: 'success'
                 });
