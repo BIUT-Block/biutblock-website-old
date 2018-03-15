@@ -236,6 +236,8 @@ $(function () {
     renderTimeLine('left');
     renderTimeLine('right');
 
-    $('.type-zh-CN .submit-txt').attr('href', 'http://cn.mikecrm.com/FNWGSAO')
-    $('.type-en .submit-txt').attr('href', 'http://cn.mikecrm.com/vsOwP3d')
+    // $('.type-zh-CN .submit-txt').attr('href', 'http://cn.mikecrm.com/FNWGSAO')
+    // $('.type-en .submit-txt').attr('href', 'http://cn.mikecrm.com/vsOwP3d')
+    $('.type-zh-CN .wplink').attr('href', '/themes/dorawhite/doc/SEC-whitepaper-v3.66.pdf')
+    $('.type-en .wplink').attr('href', '/themes/dorawhite/doc/SEC-whitepaper-v3.66-english.pdf')
 });
