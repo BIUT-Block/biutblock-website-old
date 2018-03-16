@@ -16,6 +16,7 @@ var SecCandyLogSchema = new Schema({
     wallets: [{ type: String, ref: 'Wallets' }], // 被分享用户
     passiveCode: String, // 被分享Code
     date: { type: Date, default: Date.now },
+    getCoins: { type: Number, default: 0 },
     logs: String
 });
 

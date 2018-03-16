@@ -185,6 +185,7 @@ class SecCandyLog {
                                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
                                 if (writeState.status == 'success') {
                                     logUtil.info(targetWallet, '转账成功！')
+                                    await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
                                 } else {
                                     logUtil.info(targetWallet, '转账失败！')
                                 }
@@ -266,7 +267,26 @@ class SecCandyLog {
     }
 
     async activeUserWallet(code) {
-        return await WalletsModel.update({ myCode: code }, { $set: { hasSend: true } });
+        try {
+            let myWallet = await WalletsModel.findOneAndUpdate({ myCode: code }, { $set: { hasSend: true } });
+            if (!_.isEmpty(myWallet) && myWallet.walletId) {
+                let targetWallet = myWallet.walletId;
+                logUtil.info(targetWallet, '激活成功！')
+                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
+                if (writeState.status == 'success') {
+                    logUtil.info(targetWallet, '转账成功！')
+                    return await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
+                } else {
+                    logUtil.info(targetWallet, '转账失败！')
+                }
+            } else {
+                logUtil.info(error, '钱包不能为空！')
+            }
+        } catch (error) {
+            logUtil.info(error, '激活或转账失败！')
+        }
+
+
     }
 }
 
