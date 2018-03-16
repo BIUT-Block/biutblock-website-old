@@ -270,12 +270,19 @@ class SecCandyLog {
         try {
             let myWallet = await WalletsModel.findOneAndUpdate({ myCode: code }, { $set: { hasSend: true } });
             if (!_.isEmpty(myWallet) && myWallet.walletId) {
-                let targetWallet = myWallet.walletId;
+                // 创建自己的糖果空记录
+                const newSecCandyLog = new SecCandyLogModel({
+                    wallets: [],
+                    passiveCode: code
+                });
+                await newSecCandyLog.save();
                 logUtil.info(targetWallet, '激活成功！')
+                // 准备转账
+                let targetWallet = myWallet.walletId;
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
                 if (writeState.status == 'success') {
                     logUtil.info(targetWallet, '转账成功！')
-                    return await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
+                    return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
                 } else {
                     logUtil.info(targetWallet, '转账失败！')
                 }
