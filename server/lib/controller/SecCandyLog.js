@@ -169,8 +169,6 @@ class SecCandyLog {
                         const newSecCandyLog = new SecCandyLogModel(walletObj);
                         await newSecCandyLog.save();
                     }
-
-
                     // 针对被分享的用户进行发币处理
                     // 1、获取被分享者的信息
                     let targetSecCandy = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
@@ -194,28 +192,36 @@ class SecCandyLog {
                     }
 
                 }
-
                 // 标记该用户已接受分享成功
                 req.session.addWalletSuccess = true;
                 req.session.shareId = myShareId;
-
                 res.send({
                     state: 'success'
                 });
             } catch (err) {
                 logUtil.error(err, req);
-                res.send({
-                    state: 'error',
-                    type: 'ERROR_IN_SAVE_DATA',
-                    message: '保存数据失败:' + err,
-                })
+                // 针对发币失败的情况仍然正常返回
+                if ((err.message).indexOf('connect ECONNREFUSED') > -1) {
+                    logUtil.info('接受分享成功但转账失败', req.session.shareId)
+                    req.session.addWalletSuccess = true;
+                    req.session.shareId = myShareId;
+                    res.send({
+                        state: 'success'
+                    });
+                } else {
+                    res.send({
+                        state: 'error',
+                        type: 'ERROR_IN_SAVE_DATA',
+                        message: '保存数据失败:' + err,
+                    })
+                }
             }
         })
     }
 
     async getSecCandyInfoByCode(req, res, next) {
         let shareId = req.session.shareId;
-        console.log('---req.session.shareId----', req.session.shareId);
+        // console.log('---req.session.shareId----', req.session.shareId);
         try {
             const targetCandyLog = await SecCandyLogModel.findOne({ passiveCode: shareId }).populate([{
                 path: 'wallets',
@@ -289,10 +295,8 @@ class SecCandyLog {
                 logUtil.info('钱包不能为空！')
             }
         } catch (error) {
-            logUtil.error('激活或转账失败！' + error, {});
+            logUtil.error(error, {});
         }
-
-
     }
 }
 
