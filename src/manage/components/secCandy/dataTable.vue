@@ -26,8 +26,8 @@
                 </el-popover>
               </template>
             </el-table-column>
-            <!-- <el-table-column prop="date" label="更新时间">
-            </el-table-column> -->
+            <el-table-column prop="getCoins" label="成功发放">
+            </el-table-column>
             <el-table-column label="详情" width="150">
                 <template slot-scope="scope">
                     <el-button size="mini" type="primary" plain round @click="editSecCandy(scope.$index, dataList)"><i class="fa fa-file-text"></i></el-button>

@@ -133,7 +133,7 @@
                 })
             },
             onValidateAll: function (reasons) {
-                if (reasons.length) {
+                if (reasons.length > 0) {
                     console.log('有表单没有通过', reasons)
                     addWalletVm.showErr = true;
                     addWalletVm.message = reasons[0].message;

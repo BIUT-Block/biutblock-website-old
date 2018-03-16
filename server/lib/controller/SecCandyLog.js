@@ -275,7 +275,7 @@ class SecCandyLog {
                     passiveCode: code
                 });
                 await newSecCandyLog.save();
-                logUtil.info('激活成功！', targetWallet)
+                logUtil.info('激活成功！', myWallet.walletId)
                 // 准备转账
                 let targetWallet = myWallet.walletId;
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
