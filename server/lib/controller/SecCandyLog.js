@@ -184,10 +184,10 @@ class SecCandyLog {
                                 let targetWallet = currentWallet.walletId;
                                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
                                 if (writeState.status == 'success') {
-                                    logUtil.info(targetWallet, '转账成功！')
+                                    logUtil.info('转账成功！', targetWallet)
                                     await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
                                 } else {
-                                    logUtil.info(targetWallet, '转账失败！')
+                                    logUtil.info('转账失败！', targetWallet)
                                 }
                             }
                         }
@@ -249,7 +249,6 @@ class SecCandyLog {
                     rcvScore: 0
                 }
             }
-
         } catch (error) {
             logUtil.error(error, req);
             res.send({
@@ -276,21 +275,21 @@ class SecCandyLog {
                     passiveCode: code
                 });
                 await newSecCandyLog.save();
-                logUtil.info(targetWallet, '激活成功！')
+                logUtil.info('激活成功！', targetWallet)
                 // 准备转账
                 let targetWallet = myWallet.walletId;
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
                 if (writeState.status == 'success') {
-                    logUtil.info(targetWallet, '转账成功！')
+                    logUtil.info('转账成功！', targetWallet + '--' + writeState.txHash)
                     return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
                 } else {
-                    logUtil.info(targetWallet, '转账失败！')
+                    logUtil.info('转账失败！', writeState.txHash)
                 }
             } else {
-                logUtil.info(error, '钱包不能为空！')
+                logUtil.info('钱包不能为空！')
             }
         } catch (error) {
-            logUtil.info(error, '激活或转账失败！')
+            logUtil.error('激活或转账失败！' + error, {});
         }
 
 
