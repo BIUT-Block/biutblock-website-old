@@ -127,6 +127,7 @@ class SecCandyLog {
 
     async addSecCandyLog(req, res, next) {
         const form = new formidable.IncomingForm();
+        const myShareId = shortid.generate();
         form.parse(req, async (err, fields, files) => {
             try {
                 checkFormData(req, res, fields);
@@ -145,7 +146,7 @@ class SecCandyLog {
             try {
                 // 先看钱包是否已经绑定过 如果已通过其他链接绑定，则此处再分享是无效的
                 const targetWallet = await WalletsModel.findOne({ walletId: fields.walletAddress });
-                let userWalletId = "", myShareId = shortid.generate();
+                let userWalletId = "";
 
                 if (targetWallet && targetWallet._id) {
                     myShareId = targetWallet.myCode;
@@ -202,7 +203,7 @@ class SecCandyLog {
                 logUtil.error(err, req);
                 // 针对发币失败的情况仍然正常返回
                 if ((err.message).indexOf('connect ECONNREFUSED') > -1) {
-                    logUtil.info('接受分享成功但转账失败', req.session.shareId)
+                    logUtil.info('接受分享成功但转账失败,myShareId:', myShareId)
                     req.session.addWalletSuccess = true;
                     req.session.shareId = myShareId;
                     res.send({
