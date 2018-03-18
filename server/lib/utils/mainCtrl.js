@@ -21,8 +21,8 @@ const {
     SecCandyLog
 } = require('../controller');
 const settings = require("../../../utils/settings");
-
-
+const qr = require('qr-image')
+const _ = require('lodash')
 let mainCtrl = {
 
     // 获取页面基础信息
@@ -150,6 +150,12 @@ let mainCtrl = {
             } else if (md.action == 'get_referral_Info') {
                 pageData.pageType = 'referral';
                 // 记录是否已经登记过
+                console.log('---req.session.channel--', req.session.channel);
+                pageData.channel = req.session.channel;
+                if (pageData.channel && !_.isEmpty(pageData.siteInfo)) {
+                    let qrLink = pageData.siteInfo.configs.siteDomain + '/referral?code=' + req.session.shareId + '&channel=wechat';
+                    pageData.qrLink = encodeURIComponent(qrLink);
+                }
                 pageData.addWalletSuccess = req.session.addWalletSuccess;
                 pageData.shareId = req.session.shareId;
                 req.session.shareId && (pageData.rcvInfo = await mainCtrl.getSecCandyByCode(req, res, next));

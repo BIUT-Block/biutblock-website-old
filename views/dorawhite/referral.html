@@ -8,6 +8,30 @@
             <div class="col-xs-1 col-md-2">&nbsp;</div>
             {% if addWalletSuccess %}
             <div class="col-xs-10 col-md-8" ms-controller="shareLink">
+                {% if channel == 'wechat' %}
+                <ul class="share-to-others">
+                    <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
+                    <li>
+                        <div class="i18n" name='channle-share-step-two'>2.You can get 20 SEC awards by share the follow QR code successful</div>
+                        <div class="share-input qr-img">
+                            <img src="/api/qrImg?detailLink={{qrLink}}" />
+                        </div>
+                    </li>
+                    <li>
+                        <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another
+                            20 SEC awards!</div>
+                        <div class="share-input">
+                            <div class="input-group">
+                                <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId+'&channel='+channel}}">
+                                <span class="input-group-btn">
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
                 <ul class="share-to-others">
                     <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
                     <li>
@@ -36,6 +60,7 @@
                         </div>
                     </li>
                 </ul>
+                {% endif %}
                 <div class="share-tongji">
                     <ul class="row">
                         <li class="col-xs-6 col-md-6">

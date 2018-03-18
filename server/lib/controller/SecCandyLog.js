@@ -152,7 +152,10 @@ class SecCandyLog {
                     myShareId = targetWallet.myCode;
                 } else {
                     // 创建钱包并生成分享ID
-                    const newWallet = new WalletsModel({ walletId: fields.walletAddress, myCode: myShareId });
+                    let newWalletQuery = { walletId: fields.walletAddress, myCode: myShareId };
+                    // 针对渠道进来的，则直接设置为激活状态
+                    if (req.session.channel == 'wechat') newWalletQuery.hasSend = true;
+                    const newWallet = new WalletsModel(newWalletQuery);
                     const newWalletObj = await newWallet.save();
                     userWalletId = newWalletObj._id;
 

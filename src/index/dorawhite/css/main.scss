@@ -904,6 +904,11 @@ label {
     }
     .share-to-others {
         padding-top: 17rem;
+        .qr-img {
+            img {
+                width: 150px;
+            }
+        }
         .share-input {
             margin: 20px auto;
             .input-group {

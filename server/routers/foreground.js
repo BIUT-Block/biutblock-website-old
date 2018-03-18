@@ -68,6 +68,7 @@ router.get('/', generalFun.getDataForIndexPage);
 router.get('/referral', async (req, res, next) => {
   if (req.query.code && shortid.isValid(req.query.code)) {
     console.log('--req.query.code--', req.query.code);
+    console.log('--req.query.channel--', req.query.channel);
     // 查询是否是真实推荐码
     let oldWallet = await SecCandyLog.checkCurrentCode(req.query.code);
     if (oldWallet && oldWallet._id) {
@@ -81,6 +82,8 @@ router.get('/referral', async (req, res, next) => {
           req.session.passiveCode = req.query.code;
         }
       }
+      // 记录渠道
+      req.query.channel && (req.session.channel = req.query.channel);
       next();
     } else {
       console.log('非法推荐码');

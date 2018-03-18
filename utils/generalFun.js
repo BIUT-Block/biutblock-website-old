@@ -27,9 +27,9 @@ let generalFun = {
             // { action: 'get_document_list' },
             // { action: 'get_document_rec_list' },
             // { action: 'get_document_hot_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } },
             { action: 'get_category_list' },
             { action: 'get_referral_Info' },
-            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
         ];
         await mainCtrl.getPageData(req, res, next);
     },
