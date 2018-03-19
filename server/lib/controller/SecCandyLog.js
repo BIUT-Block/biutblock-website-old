@@ -185,6 +185,7 @@ class SecCandyLog {
                                 // 获取需要发币的钱包
                                 let targetWallet = currentWallet.walletId;
                                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
+                                console.log('--writeState--', writeState);
                                 if (writeState.status == 'success') {
                                     logUtil.info('转账成功！', targetWallet)
                                     await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
