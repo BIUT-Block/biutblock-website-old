@@ -321,7 +321,7 @@ class SecCandyLog {
                 if (!_.isEmpty(passiveWallet)) {
                     let myCode = passiveWallet[0].passiveCode;
                     let theWallet = await WalletsModel.findOne({ myCode });
-                    if (!_.isEmpty(theWallet) && theWallet.walletId) {
+                    if (!_.isEmpty(theWallet) && theWallet.walletId && theWallet.hasSend) {
                         console.log('--f333--');
                         _this.sendCoins(theWallet.walletId, myCode);
                     }
