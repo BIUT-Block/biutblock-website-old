@@ -291,15 +291,17 @@ class SecCandyLog {
                     passiveCode: code
                 });
                 await newSecCandyLog.save();
-                logUtil.info('激活成功！', myWallet.walletId)
+                logUtil.info('激活成功,准备发币！', myWallet.walletId)
                 // 准备转账
                 let targetWallet = myWallet.walletId;
+
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
+                logUtil.info('发币结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
-                    logUtil.info('转账成功！', targetWallet + '--' + writeState.txHash)
+                    logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
                     return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
                 } else {
-                    logUtil.info('转账失败！', writeState.txHash)
+                    logUtil.info('激活-转账失败！', writeState.txHash)
                 }
             } else {
                 logUtil.info('钱包不能为空！')
