@@ -157,6 +157,13 @@ class SecCandyLog {
                     const newWallet = new WalletsModel(newWalletQuery);
                     const newWalletObj = await newWallet.save();
 
+                    // 创建自己的糖果空记录
+                    const newSecCandyLog = new SecCandyLogModel({
+                        wallets: [],
+                        passiveCode: myShareId
+                    });
+                    await newSecCandyLog.save();
+
                     // 针对渠道进来的，则直接设置为激活状态 
                     if (req.session.channel == 'wechat') {
                         await _this.activeUserWallet(myShareId);
@@ -180,26 +187,26 @@ class SecCandyLog {
                     }
                     // 针对被分享的用户进行发币处理
                     // 1、获取被分享者的信息
-                    let targetSecCandy = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
-                    if (targetSecCandy && targetSecCandy._id) {
-                        let shareTotalNum = targetSecCandy.wallets.length;
-                        // 2、在约定的分享次数范围内进行发币
-                        if (shareTotalNum < settings.maxSecShareNum) {
-                            let currentWallet = await WalletsModel.findOne({ myCode: req.session.passiveCode });
-                            if (currentWallet && currentWallet._id) {
-                                // 获取需要发币的钱包
-                                let targetWallet = currentWallet.walletId;
-                                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
-                                // console.log('--writeState--', writeState);
-                                if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
-                                    logUtil.info('转账成功！', targetWallet + '--' + writeState.data.txHash)
-                                    await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
-                                } else {
-                                    logUtil.info('转账失败！', targetWallet + '--' + writeState.data.txHash)
-                                }
-                            }
-                        }
-                    }
+                    // let targetSecCandy = await SecCandyLogModel.findOne({ passiveCode: req.session.passiveCode });
+                    // if (targetSecCandy && targetSecCandy._id) {
+                    //     let shareTotalNum = targetSecCandy.wallets.length;
+                    //     // 2、在约定的分享次数范围内进行发币
+                    //     if (shareTotalNum < settings.maxSecShareNum) {
+                    //         let currentWallet = await WalletsModel.findOne({ myCode: req.session.passiveCode });
+                    //         if (currentWallet && currentWallet._id) {
+                    //             // 获取需要发币的钱包
+                    //             let targetWallet = currentWallet.walletId;
+                    //             let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
+                    //             // console.log('--writeState--', writeState);
+                    //             if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
+                    //                 logUtil.info('转账成功！', targetWallet + '--' + writeState.data.txHash)
+                    //                 await SecCandyLogModel.findOneAndUpdate({ passiveCode: req.session.passiveCode }, { '$inc': { 'getCoins': 20 } });
+                    //             } else {
+                    //                 logUtil.info('转账失败！', targetWallet + '--' + writeState.data.txHash)
+                    //             }
+                    //         }
+                    //     }
+                    // }
 
                 }
                 // 标记该用户已接受分享成功
@@ -210,21 +217,26 @@ class SecCandyLog {
                 });
             } catch (err) {
                 logUtil.error(err, req);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_IN_SAVE_DATA',
+                    message: '保存数据失败:' + err,
+                })
                 // 针对发币失败的情况仍然正常返回
-                if ((err.message).indexOf('connect ECONNREFUSED') > -1) {
-                    logUtil.info('接受分享成功但转账失败,myShareId:', myShareId)
-                    req.session.addWalletSuccess = true;
-                    req.session.shareId = myShareId;
-                    res.send({
-                        state: 'success'
-                    });
-                } else {
-                    res.send({
-                        state: 'error',
-                        type: 'ERROR_IN_SAVE_DATA',
-                        message: '保存数据失败:' + err,
-                    })
-                }
+                // if ((err.message).indexOf('connect ECONNREFUSED') > -1) {
+                //     logUtil.info('接受分享成功但转账失败,myShareId:', myShareId)
+                //     req.session.addWalletSuccess = true;
+                //     req.session.shareId = myShareId;
+                //     res.send({
+                //         state: 'success'
+                //     });
+                // } else {
+                //     res.send({
+                //         state: 'error',
+                //         type: 'ERROR_IN_SAVE_DATA',
+                //         message: '保存数据失败:' + err,
+                //     })
+                // }
             }
         })
     }
@@ -283,30 +295,57 @@ class SecCandyLog {
 
     async activeUserWallet(code) {
         try {
+            let _this = this;
             let myWallet = await WalletsModel.findOneAndUpdate({ myCode: code }, { $set: { hasSend: true } });
             if (!_.isEmpty(myWallet) && myWallet.walletId) {
-                // 创建自己的糖果空记录
-                const newSecCandyLog = new SecCandyLogModel({
-                    wallets: [],
-                    passiveCode: code
-                });
-                await newSecCandyLog.save();
                 logUtil.info('激活成功,准备发币！', myWallet.walletId)
-                // 准备转账
+                // 激活成功，给自己发币
+                let myShareCode = myWallet.myCode;
                 let targetWallet = myWallet.walletId;
 
-                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer + '/' + settings.gasPrice);
-                logUtil.info('发币结束！', writeState.status);
-                if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
-                    logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
-                    return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
-                } else {
-                    logUtil.info('激活-转账失败！', writeState.txHash)
+                let mySecCandyLog = await SecCandyLogModel.findOne({ passiveCode: myShareCode });
+                if (!_.isEmpty(mySecCandyLog)) {
+                    let shareWallets = mySecCandyLog.wallets;
+                    // 如果没有被成功分享过
+                    if (shareWallets.length == 0) {
+                        console.log('--f111--');
+                        _this.sendCoins(targetWallet, code);
+                    } else {
+                        console.log('--2222--', shareWallets.length + 1);
+                        _this.sendCoins(targetWallet, code, shareWallets.length + 1);
+                    }
+                }
+                // 给被分享者发币
+                var secCandyQuery = { 'wallets': { $regex: new RegExp(myWallet._id, 'i') } };
+                let passiveWallet = await SecCandyLogModel.find(secCandyQuery);
+                if (!_.isEmpty(passiveWallet)) {
+                    let myCode = passiveWallet[0].passiveCode;
+                    let theWallet = await WalletsModel.findOne({ myCode });
+                    if (!_.isEmpty(theWallet) && theWallet.walletId) {
+                        console.log('--f333--');
+                        _this.sendCoins(theWallet.walletId, myCode);
+                    }
                 }
             } else {
                 logUtil.info('钱包不能为空！')
             }
         } catch (error) {
+            logUtil.error(error, {});
+        }
+    }
+
+    async sendCoins(targetWallet, code, num = 1) {
+        try {
+            let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer * num + '/' + settings.gasPrice);
+            logUtil.info('发币结束！', writeState.status);
+            if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
+                logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
+                return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
+            } else {
+                logUtil.info('激活-转账失败！', writeState.txHash)
+            }
+        } catch (error) {
+            console.log('转账失败');
             logUtil.error(error, {});
         }
     }
