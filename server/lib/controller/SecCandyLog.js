@@ -303,7 +303,10 @@ class SecCandyLog {
                 let myShareCode = myWallet.myCode;
                 let targetWallet = myWallet.walletId;
 
-                let mySecCandyLog = await SecCandyLogModel.findOne({ passiveCode: myShareCode });
+                let mySecCandyLog = await SecCandyLogModel.findOne({ passiveCode: myShareCode }).populate([{
+                    path: 'wallets',
+                    select: 'walletId hasSend -_id'
+                }]).exec();
                 if (!_.isEmpty(mySecCandyLog)) {
                     let shareWallets = mySecCandyLog.wallets;
                     // 如果没有被成功分享过
@@ -311,8 +314,12 @@ class SecCandyLog {
                         console.log('--f111--');
                         _this.sendCoins(targetWallet, code);
                     } else {
-                        console.log('--2222--', shareWallets.length + 1);
-                        _this.sendCoins(targetWallet, code, shareWallets.length + 1);
+                        // 被校验成功的才会加
+                        let checkedWallets = _.filter(shareWallets, (wallet) => {
+                            return wallet.hasSend;
+                        });
+                        console.log('--2222--', checkedWallets.length + 1);
+                        _this.sendCoins(targetWallet, code, checkedWallets.length + 1);
                     }
                 }
                 // 给被分享者发币
