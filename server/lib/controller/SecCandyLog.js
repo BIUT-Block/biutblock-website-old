@@ -336,14 +336,16 @@ class SecCandyLog {
 
     async sendCoins(targetWallet, code, num = 1) {
         try {
-            let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer * num + '/' + settings.gasPrice);
-            logUtil.info('发币结束！', writeState.status);
-            if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
-                logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
-                return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
-            } else {
-                logUtil.info('激活-转账失败！', writeState.txHash)
-            }
+            return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': settings.coinPer * num } });
+
+            // let writeState = await axios.get(settings.coinServer + targetWallet + '/' + settings.coinPer * num + '/' + settings.gasPrice);
+            // logUtil.info('发币结束！', writeState.status);
+            // if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
+            //     logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
+            //     return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': 20 } });
+            // } else {
+            //     logUtil.info('激活-转账失败！', writeState.txHash)
+            // }
         } catch (error) {
             console.log('转账失败');
             logUtil.error(error, {});
