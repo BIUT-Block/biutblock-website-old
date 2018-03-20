@@ -38,6 +38,7 @@ const system = require('./server/routers/system');
 const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
 botClient.on('text', async ({ message, replyWithHTML }) => {
     if (message) {
+        console.log('---message---', message);
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
             try {
