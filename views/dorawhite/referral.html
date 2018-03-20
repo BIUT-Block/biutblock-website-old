@@ -188,7 +188,7 @@
                         contentType: 'application/json; charset=utf-8', // 很重要
                         traditional: true,
                         data: JSON.stringify(smsParams),
-                        url: 'http://sdk.entinfo.cn:8061/webservice.asmx/mdgxsend',
+                        url: 'http://sdk2.entinfo.cn:8061/mdsmssend.ashx',
                         success: function (data) {
                             console.log('success:', data)
                             if (data.state == 'success') {
