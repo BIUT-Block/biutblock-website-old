@@ -38,13 +38,14 @@ const system = require('./server/routers/system');
 const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
 botClient.on('text', async ({ message, replyWithHTML }) => {
     if (message) {
-        console.log('---message---', message);
+        let currentId = message.from.id;
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
             try {
                 let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
                 if (myWallet && myWallet._id) {
-                    if (myWallet.hasSend) {
+                    // 如果激活请求和之前绑定ID相同，则不做激活操作
+                    if (myWallet.telegramId && myWallet.telegramId == currentId) {
                         replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
                     } else {
                         let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
@@ -52,7 +53,7 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
                         console.log('校验分享码成功', shareWords);
                         replyWithHTML(shareWords)
                         // 标记已关注群并发送
-                        await SecCandyLog.activeUserWallet(currentCode);
+                        await SecCandyLog.activeUserWallet(currentCode, currentId);
                     }
                 }
             } catch (error) {

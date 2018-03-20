@@ -165,9 +165,9 @@ class SecCandyLog {
                     await newSecCandyLog.save();
 
                     // 针对渠道进来的，则直接设置为激活状态 
-                    if (req.session.channel == 'wechat') {
-                        await _this.activeUserWallet(myShareId);
-                    }
+                    // if (req.session.channel == 'wechat') {
+                    //     await _this.activeUserWallet(myShareId);
+                    // }
                     userWalletId = newWalletObj._id;
 
                     // 更新分享记录
@@ -254,10 +254,10 @@ class SecCandyLog {
         return await WalletsModel.findOne({ myCode: code });
     }
 
-    async activeUserWallet(code) {
+    async activeUserWallet(code, currentId) {
         try {
             let _this = this;
-            let myWallet = await WalletsModel.findOneAndUpdate({ myCode: code }, { $set: { hasSend: true } });
+            let myWallet = await WalletsModel.findOneAndUpdate({ myCode: code }, { $set: { telegramId: currentId, hasSend: true } });
             if (!_.isEmpty(myWallet) && myWallet.walletId) {
                 logUtil.info('激活成功,准备发币！', myWallet.walletId)
                 // 激活成功，给自己发币

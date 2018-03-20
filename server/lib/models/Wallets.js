@@ -13,6 +13,7 @@ var WalletsSchema = new Schema({
         'default': shortid.generate
     },
     type: String,
+    telegramId: { type: String, default: '' }, //电报群Id
     walletId: String, // 分享者钱包
     myCode: String,  // 分享者获得的分享码
     hasSend: { type: Boolean, default: false }, //是否已发送分享码到电报群
