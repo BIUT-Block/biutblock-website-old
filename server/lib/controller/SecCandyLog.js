@@ -254,6 +254,10 @@ class SecCandyLog {
         return await WalletsModel.findOne({ myCode: code });
     }
 
+    async checkTelegramUser(telegramId) {
+        return await WalletsModel.findOne({ telegramId, hasSend: true });
+    }
+
     async activeUserWallet(code, currentId) {
         try {
             let _this = this;

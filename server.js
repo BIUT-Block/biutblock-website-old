@@ -42,19 +42,17 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
             try {
-                let myWallet = await SecCandyLog.checkCurrentCode(currentCode);
-                if (myWallet && myWallet._id) {
+                let myWallet = await SecCandyLog.checkTelegramUser(currentId);
+                if (!_.isEmpty(myWallet) && myWallet._id) {
                     // 如果激活请求和之前绑定ID相同，则不做激活操作
-                    if (myWallet.telegramId && myWallet.telegramId == currentId) {
-                        replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
-                    } else {
-                        let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
-                        let shareWords = "Your verification code: " + myWallet.myCode + ", SUCCESS & DONE!Join the SEC\u2019s official Telegram group to get 20 SEC awards; Each successful invitation to a user can also receive an additional 20 SEC awards, with a maximum of 600SEC per person, waiting to be dropped.Your share link: " + currentLink + ". 你的验证码是: " + myWallet.myCode + "，校验成功！加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。你的分享链接：" + currentLink + "";
-                        console.log('校验分享码成功', shareWords);
-                        replyWithHTML(shareWords)
-                        // 标记已关注群并发送
-                        await SecCandyLog.activeUserWallet(currentCode, currentId);
-                    }
+                    replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
+                } else {
+                    let currentLink = "https://www.secblock.io/referral?code=" + currentCode;
+                    let shareWords = "Your verification code: " + myWallet.myCode + ", SUCCESS & DONE!Join the SEC\u2019s official Telegram group to get 20 SEC awards; Each successful invitation to a user can also receive an additional 20 SEC awards, with a maximum of 600SEC per person, waiting to be dropped.Your share link: " + currentLink + ". 你的验证码是: " + myWallet.myCode + "，校验成功！加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。你的分享链接：" + currentLink + "";
+                    console.log('校验分享码成功', shareWords);
+                    replyWithHTML(shareWords)
+                    // 标记已关注群并发送
+                    await SecCandyLog.activeUserWallet(currentCode, currentId);
                 }
             } catch (error) {
                 console.log('校验机器人消息异常', error);
