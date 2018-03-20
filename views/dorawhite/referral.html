@@ -147,12 +147,6 @@
         walletAddress: '',
         message: '',
         showErr: false,
-        openTelegram: function () {
-            //secblock中文群
-            //window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
-            //机器人群组
-            window.open('https://t.me/joinchat/HOie9REFHAnEuu1y7mAn1A', '_blank')
-        },
         validate: {
             onError: function (reasons) {
                 reasons.forEach(function (reason) {
@@ -197,6 +191,12 @@
 
     var shareLinkVm = avalon.define({
         $id: 'shareLink',
-        myCode: ''
+        myCode: '',
+        openTelegram: function () {
+            //secblock中文群
+            //window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+            //机器人群组
+            window.open('https://t.me/joinchat/HOie9REFHAnEuu1y7mAn1A', '_blank')
+        }
     })
 </script> {% endblock %}
