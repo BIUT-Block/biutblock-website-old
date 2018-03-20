@@ -128,7 +128,7 @@ class SecCandyLog {
     async addSecCandyLog(req, res, next) {
         let _this = this;
         const form = new formidable.IncomingForm();
-        const myShareId = shortid.generate();
+        let myShareId = shortid.generate();
         form.parse(req, async (err, fields, files) => {
             try {
                 checkFormData(req, res, fields);
@@ -141,7 +141,7 @@ class SecCandyLog {
                 })
                 return
             }
-            const walletObj = {
+            let walletObj = {
                 passiveCode: req.session.passiveCode,
             }
             try {
