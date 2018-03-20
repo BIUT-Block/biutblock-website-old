@@ -872,13 +872,46 @@ label {
     .wallet-input,
     .share-to-others {
         text-align: center;
-        .form-control {
+        .form-group {
+            margin-bottom: 15px;
+            width: 50%;
+            margin: 0 auto;
+            .input-group {
+                margin: 15px auto;
+            }
+            .mb-form {
+                width: 63%;
+                margin: 0 auto;
+                .s-form-control {
+                    width: 15rem;
+                }
+                .t-form-control {
+                    width: 15rem;
+                    border-color: #c1dc14;
+                    border-top-right-radius: 20px;
+                    border-bottom-right-radius: 20px;
+                }
+                .t-addon {
+                    cursor: pointer;
+                    color: #000;
+                    border-top-left-radius: 20px;
+                    border-bottom-left-radius: 20px;
+                    border-color: #c1dc14;
+                    background: #c1dc14;
+                    background: -moz-linear-gradient(top,#dcfc12,#c1dc14);
+                    background: -webkit-gradient(linear,0 0,0 bottom,from(#dcfc12),to(#c1dc14));
+                    background: -o-linear-gradient(top,#dcfc12,#c1dc14);
+                }
+            }
+        }
+        .s-form-control {
             border-color: #c1dc14;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
             width: 30rem;
         }
-        .btn-default {
+        .s-btn-default {
+            min-width: 91px;
             cursor: pointer;
             color: #000000;
             border-top-right-radius: 20px;

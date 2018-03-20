@@ -18,6 +18,7 @@ const authUser = require('../../utils/middleware/authUser');
 const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog } = require('../lib/controller');
 const _ = require('lodash');
 const qr = require('qr-image')
+const randomstring = require('randomstring');
 
 function checkUserSession(req, res, next) {
   if (!_.isEmpty(req.session.user)) {
@@ -139,5 +140,13 @@ router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }
 
 //--------------------secblock---------------------------
 router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
+
+// router.get('/secVerify/getMessageCode', (req, res, next) => {
+//   let randomStr = randomstring.generate({
+//     charset: 'numeric'
+//   });
+//   let currentStr = randomStr.substring(0, 6);
+//   res.send(randomStr.substring(0, 6));
+// });
 
 module.exports = router

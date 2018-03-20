@@ -23,6 +23,7 @@ const {
 const settings = require("../../../utils/settings");
 const qr = require('qr-image')
 const _ = require('lodash')
+const randomstring = require('randomstring')
 let mainCtrl = {
 
     // 获取页面基础信息
@@ -159,6 +160,14 @@ let mainCtrl = {
                 pageData.addWalletSuccess = req.session.addWalletSuccess;
                 pageData.shareId = req.session.shareId;
                 req.session.shareId && (pageData.rcvInfo = await mainCtrl.getSecCandyByCode(req, res, next));
+
+                // 生成验证码
+                let randomStr = randomstring.generate({
+                    charset: 'numeric'
+                });
+                let currentStr = randomStr.substring(0, 6);
+                pageData.messageCode = currentStr;
+                req.session.messageCode = currentStr;
             } else if (md.action == 'get_adminlogin_Info') {
                 pageData.pageType = 'adminlogin';
             }

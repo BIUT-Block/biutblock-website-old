@@ -88,17 +88,32 @@
                     <span class="i18n" name='join-notice'>Join the SEC's official Telegram group to get 20 awards of SEC. An additional 20 awards of SEC are available
                         for each successful invitation.</span>
                 </div>
-                <div class="i18n wallet-info" name='wallet-info'>
-                    Please enter the ETH wallet address
-                </div>
+
                 <div class="wallet-input">
-                    <form class="form-inline" id="addWalletForm" ms-validate="@validate">
+                    <form class="" id="addWalletForm" ms-validate="@validate">
                         <div class="form-group">
+                            <div class="mb-form">
+                                <div class="input-group">
+                                    <span class="input-group-addon t-addon" id="sizing-addon2">手机号</span>
+                                    <input type="text" class="form-control t-form-control" ms-duplex="@mobileno" data-required-message="请输入手机号" data-message="请输入正确的手机号"
+                                        ms-rules="{required:true,number:true,pattern: /^[1][3,4,5,7,8][0-9]{9}$/ }">
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control s-form-control" ms-duplex="@msgCode" data-required-message="请输入短信验证码" data-message="请输入正确的短信验证码"
+                                        ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
+                                    <span class="input-group-btn">
+                                        <button id="sendMsg" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button" ms-text="@sendMsgTxt"></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="i18n wallet-info" name='wallet-info'>
+                                Please enter the ETH wallet address
+                            </div>
                             <div class="input-group">
-                                <input type="text" class="form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址"
+                                <input type="text" class="form-control s-form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址"
                                     ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}" placeholder="">
                                 <span class="input-group-btn">
-                                    <button class="i18n btn btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
+                                    <button class="i18n btn s-btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -145,12 +160,65 @@
     var addWalletVm = avalon.define({
         $id: 'addWallet',
         walletAddress: '',
+        mobileno: '',
+        msgCode: '',
+        basetime: 10,
         message: '',
+        sendMsgTxt: '发送验证码',
         showErr: false,
+        sendMsgCode: function () {
+            if (!addWalletVm.mobileno) {
+                alert('请先输入手机号')
+            } else {
+                if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(addWalletVm.mobileno)) {
+                    alert(addWalletVm.message)
+                } else {
+
+                    // 开始发短信
+                    var smsParams = {
+                        Sn: '',
+                        pwd: '',
+                        mobile: ''
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8', // 很重要
+                        traditional: true,
+                        data: JSON.stringify(smsParams),
+                        url: 'http://sdk.entinfo.cn:8061/webservice.asmx/mdgxsend',
+                        success: function (data) {
+                            console.log('success:', data)
+                            if (data.state == 'success') {
+                                console.log('校验成功');
+                                var mytask = setInterval(function () {
+                                    addWalletVm.sendMsgTxt = --addWalletVm.basetime + '秒后重发';
+                                }, 1000)
+                                var xx = setTimeout(function () {
+                                    clearInterval(mytask)
+                                    $('#sendMsg').removeAttr('disabled')
+                                    addWalletVm.sendMsgTxt = '重新发送'
+                                    addWalletVm.basetime = 10
+                                }, 1000 * addWalletVm.basetime);
+                                $('#sendMsg').prop('disabled', 'disabled')
+                            } else {
+                                addWalletVm.showErr = true;
+                                addWalletVm.message = data.message;
+                                alert(walletErr);
+                            }
+                        },
+                        error: function (d) {
+                            console.log('error:', d)
+                        }
+                    })
+                }
+            }
+
+        },
         validate: {
             onError: function (reasons) {
                 reasons.forEach(function (reason) {
                     console.log(reason.getMessage())
+                    addWalletVm.message = reason.getMessage();
                 })
             },
             onValidateAll: function (reasons) {
