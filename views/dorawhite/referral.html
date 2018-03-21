@@ -99,7 +99,7 @@
                                 <input id="phone" type="tel" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
                                     data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
                                 <div class="input-group yzm">
-                                    <span class="input-group-addon msgcode-label">验证码</span>
+                                    <span class="input-group-addon msgcode-label" id="msgCodeLable">验证码</span>
                                     <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
                                         ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
                                     <span class="input-group-btn">
@@ -162,6 +162,9 @@
     var normalErr = "您输入的信息有误，请重试";
     var timeoutErr = "页面已过期";
 
+    var pmobile = '请输入手机号';
+    var msgCodeLable = '验证码';
+    var sendBtnTxt = '点击获取';
     $(function () {
         // 弹出信息国际化
         var cpSuccess = "复制成功!";
@@ -169,7 +172,18 @@
         if ($('body').hasClass('type-en')) {
             cpSuccess = "Copy success!";
             cpInfo = "Please manually select the content copy of the input box!";
-            // walletErr = "The information you entered is incorrect, please reenter it!"
+
+            sendMsgErr = "SMS sent failed, please try again";
+            msgNumErr = "Number of short messages exceeded the limit";
+            mobileErr = "Please enter the correct cell phone number";
+            messageCodeErr = "Please enter the correct verification code";
+            walletErr = "Please fill in the correct wallet address";
+            normalErr = "The information you entered is incorrect, please try again";
+            timeoutErr = "Page expired";
+
+            pmobile = 'Please enter the cell phone number';
+            msgCodeLable = 'Verification Code';
+            sendBtnTxt = 'Send'
         }
         //复制分享码
         var cpCodeBtn = new Clipboard('#copyCode-btn');
@@ -190,6 +204,8 @@
             alert(cpInfo);
         });
 
+        $('#phone').prop('placeholder', pmobile);
+        $('#msgCodeLable').html(msgCodeLable);
 
     })
     var addWalletVm = avalon.define({
@@ -200,7 +216,7 @@
         msgCode: '',
         basetime: 10,
         message: '',
-        sendMsgTxt: '点击获取',
+        sendMsgTxt: sendBtnTxt,
         showErr: false,
         sendMsgCode: function () {
             if (!addWalletVm.mobileno) {
