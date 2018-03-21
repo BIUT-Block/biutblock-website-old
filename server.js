@@ -108,6 +108,7 @@ if (settings.openRedis) {
             host: settings.redis_host,
             pass: settings.redis_psd,
             ttl: 60 * 2 // 两分钟
+            // ttl: 10 // 两分钟
         }),
         resave: true,
         saveUninitialized: true
@@ -116,7 +117,7 @@ if (settings.openRedis) {
     sessionConfig = {
         secret: settings.encrypt_key,
         cookie: {
-            maxAge: 1000 * 60 * 60
+            maxAge: 1000 * 60 * 2 // 2分钟
         },
         resave: false,
         saveUninitialized: true,

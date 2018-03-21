@@ -148,13 +148,13 @@ router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
 function checkSecFormData(req, res, fields) {
   let errMsg = '';
-  // console.log('-----req.session.messageCode1--', req.session.messageCode);
+  console.log('-----req.session.messageCode1--', req.session.messageCode);
   if (!req.session.messageCode) {
     errMsg = 'timeout-页面已过期';
-  }
-
-  if (!validator.isNumeric(req.session.messageCode) || req.session.messageCode.length != 6) {
-    errMsg = 'messageCode-短信验证码格式不正确';
+  } else {
+    if (!validator.isNumeric(req.session.messageCode) || req.session.messageCode.length != 6) {
+      errMsg = 'messageCode-短信验证码格式不正确';
+    }
   }
 
   let mobileArr = fields.mobile.split('-')

@@ -98,8 +98,8 @@
                                     <div class="input-dz">
                                         <input type="text" placeholder="0086" class="dz-form-control dq" ms-duplex="@areano" data-required-message="mobile-请输入区号"
                                             data-message="mobile-请输入正确的区号" ms-rules="{required:true,number:true,minlength:4,maxlength:4 }">
-                                        <input type="text" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号" data-message="mobile-请输入正确的手机号"
-                                            ms-rules="{required:true,number:true,pattern: /^[1][3,4,5,7,8][0-9]{9}$/ }">
+                                        <input type="text" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
+                                            data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true,pattern: /^[1][3,4,5,7,8][0-9]{9}$/ }">
                                     </div>
                                 </div>
                                 <div class="input-group yzm">
@@ -227,21 +227,24 @@
         },
         giveCurrentNotice: function (msg) {
             if (msg) {
-                var currentErr = normalErr;
+                var currentErr = normalErr, timeout = false;
                 if (msg < 0) {
                     currentErr = sendMsgErr;
-                } else if (msg.indexOf('msgNum-') > 0) {
+                } else if (msg.indexOf('msgNum-') >= 0) {
                     currentErr = msgNumErr;
-                } else if (msg.indexOf('mobile-') > 0) {
+                } else if (msg.indexOf('mobile-') >= 0) {
                     currentErr = mobileErr;
-                } else if (msg.indexOf('messageCode-') > 0) {
+                } else if (msg.indexOf('messageCode-') >= 0) {
                     currentErr = messageCodeErr;
-                } else if (msg.indexOf('wallet-') > 0) {
+                } else if (msg.indexOf('wallet-') >= 0) {
                     currentErr = walletErr;
-                } else if (msg.indexOf('timeout-') > 0) {
+                } else if (msg.indexOf('timeout-') >= 0) {
+                    timeout = true;
                     currentErr = timeoutErr;
                 }
-                alert(currentErr)
+                alert(currentErr);
+                timeout && window.location.reload();
+
             }
         },
         validate: {
