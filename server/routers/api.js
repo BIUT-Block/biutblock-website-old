@@ -11,14 +11,19 @@ const {
   cache,
   settings,
   service,
-  validatorUtil
+  validatorUtil,
+  logUtil,
+  siteFunc
 } = require('../../utils');
+const validator = require('validator')
 const authUser = require('../../utils/middleware/authUser');
 
-const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog } = require('../lib/controller');
+const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog } = require('../lib/controller');
 const _ = require('lodash');
 const qr = require('qr-image')
 const randomstring = require('randomstring');
+const formidable = require('formidable');
+const axios = require('axios');
 
 function checkUserSession(req, res, next) {
   if (!_.isEmpty(req.session.user)) {
@@ -141,12 +146,90 @@ router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }
 //--------------------secblock---------------------------
 router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
-// router.get('/secVerify/getMessageCode', (req, res, next) => {
-//   let randomStr = randomstring.generate({
-//     charset: 'numeric'
-//   });
-//   let currentStr = randomStr.substring(0, 6);
-//   res.send(randomStr.substring(0, 6));
-// });
+function checkSecFormData(req, res, fields) {
+  let errMsg = '';
+  // console.log('-----req.session.messageCode1--', req.session.messageCode);
+  if (!req.session.messageCode) {
+    errMsg = 'timeout-页面已过期';
+  }
+
+  if (!validator.isNumeric(req.session.messageCode) || req.session.messageCode.length != 6) {
+    errMsg = 'messageCode-短信验证码格式不正确';
+  }
+
+  let mobileArr = fields.mobile.split('-')
+  if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
+    || !validator.isNumeric(mobileArr[1])
+    || mobileArr[0].length != 4
+    || mobileArr[1].length != 11
+  ) {
+    errMsg = 'mobile-手机号格式不正确';
+  }
+
+  if (errMsg) {
+    throw new siteFunc.UserException(errMsg);
+  }
+}
+
+router.post('/secVerify/postMessage', (req, res, next) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    // console.log('--fields---', fields);
+    try {
+      checkSecFormData(req, res, fields);
+      let mobileArr = fields.mobile.split('-');
+      let isCnMobile = mobileArr[0] == '0086' ? true : false;
+      let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+      let checkMsgNum = await SystemOptionLog.checkLegitimateMobile(currentMobile);
+      if (!checkMsgNum) {
+        console.log('短信次数超过限制');
+        throw new siteFunc.UserException('msgNum-短信次数超过限制');
+      }
+    } catch (err) {
+      console.log(err.message, err);
+      res.send({
+        state: 'error',
+        type: 'ERROR_PARAMS',
+        message: err.message
+      })
+      return
+    }
+    try {
+      let mobileArr = fields.mobile.split('-');
+      let isCnMobile = mobileArr[0] == '0086' ? true : false;
+      let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+      let serverPath = isCnMobile ? settings.smsCNServer : settings.smsENServer;
+      let smsParams = {
+        sn: isCnMobile ? settings.smsCNSn : settings.smsENSn,
+        pwd: isCnMobile ? settings.smsCNPwd : settings.smsENPwd,
+        mobile: currentMobile,
+        content: '[SEC]:' + req.session.messageCode,
+        ext: '',
+        stime: '',
+        rrid: '',
+        msgfmt: ''
+      }
+      // 发送短信验证码
+      let currentServerPath = serverPath + '?sn=' + smsParams.sn + '&pwd=' + smsParams.pwd + '&mobile=' + smsParams.mobile + '&content=' + smsParams.content + '&ext=&stime=&rrid=&msgfmt='
+      let writeState = await axios.get(currentServerPath);
+      if (writeState.status == 200 && writeState.data > 0) {
+        // 记录发送日志
+        await SystemOptionLog.addSystemOptLogs('sendMessage', currentMobile);
+        res.send({
+          state: 'success',
+        });
+      }
+
+    } catch (err) {
+      logUtil.error(err, req);
+      res.send({
+        state: 'error',
+        type: 'ERROR_IN_SAVE_DATA',
+        message: err.message,
+      })
+    }
+  })
+});
+
 
 module.exports = router

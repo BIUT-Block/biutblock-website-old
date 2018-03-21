@@ -123,7 +123,6 @@ class DataItem {
 
     }
 
-
     async delDataItem(req, res, next) {
         try {
             let errMsg = '';

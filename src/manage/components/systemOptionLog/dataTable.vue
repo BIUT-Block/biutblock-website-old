@@ -12,6 +12,7 @@
                 <template slot-scope="scope">
                     <span v-if="scope.row.type == 'login'">系统登录</span>
                     <span v-if="(scope.row.type).indexOf('exception') > -1 ">系统异常</span>
+                    <span v-if="(scope.row.type).indexOf('sendMessage') > -1 ">短信发送</span>
                 </template>
             </el-table-column>
             <el-table-column prop="date" label="发生时间">
@@ -27,60 +28,62 @@
 </template>
 
 <script>
-import services from '../../store/services.js';
+import services from "../../store/services.js";
 export default {
-    props: {
-        dataList: Array
-    },
-    data() {
-        return {
-            loading: false,
-            multipleSelection: []
-        }
-    },
+  props: {
+    dataList: Array
+  },
+  data() {
+    return {
+      loading: false,
+      multipleSelection: []
+    };
+  },
 
-    methods: {
-        showDetails(index, dataList) {
-            this.$alert(dataList[index].logs, '日志详情', {
-                confirmButtonText: '关闭'
+  methods: {
+    showDetails(index, dataList) {
+      this.$alert(dataList[index].logs, "日志详情", {
+        confirmButtonText: "关闭"
+      });
+    },
+    handleSystemLogsSelectionChange(val) {
+      if (val && val.length > 0) {
+        let ids = val.map((item, index) => {
+          return item._id;
+        });
+        this.multipleSelection = ids;
+        this.$emit("changeSystemLogsSelectList", ids);
+      }
+    },
+    deleteDataItem(index, rows) {
+      this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          return services.deleteSystemOptionLogs({
+            ids: rows[index]._id
+          });
+        })
+        .then(result => {
+          if (result.data.state === "success") {
+            this.$store.dispatch("getSystemLogsList");
+            this.$message({
+              message: "删除成功",
+              type: "success"
             });
-        },
-        handleSystemLogsSelectionChange(val) {
-            if (val && val.length > 0) {
-                let ids = val.map((item, index) => {
-                    return item._id;
-                })
-                this.multipleSelection = ids;
-                this.$emit('changeSystemLogsSelectList', ids);
-            }
-        },
-        deleteDataItem(index, rows) {
-            this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                return services.deleteSystemOptionLogs({
-                    ids: rows[index]._id,
-                });
-            }).then((result) => {
-                if (result.data.state === 'success') {
-                    this.$store.dispatch('getSystemLogsList');
-                    this.$message({
-                        message: '删除成功',
-                        type: 'success'
-                    });
-                } else {
-                    this.$message.error(result.data.message);
-                }
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
-        }
+          } else {
+            this.$message.error(result.data.message);
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
-}
-
+  }
+};
 </script>

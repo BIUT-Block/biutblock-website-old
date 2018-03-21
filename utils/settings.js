@@ -68,7 +68,14 @@ module.exports = {
     maxSecShareNum: 2,
     coinServer: "http://127.0.0.1:3000/eth/transfer/", // 发币接口
     coinPer: 20, // 发币单位数量
-    gasPrice: 0.00000002 // 发币燃料值
+    gasPrice: 0.00000002, // 发币燃料值
+    smsCNServer: 'http://sdk2.entinfo.cn:8061/mdsmssend.ashx',
+    smsCNSn: 'SDK-BJR-010-00879',
+    smsCNPwd: '6534F48EE702D571ED74FE131D45B5B7',
+    smsENServer: 'http://sdk2.entinfo.cn:8061/mdsmssend.ashx',
+    smsENSn: 'SDK-BJR-010-00871',
+    smsENPwd: 'CC5CDAFD1B008ACEBDDFB20C3078D8B5',
+    sendMessagelimitNum: 1
 };
 
 

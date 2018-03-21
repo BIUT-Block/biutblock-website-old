@@ -110,6 +110,10 @@ export default {
         {
           value: "login",
           label: "系统登录"
+        },
+        {
+          value: "sendMessage",
+          label: "短信发送"
         }
       ],
       targetSysLogType: "all",

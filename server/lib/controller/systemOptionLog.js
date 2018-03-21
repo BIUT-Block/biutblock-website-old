@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
 const validator = require('validator')
-
+const _ = require('lodash')
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -69,6 +69,28 @@ class SystemOptionLog {
         }
     }
 
+    async checkLegitimateMobile(mobile) {
+        let date = new Date();
+        let Y = date.getFullYear() + '-';
+        let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        let D = date.getDate();
+        let D1 = date.getDate() + 1;
+        let end = new Date(Y + M + D).getTime()//今天结束时的毫秒数
+        let start = end - 86400000//今天开始时的毫秒数
+
+        let startTime = (Y + M + D).toString();
+        let endTime = (Y + M + D1).toString();
+
+        let newStart = new Date(date.getFullYear(), date.getMonth() + 1, + date.getDate() - 1);
+        // 查询一天之内的数据
+        let mblist = await SystemOptionLogModel.find({ type: 'sendMessage', logs: mobile, date: { "$gte": new Date(startTime), "$lte": new Date(endTime) } });
+        if (!_.isEmpty(mblist)) {
+            return mblist.length <= settings.sendMessagelimitNum
+        } else {
+            return true;
+        }
+    }
+
     async delSystemOptionLogs(req, res, next) {
         try {
             let errMsg = '', targetIds = req.query.ids;
@@ -99,7 +121,13 @@ class SystemOptionLog {
         }
     }
 
-
+    async addSystemOptLogs(type, logs) {
+        // 记录登录日志
+        let loginLog = new SystemOptionLogModel();
+        loginLog.type = type;
+        loginLog.logs = logs;
+        return await loginLog.save();
+    }
 }
 
 module.exports = new SystemOptionLog();

@@ -883,7 +883,40 @@ label {
                 width: 63%;
                 margin: 0 auto;
                 .s-form-control {
-                    width: 15rem;
+                    //width: 15rem;
+                }
+                .input-group{
+                    position: relative;
+                }
+                .input-group.yzm{
+                    .msgcode-label{
+                        border-color: #c1dc14;
+                        border-top-left-radius: 20px;
+                        border-bottom-left-radius: 20px;
+                        background-color: #ffffff;
+                    }
+                }
+                .input-dz {   
+                    border: 1px solid #c1dc14;
+                    border-radius: 20px;
+                    background-color: #ffffff;
+                    padding: 0 20px;
+                    .dz-form-control{
+                        color: #000000;
+                        border:0; 
+                        display: inline-block;
+                        outline: none;
+                    }
+                    .dz-form-control.dq{
+                        width: 25%;
+                        border-right: 1px solid #ddd;
+                    }
+                    .dz-form-control.mb{
+                        width: 70%;
+                    }
+                }
+                .msgcode-label{
+                    
                 }
                 .t-form-control {
                     width: 15rem;
@@ -898,9 +931,9 @@ label {
                     border-bottom-left-radius: 20px;
                     border-color: #c1dc14;
                     background: #c1dc14;
-                    background: -moz-linear-gradient(top,#dcfc12,#c1dc14);
-                    background: -webkit-gradient(linear,0 0,0 bottom,from(#dcfc12),to(#c1dc14));
-                    background: -o-linear-gradient(top,#dcfc12,#c1dc14);
+                    background: -moz-linear-gradient(top, #dcfc12, #c1dc14);
+                    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#dcfc12), to(#c1dc14));
+                    background: -o-linear-gradient(top, #dcfc12, #c1dc14);
                 }
             }
         }
@@ -1353,9 +1386,16 @@ label {
             }
             .wallet-input,
             .share-to-others {
+                .form-group {
+                    width: 100%;
+                    
+                }
                 .form-control {
                     width: 100%;
                 }
+            }
+            .mb-form {
+                width: 80% !important;
             }
             .share-to-others {
                 padding-top: 10rem;

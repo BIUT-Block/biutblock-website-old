@@ -12,10 +12,21 @@ function checkFormData(req, res, fields) {
     let errMsg = '';
 
     if (!fields.walletAddress || !/^[a-zA-Z0-9]{42,43}$/.test(fields.walletAddress) || (fields.walletAddress).indexOf('0x') < 0) {
-        errMsg = '请填写正确的钱包地址!';
+        errMsg = 'wallet-请填写正确的钱包地址!';
     }
     if (!req.session.passiveCode || !shortid.isValid(req.session.passiveCode)) {
         errMsg = '没有正确有效的推荐码';
+    }
+    if (fields.msgCode != req.session.messageCode) {
+        errMsg = 'messageCode-请输入正确的验证码';
+    }
+    let mobileArr = fields.mobile.split('-')
+    if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
+        || !validator.isNumeric(mobileArr[1])
+        || mobileArr[0].length != 4
+        || mobileArr[1].length != 11
+    ) {
+        errMsg = 'mobile-手机号格式不正确';
     }
     //TODO 暂时放开
     if (errMsg) {
@@ -132,6 +143,7 @@ class SecCandyLog {
         form.parse(req, async (err, fields, files) => {
             try {
                 checkFormData(req, res, fields);
+                // 查询发送短信次数
             } catch (err) {
                 console.log(err.message, err);
                 res.send({
@@ -145,15 +157,21 @@ class SecCandyLog {
                 passiveCode: req.session.passiveCode,
             }
             try {
+                // 获取手机号
+                let mobileArr = fields.mobile.split('-');
+                let isCnMobile = mobileArr[0] == '0086' ? true : false;
+                let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
                 // 先看钱包是否已经绑定过 如果已通过其他链接绑定，则此处再分享是无效的
                 const targetWallet = await WalletsModel.findOne({ walletId: fields.walletAddress });
+                const targetWallet1 = await WalletsModel.findOne({ telPhone: fields.currentMobile });
                 let userWalletId = "";
 
-                if (targetWallet && targetWallet._id) {
+                if (targetWallet && targetWallet._id || targetWallet1 && targetWallet1._id) {
                     myShareId = targetWallet.myCode;
                 } else {
+
                     // 创建钱包并生成分享ID
-                    let newWalletQuery = { walletId: fields.walletAddress, myCode: myShareId };
+                    let newWalletQuery = { walletId: fields.walletAddress, myCode: myShareId, telPhone: currentMobile };
                     const newWallet = new WalletsModel(newWalletQuery);
                     const newWalletObj = await newWallet.save();
 

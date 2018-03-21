@@ -168,6 +168,7 @@ let mainCtrl = {
                 let currentStr = randomStr.substring(0, 6);
                 pageData.messageCode = currentStr;
                 req.session.messageCode = currentStr;
+                console.log('---req.session.messageCode---', req.session.messageCode);
             } else if (md.action == 'get_adminlogin_Info') {
                 pageData.pageType = 'adminlogin';
             }

@@ -43,9 +43,9 @@
                         <div class="i18n" name='share-step-two'>2.You can get 20 SEC awards by sending the following code to a group</div>
                         <div class="share-input">
                             <div class="input-group">
-                                <input id="codeValue" type="text" class="form-control" value="{{shareId}}">
+                                <input id="codeValue" type="text" class="form-control s-form-control" value="{{shareId}}">
                                 <span class="input-group-btn">
-                                    <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                    <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -56,9 +56,9 @@
                             20 SEC awards!</div>
                         <div class="share-input">
                             <div class="input-group">
-                                <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
+                                <input id="shareLinkValue" type="text" class="form-control s-form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
                                 <span class="input-group-btn">
-                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -91,15 +91,20 @@
 
                 <div class="wallet-input">
                     <form class="" id="addWalletForm" ms-validate="@validate">
+                        <input type="hidden" id="messageCode" value="{{messageCode}}">
                         <div class="form-group">
                             <div class="mb-form">
                                 <div class="input-group">
-                                    <span class="input-group-addon t-addon" id="sizing-addon2">手机号</span>
-                                    <input type="text" class="form-control t-form-control" ms-duplex="@mobileno" data-required-message="请输入手机号" data-message="请输入正确的手机号"
-                                        ms-rules="{required:true,number:true,pattern: /^[1][3,4,5,7,8][0-9]{9}$/ }">
+                                    <div class="input-dz">
+                                        <input type="text" placeholder="0086" class="dz-form-control dq" ms-duplex="@areano" data-required-message="mobile-请输入区号"
+                                            data-message="mobile-请输入正确的区号" ms-rules="{required:true,number:true,minlength:4,maxlength:4 }">
+                                        <input type="text" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号" data-message="mobile-请输入正确的手机号"
+                                            ms-rules="{required:true,number:true,pattern: /^[1][3,4,5,7,8][0-9]{9}$/ }">
+                                    </div>
                                 </div>
-                                <div class="input-group">
-                                    <input type="text" class="form-control s-form-control" ms-duplex="@msgCode" data-required-message="请输入短信验证码" data-message="请输入正确的短信验证码"
+                                <div class="input-group yzm">
+                                    <span class="input-group-addon msgcode-label">验证码</span>
+                                    <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
                                         ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
                                     <span class="input-group-btn">
                                         <button id="sendMsg" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button" ms-text="@sendMsgTxt"></button>
@@ -110,8 +115,9 @@
                                 Please enter the ETH wallet address
                             </div>
                             <div class="input-group">
-                                <input type="text" class="form-control s-form-control" ms-duplex="@walletAddress" data-required-message="请输入钱包地址" data-message="请输入正确的钱包地址"
-                                    ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}" placeholder="">
+                                <input type="text" class="form-control s-form-control" ms-duplex="@walletAddress" data-required-message="wallet-请输入钱包地址"
+                                    data-message="wallet-请输入正确的钱包地址" ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}"
+                                    placeholder="">
                                 <span class="input-group-btn">
                                     <button class="i18n btn s-btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
                                 </span>
@@ -128,7 +134,14 @@
     <div style="clear:both"></div>
 </div>
 <script>
-    var walletErr = "您输入的钱包地址不正确，请重新输入！";
+    var sendMsgErr = "短信发送失败，请重试";
+    var msgNumErr = "短信次数超过限制";
+    var mobileErr = "请输入正确的手机号";
+    var messageCodeErr = "请输入正确的验证码";
+    var walletErr = "请填写正确的钱包地址";
+    var normalErr = "您输入的信息有误，请重试";
+    var timeoutErr = "页面已过期";
+
     $(function () {
         // 弹出信息国际化
         var cpSuccess = "复制成功!";
@@ -136,7 +149,7 @@
         if ($('body').hasClass('type-en')) {
             cpSuccess = "Copy success!";
             cpInfo = "Please manually select the content copy of the input box!";
-            walletErr = "The address of the wallet you entered is not correct, please reenter it"
+            // walletErr = "The information you entered is incorrect, please reenter it!"
         }
         //复制分享码
         var cpCodeBtn = new Clipboard('#copyCode-btn');
@@ -160,41 +173,34 @@
     var addWalletVm = avalon.define({
         $id: 'addWallet',
         walletAddress: '',
+        areano: '',
         mobileno: '',
         msgCode: '',
         basetime: 10,
         message: '',
-        sendMsgTxt: '发送验证码',
+        sendMsgTxt: '点击获取',
         showErr: false,
         sendMsgCode: function () {
             if (!addWalletVm.mobileno) {
-                alert('请先输入手机号')
+                alert(mobileErr)
             } else {
                 if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(addWalletVm.mobileno)) {
-                    alert(addWalletVm.message)
+                    alert(mobileErr)
                 } else {
-
                     // 开始发短信
-                    //  http://sdk2.entinfo.cn:8061/mdsmssend.ashx?sn=SDK-BJR-010-00879&pwd=6534F48EE702D571ED74FE131D45B5B7&mobile=17666112826&content=[SEC]签名
-                    // 内容&ext=&stime=&rrid=&msgfmt=
-
-                    // http://sdk2.entinfo.cn:8061/mdsmssend.ashx?sn=SDK-BJR-010-00871&pwd=CC5CDAFD1B008ACEBDDFB20C3078D8B5&mobile=008617666112826&content=[SEC]签名内容&ext=&stime=&rrid=&msgfmt=
                     var smsParams = {
-                        sn: 'SDK-BJR-010-00879',
-                        pwd: '6534F48EE702D571ED74FE131D45B5B7',
-                        mobile: addWalletVm.mobileno,
-                        content: '[SEC]'
+                        mobile: addWalletVm.areano + '-' + addWalletVm.mobileno
                     }
                     $.ajax({
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8', // 很重要
                         traditional: true,
                         data: JSON.stringify(smsParams),
-                        url: 'http://sdk2.entinfo.cn:8061/mdsmssend.ashx',
+                        url: '/api/secVerify/postMessage',
                         success: function (data) {
                             console.log('success:', data)
                             if (data.state == 'success') {
-                                console.log('校验成功');
+                                console.log('发送成功');
                                 var mytask = setInterval(function () {
                                     addWalletVm.sendMsgTxt = --addWalletVm.basetime + '秒后重发';
                                 }, 1000)
@@ -208,7 +214,7 @@
                             } else {
                                 addWalletVm.showErr = true;
                                 addWalletVm.message = data.message;
-                                alert(walletErr);
+                                addWalletVm.giveCurrentNotice(data.message)
                             }
                         },
                         error: function (d) {
@@ -218,6 +224,25 @@
                 }
             }
 
+        },
+        giveCurrentNotice: function (msg) {
+            if (msg) {
+                var currentErr = normalErr;
+                if (msg < 0) {
+                    currentErr = sendMsgErr;
+                } else if (msg.indexOf('msgNum-') > 0) {
+                    currentErr = msgNumErr;
+                } else if (msg.indexOf('mobile-') > 0) {
+                    currentErr = mobileErr;
+                } else if (msg.indexOf('messageCode-') > 0) {
+                    currentErr = messageCodeErr;
+                } else if (msg.indexOf('wallet-') > 0) {
+                    currentErr = walletErr;
+                } else if (msg.indexOf('timeout-') > 0) {
+                    currentErr = timeoutErr;
+                }
+                alert(currentErr)
+            }
         },
         validate: {
             onError: function (reasons) {
@@ -231,11 +256,12 @@
                     console.log('有表单没有通过', reasons)
                     addWalletVm.showErr = true;
                     addWalletVm.message = reasons[0].message;
-                    alert(walletErr);
+                    addWalletVm.giveCurrentNotice(reasons[0].message);
                 } else {
                     console.log('全部通过');
                     var params = {
-                        walletAddress: addWalletVm.walletAddress
+                        walletAddress: addWalletVm.walletAddress,
+                        msgCode: addWalletVm.msgCode,
                     }
                     $.ajax({
                         type: 'POST',
@@ -250,7 +276,7 @@
                             } else {
                                 addWalletVm.showErr = true;
                                 addWalletVm.message = data.message;
-                                alert(walletErr);
+                                addWalletVm.giveCurrentNotice(data.message);
                             }
                         },
                         error: function (d) {
