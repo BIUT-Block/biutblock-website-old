@@ -60,6 +60,11 @@ input{
     outline: none;
 }
 
+.intl-tel-input .country-list{
+    z-index: 100 !important;
+    color: #000000 !important;
+}
+
 // 管理员
 .loginBoard {
     h3 {
@@ -884,11 +889,8 @@ input{
                 margin: 15px auto;
             }
             .mb-form {
-                width: 63%;
+                width: 80%;
                 margin: 0 auto;
-                .s-form-control {
-                    //width: 15rem;
-                }
                 .input-group{
                     position: relative;
                 }
@@ -913,6 +915,7 @@ input{
                     height: 35px;
                     line-height:35px;
                     color: #000000;
+                    width:300px;
                 }
                 .t-form-control {
                     width: 15rem;
@@ -1392,6 +1395,9 @@ input{
             }
             .mb-form {
                 width: 80% !important;
+                .dz-form-control{
+                    width: 20rem !important;
+                }
             }
             .share-to-others {
                 padding-top: 10rem;
