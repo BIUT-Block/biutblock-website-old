@@ -56,6 +56,10 @@ label {
     margin-bottom: 0;
 }
 
+input{
+    outline: none;
+}
+
 // 管理员
 .loginBoard {
     h3 {
@@ -901,22 +905,14 @@ label {
                     border-radius: 20px;
                     background-color: #ffffff;
                     padding: 0 20px;
-                    .dz-form-control{
-                        color: #000000;
-                        border:0; 
-                        display: inline-block;
-                        outline: none;
-                    }
-                    .dz-form-control.dq{
-                        width: 25%;
-                        border-right: 1px solid #ddd;
-                    }
-                    .dz-form-control.mb{
-                        width: 70%;
-                    }
                 }
-                .msgcode-label{
-                    
+                .dz-form-control{
+                    border: 1px solid #c1dc14;
+                    border-radius: 20px;
+                    outline: none;
+                    height: 35px;
+                    line-height:35px;
+                    color: #000000;
                 }
                 .t-form-control {
                     width: 15rem;

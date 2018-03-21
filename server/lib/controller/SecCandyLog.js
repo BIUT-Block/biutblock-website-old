@@ -24,7 +24,6 @@ function checkFormData(req, res, fields) {
     if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
         || !validator.isNumeric(mobileArr[1])
         || mobileArr[0].length != 4
-        || mobileArr[1].length != 11
     ) {
         errMsg = 'mobile-手机号格式不正确';
     }

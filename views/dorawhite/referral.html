@@ -1,6 +1,8 @@
 {% extends "./public/defaultTemp.html" %} {% block content %}
 <script src="/javascripts/avalon.js"></script>
 <script src="/plugins/clipboard/dist/clipboard.min.js"></script>
+
+<link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
 <div class="row top-banner referra-page-one">
     <div class="center-logo">
         <div class="row" style="margin:0;">
@@ -94,14 +96,8 @@
                         <input type="hidden" id="messageCode" value="{{messageCode}}">
                         <div class="form-group">
                             <div class="mb-form">
-                                <div class="input-group">
-                                    <div class="input-dz">
-                                        <input type="text" placeholder="0086" class="dz-form-control dq" ms-duplex="@areano" data-required-message="mobile-请输入区号"
-                                            data-message="mobile-请输入正确的区号" ms-rules="{required:true,number:true,minlength:4,maxlength:4 }">
-                                        <input type="text" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
-                                            data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true,pattern: /^[1][3,4,5,7,8][0-9]{9}$/ }">
-                                    </div>
-                                </div>
+                                <input id="phone" type="tel" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
+                                    data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
                                 <div class="input-group yzm">
                                     <span class="input-group-addon msgcode-label">验证码</span>
                                     <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
@@ -133,6 +129,30 @@
     </div>
     <div style="clear:both"></div>
 </div>
+<script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        // allowDropdown: false,
+        // autoHideDialCode: false,
+        // autoPlaceholder: "off",
+        // dropdownContainer: "body",
+        // excludeCountries: ["us"],
+        // formatOnDisplay: false,
+        // geoIpLookup: function(callback) {
+        //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        //     var countryCode = (resp && resp.country) ? resp.country : "";
+        //     callback(countryCode);
+        //   });
+        // },
+        // initialCountry: "auto",
+        // nationalMode: false,
+        // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+        // placeholderNumberType: "MOBILE",
+        // preferredCountries: ['cn', 'jp'],
+        // separateDialCode: true,
+        utilsScript: "/plugins/intlTelInput/js/utils.js"
+    });
+</script>
 <script>
     var sendMsgErr = "短信发送失败，请重试";
     var msgNumErr = "短信次数超过限制";
@@ -169,6 +189,8 @@
         slinkBtn.on('error', function (e) {
             alert(cpInfo);
         });
+
+
     })
     var addWalletVm = avalon.define({
         $id: 'addWallet',
@@ -187,9 +209,15 @@
                 if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(addWalletVm.mobileno)) {
                     alert(mobileErr)
                 } else {
+                    var areaInfo = $('.selected-flag').attr('title');
+                    var areano = areaInfo.split('+')[1];
+                    var mstr = '000';
+                    if (areano.length < 4) {
+                        areano = mstr.substring(0, 4 - areano.length) + areano;
+                    }
                     // 开始发短信
                     var smsParams = {
-                        mobile: addWalletVm.areano + '-' + addWalletVm.mobileno
+                        mobile: areano + '-' + addWalletVm.mobileno
                     }
                     $.ajax({
                         type: 'POST',
