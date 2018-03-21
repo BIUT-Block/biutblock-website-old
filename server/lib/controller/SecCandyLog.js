@@ -162,7 +162,7 @@ class SecCandyLog {
                 let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
                 // 先看钱包是否已经绑定过 如果已通过其他链接绑定，则此处再分享是无效的
                 const targetWallet = await WalletsModel.findOne({ 'walletId': fields.walletAddress });
-                const targetWalletOne = await WalletsModel.findOne({ 'telPhone': fields.currentMobile });
+                const targetWalletOne = await WalletsModel.findOne({ 'telPhone': currentMobile });
                 let userWalletId = "";
                 console.log('---targetWallet--', targetWallet);
                 console.log('---targetWalletOne--', targetWalletOne);
