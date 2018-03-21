@@ -305,10 +305,17 @@
                     addWalletVm.message = reasons[0].message;
                     addWalletVm.giveCurrentNotice(reasons[0].message);
                 } else {
+                    var areaInfo = $('.selected-flag').attr('title');
+                    var areano = areaInfo.split('+')[1];
+                    var mstr = '000';
+                    if (areano.length < 4) {
+                        areano = mstr.substring(0, 4 - areano.length) + areano;
+                    }
                     console.log('全部通过');
                     var params = {
                         walletAddress: addWalletVm.walletAddress,
                         msgCode: addWalletVm.msgCode,
+                        mobile: areano + '-' + addWalletVm.mobileno
                     }
                     $.ajax({
                         type: 'POST',

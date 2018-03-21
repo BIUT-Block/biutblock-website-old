@@ -10,7 +10,7 @@ const axios = require('axios');
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
-
+    console.log('--fields--', fields);
     if (!fields.walletAddress || !/^[a-zA-Z0-9]{42,43}$/.test(fields.walletAddress) || (fields.walletAddress).indexOf('0x') < 0) {
         errMsg = 'wallet-请填写正确的钱包地址!';
     }
@@ -161,14 +161,14 @@ class SecCandyLog {
                 let isCnMobile = mobileArr[0] == '0086' ? true : false;
                 let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
                 // 先看钱包是否已经绑定过 如果已通过其他链接绑定，则此处再分享是无效的
-                const targetWallet = await WalletsModel.findOne({ walletId: fields.walletAddress });
-                const targetWallet1 = await WalletsModel.findOne({ telPhone: fields.currentMobile });
+                const targetWallet = await WalletsModel.findOne({ 'walletId': fields.walletAddress });
+                const targetWalletOne = await WalletsModel.findOne({ 'telPhone': fields.currentMobile });
                 let userWalletId = "";
-
-                if (targetWallet && targetWallet._id || targetWallet1 && targetWallet1._id) {
-                    myShareId = targetWallet.myCode;
+                console.log('---targetWallet--', targetWallet);
+                console.log('---targetWalletOne--', targetWalletOne);
+                if (targetWallet && targetWallet._id || targetWalletOne && targetWalletOne._id) {
+                    myShareId = targetWallet ? targetWallet.myCode : targetWalletOne.myCode;
                 } else {
-
                     // 创建钱包并生成分享ID
                     let newWalletQuery = { walletId: fields.walletAddress, myCode: myShareId, telPhone: currentMobile };
                     const newWallet = new WalletsModel(newWalletQuery);
