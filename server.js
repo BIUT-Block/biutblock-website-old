@@ -48,7 +48,9 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
                     replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
                 } else {
                     let checkByShareCode = await SecCandyLog.checkCurrentCode(currentCode);
+                    console.log('--checkByShareCode--', checkByShareCode);
                     if (!_.isEmpty(checkByShareCode) && checkByShareCode._id) {
+                        // console.log('--checkByShareCode--',checkByShareCode);
                         if (checkByShareCode.hasSend) {
                             replyWithHTML('Your code: ' + checkByShareCode.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + checkByShareCode.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
                         } else {
