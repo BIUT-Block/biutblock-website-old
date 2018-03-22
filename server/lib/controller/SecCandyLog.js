@@ -329,19 +329,19 @@ class SecCandyLog {
             // 目标发币
             let wantCoins = settings.coinPer * num;
             if (!_.isEmpty(myCoins)) {
-                // let hadCoins = myCoins.getCoins;
-                // if ((hadCoins + wantCoins) > settings.coinPer * (settings.maxSecShareNum + 1)) {
-                //     wantCoins = settings.coinPer * (settings.maxSecShareNum + 1) - hadCoins;
-                // }
+                let hadCoins = myCoins.getCoins;
+                if ((hadCoins + wantCoins) > settings.coinPer * (settings.maxSecShareNum + 1)) {
+                    wantCoins = settings.coinPer * (settings.maxSecShareNum + 1) - hadCoins;
+                }
 
-                // let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
-                // logUtil.info('发币结束！', writeState.status);
-                // if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
-                //     logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
-                return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': wantCoins } });
-                // } else {
-                //     logUtil.info('激活-转账失败！', writeState.txHash)
-                // }
+                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
+                logUtil.info('发币结束！', writeState.status);
+                if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
+                    logUtil.info('激活-转账成功！', targetWallet + '--' + writeState.data.txHash)
+                    return await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': wantCoins } });
+                } else {
+                    logUtil.info('激活-转账失败！', writeState.txHash)
+                }
             }
         } catch (error) {
             console.log('转账失败');
