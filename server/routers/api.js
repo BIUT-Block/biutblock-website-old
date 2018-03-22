@@ -148,7 +148,7 @@ router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
 function checkSecFormData(req, res, fields) {
   let errMsg = '';
-  console.log('-----req.session.messageCode1--', req.session.messageCode);
+  // console.log('-----req.session.messageCode1--', req.session.messageCode);
   if (!req.session.messageCode) {
     errMsg = 'timeout-页面已过期';
   } else {
@@ -180,6 +180,7 @@ router.post('/secVerify/postMessage', (req, res, next) => {
       let isCnMobile = mobileArr[0] == '0086' ? true : false;
       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
       let checkMsgNum = await SystemOptionLog.checkLegitimateMobile(currentMobile);
+      // console.log('---checkMsgNum-----', checkMsgNum);
       if (!checkMsgNum) {
         console.log('短信次数超过限制');
         throw new siteFunc.UserException('msgNum-短信次数超过限制');
@@ -202,15 +203,17 @@ router.post('/secVerify/postMessage', (req, res, next) => {
         sn: isCnMobile ? settings.smsCNSn : settings.smsENSn,
         pwd: isCnMobile ? settings.smsCNPwd : settings.smsENPwd,
         mobile: currentMobile,
-        content: '[SEC]:' + req.session.messageCode,
+        content: 'SEC(Social Ecommerce Chain):' + req.session.messageCode,
         ext: '',
         stime: '',
         rrid: '',
         msgfmt: ''
       }
       // 发送短信验证码
+      // console.log('------333');
       let currentServerPath = serverPath + '?sn=' + smsParams.sn + '&pwd=' + smsParams.pwd + '&mobile=' + smsParams.mobile + '&content=' + smsParams.content + '&ext=&stime=&rrid=&msgfmt='
       let writeState = await axios.get(currentServerPath);
+      // console.log('-writeState--', writeState);
       if (writeState.status == 200 && writeState.data > 0) {
         // 记录发送日志
         await SystemOptionLog.addSystemOptLogs('sendMessage', currentMobile);
