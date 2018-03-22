@@ -75,7 +75,7 @@ module.exports = {
     smsENServer: 'http://sdk2.entinfo.cn:8061/mdsmssend.ashx',
     smsENSn: 'SDK-BJR-010-00871',
     smsENPwd: 'CC5CDAFD1B008ACEBDDFB20C3078D8B5',
-    sendMessagelimitNum: 1
+    sendMessagelimitNum: 8
 };
 
 
