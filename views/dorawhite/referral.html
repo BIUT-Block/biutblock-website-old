@@ -354,8 +354,16 @@
             openTelegram: function () {
                 //secblock中文群
                 //window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+                //secblock英文群
+                //window.open('https://t.me/joinchat/HOie9VKwZXzZxfJfhbpNhw', '_blank')
+                if ($('body').hasClass('type-en')) {
+                    window.open('https://t.me/joinchat/HOie9VKwZXzZxfJfhbpNhw', '_blank')
+                } else {
+                    window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+                }
+
                 //机器人群组
-                window.open('https://t.me/joinchat/HOie9Q8AkndqXmt48KDQsQ', '_blank')
+                //window.open('https://t.me/joinchat/HOie9Q8AkndqXmt48KDQsQ', '_blank')
             }
         })
     </script>

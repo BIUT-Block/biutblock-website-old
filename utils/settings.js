@@ -61,11 +61,11 @@ module.exports = {
     system_error_upload: '上传失败，请稍后重试',
 
     // 糖果配置
-    TELEGRAM_API_TOKEN: "597302494:AAEO6gSBccbnwc76u9oneBtsmopq_qxoJLA", // 测试
-    // TELEGRAM_API_TOKEN: "516962286:AAFw8zzdQZdYxaDbH8aD6sVpF5heKy4PG6s", // 生产
+    // TELEGRAM_API_TOKEN: "597302494:AAEO6gSBccbnwc76u9oneBtsmopq_qxoJLA", // 测试
+    TELEGRAM_API_TOKEN: "516962286:AAFw8zzdQZdYxaDbH8aD6sVpF5heKy4PG6s", // 生产
     BASE_URL: "https://www.secblock.io",
     WEBHOOK_TOKEN: "",
-    maxSecShareNum: 2,
+    maxSecShareNum: 29,
     coinServer: "http://127.0.0.1:3000/eth/transfer/", // 发币接口
     coinPer: 20, // 发币单位数量
     gasPrice: 0.00000002, // 发币燃料值

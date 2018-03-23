@@ -56,7 +56,7 @@ export default {
     currentShareNum(row) {
       let wallets = row.wallets;
       // TODO生产环境需要修改
-      let maxSecShareNum = 2;
+      let maxSecShareNum = 29;
       let currentShareNum = 0,
         currentShareCoin = 0,
         currentWallets = [];
