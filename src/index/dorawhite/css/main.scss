@@ -1397,8 +1397,11 @@ input{
             }
             .mb-form {
                 width: 100% !important;
+                .intl-tel-input{
+                    width: 100% !important;
+                }
                 .dz-form-control{
-                    width: 23rem !important;
+                    width: 100% !important;
                 }
             }
             .share-to-others {
