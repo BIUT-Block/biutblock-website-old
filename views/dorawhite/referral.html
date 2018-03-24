@@ -246,7 +246,6 @@
                                     console.log('发送成功');
                                     var mytask = setInterval(function () {
                                         // addWalletVm.sendMsgTxt = --addWalletVm.basetime + '秒后重发';
-
                                         $('#sendMsgTxt').html(--addWalletVm.basetime + lateResendTxt);
                                     }, 1000)
                                     var xx = setTimeout(function () {
@@ -254,7 +253,7 @@
                                         $('#sendMsg').removeAttr('disabled')
                                         //addWalletVm.sendMsgTxt = '重新发送'
                                         $('#sendMsgTxt').html(reSendBtnTxt);
-                                        addWalletVm.basetime = 10
+                                        addWalletVm.basetime = 120
                                     }, 1000 * addWalletVm.basetime);
                                     $('#sendMsg').prop('disabled', 'disabled')
                                 } else {
