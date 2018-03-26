@@ -293,14 +293,15 @@ class SecCandyLog {
                     let shareWallets = mySecCandyLog.wallets;
                     // 如果没有被成功分享过
                     if (shareWallets.length == 0) {
-                        console.log('--f111--');
+                        logUtil.info('发币入口1');
                         _this.sendCoins(targetWallet, code);
                     } else {
                         // 被校验成功的才会加
                         let checkedWallets = _.filter(shareWallets, (wallet) => {
                             return wallet.hasSend;
                         });
-                        console.log('--2222--', checkedWallets.length + 1);
+                        logUtil.info('发币入口2', checkedWallets.length + 1);
+                        // console.log('--2222--', checkedWallets.length + 1);
                         _this.sendCoins(targetWallet, code, checkedWallets.length + 1);
                     }
                 }
@@ -312,6 +313,7 @@ class SecCandyLog {
                     let theWallet = await WalletsModel.findOne({ myCode });
                     if (!_.isEmpty(theWallet) && theWallet.walletId && theWallet.hasSend) {
                         console.log('--f333--');
+                        logUtil.info('发币入口3');
                         _this.sendCoins(theWallet.walletId, myCode);
                     }
                 }
@@ -328,12 +330,13 @@ class SecCandyLog {
             let myCoins = await SecCandyLogModel.findOne({ passiveCode: code });
             // 目标发币
             let wantCoins = settings.coinPer * num;
+            logUtil.info('发币判断入口');
             if (!_.isEmpty(myCoins)) {
                 let hadCoins = myCoins.getCoins;
                 if ((hadCoins + wantCoins) > settings.coinPer * (settings.maxSecShareNum + 1)) {
                     wantCoins = settings.coinPer * (settings.maxSecShareNum + 1) - hadCoins;
                 }
-
+                logUtil.info('符合条件 准备发币');
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
                 logUtil.info('发币结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
