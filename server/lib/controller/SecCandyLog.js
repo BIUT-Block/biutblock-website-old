@@ -196,6 +196,10 @@ class SecCandyLog {
                 } else {
                     // 创建钱包并生成分享ID
                     let newWalletQuery = { walletId: fields.walletAddress, myCode: myShareId, telPhone: currentMobile };
+                    // 针对渠道进来的，则直接设置为激活状态 
+                    if (req.session.channel == 'wechat') {
+                        newWalletQuery.hasSend = true;
+                    }
                     const newWallet = new WalletsModel(newWalletQuery);
                     const newWalletObj = await newWallet.save();
 
@@ -206,10 +210,7 @@ class SecCandyLog {
                     });
                     await newSecCandyLog.save();
 
-                    // 针对渠道进来的，则直接设置为激活状态 
-                    // if (req.session.channel == 'wechat') {
-                    //     await _this.activeUserWallet(myShareId);
-                    // }
+
                     userWalletId = newWalletObj._id;
 
                     // 更新分享记录
