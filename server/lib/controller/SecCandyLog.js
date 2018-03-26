@@ -351,6 +351,85 @@ class SecCandyLog {
             logUtil.error(error, {});
         }
     }
+
+
+    async getJobSecCandyList(req, res, next) {
+        try {
+            let modules = req.query.modules;
+            let current = req.query.current || 1;
+            let pageSize = req.query.pageSize || 8000;
+            let model = req.query.model; // 查询模式 full/simple
+            let searchkey = req.query.searchkey, queryObj = {};
+            if (model === 'full') {
+                pageSize = '1000'
+            }
+
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.passiveCode = { $regex: reKey }
+            }
+
+            const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'wallets',
+                select: 'walletId hasSend -_id'
+            }]).exec();
+            const totalItems = await SecCandyLogModel.count(queryObj);
+
+            let newCandyList = JSON.parse(JSON.stringify(secCandyList));
+            for (let item of newCandyList) {
+                let currentWallet = await WalletsModel.findOne({ myCode: item.passiveCode });
+                if (currentWallet && currentWallet._id) {
+                    item.passiveWallet = currentWallet;
+                }
+
+
+                let wallets = item.wallets;
+                // TODO生产环境需要修改
+                let maxSecShareNum = settings.maxSecShareNum;
+                let currentShareNum = 0,
+                    currentShareCoin = 0,
+                    currentWallets = [];
+                // 判断被分享者是否被激活
+                if (row.passiveWallet.hasSend) {
+                    currentWallets = _.filter(wallets, wallet => {
+                        return wallet.hasSend;
+                    });
+                    currentShareNum =
+                        currentWallets.length > maxSecShareNum
+                            ? maxSecShareNum
+                            : currentWallets.length;
+                    currentShareCoin = currentShareNum * 20 + 20;
+                } else {
+                    currentShareNum = 0;
+                    currentShareCoin = 0;
+                }
+
+            }
+
+            let tagsData = {
+                state: 'success',
+                docs: newCandyList,
+                pageInfo: {
+                    totalItems,
+                    current: Number(current) || 1,
+                    pageSize: Number(pageSize) || 10,
+                    searchkey: searchkey || ''
+                }
+            };
+            if (modules && modules.length > 0) {
+                return tagsData;
+            } else {
+                res.send(tagsData);
+            }
+        } catch (err) {
+            logUtil.error(err, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_DATA',
+                message: '获取ContentTag失败'
+            })
+        }
+    }
 }
 
 module.exports = new SecCandyLog();
