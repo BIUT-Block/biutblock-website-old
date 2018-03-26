@@ -7,7 +7,8 @@ const shortid = require('shortid');
 const validator = require('validator')
 const _ = require('lodash');
 const axios = require('axios');
-
+// 定义定时任务
+let walletTaskTimer;
 function checkFormData(req, res, fields) {
     let errMsg = '';
     console.log('--fields--', fields);
@@ -31,6 +32,30 @@ function checkFormData(req, res, fields) {
     if (errMsg) {
         throw new siteFunc.UserException(errMsg);
     }
+}
+
+function sendLastCoins(targetWallet, code, wantCoins) {
+    return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            try {
+                logUtil.info('准备补发！----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
+                console.log('----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
+                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
+                logUtil.info('补发结束！', writeState.status);
+                if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
+                    logUtil.info('补发-转账成功！', targetWallet + '--' + writeState.data.txHash)
+                    await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': wantCoins } });
+                    resolve();
+                } else {
+                    logUtil.info('补发-转账失败！', writeState.txHash)
+                    resolve();
+                }
+            } catch (error) {
+                logUtil.info(error, {})
+                resolve();
+            }
+        }, 2000)
+    })
 }
 
 class SecCandyLog {
@@ -353,81 +378,85 @@ class SecCandyLog {
     }
 
 
-    async getJobSecCandyList(req, res, next) {
+    async getJobSecCandyList() {
+        console.log('------开始查询数据------');
+        let _this = this;
+        let totalLetWantCoins = [];
         try {
-            let modules = req.query.modules;
-            let current = req.query.current || 1;
-            let pageSize = req.query.pageSize || 8000;
-            let model = req.query.model; // 查询模式 full/simple
-            let searchkey = req.query.searchkey, queryObj = {};
-            if (model === 'full') {
-                pageSize = '1000'
-            }
+            let current = 1;
+            let pageSize = 8000;
 
-            if (searchkey) {
-                let reKey = new RegExp(searchkey, 'i')
-                queryObj.passiveCode = { $regex: reKey }
-            }
-
-            const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+            const secCandyList = await SecCandyLogModel.find({}).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'wallets',
                 select: 'walletId hasSend -_id'
             }]).exec();
-            const totalItems = await SecCandyLogModel.count(queryObj);
 
             let newCandyList = JSON.parse(JSON.stringify(secCandyList));
+
             for (let item of newCandyList) {
+
                 let currentWallet = await WalletsModel.findOne({ myCode: item.passiveCode });
                 if (currentWallet && currentWallet._id) {
                     item.passiveWallet = currentWallet;
                 }
-
-
+                // 计算应得积分
                 let wallets = item.wallets;
-                // TODO生产环境需要修改
                 let maxSecShareNum = settings.maxSecShareNum;
-                let currentShareNum = 0,
-                    currentShareCoin = 0,
-                    currentWallets = [];
+                let currentShareNum = 0, currentShareCoin = 0, currentWallets = [];
                 // 判断被分享者是否被激活
-                if (row.passiveWallet.hasSend) {
+                if (item.passiveWallet.hasSend) {
                     currentWallets = _.filter(wallets, wallet => {
                         return wallet.hasSend;
                     });
-                    currentShareNum =
-                        currentWallets.length > maxSecShareNum
-                            ? maxSecShareNum
-                            : currentWallets.length;
+                    currentShareNum = currentWallets.length > maxSecShareNum ? maxSecShareNum : currentWallets.length;
                     currentShareCoin = currentShareNum * 20 + 20;
-                } else {
-                    currentShareNum = 0;
-                    currentShareCoin = 0;
-                }
 
+                    // 比较应得和实发
+                    if (currentShareCoin > item.getCoins) {
+                        let { telegramId, telPhone, walletId, myCode } = item.passiveWallet;
+                        let wantCoins = currentShareCoin - item.getCoins;
+                        let newBakWalletQuery = {
+                            walletId,
+                            telegramId,
+                            telPhone,
+                            wantCoins,
+                            myCode
+                        };
+                        totalLetWantCoins.push(newBakWalletQuery);
+                    }
+                }
             }
 
-            let tagsData = {
-                state: 'success',
-                docs: newCandyList,
-                pageInfo: {
-                    totalItems,
-                    current: Number(current) || 1,
-                    pageSize: Number(pageSize) || 10,
-                    searchkey: searchkey || ''
-                }
-            };
-            if (modules && modules.length > 0) {
-                return tagsData;
+            if (!_.isEmpty(totalLetWantCoins) && totalLetWantCoins.length > 0) {
+                console.log('---------本次补发数量：------------', totalLetWantCoins.length);
+                logUtil.info('本次补发数量：' + totalLetWantCoins.length);
+                _this.sendBakCoins(totalLetWantCoins);
             } else {
-                res.send(tagsData);
+                clearTimeout(walletTaskTimer);
+                // 5分钟做一次查询
+                logUtil.info('补发完毕，准备下次轮询');
+                walletTaskTimer = setTimeout(() => {
+                    _this.getJobSecCandyList();
+                }, 1000 * 60 * 5)
             }
         } catch (err) {
             logUtil.error(err, req);
-            res.send({
-                state: 'error',
-                type: 'ERROR_DATA',
-                message: '获取ContentTag失败'
-            })
+        }
+    }
+
+    async sendBakCoins(baklist) {
+        let _this = this;
+        try {
+            if (!_.isEmpty(baklist) && baklist.length > 0) {
+                for (let i = 0; i < baklist.length; i++) {
+                    let { wantCoins, telPhone, walletId, myCode } = baklist[i];
+                    await sendLastCoins(walletId, myCode, wantCoins);
+                }
+            }
+            _this.getJobSecCandyList();
+        } catch (error) {
+            console.log('转账失败');
+            logUtil.error(error, {});
         }
     }
 }
