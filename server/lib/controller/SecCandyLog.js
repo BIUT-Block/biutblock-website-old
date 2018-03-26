@@ -54,7 +54,7 @@ function sendLastCoins(targetWallet, code, wantCoins) {
                 logUtil.info(error, {})
                 resolve();
             }
-        }, 2000)
+        }, 5000)
     })
 }
 
