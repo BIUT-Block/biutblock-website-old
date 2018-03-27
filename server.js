@@ -143,10 +143,10 @@ app.use(session(sessionConfig));
 app.use(authUser.auth);
 // 初始化日志目录
 logUtil.initPath();
-console.log('---20秒后启动数据查询---');
-setTimeout(() => {
-    SecCandyLog.getJobSecCandyList();
-}, 10 * 2000)
+// console.log('---20秒后启动数据查询---');
+// setTimeout(() => {
+//     SecCandyLog.getJobSecCandyList();
+// }, 10 * 2000)
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')))
