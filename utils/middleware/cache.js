@@ -47,3 +47,28 @@ var set = function (key, value, time, callback) {
 };
 
 exports.set = set;
+
+// ex 是否设置过期时间
+var incr = function (key, time, ex = true) {
+  //redis记录每次请求，自增加1
+  redis.incr(key);
+  //设置24小时过期（ps：时间可以作为配置参数，写灵活点)
+  ex && redis.expire(key, time * 60); // 单位为分钟
+}
+
+exports.incr = incr;
+
+var getNumByKey = function (key) {
+  return redis.get(key)
+}
+
+exports.getNumByKey = getNumByKey;
+
+// 校验是否存在
+var checkExi = function (key) {
+  console.log('---key---', key)
+  console.log('---redis.exists(key)--', redis.exists(key))
+  return redis.exists(key)
+}
+
+exports.checkExi = checkExi;

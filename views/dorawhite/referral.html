@@ -109,7 +109,7 @@
                                     <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
                                         ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
                                     <span class="input-group-btn">
-                                        <button disabled id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button disabled">点击获取</button disabled>
+                                        <button id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button disabled">点击获取</button disabled>
                                     </span>
                                 </div>
                             </div>
@@ -167,6 +167,7 @@
     var walletErr = "请填写正确的钱包地址";
     var normalErr = "您输入的信息有误，请重试";
     var timeoutErr = "页面已过期";
+    var iptErr = "您的访问次数已超过限制，请稍后重试";
 
     var pmobile = '请输入手机号';
     var msgCodeLable = '验证码';
@@ -191,6 +192,7 @@
             walletErr = "Please fill in the correct wallet address";
             normalErr = "The information you entered is incorrect, please try again";
             timeoutErr = "Page expired";
+            iptErr = "The number of visits you have had exceeded the limit. Please try again later"
 
             pmobile = 'Please enter the cell phone number';
             msgCodeLable = 'PAC';
@@ -305,6 +307,8 @@
                 } else if (msg.indexOf('timeout-') >= 0) {
                     timeout = true;
                     currentErr = timeoutErr;
+                } else if (msg == 'forbiddenIP') {
+                    currentErr = iptErr;
                 }
                 alert(currentErr);
                 timeout && window

@@ -8,7 +8,6 @@ router.caseSensitive = true
 router.strict = true
 const {
   authSession,
-  cache,
   settings,
   service,
   validatorUtil,
@@ -24,6 +23,47 @@ const qr = require('qr-image')
 const randomstring = require('randomstring');
 const formidable = require('formidable');
 const axios = require('axios');
+
+//缓存
+var cache = require('../../utils/middleware/cache');
+
+function getClientIp(req) {
+  return req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+};
+
+function redisfirewall(req, res, next) {
+  // 获取客户端IP地址
+  let clientIP = getClientIp(req);
+  console.log('-----clientIP-------', clientIP)
+  if (validator.isIP(clientIP)) {
+    let key = clientIP;
+    let limit = cache.getNumByKey(key);
+    console.log('-----limit-------', Number(limit))
+    if (cache.checkExi(key)) {
+      if (settings.forbiddenIPNum > Number(limit)) {
+        cache.incr(key, settings.forbiddenTime, false);
+        console.log('------2222--------')
+        next();
+      } else {
+        console.log('------333--------')
+        res.send({
+          state: 'error',
+          message: 'forbiddenIP'
+        })
+      }
+    } else {
+      console.log('------44444444--------')
+      cache.incr(key, settings.forbiddenTime);
+      next();
+    }
+  }
+
+}
+
+
 
 function checkUserSession(req, res, next) {
   if (!_.isEmpty(req.session.user)) {
@@ -171,68 +211,69 @@ function checkSecFormData(req, res, fields) {
   }
 }
 // TODO 临时关闭
-// router.post('/secVerify/postMessage', (req, res, next) => {
-//   const form = new formidable.IncomingForm();
-//   form.parse(req, async (err, fields, files) => {
-//     // console.log('--fields---', fields);
-//     try {
-//       checkSecFormData(req, res, fields);
-//       let mobileArr = fields.mobile.split('-');
-//       let isCnMobile = mobileArr[0] == '0086' ? true : false;
-//       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
-//       let checkMsgNum = await SystemOptionLog.checkLegitimateMobile(currentMobile);
-//       // console.log('---checkMsgNum-----', checkMsgNum);
-//       if (!checkMsgNum) {
-//         console.log('短信次数超过限制');
-//         throw new siteFunc.UserException('msgNum-短信次数超过限制');
-//       }
-//     } catch (err) {
-//       console.log(err.message, err);
-//       res.send({
-//         state: 'error',
-//         type: 'ERROR_PARAMS',
-//         message: err.message
-//       })
-//       return
-//     }
-//     try {
-//       let mobileArr = fields.mobile.split('-');
-//       let isCnMobile = mobileArr[0] == '0086' ? true : false;
-//       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
-//       let serverPath = isCnMobile ? settings.smsCNServer : settings.smsENServer;
-//       let smsParams = {
-//         sn: isCnMobile ? settings.smsCNSn : settings.smsENSn,
-//         pwd: isCnMobile ? settings.smsCNPwd : settings.smsENPwd,
-//         mobile: currentMobile,
-//         content: 'SEC(Social Ecommerce Chain):' + req.session.messageCode,
-//         ext: '',
-//         stime: '',
-//         rrid: '',
-//         msgfmt: ''
-//       }
-//       // 发送短信验证码
-//       // console.log('------333');
-//       let currentServerPath = serverPath + '?sn=' + smsParams.sn + '&pwd=' + smsParams.pwd + '&mobile=' + smsParams.mobile + '&content=' + smsParams.content + '&ext=&stime=&rrid=&msgfmt='
-//       let writeState = await axios.get(currentServerPath);
-//       // console.log('-writeState--', writeState);
-//       if (writeState.status == 200 && writeState.data > 0) {
-//         // 记录发送日志
-//         await SystemOptionLog.addSystemOptLogs('sendMessage', currentMobile);
-//         res.send({
-//           state: 'success',
-//         });
-//       }
+router.post('/secVerify/postMessage', redisfirewall, (req, res, next) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    // console.log('--fields---', fields);
+    try {
+      checkSecFormData(req, res, fields);
+      let mobileArr = fields.mobile.split('-');
+      let isCnMobile = mobileArr[0] == '0086' ? true : false;
+      let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+      let checkMsgNum = await SystemOptionLog.checkLegitimateMobile(currentMobile);
+      // console.log('---checkMsgNum-----', checkMsgNum);
+      if (!checkMsgNum) {
+        console.log('短信次数超过限制');
+        throw new siteFunc.UserException('msgNum-短信次数超过限制');
+      }
+    } catch (err) {
+      console.log(err.message, err);
+      res.send({
+        state: 'error',
+        type: 'ERROR_PARAMS',
+        message: err.message
+      })
+      return
+    }
+    try {
+      let mobileArr = fields.mobile.split('-');
+      let isCnMobile = mobileArr[0] == '0086' ? true : false;
+      let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+      let serverPath = isCnMobile ? settings.smsCNServer : settings.smsENServer;
+      let smsParams = {
+        sn: isCnMobile ? settings.smsCNSn : settings.smsENSn,
+        pwd: isCnMobile ? settings.smsCNPwd : settings.smsENPwd,
+        mobile: currentMobile,
+        content: 'SEC(Social Ecommerce Chain):' + req.session.messageCode,
+        ext: '',
+        stime: '',
+        rrid: '',
+        msgfmt: ''
+      }
+      // 发送短信验证码
+      // console.log('------333');
+      let currentServerPath = serverPath + '?sn=' + smsParams.sn + '&pwd=' + smsParams.pwd + '&mobile=' + smsParams.mobile + '&content=' + smsParams.content + '&ext=&stime=&rrid=&msgfmt='
+      let writeState = await axios.get(currentServerPath);
+      // console.log('-writeState--', writeState);
+      if (writeState.status == 200 && writeState.data > 0) {
+        // 记录发送日志
+        let clientIP = getClientIp(req);
+        await SystemOptionLog.addSystemOptLogs('sendMessage', currentMobile + ':' + clientIP);
+        res.send({
+          state: 'success',
+        });
+      }
 
-//     } catch (err) {
-//       logUtil.error(err, req);
-//       res.send({
-//         state: 'error',
-//         type: 'ERROR_IN_SAVE_DATA',
-//         message: err.message,
-//       })
-//     }
-//   })
-// });
+    } catch (err) {
+      logUtil.error(err, req);
+      res.send({
+        state: 'error',
+        type: 'ERROR_IN_SAVE_DATA',
+        message: err.message,
+      })
+    }
+  })
+});
 
 
 module.exports = router
