@@ -1,369 +1,386 @@
-{% extends "./public/defaultTemp.html" %}
-{% block content %}
-    <script src="/javascripts/avalon.js"></script>
-    <script src="/plugins/clipboard/dist/clipboard.min.js"></script>
+{% extends "./public/defaultTemp.html" %} {% block content %}
+<script src="/javascripts/avalon.js"></script>
+<script src="/plugins/clipboard/dist/clipboard.min.js"></script>
 
-    <link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
-    <div class="row top-banner referra-page-one">
-        <div class="center-logo">
-            <div class="row" style="margin:0;">
-                <div class="particles-js" id="particles-js"></div>
-                <div class="col-xs-1 col-md-2">&nbsp;</div>
-                {% if addWalletSuccess %}
-                    <div class="col-xs-10 col-md-8" ms-controller="shareLink">
-                        {% if channel == 'wechat' %}
-                            <ul class="share-to-others">
-                                <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
-                                <li>
-                                    <div class="i18n" name='channle-share-step-two'>2.You can get 20 SEC awards by share the follow QR code successful</div>
-                                    <div class="share-input qr-img">
-                                        <img src="/api/qrImg?detailLink={{qrLink}}"/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another 20 SEC awards!</div>
-                                    <div class="share-input">
-                                        <div class="input-group">
-                                            <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId+'&channel='+channel}}">
-                                            <span class="input-group-btn">
-                                                <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
-                                            </span>
-                                        </div>
-                                        <!-- /input-group -->
-                                    </div>
-                                </li>
-                            </ul>
-                        {% else %}
-                            <ul class="share-to-others">
-
-                                <li>
-                                    <div class="i18n" name='share-step-one'>1.You can get 20 SEC awards by sending the following code to a group</div>
-                                    <div class="share-input">
-                                        <div class="input-group">
-                                            <input id="codeValue" type="text" class="form-control s-form-control" value="{{shareId}}">
-                                            <span class="input-group-btn">
-                                                <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
-                                            </span>
-                                        </div>
-                                        <!-- /input-group -->
-                                    </div>
-                                </li>
-                                <li class="i18n" name='share-step-two'>2.Join the SEC's Official Telegram Group.</li>
-                                <li>
-                                    <div class="add-Group">
-                                        <button type="button" :click="openTelegram" class="i18n btn btn-default" name='addGroupBtn'>The SEC's Official Telegram Group</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another 20 SEC awards!</div>
-                                    <div class="share-input">
-                                        <div class="input-group">
-                                            <input id="shareLinkValue" type="text" class="form-control s-form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
-                                            <span class="input-group-btn">
-                                                <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
-                                            </span>
-                                        </div>
-                                        <!-- /input-group -->
-                                    </div>
-                                </li>
-                            </ul>
-                        {% endif %}
-                        <div class="share-tongji">
-                            <ul class="row">
-                                <li class="col-xs-6 col-md-6">
-                                    <span class="i18n" name='share-invitation'>Successful invitation (Person time)</span>
-                                    <h3>{{rcvInfo.rcvNum}}</h3>
-                                </li>
-                                <li class="col-xs-6 col-md-6">
-                                    <span class="i18n" name='share-earned'>Earned SEC (Number of pieces)</span>
-                                    <h3>{{rcvInfo.rcvScore}}</h3>
-                                </li>
-                            </ul>
+<link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
+<div class="row top-banner referra-page-one">
+    <div class="center-logo">
+        <div class="row" style="margin:0;">
+            <div class="particles-js" id="particles-js"></div>
+            <div class="col-xs-1 col-md-2">&nbsp;</div>
+            {% if addWalletSuccess %}
+            <div class="col-xs-10 col-md-8" ms-controller="shareLink">
+                {% if channel == 'wechat' %}
+                <ul class="share-to-others">
+                    <li class="i18n" name='share-step-one'>1.Join the SEC's Official Telegram Group.</li>
+                    <li>
+                        <div class="i18n" name='channle-share-step-two'>2.You can get 20 SEC awards by share the follow QR code successful</div>
+                        <div class="share-input qr-img">
+                            <img src="/api/qrImg?detailLink={{qrLink}}" />
                         </div>
-                    </div>
+                    </li>
+                    <li>
+                        <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another
+                            20 SEC awards!</div>
+                        <div class="share-input">
+                            <div class="input-group">
+                                <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId+'&channel='+channel}}">
+                                <span class="input-group-btn">
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                    </li>
+                </ul>
                 {% else %}
-                    <div class="col-xs-10 col-md-8" ms-controller="addWallet">
-                        <div class="logo-text">
-                            <span class="i18n" name='secdes'>the next generation of block-chain protocols in the e-commerce domain based on social trust</span>
-                        </div>
-                        <div class="join-notice">
-                            <span class="i18n" name='join-notice'>Join the SEC's official Telegram group to get 20 awards of SEC. An additional 20 awards of SEC are available for each successful invitation.</span>
-                        </div>
+                <ul class="share-to-others">
 
-                        <div class="wallet-input">
-                            <form class="" id="addWalletForm" ms-validate="@validate">
-                                <input type="hidden" id="messageCode" value="{{messageCode}}">
-                                <div class="form-group">
-                                    <div class="mb-form">
-                                        <input id="phone" type="tel" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号" data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
-                                        <div class="input-group yzm">
-                                            <span class="input-group-addon msgcode-label" id="msgCodeLable">验证码</span>
-                                            <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码" ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
-                                            <span class="input-group-btn">
-                                                <button id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button">点击获取</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="i18n wallet-info" name='wallet-info'>
-                                        Please enter the ETH wallet address
-                                    </div>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control s-form-control" ms-duplex="@walletAddress" data-required-message="wallet-请输入钱包地址" data-message="wallet-请输入正确的钱包地址" ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}" placeholder="">
-                                        <span class="input-group-btn">
-                                            <button class="i18n btn s-btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
-                                        </span>
-                                    </div>
-                                    <!-- /input-group -->
-                                </div>
-                            </form>
+                    <li>
+                        <div class="i18n" name='share-step-one'>1.You can get 20 SEC awards by sending the following code to a group</div>
+                        <div class="share-input">
+                            <div class="input-group">
+                                <input id="codeValue" type="text" class="form-control s-form-control" value="{{shareId}}">
+                                <span class="input-group-btn">
+                                    <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
                         </div>
-                    </div>
+                    </li>
+                    <li class="i18n" name='share-step-two'>2.Join the SEC's Official Telegram Group.</li>
+                    <li>
+                        <div class="add-Group">
+                            <button type="button" :click="openTelegram" class="i18n btn btn-default" name='addGroupBtn'>The SEC's Official Telegram Group</button>
+                        </div>
+                    </li>
+                    <li id="addGroupUseBiYong" style="display:none;">
+                        <div class="add-Group">
+                            <button type="button" :click="openBiYong" class="i18n btn btn-default" name='useBiYongaddGroupBtn'>The SEC's Official Telegram Group</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="i18n" name='share-step-three'>3. Share the following links to your friends.For each successful recommendation, you can get another
+                            20 SEC awards!</div>
+                        <div class="share-input">
+                            <div class="input-group">
+                                <input id="shareLinkValue" type="text" class="form-control s-form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
+                                <span class="input-group-btn">
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                    </li>
+                </ul>
                 {% endif %}
-                <div class="col-xs-1 col-md-2">&nbsp;</div>
+                <div class="share-tongji">
+                    <ul class="row">
+                        <li class="col-xs-6 col-md-6">
+                            <span class="i18n" name='share-invitation'>Successful invitation (Person time)</span>
+                            <h3>{{rcvInfo.rcvNum}}</h3>
+                        </li>
+                        <li class="col-xs-6 col-md-6">
+                            <span class="i18n" name='share-earned'>Earned SEC (Number of pieces)</span>
+                            <h3>{{rcvInfo.rcvScore}}</h3>
+                        </li>
+                    </ul>
+                </div>
             </div>
+            {% else %}
+            <div class="col-xs-10 col-md-8" ms-controller="addWallet">
+                <div class="logo-text">
+                    <span class="i18n" name='secdes'>the next generation of block-chain protocols in the e-commerce domain based on social trust</span>
+                </div>
+                <div class="join-notice">
+                    <span class="i18n" name='join-notice'>Join the SEC's official Telegram group to get 20 awards of SEC. An additional 20 awards of SEC are available
+                        for each successful invitation.</span>
+                </div>
+
+                <div class="wallet-input">
+                    <form class="" id="addWalletForm" ms-validate="@validate">
+                        <input type="hidden" id="messageCode" value="{{messageCode}}">
+                        <div class="form-group">
+                            <div class="mb-form">
+                                <input id="phone" type="tel" placeholder="请输入手机号码" class="dz-form-control mb" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
+                                    data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
+                                <div class="input-group yzm">
+                                    <span class="input-group-addon msgcode-label" id="msgCodeLable">验证码</span>
+                                    <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
+                                        ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
+                                    <span class="input-group-btn">
+                                        <button id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button">点击获取</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="i18n wallet-info" name='wallet-info'>
+                                Please enter the ETH wallet address
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control s-form-control" ms-duplex="@walletAddress" data-required-message="wallet-请输入钱包地址"
+                                    data-message="wallet-请输入正确的钱包地址" ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}"
+                                    placeholder="">
+                                <span class="input-group-btn">
+                                    <button class="i18n btn s-btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-xs-1 col-md-2">&nbsp;</div>
         </div>
-        <div style="clear:both"></div>
     </div>
-    <script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
-    <script>
-        $("#phone").intlTelInput({
-            // allowDropdown: false,
-            // autoHideDialCode: false,
-            // autoPlaceholder: "off",
-            // dropdownContainer: "body",
-            // excludeCountries: ["us"],
-            // formatOnDisplay: false,
-            // geoIpLookup: function(callback) {
-            //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-            //     var countryCode = (resp && resp.country) ? resp.country : "";
-            //     callback(countryCode);
-            //   });
-            // },
-            initialCountry: "cn",
-            // nationalMode: false,
-            // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-            // placeholderNumberType: "MOBILE",
-            // preferredCountries: ['cn', 'jp'],
-            // separateDialCode: true,
-            utilsScript: "/plugins/intlTelInput/js/utils.js"
-        });
-    </script>
-    <script>
-        var sendMsgErr = "短信发送失败，请重试";
-        var msgNumErr = "短信次数超过限制";
-        var mobileErr = "请输入正确的手机号";
-        var messageCodeErr = "请输入正确的验证码";
-        var walletErr = "请填写正确的钱包地址";
-        var normalErr = "您输入的信息有误，请重试";
-        var timeoutErr = "页面已过期";
+    <div style="clear:both"></div>
+</div>
+<script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        // allowDropdown: false,
+        // autoHideDialCode: false,
+        // autoPlaceholder: "off",
+        // dropdownContainer: "body",
+        // excludeCountries: ["us"],
+        // formatOnDisplay: false,
+        // geoIpLookup: function(callback) {
+        //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        //     var countryCode = (resp && resp.country) ? resp.country : "";
+        //     callback(countryCode);
+        //   });
+        // },
+        initialCountry: "cn",
+        // nationalMode: false,
+        // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+        // placeholderNumberType: "MOBILE",
+        // preferredCountries: ['cn', 'jp'],
+        // separateDialCode: true,
+        utilsScript: "/plugins/intlTelInput/js/utils.js"
+    });
+</script>
+<script>
+    var sendMsgErr = "短信发送失败，请重试";
+    var msgNumErr = "短信次数超过限制";
+    var mobileErr = "请输入正确的手机号";
+    var messageCodeErr = "请输入正确的验证码";
+    var walletErr = "请填写正确的钱包地址";
+    var normalErr = "您输入的信息有误，请重试";
+    var timeoutErr = "页面已过期";
 
-        var pmobile = '请输入手机号';
-        var msgCodeLable = '验证码';
-        var sendBtnTxt = '点击获取';
-        var reSendBtnTxt = '重新发送';
-        var lateResendTxt = ' 秒后重发';
-        $(function () {
-            // 弹出信息国际化
-            var cpSuccess = "复制成功!";
-            var cpInfo = "请手动选择输入框内容复制!";
-            if ($('body').hasClass('type-en')) {
-                cpSuccess = "Copy success!";
-                cpInfo = "Please manually select the content copy of the input box!";
+    var pmobile = '请输入手机号';
+    var msgCodeLable = '验证码';
+    var sendBtnTxt = '点击获取';
+    var reSendBtnTxt = '重新发送';
+    var lateResendTxt = ' 秒后重发';
+    $(function () {
+        // 弹出信息国际化
+        var cpSuccess = "复制成功!";
+        var cpInfo = "请手动选择输入框内容复制!";
+        if ($('body').hasClass('type-en')) {
+            cpSuccess = "Copy success!";
+            cpInfo = "Please manually select the content copy of the input box!";
 
-                sendMsgErr = "SMS sent failed, please try again";
-                msgNumErr = "Number of short messages exceeded the limit";
-                mobileErr = "Please enter the correct cell phone number";
-                messageCodeErr = "Please enter the correct verification code";
-                walletErr = "Please fill in the correct wallet address";
-                normalErr = "The information you entered is incorrect, please try again";
-                timeoutErr = "Page expired";
+            sendMsgErr = "SMS sent failed, please try again";
+            msgNumErr = "Number of short messages exceeded the limit";
+            mobileErr = "Please enter the correct cell phone number";
+            messageCodeErr = "Please enter the correct verification code";
+            walletErr = "Please fill in the correct wallet address";
+            normalErr = "The information you entered is incorrect, please try again";
+            timeoutErr = "Page expired";
 
-                pmobile = 'Please enter the cell phone number';
-                msgCodeLable = 'PAC';
-                sendBtnTxt = 'Send',
+            pmobile = 'Please enter the cell phone number';
+            msgCodeLable = 'PAC';
+            sendBtnTxt = 'Send',
                 reSendBtnTxt = 'Try Again';
-                lateResendTxt = ' left';
-            }
-            //复制分享码
-            var cpCodeBtn = new Clipboard('#copyCode-btn');
-            cpCodeBtn.on('success', function (e) {
-                alert(cpSuccess);
-                e.clearSelection();
-            });
-            cpCodeBtn.on('error', function (e) {
-                alert(cpInfo);
-            });
-            // 复制分享链接
-            var slinkBtn = new Clipboard('#shareLikn-btn');
-            slinkBtn.on('success', function (e) {
-                alert(cpSuccess);
-                e.clearSelection();
-            });
-            slinkBtn.on('error', function (e) {
-                alert(cpInfo);
-            });
+            lateResendTxt = ' left';
 
-            $('#phone').prop('placeholder', pmobile);
-            $('#msgCodeLable').html(msgCodeLable);
-            $('#sendMsgTxt').html(sendBtnTxt);
+            $('#addGroupUseBiYong').hide();
+        } else {
+            $('#addGroupUseBiYong').show();
+        }
+        //复制分享码
+        var cpCodeBtn = new Clipboard('#copyCode-btn');
+        cpCodeBtn.on('success', function (e) {
+            alert(cpSuccess);
+            e.clearSelection();
+        });
+        cpCodeBtn.on('error', function (e) {
+            alert(cpInfo);
+        });
+        // 复制分享链接
+        var slinkBtn = new Clipboard('#shareLikn-btn');
+        slinkBtn.on('success', function (e) {
+            alert(cpSuccess);
+            e.clearSelection();
+        });
+        slinkBtn.on('error', function (e) {
+            alert(cpInfo);
+        });
 
-        })
-        var addWalletVm = avalon.define({
-            $id: 'addWallet',
-            walletAddress: '',
-            areano: '',
-            mobileno: '',
-            msgCode: '',
-            basetime: 120,
-            message: '',
-            sendMsgTxt: sendBtnTxt,
-            showErr: false,
-            sendMsgCode: function () {
-                if (!addWalletVm.mobileno) {
+        $('#phone').prop('placeholder', pmobile);
+        $('#msgCodeLable').html(msgCodeLable);
+        $('#sendMsgTxt').html(sendBtnTxt);
+
+    })
+    var addWalletVm = avalon.define({
+        $id: 'addWallet',
+        walletAddress: '',
+        areano: '',
+        mobileno: '',
+        msgCode: '',
+        basetime: 120,
+        message: '',
+        sendMsgTxt: sendBtnTxt,
+        showErr: false,
+        sendMsgCode: function () {
+            if (!addWalletVm.mobileno) {
+                alert(mobileErr)
+            } else {
+                if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(addWalletVm.mobileno)) {
                     alert(mobileErr)
                 } else {
-                    if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(addWalletVm.mobileno)) {
-                        alert(mobileErr)
-                    } else {
-                        var areaInfo = $('.selected-flag').attr('title');
-                        var areano = areaInfo.split('+')[1];
-                        var mstr = '000';
-                        if (areano.length < 4) {
-                            areano = mstr.substring(0, 4 - areano.length) + areano;
-                        }
-                        // 开始发短信
-                        var smsParams = {
-                            mobile: areano + '-' + addWalletVm.mobileno
-                        }
-                        $.ajax({
-                            type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
-                            traditional: true,
-                            data: JSON.stringify(smsParams),
-                            url: '/api/secVerify/postMessage',
-                            success: function (data) {
-                                console.log('success:', data)
-                                if (data.state == 'success') {
-                                    console.log('发送成功');
-                                    var mytask = setInterval(function () {
-                                        // addWalletVm.sendMsgTxt = --addWalletVm.basetime + '秒后重发';
-                                        $('#sendMsgTxt').html(--addWalletVm.basetime + lateResendTxt);
-                                    }, 1000)
-                                    var xx = setTimeout(function () {
-                                        clearInterval(mytask)
-                                        $('#sendMsg').removeAttr('disabled')
-                                        //addWalletVm.sendMsgTxt = '重新发送'
-                                        $('#sendMsgTxt').html(reSendBtnTxt);
-                                        addWalletVm.basetime = 120
-                                    }, 1000 * addWalletVm.basetime);
-                                    $('#sendMsg').prop('disabled', 'disabled')
-                                } else {
-                                    addWalletVm.showErr = true;
-                                    addWalletVm.message = data.message;
-                                    addWalletVm.giveCurrentNotice(data.message)
-                                }
-                            },
-                            error: function (d) {
-                                console.log('error:', d)
+                    var areaInfo = $('.selected-flag').attr('title');
+                    var areano = areaInfo.split('+')[1];
+                    var mstr = '000';
+                    if (areano.length < 4) {
+                        areano = mstr.substring(0, 4 - areano.length) + areano;
+                    }
+                    // 开始发短信
+                    var smsParams = {
+                        mobile: areano + '-' + addWalletVm.mobileno
+                    }
+                    $.ajax({
+                        type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                        traditional: true,
+                        data: JSON.stringify(smsParams),
+                        url: '/api/secVerify/postMessage',
+                        success: function (data) {
+                            console.log('success:', data)
+                            if (data.state == 'success') {
+                                console.log('发送成功');
+                                var mytask = setInterval(function () {
+                                    // addWalletVm.sendMsgTxt = --addWalletVm.basetime + '秒后重发';
+                                    $('#sendMsgTxt').html(--addWalletVm.basetime + lateResendTxt);
+                                }, 1000)
+                                var xx = setTimeout(function () {
+                                    clearInterval(mytask)
+                                    $('#sendMsg').removeAttr('disabled')
+                                    //addWalletVm.sendMsgTxt = '重新发送'
+                                    $('#sendMsgTxt').html(reSendBtnTxt);
+                                    addWalletVm.basetime = 120
+                                }, 1000 * addWalletVm.basetime);
+                                $('#sendMsg').prop('disabled', 'disabled')
+                            } else {
+                                addWalletVm.showErr = true;
+                                addWalletVm.message = data.message;
+                                addWalletVm.giveCurrentNotice(data.message)
                             }
-                        })
-                    }
-                }
-
-            },
-            giveCurrentNotice: function (msg) {
-                if (msg) {
-                    var currentErr = normalErr,
-                        timeout = false;
-                    if (msg < 0) {
-                        currentErr = sendMsgErr;
-                    } else if (msg.indexOf('msgNum-') >= 0) {
-                        currentErr = msgNumErr;
-                    } else if (msg.indexOf('mobile-') >= 0) {
-                        currentErr = mobileErr;
-                    } else if (msg.indexOf('messageCode-') >= 0) {
-                        currentErr = messageCodeErr;
-                    } else if (msg.indexOf('wallet-') >= 0) {
-                        currentErr = walletErr;
-                    } else if (msg.indexOf('timeout-') >= 0) {
-                        timeout = true;
-                        currentErr = timeoutErr;
-                    }
-                    alert(currentErr);
-                    timeout && window
-                        .location
-                        .reload();
-
-                }
-            },
-            validate: {
-                onError: function (reasons) {
-                    reasons.forEach(function (reason) {
-                        console.log(reason.getMessage())
-                        addWalletVm.message = reason.getMessage();
+                        },
+                        error: function (d) {
+                            console.log('error:', d)
+                        }
                     })
-                },
-                onValidateAll: function (reasons) {
-                    if (reasons.length > 0) {
-                        console.log('有表单没有通过', reasons)
-                        addWalletVm.showErr = true;
-                        addWalletVm.message = reasons[0].message;
-                        addWalletVm.giveCurrentNotice(reasons[0].message);
-                    } else {
-                        var areaInfo = $('.selected-flag').attr('title');
-                        var areano = areaInfo.split('+')[1];
-                        var mstr = '000';
-                        if (areano.length < 4) {
-                            areano = mstr.substring(0, 4 - areano.length) + areano;
-                        }
-                        console.log('全部通过');
-                        var params = {
-                            walletAddress: addWalletVm.walletAddress,
-                            msgCode: addWalletVm.msgCode,
-                            mobile: areano + '-' + addWalletVm.mobileno
-                        }
-                        $.ajax({
-                            type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
-                            traditional: true,
-                            data: JSON.stringify(params),
-                            url: '/api/secCandy/addOne',
-                            success: function (data) {
-                                console.log('success:', data)
-                                if (data.state == 'success') {
-                                    window
-                                        .location
-                                        .reload();
-                                } else {
-                                    addWalletVm.showErr = true;
-                                    addWalletVm.message = data.message;
-                                    addWalletVm.giveCurrentNotice(data.message);
-                                }
-                            },
-                            error: function (d) {
-                                console.log('error:', d)
-                            }
-                        })
-                    }
                 }
             }
-        })
 
-        var shareLinkVm = avalon.define({
-            $id: 'shareLink',
-            myCode: '',
-            openTelegram: function () {
-                //secblock中文群
-                //window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
-                //secblock英文群
-                //window.open('https://t.me/joinchat/HOie9VKwZXzZxfJfhbpNhw', '_blank')
-                if ($('body').hasClass('type-en')) {
-                    window.open('https://t.me/joinchat/HOie9VKwZXzZxfJfhbpNhw', '_blank')
+        },
+        giveCurrentNotice: function (msg) {
+            if (msg) {
+                var currentErr = normalErr,
+                    timeout = false;
+                if (msg < 0) {
+                    currentErr = sendMsgErr;
+                } else if (msg.indexOf('msgNum-') >= 0) {
+                    currentErr = msgNumErr;
+                } else if (msg.indexOf('mobile-') >= 0) {
+                    currentErr = mobileErr;
+                } else if (msg.indexOf('messageCode-') >= 0) {
+                    currentErr = messageCodeErr;
+                } else if (msg.indexOf('wallet-') >= 0) {
+                    currentErr = walletErr;
+                } else if (msg.indexOf('timeout-') >= 0) {
+                    timeout = true;
+                    currentErr = timeoutErr;
+                }
+                alert(currentErr);
+                timeout && window
+                    .location
+                    .reload();
+
+            }
+        },
+        validate: {
+            onError: function (reasons) {
+                reasons.forEach(function (reason) {
+                    console.log(reason.getMessage())
+                    addWalletVm.message = reason.getMessage();
+                })
+            },
+            onValidateAll: function (reasons) {
+                if (reasons.length > 0) {
+                    console.log('有表单没有通过', reasons)
+                    addWalletVm.showErr = true;
+                    addWalletVm.message = reasons[0].message;
+                    addWalletVm.giveCurrentNotice(reasons[0].message);
                 } else {
-                    window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+                    var areaInfo = $('.selected-flag').attr('title');
+                    var areano = areaInfo.split('+')[1];
+                    var mstr = '000';
+                    if (areano.length < 4) {
+                        areano = mstr.substring(0, 4 - areano.length) + areano;
+                    }
+                    console.log('全部通过');
+                    var params = {
+                        walletAddress: addWalletVm.walletAddress,
+                        msgCode: addWalletVm.msgCode,
+                        mobile: areano + '-' + addWalletVm.mobileno
+                    }
+                    $.ajax({
+                        type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                        traditional: true,
+                        data: JSON.stringify(params),
+                        url: '/api/secCandy/addOne',
+                        success: function (data) {
+                            console.log('success:', data)
+                            if (data.state == 'success') {
+                                window
+                                    .location
+                                    .reload();
+                            } else {
+                                addWalletVm.showErr = true;
+                                addWalletVm.message = data.message;
+                                addWalletVm.giveCurrentNotice(data.message);
+                            }
+                        },
+                        error: function (d) {
+                            console.log('error:', d)
+                        }
+                    })
                 }
-
-                //机器人群组
-                //window.open('https://t.me/joinchat/HOie9Q8AkndqXmt48KDQsQ', '_blank')
             }
-        })
-    </script>
-{% endblock %}
+        }
+    })
+
+    var shareLinkVm = avalon.define({
+        $id: 'shareLink',
+        myCode: '',
+        openTelegram: function () {
+            //secblock中文群
+            //window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+            //secblock英文群
+            //window.open('https://t.me/joinchat/HOie9VKwZXzZxfJfhbpNhw', '_blank')
+            if ($('body').hasClass('type-en')) {
+                window.open('https://t.me/joinchat/HOie9VKwZXzZxfJfhbpNhw', '_blank')
+            } else {
+                window.open('https://t.me/joinchat/HszzcUiWaWtR5pPmOhDPwg', '_blank')
+            }
+
+            //机器人群组
+            //window.open('https://t.me/joinchat/HOie9Q8AkndqXmt48KDQsQ', '_blank')
+        },
+        openBiYong: function () {
+            window.open('https://0.plus/SECBlockChinese', '_blank')
+        }
+    })
+</script> {% endblock %}
