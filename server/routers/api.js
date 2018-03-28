@@ -221,6 +221,7 @@ router.post('/secVerify/postMessage', (req, res, next) => {
       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
       // IP防火墙
       let forbidState = redisfirewall(req);
+      console.log('0000000000', forbidState);
       if (!forbidState) {
         console.log('------已经阻止-----');
         await SystemOptionLog.addSystemOptLogs('forbiddenIP', currentMobile + ':' + clientIP);
