@@ -52,7 +52,8 @@ function redisfirewall(req) {
           return false;
         }
       } else {
-        cache.set(key, 1, settings.forbiddenTime)
+        cache.set(key, 1, settings.forbiddenTime);
+        return true;
       }
     })
   }
