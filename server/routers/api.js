@@ -46,7 +46,7 @@ function redisfirewall(req) {
     console.log('-----cache.checkExi-------', cache.checkExi(key))
     if (cache.checkExi(key)) {
       if (settings.forbiddenIPNum > Number(limit)) {
-        cache.incr(key, settings.forbiddenTime, false);
+        cache.incr(key, settings.forbiddenTime);
         console.log('------2222--------')
         return true
       } else {
