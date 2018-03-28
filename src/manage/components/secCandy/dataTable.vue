@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSecCandyChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column prop="passiveWallet" label="分享者(钱包地址)" width="380">
@@ -8,7 +8,10 @@
                     {{scope.row.passiveWallet.walletId}}
                 </template>
             </el-table-column>
-            <el-table-column prop="passiveCode" label="分享码" width="100">
+            <el-table-column prop="passiveCode" label="用户名" width="100">
+              <template slot-scope="scope">
+                    {{scope.row.passiveWallet.first_name?(scope.row.passiveWallet.first_name+scope.row.passiveWallet.last_name):'无'}}
+                </template>
             </el-table-column>
             <el-table-column prop="wallets" label="分享总数" width="100">
                 <template slot-scope="scope">
@@ -80,8 +83,18 @@ export default {
         currentShareCoin
       };
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    handleSecCandyChange(val) {
+      let _this = this;
+      if (val && val.length > 0) {
+        let ids = val.map((item, index) => {
+          let currentCoins = _this.currentShareNum(item).currentShareCoin;
+          let hadCoins = item.getCoins;
+          let wantCoins = currentCoins - hadCoins;
+          return item.passiveWallet.id + "___" + wantCoins;
+        });
+        this.multipleSelection = ids;
+        this.$emit("handleCandyChange", ids);
+      }
     },
     editSecCandy(index, rows) {
       let rowData = rows[index];

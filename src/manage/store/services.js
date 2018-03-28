@@ -186,6 +186,10 @@ export default {
         return reqJsonData('manage/systemNotify/deleteNotifyItem', params, 'get')
     },
 
+    sendCoinsToUsers(params) {
+        return reqJsonData('manage/secCandy/sendCoinsToUsers', params, 'get')
+    },
+
     setNoticeRead(params) {
         return reqJsonData('manage/systemNotify/setHasRead', params, 'get')
     },

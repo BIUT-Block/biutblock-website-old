@@ -44,6 +44,9 @@
             <div v-else-if="type === 'ads'">
                 <el-button type="primary" size="small" plain round @click="addAds"><i class="fa fa-fw fa-plus"></i></el-button>
             </div>
+            <div v-else-if="type === 'secCandyCode'">
+                <el-button size="small" type="primary" plain round @click="branchSendCoin('coins')"><i class="fa fa-fw fa-btc"></i></el-button>
+            </div>
         </div>
         <div class="dr-searchInput">
            <!-- <el-form>
@@ -286,6 +289,44 @@ export default {
             }
             this.$message({
               message: `${targetName}删除成功`,
+              type: "success"
+            });
+          } else {
+            this.$message.error(result.data.message);
+          }
+        })
+        .catch(err => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    branchSendCoin(target) {
+      let _this = this;
+
+      if (_.isEmpty(_this.ids)) {
+        this.$message({
+          type: "info",
+          message: "请选择指定目标！"
+        });
+        return false;
+      }
+      this.$confirm("您即将给勾选的用户发币, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          let ids = _this.ids.join();
+          return services.sendCoinsToUsers({
+            ids
+          });
+        })
+        .then(result => {
+          if (result.data.state === "success") {
+            this.$message({
+              message: `请求已发出！`,
               type: "success"
             });
           } else {

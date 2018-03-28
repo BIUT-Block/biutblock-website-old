@@ -228,4 +228,7 @@ router.get('/secCandy/getShareCodeList', authToken, authPower, SecCandyLog.getSe
 router.get('/secCandy/getWalletList', authToken, authPower, SecCandyLog.getWalletsList);
 
 
+router.get('/secCandy/sendCoinsToUsers', authToken, authPower, SecCandyLog.branchSendCoins);
+
+
 module.exports = router

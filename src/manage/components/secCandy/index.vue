@@ -3,8 +3,8 @@
         <ShareDetail :dialogState="formState"></ShareDetail>
         <el-row class="dr-datatable">
             <el-col :span="24">
-                <TopBar type="secCandyCode" :pageInfo="secCandyCodeList.pageInfo"></TopBar>
-                <DataTable :pageInfo="secCandyCodeList.pageInfo" :dataList="secCandyCodeList.docs"></DataTable>
+                <TopBar type="secCandyCode" :ids="selectlist" :pageInfo="secCandyCodeList.pageInfo" ></TopBar>
+                <DataTable :pageInfo="secCandyCodeList.pageInfo" :dataList="secCandyCodeList.docs" @handleCandyChange="changeSecCandySelect"></DataTable>
                 <Pagination :pageInfo="secCandyCodeList.pageInfo" pageType="secCandyCode"></Pagination>
             </el-col>
         </el-row>
@@ -20,7 +20,9 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "index",
   data() {
-    return {};
+    return {
+      selectlist: []
+    };
   },
   components: {
     DataTable,
@@ -28,7 +30,11 @@ export default {
     ShareDetail,
     Pagination
   },
-  methods: mapActions([]),
+  methods: {
+    changeSecCandySelect(ids) {
+      this.selectlist = ids;
+    }
+  },
   computed: {
     ...mapGetters(["secCandyCodeList"]),
     formState() {

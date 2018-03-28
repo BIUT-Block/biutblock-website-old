@@ -39,6 +39,8 @@ const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
 botClient.on('text', async ({ message, replyWithHTML }) => {
     if (message) {
         let currentId = message.from.id;
+        let first_name = message.from.first_name;
+        let last_name = message.from.last_name;
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
             replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
@@ -61,7 +63,7 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
             //                 // console.log('校验分享码成功', shareWords);
             //                 replyWithHTML(shareWords)
             //                 // 标记已关注群并发送
-            //                 await SecCandyLog.activeUserWallet(currentCode, currentId);
+            //                 await SecCandyLog.activeUserWallet(currentCode, currentId, first_name, last_name);
             //             }
             //         }
             //     }
@@ -147,7 +149,9 @@ app.use(authUser.auth);
 logUtil.initPath();
 console.log('---20秒后启动数据查询---');
 setTimeout(() => {
-    SecCandyLog.getJobSecCandyList();
+    // SecCandyLog.getJobSecCandyList();
+    // redis 查询
+    SecCandyLog.getJobSecCandyFromRedis();
 }, 10 * 2000)
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));
