@@ -35,47 +35,47 @@ const manage = require('./server/routers/manage');
 const system = require('./server/routers/system');
 
 // 机器人配置
-const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
-botClient.on('text', async ({ message, replyWithHTML }) => {
-    if (message) {
-        let currentId = message.from.id;
-        let currentCode = (message.text).trim();
-        if (shortid.isValid(currentCode)) {
-            replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
-            // TODO 临时关闭
-            // try {
-            //     let myWallet = await SecCandyLog.checkTelegramUser(currentId);
-            //     if (!_.isEmpty(myWallet) && myWallet._id) {
-            //         // 如果激活请求和之前绑定ID相同，则不做激活操作
-            //         replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
-            //     } else {
-            //         let checkByShareCode = await SecCandyLog.checkCurrentCode(currentCode);
-            //         console.log('--checkByShareCode--', checkByShareCode);
-            //         if (!_.isEmpty(checkByShareCode) && checkByShareCode._id) {
-            //             // console.log('--checkByShareCode--',checkByShareCode);
-            //             if (checkByShareCode.hasSend) {
-            //                 replyWithHTML('Your code: ' + checkByShareCode.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + checkByShareCode.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
-            //             } else {
-            //                 let currentLink = "https://www.secblock.io/referral?code=" + checkByShareCode.myCode;
-            //                 let shareWords = "Your verification code: " + checkByShareCode.myCode + ", SUCCESS & DONE!Join the SEC\u2019s official Telegram group to get 20 SEC awards; Each successful invitation to a user can also receive an additional 20 SEC awards, with a maximum of 600SEC per person, waiting to be dropped.Your share link: " + currentLink + ". 你的验证码是: " + checkByShareCode.myCode + "，校验成功！加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。你的分享链接：" + currentLink + "";
-            //                 // console.log('校验分享码成功', shareWords);
-            //                 replyWithHTML(shareWords)
-            //                 // 标记已关注群并发送
-            //                 await SecCandyLog.activeUserWallet(currentCode, currentId);
-            //             }
-            //         }
-            //     }
-            // } catch (error) {
-            //     console.log('校验机器人消息异常', error);
-            // }
-        }
-    } else {
-        console.log('can not receive messages');
-    }
-})
-// Set telegram webhook
-let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
-botClient.telegram.setWebhook(settings.BASE_URL + '/' + webhookToken)
+// const botClient = new Telegraf(settings.TELEGRAM_API_TOKEN)
+// botClient.on('text', async ({ message, replyWithHTML }) => {
+//     if (message) {
+//         let currentId = message.from.id;
+//         let currentCode = (message.text).trim();
+//         if (shortid.isValid(currentCode)) {
+//             replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
+//             // TODO 临时关闭
+//             // try {
+//             //     let myWallet = await SecCandyLog.checkTelegramUser(currentId);
+//             //     if (!_.isEmpty(myWallet) && myWallet._id) {
+//             //         // 如果激活请求和之前绑定ID相同，则不做激活操作
+//             //         replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
+//             //     } else {
+//             //         let checkByShareCode = await SecCandyLog.checkCurrentCode(currentCode);
+//             //         console.log('--checkByShareCode--', checkByShareCode);
+//             //         if (!_.isEmpty(checkByShareCode) && checkByShareCode._id) {
+//             //             // console.log('--checkByShareCode--',checkByShareCode);
+//             //             if (checkByShareCode.hasSend) {
+//             //                 replyWithHTML('Your code: ' + checkByShareCode.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + checkByShareCode.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
+//             //             } else {
+//             //                 let currentLink = "https://www.secblock.io/referral?code=" + checkByShareCode.myCode;
+//             //                 let shareWords = "Your verification code: " + checkByShareCode.myCode + ", SUCCESS & DONE!Join the SEC\u2019s official Telegram group to get 20 SEC awards; Each successful invitation to a user can also receive an additional 20 SEC awards, with a maximum of 600SEC per person, waiting to be dropped.Your share link: " + currentLink + ". 你的验证码是: " + checkByShareCode.myCode + "，校验成功！加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。你的分享链接：" + currentLink + "";
+//             //                 // console.log('校验分享码成功', shareWords);
+//             //                 replyWithHTML(shareWords)
+//             //                 // 标记已关注群并发送
+//             //                 await SecCandyLog.activeUserWallet(currentCode, currentId);
+//             //             }
+//             //         }
+//             //     }
+//             // } catch (error) {
+//             //     console.log('校验机器人消息异常', error);
+//             // }
+//         }
+//     } else {
+//         console.log('can not receive messages');
+//     }
+// })
+// // Set telegram webhook
+// let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
+// botClient.telegram.setWebhook(settings.BASE_URL + '/' + webhookToken)
 
 const app = express()
 
@@ -164,7 +164,7 @@ app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
-app.use(botClient.webhookCallback('/' + webhookToken))
+// app.use(botClient.webhookCallback('/' + webhookToken))
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {
