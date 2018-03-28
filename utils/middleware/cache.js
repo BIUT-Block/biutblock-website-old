@@ -6,7 +6,7 @@ var _ = require('lodash');
  * @param key 键
  * @param callback 回调函数
  */
-var get = function (key, callback) {
+var get = function (key, callback = () => { }) {
   redis.get(key, function (err, data) {
     if (err) {
       return callback(err);
