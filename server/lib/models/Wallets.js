@@ -15,6 +15,8 @@ var WalletsSchema = new Schema({
     type: String,
     telegramId: { type: String, default: '' }, //电报群Id
     telPhone: String,// 分享者手机号
+    first_name: String,// first_name
+    last_name: String,// last_name
     walletId: String, // 分享者钱包
     myCode: String,  // 分享者获得的分享码
     hasSend: { type: Boolean, default: false }, //是否已发送分享码到电报群
