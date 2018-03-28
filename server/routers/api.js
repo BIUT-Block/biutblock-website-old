@@ -38,23 +38,23 @@ function redisfirewall(req) {
   return new Promise((resolve, reject) => {
     // 获取客户端IP地址
     let clientIP = getClientIp(req);
-    console.log('-----clientIP-------', clientIP)
+    // console.log('-----clientIP-------', clientIP)
     if (validator.isIP(clientIP)) {
       let key = clientIP;
-      console.log('-----key----', key);
+      // console.log('-----key----', key);
       cache.get(key, function (num) {
-        console.log('-----num----', num);
+        // console.log('-----num----', num);
         if (num && num != 'undefined') {
-          console.log('--22222-------');
+          // console.log('--22222-------');
           if (settings.forbiddenIPNum > Number(num)) {
             cache.set(key, Number(num) + 1, settings.forbiddenTime)
             resolve(true);
           } else {
-            console.log('-----xxxxx----');
+            // console.log('-----xxxxx----');
             resolve(false);
           }
         } else {
-          console.log('----4444444------');
+          // console.log('----4444444------');
           cache.set(key, 1, settings.forbiddenTime);
           resolve(true);
         }
@@ -224,7 +224,7 @@ router.post('/secVerify/postMessage', (req, res, next) => {
       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
       // IP防火墙
       let forbidState = await redisfirewall(req);
-      console.log('0000000000', forbidState);
+      // console.log('0000000000', forbidState);
       if (!forbidState) {
         console.log('------已经阻止-----');
         await SystemOptionLog.addSystemOptLogs('forbiddenIP', currentMobile + ':' + clientIP);

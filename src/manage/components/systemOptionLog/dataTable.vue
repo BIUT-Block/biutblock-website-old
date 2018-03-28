@@ -13,6 +13,7 @@
                     <span v-if="scope.row.type == 'login'">系统登录</span>
                     <span v-if="(scope.row.type).indexOf('exception') > -1 ">系统异常</span>
                     <span v-if="(scope.row.type).indexOf('sendMessage') > -1 ">短信发送</span>
+                    <span v-if="(scope.row.type).indexOf('forbiddenIP') > -1 ">IP禁用</span>
                 </template>
             </el-table-column>
             <el-table-column prop="date" label="发生时间">
