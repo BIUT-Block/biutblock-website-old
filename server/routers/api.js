@@ -41,6 +41,7 @@ function redisfirewall(req) {
   if (validator.isIP(clientIP)) {
     let key = clientIP;
     let limit = cache.getNumByKey(key);
+    console.log('-----limit1-------', limit)
     console.log('-----limit-------', Number(limit))
     console.log('-----cache.checkExi-------', cache.checkExi(key))
     if (cache.checkExi(key)) {
@@ -212,10 +213,10 @@ function checkSecFormData(req, res, fields) {
 router.post('/secVerify/postMessage', (req, res, next) => {
 
   const form = new formidable.IncomingForm();
+  let clientIP = getClientIp(req);
   form.parse(req, async (err, fields, files) => {
     // console.log('--fields---', fields);
     try {
-      let clientIP = getClientIp(req);
       let mobileArr = fields.mobile.split('-');
       let isCnMobile = mobileArr[0] == '0086' ? true : false;
       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
