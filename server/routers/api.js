@@ -43,7 +43,8 @@ function redisfirewall(req) {
     console.log('-----key----', key);
     cache.get(key, function (num) {
       console.log('-----num----', num);
-      if (num) {
+      if (num && num != 'undefined') {
+        console.log('--22222-------');
         if (settings.forbiddenIPNum > Number(num)) {
           cache.set(key, Number(num) + 1, settings.forbiddenTime)
           return true;
@@ -52,6 +53,7 @@ function redisfirewall(req) {
           return false;
         }
       } else {
+        console.log('----4444444------');
         cache.set(key, 1, settings.forbiddenTime);
         return true;
       }
