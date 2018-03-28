@@ -6,18 +6,19 @@ var _ = require('lodash');
  * @param key 键
  * @param callback 回调函数
  */
-var get = function (key, callback = () => { }) {
-  redis.get(key, function (err, data) {
-    if (err) {
-      return callback(err);
-    }
-    if (!data) {
-      return callback();
-    }
+var get = async function (key, callback = () => { }) {
+  // redis.get(key, function (err, data) {
+  //   if (err) {
+  //     return callback(err);
+  //   }
+  //   if (!data) {
+  //     return callback();
+  //   }
 
-    data = JSON.parse(data);
-    callback(data);
-  });
+  //   data = JSON.parse(data);
+  //   callback(data);
+  // });
+  return await redis.get(key);
 };
 
 exports.get = get;
