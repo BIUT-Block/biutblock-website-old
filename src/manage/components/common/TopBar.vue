@@ -114,6 +114,10 @@ export default {
         {
           value: "sendMessage",
           label: "短信发送"
+        },
+        {
+          value: "forbiddenIP",
+          label: "IP禁止"
         }
       ],
       targetSysLogType: "all",

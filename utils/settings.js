@@ -76,7 +76,7 @@ module.exports = {
     smsENSn: 'SDK-BJR-010-00871',
     smsENPwd: 'CC5CDAFD1B008ACEBDDFB20C3078D8B5',
     sendMessagelimitNum: 8,
-    forbiddenIPNum: 5,
+    forbiddenIPNum: 2,
     forbiddenTime: 2 // 分钟
 };
 
