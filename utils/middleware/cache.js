@@ -51,7 +51,9 @@ exports.set = set;
 // ex 是否设置过期时间
 var incr = function (key, time, ex = true) {
   //redis记录每次请求，自增加1
+  console.log('-----key---', key);
   redis.incr(key);
+  console.log('----redis get---', redis.get(key));
   //设置24小时过期（ps：时间可以作为配置参数，写灵活点)
   ex && redis.expire(key, time * 60); // 单位为分钟
 }
