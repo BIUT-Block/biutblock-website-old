@@ -210,76 +210,76 @@ function checkSecFormData(req, res, fields) {
   }
 }
 // TODO 临时关闭
-router.post('/secVerify/postMessage', (req, res, next) => {
+// router.post('/secVerify/postMessage', (req, res, next) => {
 
-  const form = new formidable.IncomingForm();
-  let clientIP = getClientIp(req);
-  form.parse(req, async (err, fields, files) => {
-    // console.log('--fields---', fields);
-    try {
-      let mobileArr = fields.mobile.split('-');
-      let isCnMobile = mobileArr[0] == '0086' ? true : false;
-      let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
-      // IP防火墙
-      let forbidState = redisfirewall(req);
-      if (!forbidState) {
-        console.log('------已经阻止-----');
-        await SystemOptionLog.addSystemOptLogs('forbiddenIP', currentMobile + ':' + clientIP);
-        throw new siteFunc.UserException('forbiddenIP');
-      }
-      checkSecFormData(req, res, fields);
-      let checkMsgNum = await SystemOptionLog.checkLegitimateMobile(currentMobile);
-      if (!checkMsgNum) {
-        console.log('短信次数超过限制');
-        throw new siteFunc.UserException('msgNum-短信次数超过限制');
-      }
-    } catch (err) {
-      console.log(err.message, err);
-      res.send({
-        state: 'error',
-        type: 'ERROR_PARAMS',
-        message: err.message
-      })
-      return
-    }
-    try {
-      let mobileArr = fields.mobile.split('-');
-      let isCnMobile = mobileArr[0] == '0086' ? true : false;
-      let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
-      let serverPath = isCnMobile ? settings.smsCNServer : settings.smsENServer;
-      let smsParams = {
-        sn: isCnMobile ? settings.smsCNSn : settings.smsENSn,
-        pwd: isCnMobile ? settings.smsCNPwd : settings.smsENPwd,
-        mobile: currentMobile,
-        content: 'SEC(Social Ecommerce Chain):' + req.session.messageCode,
-        ext: '',
-        stime: '',
-        rrid: '',
-        msgfmt: ''
-      }
-      // 发送短信验证码
-      // console.log('------333');
-      let currentServerPath = serverPath + '?sn=' + smsParams.sn + '&pwd=' + smsParams.pwd + '&mobile=' + smsParams.mobile + '&content=' + smsParams.content + '&ext=&stime=&rrid=&msgfmt='
-      let writeState = await axios.get(currentServerPath);
-      // console.log('-writeState--', writeState);
-      if (writeState.status == 200 && writeState.data > 0) {
-        // 记录发送日志
-        await SystemOptionLog.addSystemOptLogs('sendMessage', currentMobile + ':' + clientIP);
-        res.send({
-          state: 'success',
-        });
-      }
+//   const form = new formidable.IncomingForm();
+//   let clientIP = getClientIp(req);
+//   form.parse(req, async (err, fields, files) => {
+//     // console.log('--fields---', fields);
+//     try {
+//       let mobileArr = fields.mobile.split('-');
+//       let isCnMobile = mobileArr[0] == '0086' ? true : false;
+//       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+//       // IP防火墙
+//       let forbidState = redisfirewall(req);
+//       if (!forbidState) {
+//         console.log('------已经阻止-----');
+//         await SystemOptionLog.addSystemOptLogs('forbiddenIP', currentMobile + ':' + clientIP);
+//         throw new siteFunc.UserException('forbiddenIP');
+//       }
+//       checkSecFormData(req, res, fields);
+//       let checkMsgNum = await SystemOptionLog.checkLegitimateMobile(currentMobile);
+//       if (!checkMsgNum) {
+//         console.log('短信次数超过限制');
+//         throw new siteFunc.UserException('msgNum-短信次数超过限制');
+//       }
+//     } catch (err) {
+//       console.log(err.message, err);
+//       res.send({
+//         state: 'error',
+//         type: 'ERROR_PARAMS',
+//         message: err.message
+//       })
+//       return
+//     }
+//     try {
+//       let mobileArr = fields.mobile.split('-');
+//       let isCnMobile = mobileArr[0] == '0086' ? true : false;
+//       let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+//       let serverPath = isCnMobile ? settings.smsCNServer : settings.smsENServer;
+//       let smsParams = {
+//         sn: isCnMobile ? settings.smsCNSn : settings.smsENSn,
+//         pwd: isCnMobile ? settings.smsCNPwd : settings.smsENPwd,
+//         mobile: currentMobile,
+//         content: 'SEC(Social Ecommerce Chain):' + req.session.messageCode,
+//         ext: '',
+//         stime: '',
+//         rrid: '',
+//         msgfmt: ''
+//       }
+//       // 发送短信验证码
+//       // console.log('------333');
+//       let currentServerPath = serverPath + '?sn=' + smsParams.sn + '&pwd=' + smsParams.pwd + '&mobile=' + smsParams.mobile + '&content=' + smsParams.content + '&ext=&stime=&rrid=&msgfmt='
+//       let writeState = await axios.get(currentServerPath);
+//       // console.log('-writeState--', writeState);
+//       if (writeState.status == 200 && writeState.data > 0) {
+//         // 记录发送日志
+//         await SystemOptionLog.addSystemOptLogs('sendMessage', currentMobile + ':' + clientIP);
+//         res.send({
+//           state: 'success',
+//         });
+//       }
 
-    } catch (err) {
-      logUtil.error(err, req);
-      res.send({
-        state: 'error',
-        type: 'ERROR_IN_SAVE_DATA',
-        message: err.message,
-      })
-    }
-  })
-});
+//     } catch (err) {
+//       logUtil.error(err, req);
+//       res.send({
+//         state: 'error',
+//         type: 'ERROR_IN_SAVE_DATA',
+//         message: err.message,
+//       })
+//     }
+//   })
+// });
 
 
 module.exports = router
