@@ -34,14 +34,32 @@ function getClientIp(req) {
     req.connection.socket.remoteAddress;
 };
 
-function redisfirewall(req) {
+async function redisfirewall(req) {
   // 获取客户端IP地址
   let clientIP = getClientIp(req);
   console.log('-----clientIP-------', clientIP)
   if (validator.isIP(clientIP)) {
     let key = clientIP;
     console.log('-----key----', key);
-    cache.get(key, function (num) {
+    // cache.get(key, function (num) {
+    //   console.log('-----num----', num);
+    //   if (num && num != 'undefined') {
+    //     console.log('--22222-------');
+    //     if (settings.forbiddenIPNum > Number(num)) {
+    //       cache.set(key, Number(num) + 1, settings.forbiddenTime)
+    //       return true;
+    //     } else {
+    //       console.log('-----xxxxx----');
+    //       return false;
+    //     }
+    //   } else {
+    //     console.log('----4444444------');
+    //     cache.set(key, 1, settings.forbiddenTime);
+    //     return true;
+    //   }
+    // })
+    try {
+      let num = await cache.get(key);
       console.log('-----num----', num);
       if (num && num != 'undefined') {
         console.log('--22222-------');
@@ -57,7 +75,14 @@ function redisfirewall(req) {
         cache.set(key, 1, settings.forbiddenTime);
         return true;
       }
-    })
+    } catch (error) {
+      res.send({
+        state: 'error',
+        message: 'timeout-页面已过期'
+      })
+    }
+
+
   }
 }
 
