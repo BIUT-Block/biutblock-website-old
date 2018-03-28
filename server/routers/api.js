@@ -25,7 +25,7 @@ const formidable = require('formidable');
 const axios = require('axios');
 
 //缓存
-var cache = require('../../utils/middleware/cache');
+var redis = require('../../utils/middleware/redis');
 
 function getClientIp(req) {
   return req.headers['x-forwarded-for'] ||
@@ -40,14 +40,14 @@ function redisfirewall(req) {
   console.log('-----clientIP-------', clientIP)
   if (validator.isIP(clientIP)) {
     let key = clientIP;
-    let limit = cache.getNumByKey(key);
+    let limit = redis.get(key);
     console.log('-----limit1-------', limit)
     console.log('-----limit-------', Number(limit))
-    console.log('-----cache.checkExi-------', cache.checkExi(key))
-    if (cache.checkExi(key)) {
+    console.log('-----cache.checkExi-------', redis.exists(key))
+    if (redis.exists(key)) {
       if (settings.forbiddenIPNum > Number(limit)) {
-        cache.incr(key, settings.forbiddenTime);
-        console.log('------2222--------', cache.getNumByKey(key))
+        redis.incr(key);
+        console.log('------2222--------', redis.get(key))
         return true
       } else {
         console.log('------333--------')
@@ -55,7 +55,8 @@ function redisfirewall(req) {
       }
     } else {
       console.log('------44444444--------')
-      cache.incr(key, settings.forbiddenTime);
+      redis.incr(key);
+      redis.expire(key, settings.forbiddenTime * 60);
       return true;
     }
   }
