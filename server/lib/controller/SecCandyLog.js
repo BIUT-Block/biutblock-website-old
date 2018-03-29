@@ -158,7 +158,7 @@ class SecCandyLog {
 
     async getSecCandyList(req, res, next) {
         try {
-            console.log('--req.query.hasValidate---', req.query.hasValidate);
+            // console.log('--req.query.hasValidate---', req.query.hasValidate);
             let modules = req.query.modules;
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 100;
@@ -175,8 +175,9 @@ class SecCandyLog {
             }
 
             if (hasValidate == '2') {
-                // console.log('---sss--');
+                queryObj.hasSend = true;
                 queryObj.hasValidate = null;
+                queryObj.$where = function () { return this.wallets.length * 20 + 20 > this.getCoins && this.getCoins < 600 }
             }
 
             const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
@@ -406,6 +407,8 @@ class SecCandyLog {
         try {
             let _this = this;
             let myWallet = await WalletsModel.findOneAndUpdate({ myCode: code }, { $set: { telegramId: currentId, hasSend: true, first_name, last_name } });
+            // 同步更新激活状态
+            await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { $set: { hasSend: true } });
             if (!_.isEmpty(myWallet) && myWallet.walletId) {
                 logUtil.info('激活成功,准备发币！', myWallet.walletId)
                 // 激活成功，给自己发币
