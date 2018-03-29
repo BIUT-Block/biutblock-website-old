@@ -182,7 +182,7 @@ class SecCandyLog {
 
             const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'wallets',
-                select: 'walletId hasSend -_id'
+                select: 'walletId hasSend -_id',
             }]).exec();
             const totalItems = await SecCandyLogModel.count(queryObj);
             let newCandyList = JSON.parse(JSON.stringify(secCandyList));
@@ -520,8 +520,8 @@ class SecCandyLog {
                 } else {
                     authSentState = item.passiveWallet.hasSend && item.hasValidate
                 }
-                console.log('--item.passiveWallet----', item.passiveWallet);
-                console.log('--authSentState---', authSentState);
+                // console.log('--item.passiveWallet----', item.passiveWallet);
+                // console.log('--authSentState---', authSentState);
                 if (authSentState) {
                     currentWallets = _.filter(wallets, wallet => {
                         return wallet.hasSend;
@@ -530,7 +530,7 @@ class SecCandyLog {
                     currentShareCoin = currentShareNum * 20 + 20;
 
                     // 比较应得和实发
-                    console.log(currentShareCoin + '-----' + item.getCoins);
+                    // console.log(currentShareCoin + '-----' + item.getCoins);
                     if (currentShareCoin > item.getCoins) {
                         let { telegramId, telPhone, walletId, myCode } = item.passiveWallet;
                         let wantCoins = currentShareCoin - item.getCoins;

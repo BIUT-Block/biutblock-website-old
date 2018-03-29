@@ -16,6 +16,7 @@ var SecCandyLogSchema = new Schema({
     wallets: [{ type: String, ref: 'Wallets' }], // 被分享用户
     passiveCode: String, // 被分享Code
     date: { type: Date, default: Date.now },
+    hasSend: { type: Boolean, default: false }, //是否已发送分享码到电报群
     getCoins: { type: Number, default: 0 },
     hasValidate: { type: Boolean, default: false }, //是否已通过初步审核
     logs: String
