@@ -87,10 +87,10 @@ export default {
       let _this = this;
       if (val && val.length > 0) {
         let ids = val.map((item, index) => {
-          let currentCoins = _this.currentShareNum(item).currentShareCoin;
-          let hadCoins = item.getCoins;
-          let wantCoins = currentCoins - hadCoins;
-          return item.passiveWallet.id + "___" + wantCoins;
+          // let currentCoins = _this.currentShareNum(item).currentShareCoin;
+          // let hadCoins = item.getCoins;
+          // let wantCoins = currentCoins - hadCoins;
+          return item.id;
         });
         this.multipleSelection = ids;
         this.$emit("handleCandyChange", ids);

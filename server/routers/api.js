@@ -186,7 +186,7 @@ router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }
 
 //--------------------secblock---------------------------
 // TODO 临时关闭
-// router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
+router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
 function checkSecFormData(req, res, fields) {
   let errMsg = '';
@@ -226,7 +226,7 @@ router.post('/secVerify/postMessage', (req, res, next) => {
       let forbidState = await redisfirewall(req);
       // console.log('0000000000', forbidState);
       if (!forbidState) {
-        console.log('------已经阻止-----');
+        console.log('------临时阻止IP访问-----');
         await SystemOptionLog.addSystemOptLogs('forbiddenIP', currentMobile + ':' + clientIP);
         throw new siteFunc.UserException('forbiddenIP');
       }

@@ -43,33 +43,33 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
         let last_name = message.from.last_name;
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
-            replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
+            // replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
             // TODO 临时关闭
-            // try {
-            //     let myWallet = await SecCandyLog.checkTelegramUser(currentId);
-            //     if (!_.isEmpty(myWallet) && myWallet._id) {
-            //         // 如果激活请求和之前绑定ID相同，则不做激活操作
-            //         replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
-            //     } else {
-            //         let checkByShareCode = await SecCandyLog.checkCurrentCode(currentCode);
-            //         console.log('--checkByShareCode--', checkByShareCode);
-            //         if (!_.isEmpty(checkByShareCode) && checkByShareCode._id) {
-            //             // console.log('--checkByShareCode--',checkByShareCode);
-            //             if (checkByShareCode.hasSend) {
-            //                 replyWithHTML('Your code: ' + checkByShareCode.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + checkByShareCode.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
-            //             } else {
-            //                 let currentLink = "https://www.secblock.io/referral?code=" + checkByShareCode.myCode;
-            //                 let shareWords = "Your verification code: " + checkByShareCode.myCode + ", SUCCESS & DONE!Join the SEC\u2019s official Telegram group to get 20 SEC awards; Each successful invitation to a user can also receive an additional 20 SEC awards, with a maximum of 600SEC per person, waiting to be dropped.Your share link: " + currentLink + ". 你的验证码是: " + checkByShareCode.myCode + "，校验成功！加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。你的分享链接：" + currentLink + "";
-            //                 // console.log('校验分享码成功', shareWords);
-            //                 replyWithHTML(shareWords)
-            //                 // 标记已关注群并发送
-            //                 await SecCandyLog.activeUserWallet(currentCode, currentId, first_name, last_name);
-            //             }
-            //         }
-            //     }
-            // } catch (error) {
-            //     console.log('校验机器人消息异常', error);
-            // }
+            try {
+                let myWallet = await SecCandyLog.checkTelegramUser(currentId);
+                if (!_.isEmpty(myWallet) && myWallet._id) {
+                    // 如果激活请求和之前绑定ID相同，则不做激活操作
+                    replyWithHTML('Your code: ' + myWallet.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + myWallet.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
+                } else {
+                    let checkByShareCode = await SecCandyLog.checkCurrentCode(currentCode);
+                    console.log('--checkByShareCode--', checkByShareCode);
+                    if (!_.isEmpty(checkByShareCode) && checkByShareCode._id) {
+                        // console.log('--checkByShareCode--',checkByShareCode);
+                        if (checkByShareCode.hasSend) {
+                            replyWithHTML('Your code: ' + checkByShareCode.myCode + ', Failed. Each Telegram user can only be verified once. 你的验证码：' + checkByShareCode.myCode + '，校验失败，每个Telegram用户仅可校验一次。')
+                        } else {
+                            let currentLink = "https://www.secblock.io/referral?code=" + checkByShareCode.myCode;
+                            let shareWords = "Your verification code: " + checkByShareCode.myCode + ", SUCCESS & DONE!Join the SEC\u2019s official Telegram group to get 20 SEC awards; Each successful invitation to a user can also receive an additional 20 SEC awards, with a maximum of 600SEC per person, waiting to be dropped.Your share link: " + currentLink + ". 你的验证码是: " + checkByShareCode.myCode + "，校验成功！加入SEC官方Telegram群即可获得20个SEC奖励；每成功邀请一个用户，还可额外获得20个SEC奖励，每人最多可得600SEC，坐等空投，送完即止。你的分享链接：" + currentLink + "";
+                            // console.log('校验分享码成功', shareWords);
+                            replyWithHTML(shareWords)
+                            // 标记已关注群并发送
+                            await SecCandyLog.activeUserWallet(currentCode, currentId, first_name, last_name);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log('校验机器人消息异常', error);
+            }
         }
     } else {
         console.log('can not receive messages');
@@ -120,7 +120,7 @@ if (settings.openRedis) {
             port: settings.redis_port,
             host: settings.redis_host,
             pass: settings.redis_psd,
-            ttl: 60 * 2 // 两分钟
+            ttl: 60 * 60 // 两分钟
             // ttl: 10 // 两分钟
         }),
         resave: true,
@@ -147,12 +147,12 @@ app.use(session(sessionConfig));
 app.use(authUser.auth);
 // 初始化日志目录
 logUtil.initPath();
-console.log('---20秒后启动数据查询---');
+console.log('---50秒后启动数据查询---');
 setTimeout(() => {
     // SecCandyLog.getJobSecCandyList();
     // redis 查询
     SecCandyLog.getJobSecCandyFromRedis();
-}, 10 * 2000)
+}, 10 * 5000)
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')))
