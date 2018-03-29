@@ -270,7 +270,7 @@
                                 }, 1000)
                                 var xx = setTimeout(function () {
                                     clearInterval(mytask)
-                                    $('#sendMsg').removeAttr(')
+                                    $('#sendMsg').removeAttr('disabled');
                                     //addWalletVm.sendMsgTxt = '重新发送'
                                     $('#sendMsgTxt').html(reSendBtnTxt);
                                     addWalletVm.basetime = 120
