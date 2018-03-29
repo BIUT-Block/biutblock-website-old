@@ -28,6 +28,8 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       let searchkey = this.pageInfo ? this.pageInfo.searchkey : "";
+      let hasValidate = this.pageInfo ? this.pageInfo.hasValidate : "";
+
       if (this.pageType === "content") {
         this.$store.dispatch("getContentList", {
           current: val,
@@ -86,7 +88,8 @@ export default {
       } else if (this.pageType === "secCandyCode") {
         this.$store.dispatch("getSecCandyCodeList", {
           current: val,
-          searchkey
+          searchkey,
+          hasValidate
         });
       } else if (this.pageType === "secCandyWallet") {
         this.$store.dispatch("getSecCandyWalletList", {

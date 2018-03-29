@@ -76,6 +76,10 @@
             <div v-else-if="type === 'secCandyCode'">
                 <el-input size="small" placeholder="分享码" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                 </el-input>
+                <el-select size="small" v-model="targetSecCandyList" placeholder="请选择" @change="selectSysLogType">
+                    <el-option v-for="item in secCandyTypes" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
             </div>
              <div v-else-if="type === 'secCandyWallet'">
                 <el-input size="small" placeholder="钱包地址" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
@@ -124,6 +128,17 @@ export default {
         }
       ],
       targetSysLogType: "all",
+      targetSecCandyList: "all",
+      secCandyTypes: [
+        {
+          value: "all",
+          label: "全部"
+        },
+        {
+          value: "2",
+          label: "待审核"
+        }
+      ],
       loadingState: false,
       formState: {
         show: false
@@ -133,6 +148,14 @@ export default {
   },
   methods: {
     selectSysLogType(type) {
+      this.targetSecCandyList = type;
+      if (type == "all") {
+        this.$store.dispatch("getSecCandyCodeList");
+      } else {
+        this.$store.dispatch("getSecCandyCodeList", { hasValidate: "2" });
+      }
+    },
+    selectSecCandyList(type) {
       this.targetSysLogType = type;
       if (type == "all") {
         this.$store.dispatch("getSystemLogsList");
@@ -142,6 +165,7 @@ export default {
     },
     searchResult(ev) {
       let searchkey = this.pageInfo ? this.pageInfo.searchkey : "";
+      let hasValidate = this.pageInfo ? this.pageInfo.hasValidate : "";
       if (this.type == "content") {
         this.$store.dispatch("getContentList", {
           searchkey
@@ -160,7 +184,8 @@ export default {
         });
       } else if (this.type == "secCandyCode") {
         this.$store.dispatch("getSecCandyCodeList", {
-          searchkey
+          searchkey,
+          hasValidate
         });
       } else if (this.type == "secCandyWallet") {
         this.$store.dispatch("getSecCandyWalletList", {
@@ -303,6 +328,8 @@ export default {
         });
     },
     branchSendCoin(target) {
+      let searchkey = this.pageInfo ? this.pageInfo.searchkey : "";
+      let hasValidate = this.pageInfo ? this.pageInfo.hasValidate : "";
       let _this = this;
 
       if (_.isEmpty(_this.ids)) {
@@ -328,6 +355,10 @@ export default {
             this.$message({
               message: `请求已发出！`,
               type: "success"
+            });
+            this.$store.dispatch("getSecCandyCodeList", {
+              searchkey,
+              hasValidate
             });
           } else {
             this.$message.error(result.data.message);

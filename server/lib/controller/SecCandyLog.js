@@ -61,71 +61,71 @@ function setCacheData(key, value) {
     // cache.set(key, value, 1000 * 60 * 60)
 }
 
-let checkLock = function (thisCoinList) {
-    setTimeout(async () => {
-        try {
-            // console.log('----11111--')
-            let coinlock = await getCacheData('coinlock');
-            // console.log('----2222--', coinlock)
-            if (coinlock) {
-                checkLock();
-            } else {
-                // 加锁
-                await setCacheData('coinlock', 1);
-                // 存缓存
-                let oldRedisCoinList = await getCacheData('thisCoinList');
-                if (oldRedisCoinList) {
-                    oldRedisCoinList = JSON.parse(oldRedisCoinList);
-                    _.concat(thisCoinList, oldRedisCoinList);
-                    // 去重
-                    _.uniq(thisCoinList);
-                }
-                console.log('----3333--', JSON.stringify(thisCoinList))
-                await setCacheData('thisCoinList', JSON.stringify(thisCoinList));
-                // 解锁
-                await setCacheData('coinlock', '');
-            }
-        } catch (error) {
-            logUtil.info(error, {});
-            checkLock();
-        }
+// let checkLock = function (thisCoinList) {
+//     setTimeout(async () => {
+//         try {
+//             // console.log('----11111--')
+//             let coinlock = await getCacheData('coinlock');
+//             // console.log('----2222--', coinlock)
+//             if (coinlock) {
+//                 checkLock();
+//             } else {
+//                 // 加锁
+//                 await setCacheData('coinlock', 1);
+//                 // 存缓存
+//                 let oldRedisCoinList = await getCacheData('thisCoinList');
+//                 if (oldRedisCoinList) {
+//                     oldRedisCoinList = JSON.parse(oldRedisCoinList);
+//                     _.concat(thisCoinList, oldRedisCoinList);
+//                     // 去重
+//                     _.uniq(thisCoinList);
+//                 }
+//                 console.log('----3333--', JSON.stringify(thisCoinList))
+//                 await setCacheData('thisCoinList', JSON.stringify(thisCoinList));
+//                 // 解锁
+//                 await setCacheData('coinlock', '');
+//             }
+//         } catch (error) {
+//             logUtil.info(error, {});
+//             checkLock();
+//         }
 
-    }, 1000 * 5)
-}
+//     }, 1000 * 5)
+// }
 
-let checkRedisLock = function (_thisCandy) {
-    setTimeout(async () => {
-        try {
-            let coinlock = await getCacheData('coinlock');
-            if (coinlock) {
-                checkRedisLock(_thisCandy);
-            } else {
-                // 加锁
-                await setCacheData('coinlock', 1);
-                // 取缓存
-                let newRedisCoinList = await getCacheData('thisCoinList');
-                // 清缓存
-                await setCacheData('thisCoinList', '');
-                // 解锁
-                await setCacheData('coinlock', '');
-                // 发放
-                if (!_.isEmpty(newRedisCoinList) && newRedisCoinList.length > 0) {
-                    console.log('---------newRedisCoinList------------', newRedisCoinList.length);
-                    _thisCandy.getJobSecCandyList('redis', newRedisCoinList)
-                }
-                // 发放完毕 等5s继续轮询
-                setTimeout(() => {
-                    console.log('轮询继续')
-                    checkRedisLock(_thisCandy);
-                }, 1000 * 60 * 5)
-            }
-        } catch (error) {
-            logUtil.info(error, {});
-            checkRedisLock(_thisCandy);
-        }
+// let checkRedisLock = function (_thisCandy) {
+//     setTimeout(async () => {
+//         try {
+//             let coinlock = await getCacheData('coinlock');
+//             if (coinlock) {
+//                 checkRedisLock(_thisCandy);
+//             } else {
+//                 // 加锁
+//                 await setCacheData('coinlock', 1);
+//                 // 取缓存
+//                 let newRedisCoinList = await getCacheData('thisCoinList');
+//                 // 清缓存
+//                 await setCacheData('thisCoinList', '');
+//                 // 解锁
+//                 await setCacheData('coinlock', '');
+//                 // 发放
+//                 if (!_.isEmpty(newRedisCoinList) && newRedisCoinList.length > 0) {
+//                     console.log('---------newRedisCoinList------------', newRedisCoinList.length);
+//                     _thisCandy.getJobSecCandyList('redis', newRedisCoinList)
+//                 }
+//                 // 发放完毕 等5s继续轮询
+//                 setTimeout(() => {
+//                     console.log('轮询继续')
+//                     checkRedisLock(_thisCandy);
+//                 }, 1000 * 60 * 5)
+//             }
+//         } catch (error) {
+//             logUtil.info(error, {});
+//             checkRedisLock(_thisCandy);
+//         }
 
-    }, 1000 * 5)
-}
+//     }, 1000 * 5)
+// }
 
 function sendLastCoins(targetWallet, code, wantCoins) {
     return new Promise((resolve, reject) => {
@@ -158,10 +158,12 @@ class SecCandyLog {
 
     async getSecCandyList(req, res, next) {
         try {
+            console.log('--req.query.hasValidate---', req.query.hasValidate);
             let modules = req.query.modules;
             let current = req.query.current || 1;
-            let pageSize = req.query.pageSize || 10;
+            let pageSize = req.query.pageSize || 100;
             let model = req.query.model; // 查询模式 full/simple
+            let hasValidate = req.query.hasValidate || '';
             let searchkey = req.query.searchkey, queryObj = {};
             if (model === 'full') {
                 pageSize = '1000'
@@ -172,12 +174,16 @@ class SecCandyLog {
                 queryObj.passiveCode = { $regex: reKey }
             }
 
+            if (hasValidate == '2') {
+                // console.log('---sss--');
+                queryObj.hasValidate = null;
+            }
+
             const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'wallets',
                 select: 'walletId hasSend -_id'
             }]).exec();
             const totalItems = await SecCandyLogModel.count(queryObj);
-
             let newCandyList = JSON.parse(JSON.stringify(secCandyList));
             for (let item of newCandyList) {
                 let currentWallet = await WalletsModel.findOne({ myCode: item.passiveCode });
@@ -185,15 +191,15 @@ class SecCandyLog {
                     item.passiveWallet = currentWallet;
                 }
             }
-
             let tagsData = {
                 state: 'success',
                 docs: newCandyList,
                 pageInfo: {
-                    totalItems,
+                    totalItems: totalItems,
                     current: Number(current) || 1,
                     pageSize: Number(pageSize) || 10,
-                    searchkey: searchkey || ''
+                    searchkey: searchkey || '',
+                    hasValidate: hasValidate
                 }
             };
             if (modules && modules.length > 0) {
@@ -474,28 +480,24 @@ class SecCandyLog {
     }
 
 
-    async getJobSecCandyList(type = 'out', targetIds = []) {
-        console.log('------开始查询数据------', targetIds);
+    async getJobSecCandyList(type = 'out') {
+        console.log('------开始查询数据------');
         let _this = this;
         let totalLetWantCoins = [];
         try {
             let current = 1;
             let pageSize = 8000;
-            let secCandyList = '';
-
-            if (type == 'out') {
-                secCandyList = await SecCandyLogModel.find({}).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
-                    path: 'wallets',
-                    select: 'walletId hasSend -_id'
-                }]).exec();
-            } else if (type == 'redis') {
-                secCandyList = await SecCandyLogModel.find({ _id: { $in: targetIds } }).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
-                    path: 'wallets',
-                    select: 'walletId hasSend -_id'
-                }]).exec();
+            let queryObj = {};
+            // 如果是人工发放，则筛选审核的列表作为轮询数据
+            if (type == 'redis') {
+                queryObj.hasValidate = true;
             }
+            let secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+                path: 'wallets',
+                select: 'walletId hasSend -_id'
+            }]).exec();
 
-            console.log('---secCandyList---', secCandyList);
+            console.log('---secCandyList---', secCandyList.length);
             let newCandyList = JSON.parse(JSON.stringify(secCandyList));
 
             for (let item of newCandyList) {
@@ -509,7 +511,15 @@ class SecCandyLog {
                 let maxSecShareNum = settings.maxSecShareNum;
                 let currentShareNum = 0, currentShareCoin = 0, currentWallets = [];
                 // 判断被分享者是否被激活
-                if (item.passiveWallet.hasSend) {
+                let authSentState = false;
+                if (type == 'out') {
+                    authSentState = item.passiveWallet.hasSend;
+                } else {
+                    authSentState = item.passiveWallet.hasSend && item.hasValidate
+                }
+                console.log('--item.passiveWallet----', item.passiveWallet);
+                console.log('--authSentState---', authSentState);
+                if (authSentState) {
                     currentWallets = _.filter(wallets, wallet => {
                         return wallet.hasSend;
                     });
@@ -517,6 +527,7 @@ class SecCandyLog {
                     currentShareCoin = currentShareNum * 20 + 20;
 
                     // 比较应得和实发
+                    console.log(currentShareCoin + '-----' + item.getCoins);
                     if (currentShareCoin > item.getCoins) {
                         let { telegramId, telPhone, walletId, myCode } = item.passiveWallet;
                         let wantCoins = currentShareCoin - item.getCoins;
@@ -538,15 +549,12 @@ class SecCandyLog {
                 _this.sendBakCoins(totalLetWantCoins, type);
             } else {
                 // 5分钟做一次查询
+                console.log('-----补发完毕，准备下次轮询---');
                 logUtil.info('补发完毕，准备下次轮询');
-                if (type == 'out') {
-                    clearTimeout(walletTaskTimer);
-                    walletTaskTimer = setTimeout(() => {
-                        _this.getJobSecCandyList();
-                    }, 1000 * 60 * 5)
-                } else {
-                    checkRedisLock(_this);
-                }
+                clearTimeout(walletTaskTimer);
+                walletTaskTimer = setTimeout(() => {
+                    _this.getJobSecCandyList(type);
+                }, 1000 * 60 * 5)
 
             }
         } catch (err) {
@@ -556,7 +564,7 @@ class SecCandyLog {
 
     // 定时任务
     async getJobSecCandyFromRedis() {
-        checkRedisLock(this);
+        this.getJobSecCandyList('redis')
     }
 
 
@@ -569,11 +577,7 @@ class SecCandyLog {
                     await sendLastCoins(walletId, myCode, wantCoins);
                 }
             }
-            if (type == 'out') {
-                _this.getJobSecCandyList();
-            } else {
-                checkRedisLock(_this);
-            }
+            _this.getJobSecCandyList(type);
         } catch (error) {
             console.log('转账失败');
             logUtil.error(error, {});
@@ -587,15 +591,15 @@ class SecCandyLog {
             let ids = req.query.ids;
             if (ids) {
                 let targetIds = ids.split(',');
-
                 if (targetIds.length > 0) {
-                    checkLock(targetIds);
+                    for (let i = 0; i < targetIds.length; i++) {
+                        // 更新状态
+                        await SecCandyLogModel.findOneAndUpdate({ _id: targetIds[i] }, { hasValidate: true });
+                    }
                 }
-
                 res.send({
                     state: 'success'
                 })
-
             } else {
                 res.send({
                     state: 'error',

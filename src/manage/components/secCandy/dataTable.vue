@@ -3,7 +3,7 @@
         <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSecCandyChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="passiveWallet" label="分享者(钱包地址)" width="380">
+            <el-table-column prop="passiveWallet" label="分享者(钱包地址)" width="370">
                 <template slot-scope="scope">
                     {{scope.row.passiveWallet.walletId}}
                 </template>
@@ -30,6 +30,12 @@
               </template>
             </el-table-column>
             <el-table-column prop="getCoins" label="成功发放">
+            </el-table-column>
+            <el-table-column label="核验状态">
+                <template slot-scope="scope">
+                    <el-tag v-if="scope.row.hasValidate" size="medium" type="success">已核验</el-tag>
+                    <el-tag v-if="!scope.row.hasValidate" size="medium" type="danger">未核验</el-tag>
+                </template>
             </el-table-column>
             <el-table-column label="详情" width="150">
                 <template slot-scope="scope">
