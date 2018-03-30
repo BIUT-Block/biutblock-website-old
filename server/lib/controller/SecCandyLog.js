@@ -176,7 +176,7 @@ class SecCandyLog {
 
             if (hasValidate == '2') {
                 queryObj.hasSend = true;
-                queryObj.hasValidate = null;
+                queryObj.$or = [{ hasValidate: false }, { hasValidate: null }]
                 queryObj.$where = function () { return this.wallets.length * 20 + 20 > this.getCoins && this.getCoins < 600 }
                 queryObj.$or = [{ first_name: { $ne: null } }, { last_name: { $ne: null } }]
             }
