@@ -181,7 +181,7 @@ class SecCandyLog {
                 queryObj.$or = [{ first_name: { $ne: null } }, { last_name: { $ne: null } }]
             }
 
-            const secCandyList = await SecCandyLogModel.find(queryObj).sort({ first_name: -1, last_name: -1, date: -1, }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
+            const secCandyList = await SecCandyLogModel.find(queryObj).sort({ date: -1, }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{
                 path: 'wallets',
                 select: 'walletId hasSend -_id',
             }]).exec();
