@@ -1,6 +1,9 @@
 import * as types from './types.js'
 import getters from './getters';
 import _ from 'lodash';
+import { Loading } from 'element-ui';
+let tableDom = document.querySelector('.el-table__body-wrapper');
+
 const state = {
     count: 20,
     loginState: {
@@ -300,7 +303,8 @@ const state = {
         },
         list: {
             pageInfo: {},
-            docs: []
+            docs: [],
+            isLoad: false
         }
     },
     secCandyWalletList: {
@@ -574,7 +578,10 @@ const mutations = {
         state.basicInfo = list
     },
     [types.SECCANDYCODELIST](state, list) {
-        state.secCandyCodeList.list = list
+        state.secCandyCodeList.list = list;
+        let loadingInstance = Loading.service({ target: 'body', customClass: 'loadingType' });
+        loadingInstance.close();
+        // state.secCandyCodeList.list.isLoad = false;
     },
     [types.SECCANDYWALLETLIST](state, list) {
         state.secCandyWalletList.list = list

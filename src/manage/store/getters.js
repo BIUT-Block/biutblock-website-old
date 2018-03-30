@@ -31,6 +31,14 @@ export default {
     adsItemForm: state => state.ads.itemFormState,
     basicInfo: state => state.basicInfo,
     secCandyCodeList: state => state.secCandyCodeList.list,
+    // secCandyCodeList:(state, getters) => (path) => {
+    //     if (state.secCandyCodeList.list && state.secCandyCodeList.list.docs.length>0) {
+    //         return state.secCandyCodeList.list
+    //     } else return {
+    //         data: {},
+    //         loading: true
+    //     }
+    // },
     secCandyCodeDetailFormState: state => state.secCandyCodeList.formState,
     secCandyWalletList: state => state.secCandyWalletList.list
 

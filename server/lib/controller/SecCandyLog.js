@@ -178,6 +178,7 @@ class SecCandyLog {
                 queryObj.hasSend = true;
                 queryObj.hasValidate = null;
                 queryObj.$where = function () { return this.wallets.length * 20 + 20 > this.getCoins && this.getCoins < 600 }
+                queryObj.$or = [{ first_name: { $ne: null } }, { last_name: { $ne: null } }]
             }
 
             const secCandyList = await SecCandyLogModel.find(queryObj).sort({ first_name: -1, last_name: -1, date: -1, }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize)).populate([{

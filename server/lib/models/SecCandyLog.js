@@ -36,6 +36,8 @@ SecCandyLogSchema.path('date').get(function (v) {
     return moment(v).format("YYYY-MM-DD HH:mm:ss");
 });
 
+SecCandyLogSchema.index({ first_name: -1, last_name: -1, hasSend: -1 });
+
 var SecCandyLog = mongoose.model("SecCandyLog", SecCandyLogSchema);
 
 module.exports = SecCandyLog;

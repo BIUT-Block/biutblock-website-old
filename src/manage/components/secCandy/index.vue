@@ -21,7 +21,8 @@ export default {
   name: "index",
   data() {
     return {
-      selectlist: []
+      selectlist: [],
+      loadingState: false
     };
   },
   components: {
@@ -36,7 +37,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["secCandyCodeList"]),
+    // ...mapGetters(["secCandyCodeList"]),
+    secCandyCodeList() {
+      let list = this.$store.getters.secCandyCodeList;
+      // console.log("--list.isLoad----", list.isLoad);
+      // this.loadingState = list.loading;
+      return list;
+    },
     formState() {
       return this.$store.getters.secCandyCodeDetailFormState;
     }

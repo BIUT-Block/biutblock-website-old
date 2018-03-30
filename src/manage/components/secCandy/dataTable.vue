@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSecCandyChange">
+        <el-table align="center" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSecCandyChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column prop="passiveWallet" label="分享者(钱包地址)" width="370">
@@ -10,7 +10,9 @@
             </el-table-column>
             <el-table-column prop="passiveCode" label="用户名" width="100">
               <template slot-scope="scope">
-                    {{scope.row.passiveWallet.first_name?(scope.row.passiveWallet.first_name+scope.row.passiveWallet.last_name):'无'}}
+                    <span v-if="scope.row.passiveWallet.first_name">{{scope.row.passiveWallet.first_name}}</span>
+                    <span v-if="scope.row.passiveWallet.last_name">{{scope.row.passiveWallet.last_name}}</span>
+                    <span v-if="!scope.row.passiveWallet.first_name&&!scope.row.passiveWallet.last_name">无</span>
                 </template>
             </el-table-column>
             <el-table-column prop="wallets" label="分享总数" width="100">
@@ -56,7 +58,6 @@ export default {
   },
   data() {
     return {
-      loading: false,
       multipleSelection: []
     };
   },
@@ -93,9 +94,6 @@ export default {
       let _this = this;
       if (val && val.length > 0) {
         let ids = val.map((item, index) => {
-          // let currentCoins = _this.currentShareNum(item).currentShareCoin;
-          // let hadCoins = item.getCoins;
-          // let wantCoins = currentCoins - hadCoins;
           return item.id;
         });
         this.multipleSelection = ids;
