@@ -89,7 +89,7 @@ class SystemOptionLog {
         // console.log('-----endTime----', endTime + '----', startTime);
         let newStart = new Date(date.getFullYear(), date.getMonth() + 1, + date.getDate() - 1);
         // 查询一天之内的数据
-        // logUtil.info(startTime + '----' + endTime, '时间答应');
+        logUtil.info(startTime + '----' + endTime, '时间答应');
         // let mblist = '';
         let mblist = await SystemOptionLogModel.find({ type: 'sendMessage', logs: mobile, date: { "$gte": new Date(startTime), "$lte": new Date(endTime) } });
         if (!_.isEmpty(mblist)) {
