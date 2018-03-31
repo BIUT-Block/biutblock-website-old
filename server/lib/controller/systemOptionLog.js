@@ -72,23 +72,24 @@ class SystemOptionLog {
     async checkLegitimateMobile(mobile) {
         let date = new Date();
         let Y = date.getFullYear() + '-';
-        let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
         let D = date.getDate();
         let D1 = (date.getDate() + 1);
         let end = new Date(Y + M + D).getTime()//今天结束时的毫秒数
         let start = end - 86400000//今天开始时的毫秒数
 
-        let startTime = (Y + M + D).toString();
+        let startTime = (Y + M + '-' + D).toString();
         let M1 = M;
+        console.log('---M---', M);
         if (D1 > 30) {
             D1 = 1;
-            M1 = M + 1
+            M1 = (date.getMonth() + 2 < 10 ? '0' + (date.getMonth() + 2) : date.getMonth() + 2);
         }
-        let endTime = (Y + M1 + D1).toString();
-
+        let endTime = (Y + M1 + '-' + D1).toString();
+        // console.log('-----endTime----', endTime + '----', startTime);
         let newStart = new Date(date.getFullYear(), date.getMonth() + 1, + date.getDate() - 1);
         // 查询一天之内的数据
-        logUtil.info(startTime + '----' + endTime, '时间答应');
+        // logUtil.info(startTime + '----' + endTime, '时间答应');
         // let mblist = '';
         let mblist = await SystemOptionLogModel.find({ type: 'sendMessage', logs: mobile, date: { "$gte": new Date(startTime), "$lte": new Date(endTime) } });
         if (!_.isEmpty(mblist)) {
