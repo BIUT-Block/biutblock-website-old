@@ -83,7 +83,9 @@ class SystemOptionLog {
 
         let newStart = new Date(date.getFullYear(), date.getMonth() + 1, + date.getDate() - 1);
         // 查询一天之内的数据
-        let mblist = await SystemOptionLogModel.find({ type: 'sendMessage', logs: mobile, date: { "$gte": new Date(startTime), "$lte": new Date(endTime) } });
+        logUtil.info(startTime + '----' + endTime, '时间答应');
+        let mblist = '';
+        // let mblist = await SystemOptionLogModel.find({ type: 'sendMessage', logs: mobile, date: { "$gte": new Date(startTime), "$lte": new Date(endTime) } });
         if (!_.isEmpty(mblist)) {
             return mblist.length <= settings.sendMessagelimitNum
         } else {
