@@ -43,7 +43,7 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
         let last_name = message.from.last_name;
         let currentCode = (message.text).trim();
         if (shortid.isValid(currentCode)) {
-            replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
+            // replyWithHTML('SEC基金会主办2018深圳区块链千人创新峰会糖果发送完毕，新一轮空投即将开始，敬请期待！');
             // TODO 临时关闭
             // try {
             //     let myWallet = await SecCandyLog.checkTelegramUser(currentId);
