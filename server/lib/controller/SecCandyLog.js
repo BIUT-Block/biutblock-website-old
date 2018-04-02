@@ -140,7 +140,7 @@ function sendLastCoins(targetWallet, code, wantCoins) {
                     await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': wantCoins } });
                     resolve();
                 } else {
-                    logUtil.info('补发-转账失败！', writeState.txHash)
+                    logUtil.info('补发-转账失败！', writeState.status + '-------' + writeState.txHash)
                     resolve();
                 }
             } catch (error) {
