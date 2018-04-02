@@ -132,7 +132,8 @@ function sendLastCoins(targetWallet, code, wantCoins) {
         setTimeout(async () => {
             try {
                 logUtil.info('准备补发！----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
-                console.log('----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
+                // console.log('----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
+                logUtil.info('补发请求(get)：', settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice)
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
                 logUtil.info('补发结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
