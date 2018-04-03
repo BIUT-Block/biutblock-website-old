@@ -171,7 +171,9 @@ class SecCandyLog {
             }
 
             if (searchkey) {
-                let reKey = new RegExp(searchkey, 'i')
+                let searchWallet = searchkey.trim();
+                let sWallet = await WalletsModel.findOne({ walletId: searchWallet });
+                let reKey = new RegExp(sWallet.myCode, 'i')
                 queryObj.passiveCode = { $regex: reKey }
             }
 
@@ -291,8 +293,8 @@ class SecCandyLog {
                 const targetWallet = await WalletsModel.findOne({ 'walletId': fields.walletAddress });
                 const targetWalletOne = await WalletsModel.findOne({ 'telPhone': currentMobile });
                 let userWalletId = "";
-                console.log('---targetWallet--', targetWallet);
-                console.log('---targetWalletOne--', targetWalletOne);
+                // console.log('---targetWallet--', targetWallet);
+                // console.log('---targetWalletOne--', targetWalletOne);
                 if (targetWallet && targetWallet._id || targetWalletOne && targetWalletOne._id) {
                     myShareId = targetWallet ? targetWallet.myCode : targetWalletOne.myCode;
                 } else {
@@ -310,6 +312,10 @@ class SecCandyLog {
                         wallets: [],
                         passiveCode: myShareId
                     });
+                    if (req.session.channel == 'wechat') {
+                        newSecCandyLog.channel = 'wechat';
+                        newSecCandyLog.hasSend = true;
+                    }
                     await newSecCandyLog.save();
 
 

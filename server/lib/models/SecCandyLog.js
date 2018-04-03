@@ -21,6 +21,7 @@ var SecCandyLogSchema = new Schema({
     last_name: { type: String, default: '' },// last_name
     getCoins: { type: Number, default: 0 },
     hasValidate: { type: Boolean, default: false }, //是否已通过初步审核
+    channel: { type: String, default: '' }, // 渠道标识
     logs: String
 });
 
