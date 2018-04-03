@@ -172,8 +172,12 @@ class SecCandyLog {
 
             if (searchkey) {
                 let searchWallet = searchkey.trim();
-                let sWallet = await WalletsModel.findOne({ walletId: searchWallet });
-                let reKey = new RegExp(sWallet.myCode, 'i')
+                let currentCode = searchWallet;
+                if (searchWallet.length == 42) {
+                    let sWallet = await WalletsModel.findOne({ walletId: searchWallet });
+                    currentCode = sWallet.myCode;
+                }
+                let reKey = new RegExp(currentCode, 'i')
                 queryObj.passiveCode = { $regex: reKey }
             }
 

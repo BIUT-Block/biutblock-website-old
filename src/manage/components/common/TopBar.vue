@@ -74,7 +74,7 @@
                 </el-select>
             </div>
             <div v-else-if="type === 'secCandyCode'">
-                <el-input size="small" style="width:350px;float:right;" placeholder="钱包地址" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                <el-input size="small" style="width:350px;float:right;" placeholder="钱包或分享码" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                 </el-input>
                 <el-select size="small" v-model="targetSecCandyList" placeholder="请选择" @change="selectSysLogType">
                     <el-option v-for="item in secCandyTypes" :key="item.value" :label="item.label" :value="item.value">
