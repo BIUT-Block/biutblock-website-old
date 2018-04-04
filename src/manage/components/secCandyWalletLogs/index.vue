@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <TopBar type="secCandyWalletLogs" :pageInfo="secCandyWalletLogsList.pageInfo"></TopBar>
                 <DataTable :pageInfo="secCandyWalletLogsList.pageInfo" :dataList="secCandyWalletLogsList.docs"></DataTable>
-                <Pagination :pageInfo="secCandyWalletLogsList.pageInfo" pageType="secCandyWallet"></Pagination>
+                <Pagination :pageInfo="secCandyWalletLogsList.pageInfo" pageType="secCandyWalletLogs"></Pagination>
             </el-col>
         </el-row>
     </div>

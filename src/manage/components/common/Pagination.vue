@@ -96,7 +96,7 @@ export default {
           current: val,
           searchkey
         });
-      }else if (this.pageType === "secCandyWalletLogs") {
+      } else if (this.pageType === "secCandyWalletLogs") {
         this.$store.dispatch("getSecCandyWalletLogsList", {
           current: val,
           searchkey

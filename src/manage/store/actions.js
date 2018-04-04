@@ -395,7 +395,7 @@ export default {
     getSecCandyCodeList({
         commit
     }, params = {}) {
-        Loading.service({ target: 'body',customClass:'loadingType' });
+        Loading.service({ target: 'body', customClass: 'loadingType' });
         services.secCandyCodeList(params).then((result) => {
             commit(types.SECCANDYCODELIST, result.data)
         })

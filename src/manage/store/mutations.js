@@ -593,6 +593,7 @@ const mutations = {
         state.secCandyWalletList.list = list
     },
     [types.SECCANDYWALLETLOGSLIST](state, list) {
+        console.log('----list-----', list);
         state.secCandyWalletLogsList.list = list
     },
     [types.SECCANDYCODEDETAILFORMSTATE](state, formState) {
