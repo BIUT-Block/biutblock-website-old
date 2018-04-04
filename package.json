@@ -14,7 +14,7 @@
   "scripts": {
     "init": " node build/restore",
     "dump": " node build/dump",
-    "dev": "concurrently \"npm run static\" \"npm run devNodeServer\" \"gulp\"",
+    "dev": "concurrently \"npm run devNodeServer\" \"gulp\"",
     "devNodeServer": "cross-env NODE_ENV=development MICRO_CACHE=true node ./server",
     "start": "npm run static && cross-env NODE_ENV=development MICRO_CACHE=true node ./server",
     "build": "npm run static && npm run build:client && npm run renderCdn && npm run adminStatic",

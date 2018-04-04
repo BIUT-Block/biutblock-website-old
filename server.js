@@ -25,7 +25,7 @@ const resolve = file => path.resolve(__dirname, file)
 
 const { service, settings, authSession, logUtil, siteFunc } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
-const { AdminResource, SecCandyLog } = require('./server/lib/controller');
+const { AdminResource, SecCandyLog, WalletsLogs } = require('./server/lib/controller');
 
 // 引入 api 路由
 const routes = require('./server/routers/api')
@@ -152,6 +152,7 @@ setTimeout(() => {
     // SecCandyLog.getJobSecCandyList();
     // redis 查询
     SecCandyLog.getJobSecCandyFromRedis();
+    WalletsLogs.addJobForScanWalletLogs();
 }, 10 * 5000)
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));

@@ -312,6 +312,12 @@ const state = {
             pageInfo: {},
             docs: []
         }
+    },
+    secCandyWalletLogsList: {
+        list: {
+            pageInfo: {},
+            docs: []
+        }
     }
 }
 
@@ -585,6 +591,9 @@ const mutations = {
     },
     [types.SECCANDYWALLETLIST](state, list) {
         state.secCandyWalletList.list = list
+    },
+    [types.SECCANDYWALLETLOGSLIST](state, list) {
+        state.secCandyWalletLogsList.list = list
     },
     [types.SECCANDYCODEDETAILFORMSTATE](state, formState) {
         state.secCandyCodeList.formState.show = formState.show;

@@ -17,13 +17,13 @@ const {
 const validator = require('validator')
 const authUser = require('../../utils/middleware/authUser');
 
-const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog } = require('../lib/controller');
+const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog, WalletsLogs } = require('../lib/controller');
 const _ = require('lodash');
 const qr = require('qr-image')
 const randomstring = require('randomstring');
 const formidable = require('formidable');
 const axios = require('axios');
-
+const fs = require('fs');
 //缓存
 var cache = require('../../utils/middleware/cache');
 
@@ -283,6 +283,23 @@ function checkSecFormData(req, res, fields) {
 //     }
 //   })
 // });
+
+
+router.get('/readlogs', (req, res, next) => {
+  var manageHtmlPath = process.cwd() + '/dist/trade_flow1.js'
+  var logData = JSON.parse(fs.readFileSync(manageHtmlPath));
+  // console.log('---logData---', logData.length);
+  for (var i = 0; i < logData.length; i++) {
+    let targetObj = logData[i];
+    WalletsLogs.addOneWalletLog(targetObj);
+  }
+  res.send({
+    state: 'success'
+  })
+})
+
+
+
 
 
 module.exports = router

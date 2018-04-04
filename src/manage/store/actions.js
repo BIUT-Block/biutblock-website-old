@@ -407,6 +407,13 @@ export default {
             commit(types.SECCANDYWALLETLIST, result.data)
         })
     },
+    getSecCandyWalletLogsList({
+        commit
+    }, params = {}) {
+        services.secCandyWalletLogsList(params).then((result) => {
+            commit(types.SECCANDYWALLETLOGSLIST, result.data)
+        })
+    },
     showSecCandyForm: ({
         commit
     }, params = {

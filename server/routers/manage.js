@@ -17,7 +17,8 @@ const {
   UserNotify,
   Notify,
   Ads,
-  SecCandyLog
+  SecCandyLog,
+  WalletsLogs
 } = require('../lib/controller');
 const {
   service,
@@ -229,6 +230,9 @@ router.get('/secCandy/getWalletList', authToken, authPower, SecCandyLog.getWalle
 
 
 router.get('/secCandy/sendCoinsToUsers', authToken, authPower, SecCandyLog.branchSendCoins);
+
+
+router.get('/secCandy/getWalletLogs', authToken, authPower, WalletsLogs.getWalletsLogs);
 
 
 module.exports = router

@@ -85,6 +85,10 @@
                 <el-input size="small" placeholder="钱包地址" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                 </el-input>
             </div>
+             <div v-else-if="type === 'secCandyWalletLogs'">
+                <el-input size="small" style="width:350px;float:right;" placeholder="钱包地址" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                </el-input>
+            </div>
             <!-- </el-form-item>
         </el-form> -->
         </div>
@@ -189,6 +193,10 @@ export default {
         });
       } else if (this.type == "secCandyWallet") {
         this.$store.dispatch("getSecCandyWalletList", {
+          searchkey
+        });
+      } else if (this.type == "secCandyWalletLogs") {
+        this.$store.dispatch("getSecCandyWalletLogsList", {
           searchkey
         });
       }

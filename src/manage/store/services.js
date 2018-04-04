@@ -234,4 +234,8 @@ export default {
         return reqJsonData('manage/secCandy/getWalletList', params, 'get')
     },
 
+    secCandyWalletLogsList(params) {
+        return reqJsonData('manage/secCandy/getWalletLogs', params, 'get')
+    },
+
 }

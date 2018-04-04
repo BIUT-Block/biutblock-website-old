@@ -1,6 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const SecCandyLogModel = require("../models").SecCandyLog;
 const WalletsModel = require("../models").Wallets;
+const walletsLogsModel = require("../models").walletsLogs;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
@@ -139,6 +140,9 @@ function sendLastCoins(targetWallet, code, wantCoins) {
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
                     logUtil.info('补发-转账成功！', targetWallet + '--' + writeState.data.txHash)
                     await SecCandyLogModel.findOneAndUpdate({ passiveCode: code }, { '$inc': { 'getCoins': wantCoins } });
+                    // 给转账记录表插一条记录
+                    let newWalletLogs = new WalletsLogsModel({ walletId: targetWallet, txHash: writeState.data.txHash });
+                    await newWalletLogs.save();
                     resolve();
                 } else {
                     logUtil.info('补发-转账失败！', writeState.data)

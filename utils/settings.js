@@ -67,6 +67,7 @@ module.exports = {
     WEBHOOK_TOKEN: "",
     maxSecShareNum: 29,
     coinServer: "http://127.0.0.1:3000/eth/transfer/", // 发币接口
+    stateServer: "http://127.0.0.1:3000/eth/getTransactionResult/", // 发币接口
     coinPer: 20, // 发币单位数量
     gasPrice: 0.00000002, // 发币燃料值
     smsCNServer: 'http://sdk2.entinfo.cn:8061/mdsmssend.ashx',
