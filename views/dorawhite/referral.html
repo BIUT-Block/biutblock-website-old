@@ -26,7 +26,7 @@
                             <div class="input-group">
                                 <input id="shareLinkValue" type="text" class="form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId+'&channel='+channel}}">
                                 <span class="input-group-btn">
-                                    <button disabled data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn btn-default" name='copy-mycode-btn'>Copy</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -42,7 +42,7 @@
                             <div class="input-group">
                                 <input id="codeValue" type="text" class="form-control s-form-control" value="{{shareId}}">
                                 <span class="input-group-btn">
-                                    <button disabled data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
+                                    <button data-clipboard-target="#codeValue" id="copyCode-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -51,12 +51,12 @@
                     <li class="i18n" name='share-step-two'>2.Join the SEC's Official Telegram Group.</li>
                     <li>
                         <div class="add-Group">
-                            <button disabled type="button" :click="openTelegram" class="i18n btn btn-default" name='addGroupBtn'>The SEC's Official Telegram Group</button>
+                            <button type="button" :click="openTelegram" class="i18n btn btn-default" name='addGroupBtn'>The SEC's Official Telegram Group</button>
                         </div>
                     </li>
                     <li id="addGroupUseBiYong" style="display:none;">
                         <div class="add-Group">
-                            <button disabled type="button" :click="openBiYong" class="i18n btn btn-default" name='useBiYongaddGroupBtn'>The SEC's Official Telegram Group</button>
+                            <button type="button" :click="openBiYong" class="i18n btn btn-default" name='useBiYongaddGroupBtn'>The SEC's Official Telegram Group</button>
                         </div>
                     </li>
                     <li>
@@ -66,7 +66,7 @@
                             <div class="input-group">
                                 <input id="shareLinkValue" type="text" class="form-control s-form-control" value="{{siteInfo.configs.siteDomain+'/referral?code='+shareId}}">
                                 <span class="input-group-btn">
-                                    <button disabled data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
+                                    <button data-clipboard-target="#shareLinkValue" id="shareLikn-btn" class="i18n btn s-btn-default" name='copy-mycode-btn'>Copy</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
@@ -109,7 +109,7 @@
                                     <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
                                         ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
                                     <span class="input-group-btn">
-                                        <button disabled id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button">点击获取</button>
+                                        <button id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button">点击获取</button>
                                     </span>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                     data-message="wallet-请输入正确的钱包地址" ms-rules="{required:true,pattern: /^[a-zA-Z0-9]{42,43}$/}"
                                     placeholder="">
                                 <span class="input-group-btn">
-                                    <button disabled class="i18n btn s-btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
+                                    <button class="i18n btn s-btn-default" type="submit" name='submit-wallet-btn'>Submit</button>
                                 </span>
                             </div>
                             <!-- /input-group -->
