@@ -8,14 +8,15 @@
             <el-table-column prop="txHash" label="txHash">
             </el-table-column>
             <el-table-column prop="state" label="发送状态" show-overflow-tooltip>
+              <template slot-scope="scope">
+                    <el-tag v-if="!scope.row.state" size="medium" type="info">暂无记录</el-tag>
+                    <el-tag v-else-if="scope.row.state == '0'" size="medium" type="danger">交易失败</el-tag>
+                    <el-tag v-else-if="scope.row.state == '1'" size="medium" type="success">交易成功</el-tag>
+                    <el-tag v-else-if="scope.row.state == '2'" size="medium" type="warning">交易pending</el-tag>
+                    <el-tag v-else>交易失败</el-tag>
+                </template>
             </el-table-column>
             <el-table-column prop="date" label="更新时间">
-              <template slot-scope="scope">
-                    <span v-if="scope.row.state == '0'">交易失败</span>
-                    <span v-else-if="scope.row.state == '1'">交易成功</span>
-                    <span v-else-if="scope.row.state == '2'">交易pending</span>
-                    <span v-else>交易失败</span>
-                </template>
             </el-table-column>
         </el-table>
     </div>
