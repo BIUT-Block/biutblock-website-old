@@ -13,7 +13,7 @@
                     <el-tag v-else-if="scope.row.state == '0'" size="medium" type="danger">交易失败</el-tag>
                     <el-tag v-else-if="scope.row.state == '1'" size="medium" type="success">交易成功</el-tag>
                     <el-tag v-else-if="scope.row.state == '2'" size="medium" type="warning">交易pending</el-tag>
-                    <el-tag v-else>交易失败</el-tag>
+                    <el-tag  size="medium" type="danger" v-else>{{scope.row.message}}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="date" label="更新时间">
