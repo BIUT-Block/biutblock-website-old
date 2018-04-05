@@ -1,7 +1,7 @@
 const BaseComponent = require('../prototype/baseComponent');
 const SecCandyLogModel = require("../models").SecCandyLog;
 const WalletsModel = require("../models").Wallets;
-const walletsLogsModel = require("../models").walletsLogs;
+const WalletsLogsModel = require("../models").WalletsLogs;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
