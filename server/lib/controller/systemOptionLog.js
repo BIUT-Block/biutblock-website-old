@@ -80,7 +80,7 @@ class SystemOptionLog {
 
         let startTime = (Y + M + '-' + D).toString();
         let M1 = M;
-        console.log('---M---', M);
+        // console.log('---M---', M);
         if (D1 > 30) {
             D1 = 1;
             M1 = (date.getMonth() + 2 < 10 ? '0' + (date.getMonth() + 2) : date.getMonth() + 2);
