@@ -188,6 +188,8 @@ router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }
 // TODO 临时关闭
 // router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
+router.post('/regCandy/addOne', SecCandyLog.regCandy);
+
 function checkSecFormData(req, res, fields) {
   let errMsg = '';
   // console.log('-----req.session.messageCode1--', req.session.messageCode);

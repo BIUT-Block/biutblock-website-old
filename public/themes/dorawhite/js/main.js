@@ -216,6 +216,7 @@ $(function () {
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
         renderHeightByClass('top-banner', 848, 750);
         $('#btm-logo').appendTo($('.right-pannel'))
+        $('#sub-reg').appendTo($('.right-form'))
         $("#qr-box").click(function () {
             $(this).find('.qr-img').addClass('show');
         })

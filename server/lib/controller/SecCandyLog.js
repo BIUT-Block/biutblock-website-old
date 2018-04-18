@@ -2,6 +2,7 @@ const BaseComponent = require('../prototype/baseComponent');
 const SecCandyLogModel = require("../models").SecCandyLog;
 const WalletsModel = require("../models").Wallets;
 const WalletsLogsModel = require("../models").WalletsLogs;
+const UserModel = require("../models").User;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
@@ -349,6 +350,57 @@ class SecCandyLog {
                 req.session.shareId = myShareId;
                 // 清空短信验证码
                 req.session.messageCode = '';
+                res.send({
+                    state: 'success'
+                });
+            } catch (err) {
+                logUtil.error(err, req);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_IN_SAVE_DATA',
+                    message: '保存数据失败:' + err,
+                })
+            }
+        })
+    }
+
+    async regCandy(req, res, next) {
+        let _this = this;
+        const form = new formidable.IncomingForm();
+        let myShareId = shortid.generate();
+        form.parse(req, async (err, fields, files) => {
+
+            let errMsg = "";
+            if (fields.msgCode != req.session.messageCode) {
+                errMsg = 'messageCode-请输入正确的验证码';
+            }
+            let mobileArr = fields.mobile.split('-')
+            if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
+                || !validator.isNumeric(mobileArr[1])
+                || mobileArr[0].length != 4
+            ) {
+                errMsg = 'mobile-手机号格式不正确';
+            }
+         
+            if (errMsg) {
+                throw new siteFunc.UserException(errMsg);
+            }
+            
+            try {
+                // 获取手机号
+                let mobileArr = fields.mobile.split('-');
+                let isCnMobile = mobileArr[0] == '0086' ? true : false;
+                let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+
+                const userObj = {
+                    userName: fields.userName,
+                    phoneNum: currentMobile,
+                    password: service.encrypt(fields.password, settings.encrypt_key),
+                }
+
+                let newUser = new UserModel(userObj);
+                await newUser.save();
+
                 res.send({
                     state: 'success'
                 });

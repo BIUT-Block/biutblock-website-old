@@ -21,6 +21,15 @@ let generalFun = {
         await mainCtrl.getPageData(req, res, next);
     },
 
+    async getDataForRegPage(req, res, next) {
+        req.query.tempPage = 'register.html';
+        req.query.modules = [
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+
     async getDataForReferralPage(req, res, next) {
         req.query.tempPage = 'referral.html';
         req.query.modules = [

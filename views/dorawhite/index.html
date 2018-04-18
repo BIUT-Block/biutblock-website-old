@@ -1,5 +1,4 @@
-{% extends "./public/defaultTemp.html" %} 
-{% block content %}
+{% extends "./public/defaultTemp.html" %} {% block content %}
 <div class="row top-banner">
     <div class="center-logo">
         <div class="row" style="margin:0;">
@@ -10,7 +9,6 @@
                     <h3 class="i18n" name='social-ec-chain'>SOCIAL ECOMMERCE CHAIN</h3>
                     <span class="i18n" name='secdes'>the next generation of block-chain protocols in the e-commerce domain based on social trust</span>
                 </div>
-
             </div>
             <div class="col-xs-1 col-md-2">&nbsp;</div>
         </div>
@@ -23,8 +21,8 @@
             <div class="title">
                 <h1 class="i18n" name='sectitle'>WHAT ARE SEC TOKENS</h1>
                 <p class="des i18n" name='secdetails'>SEC is a distributed common chain, distributed solution to transaction trust, to meet the decentralization
-                    of e-commerce, social, content e-commerce revolution. SEC token is a proof of stake in the uniform
-                    use, consumption, and transaction of the SEC block chain.</p>
+                    of e-commerce, social, content e-commerce revolution. SEC token is a proof of stake in the uniform use,
+                    consumption, and transaction of the SEC block chain.</p>
             </div>
             <div class="use">
                 <h1 class="i18n" name='secusetitle'>How SEC Tokens are Used</h1>
@@ -44,14 +42,14 @@
                         <li>
                             <span>03</span>
                             <span class="line"></span>
-                            <p class="i18n" name='secuse3'>Generate a block chain token based on SEC smart Contrat for specific domains or brands to
-                                pay for fees.</p>
+                            <p class="i18n" name='secuse3'>Generate a block chain token based on SEC smart Contrat for specific domains or brands to pay
+                                for fees.</p>
                         </li>
                         <li>
                             <span>04</span>
                             <span class="line"></span>
-                            <p class="i18n" name='secuse4'>It is used to pay for the Dapp fees for various purchases and sales of goods provided by
-                                the SEC development community.</p>
+                            <p class="i18n" name='secuse4'>It is used to pay for the Dapp fees for various purchases and sales of goods provided by the
+                                SEC development community.</p>
                         </li>
                         <li>
                             <span>05</span>
@@ -65,50 +63,31 @@
     </div>
     <div class="col-md-1">&nbsp;</div>
 </div>
-<div class="tokend-distribution" id="int-progress">
+<div class="tokend-distribution" ms-controller="tokend-distribution" id="int-progress">
     <div class="row container">
         <div class="col-xs-1 col-md-1">&nbsp;</div>
         <div class="col-xs-10 col-md-10 ">
             <div class="content">
                 <div class="row how-use">
-                    <div class="col-xs-12 col-md-3 left">
-                        <p class="i18n" name='gettoken'>Update progress of 5sec Tokens</p>
-                        <div class="line"></div>
-                        <i class="icon iconfont">&#xe66a;</i>
-                        <div style="clear:both"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6 purchase-area">
+                        <p class="i18n" name='pursechain-notice'>In case of purchasing or trading SEC Token, please make sure that to check and accept the terms and
+                            conditions, and register user information for kyc certification.</p>
+                        <div class="conditions-btn">
+                            <a href="/themes/{{staticforder}}/doc/SEC-T-Cs.pdf" class="i18n" name='purchasing-conditions-btn'>Check the terms and conditions</a>
+                        </div>
+                        <div class="accept-conditions">
+                            <div class="i18n txt" name='pursechain-accept-conditions'>Accept the terms and conditions</div>
+                            <span class="checkme" ms-on-click="@checkConditions">
+                                <i :visible="@checkState" class="icon iconfont">&#xe670;</i>
+                            </span>
+                        </div>
+                        <div class="reg-btn">
+                            <button disabled="disabled" ms-on-click="@getToReg" id="pursechain-reg" :class="['i18n','txt',!@checkState && 'disabled']"
+                                name='pursechain-reg-btn'>Register</button>
+                        </div>
                     </div>
-                    <div class="col-xs-12 col-md-9 right">
-                        <ul>
-                            <li>
-                                <i class="icon iconfont">&#xe66f;</i>
-                                <div class="des" style="line-height: 32px;">
-                                    <span class="i18n" name='kycInfo1' style="display:inline-block">Private placement is over</span>
-                                    {# <span class="i18n" name='kycInfo2'>(Chinese and American residents prohibit participation)</span> #}
-                                </div>
-                            </li>
-                            <li>
-                                <i class="icon iconfont">&#xe669;</i>
-                                <div class="des">
-                                    <span class="i18n" name='secaddress1'>Conversion ratio</span>
-                                    <span class="i18n" name='secaddress2'>1 eth : 11000 SECTokens</span>
-                                </div>
-                            </li>
-                            <li>
-                                <i class="icon iconfont">&#xe66e;</i>
-                                <div class="des">
-                                    <span class="i18n" name='rate-of-exchange1'>Investment institutions can contact WeChat customer service：SECblock</span>
-                                    <span class="i18n" name='rate-of-exchange2'>submit wallet address</span>
-                                </div>
-                            </li>
-                            <li>
-                                <i class="icon iconfont">&#xe668;</i>
-                                <div class="des" style="line-height: 32px;">
-                                    <span class="i18n" name='your-token1'>Currency is about to be issued, please pay attention</span>
-                                    {# <span class="i18n" name='your-token2'>Your get SEC tokens in your wallet. You can join the sec and use them </span> #}
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="col-md-3"></div>
                 </div>
             </div>
         </div>
@@ -129,17 +108,17 @@
                 <div class="col-xs-12 col-md-4 characteristic">
                     <span class="tname i18n" name='aboutitem1-title'>SCALABILITY</span>
                     <span class="line"></span>
-                    <p class="details i18n" name='aboutitem1-CONTENT'>based on the scale of P2P e-commerce transactions, considering the current mobile computing power,
-                        bandwidth changes and storage conditions, when block chains handle resources for individual transactions,
-                        the underlying mechanism needs to be designed to take into account the "low time consuming" and
-                        "low energy consumption" processing capacity.</p>
+                    <p class="details i18n" name='aboutitem1-CONTENT'>based on the scale of P2P e-commerce transactions, considering the current mobile computing power, bandwidth
+                        changes and storage conditions, when block chains handle resources for individual transactions, the
+                        underlying mechanism needs to be designed to take into account the "low time consuming" and "low
+                        energy consumption" processing capacity.</p>
                 </div>
                 <div class="col-xs-12 col-md-4 characteristic">
                     <span class="tname i18n" name='aboutitem2-title'>GOVERNANCE</span>
                     <span class="line"></span>
                     <p class="details i18n" name='aboutitem2-CONTENT'>the infrastructure needs to be simple enough to retain the flexibility to evolve and adapt over time
-                        and to make decisions that are highly inclusive, rational, and transparent to provide effective
-                        leadership for decentralized systems.</p>
+                        and to make decisions that are highly inclusive, rational, and transparent to provide effective leadership
+                        for decentralized systems.</p>
                 </div>
                 <div class="col-xs-12 col-md-4 characteristic">
                     <span class="tname i18n" name='aboutitem3-title'>APPLICABILITY</span>
@@ -321,8 +300,9 @@
                                     <span class="uname i18n" name='collin-chu-name'>Collin Chu</span>
                                 </div>
                                 <ul class="dis">
-                                    <li class="i18n" name='collin-chu-dis-1'>he has been the world’s third largest FinTech project leader for more than 20 years
-                                        in China</li>
+                                    <li class="i18n" name='collin-chu-dis-1'>he has been the world’s third largest FinTech project leader for more than 20 years in
+                                        China
+                                    </li>
                                     <li class="i18n" name='collin-chu-dis-2'>North America bank application systems, financial software system design and research
                                         and development experience</li>
                                     <li class="i18n" name='collin-chu-dis-3'>Nanyang Polytechnic University, Singapore</li>
@@ -343,8 +323,7 @@
                                     <li class="i18n" name='oliver-gu-dis-1'>chairman of the North American E-Commerce Forum,co-founder of the Center for International
                                         Productivity Cooperation,Co-founder of the CAPC-China Business High-Tech Alliance
                                         and Co-Chair of the China-Canada E-Commerce High-Tech Summit</li>
-                                    <li class="i18n" name='oliver-gu-dis-2'>Master of Science in computer Science, Bridgewater State University, Massachusetts,
-                                        USA
+                                    <li class="i18n" name='oliver-gu-dis-2'>Master of Science in computer Science, Bridgewater State University, Massachusetts, USA
                                     </li>
                                 </ul>
                             </div>
@@ -362,10 +341,10 @@
                                 </div>
                                 <ul class="dis">
                                     <li class="i18n" name='rain-liu-dis-1'>winner of the Ontario Outstanding Women Award</li>
-                                    <li class="i18n" name='rain-liu-dis-2'>China and Canada Electronic Commerce Association Director, Li Sun and IBM Certified
-                                        Senior engineer of Canadian multinational corporations</li>
-                                    <li class="i18n" name='rain-liu-dis-3'>Former program host and planner of Canadian National Television, Canadian Chinese
-                                        Radio and Fujian Zhangzhou TV Station</li>
+                                    <li class="i18n" name='rain-liu-dis-2'>China and Canada Electronic Commerce Association Director, Li Sun and IBM Certified Senior
+                                        engineer of Canadian multinational corporations</li>
+                                    <li class="i18n" name='rain-liu-dis-3'>Former program host and planner of Canadian National Television, Canadian Chinese Radio
+                                        and Fujian Zhangzhou TV Station</li>
                                 </ul>
                             </div>
                         </div>
@@ -404,9 +383,9 @@
                     <ul class="adviser-member">
                         <li>
                             <label class="i18n" name='li-mengran-name'>Li Mengran</label>
-                            <span class="i18n" name='li-mengran-dis'>head of technology landing in China, CEO of soda social ecommerce, the earliest real time
-                                linux developer in China, and an Internet serial entrepreneur.Has worked for China Telecom
-                                Group. INT Block chain team members</span>
+                            <span class="i18n" name='li-mengran-dis'>head of technology landing in China, CEO of soda social ecommerce, the earliest real time linux
+                                developer in China, and an Internet serial entrepreneur.Has worked for China Telecom Group.
+                                INT Block chain team members</span>
                         </li>
                         <li>
                             <label class="i18n" name='wangxing-name'>Uranus</label>
@@ -435,18 +414,18 @@
                         </li>
                         <li>
                             <label class="i18n" name='wangyong-name'>Wang Yong</label>
-                            <span class="i18n" name='wangyong-dis'>An expert of National Thousand Talent Program, and a Ph.D. inDalhouse University, Canada,
-                                with CFA and FRM certifications He was the former managing director of risk division
-                                inthe Royal Bank of Canada.And he is the author of monographs on Financial risk Management
-                                ,risk Management and derivative products, block chains, etc. He also serves as an academic
-                                consultant at the Rottmann School of Management,University of Toronto,and an visiting
-                                professor in the University of Croatia</span>
+                            <span class="i18n" name='wangyong-dis'>An expert of National Thousand Talent Program, and a Ph.D. inDalhouse University, Canada, with
+                                CFA and FRM certifications He was the former managing director of risk division inthe Royal
+                                Bank of Canada.And he is the author of monographs on Financial risk Management ,risk Management
+                                and derivative products, block chains, etc. He also serves as an academic consultant at the
+                                Rottmann School of Management,University of Toronto,and an visiting professor in the University
+                                of Croatia</span>
                         </li>
                         <li>
                             <label class="i18n" name='xiaomin-name'>Xiao Min</label>
-                            <span class="i18n" name='xiaomin-dis'>Xiao A partner of Matrix Partners.Previous General Manager of Pinyin Plus, Product Manager
-                                of Baidu TV,the general manager of IT Business Division in Tianji MediaShe currently
-                                specializes in the investment in Internet, e-commerce, wireless, software and other areas</span>
+                            <span class="i18n" name='xiaomin-dis'>Xiao A partner of Matrix Partners.Previous General Manager of Pinyin Plus, Product Manager of
+                                Baidu TV,the general manager of IT Business Division in Tianji MediaShe currently specializes
+                                in the investment in Internet, e-commerce, wireless, software and other areas</span>
                         </li>
                         <li>
                             <label class="i18n" name='zhao-yafu-name'>Zhao Yafu</label>
@@ -523,4 +502,21 @@
         <div style="clear:both"></div>
     </div>
 </div>
-{% endblock %}
+<script>
+
+    var distributionVm = avalon.define({
+        $id: 'tokend-distribution',
+        checkState: false,
+        getToReg: function () {
+            window.location.href = '/register.html'
+        },
+        checkConditions: function () {
+            distributionVm.checkState = !distributionVm.checkState;
+            if (distributionVm.checkState) {
+                $('#pursechain-reg').removeAttr('disabled');
+            } else {
+                $('#pursechain-reg').attr('disabled', 'disabled')
+            }
+        }
+    })
+</script> {% endblock %}

@@ -1,0 +1,270 @@
+{% extends "./public/defaultTemp.html" %} {% block content %}
+<link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
+
+<div class="row reg-panel" ms-controller="register">
+    <div class="center-logo">
+        <div class="row" style="margin:0;">
+            <div class="particles-js" id="particles-js"></div>
+            <div class="col-xs-1 col-md-1">&nbsp;</div>
+            <div class="col-xs-10 col-md-10">
+                <div class="top-process">
+                    <ul>
+                        <div class="col-xs-8 col-xs-offset-2 col-md-offset-2 col-md-8 line"></div>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe671;</i>
+                            <div class="txt">填写基本信息</div>
+                            <i class="icon iconfont check" style="color: #d3f113">&#xe603;</i>
+                        </li>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe672;</i>
+                            <div class="txt">上传手持身份证</div>
+                            <i class="icon iconfont check">&#xe603;</i>
+                        </li>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe673;</i>
+                            <div class="txt">等待审核</div>
+                            <i class="icon iconfont check">&#xe603;</i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reg-form">
+                    <div class="row">
+                        <form class="form-horizontal" ms-validate="@validate">
+
+                            <div class="col-xs-12 col-md-5 left-form">
+                                <div class="form-group">
+                                    <label for="telnum" class="col-sm-3 control-label">手机号</label>
+                                    <div class="col-sm-9 input-container">
+                                        <input id="phone" type="tel" class="form-control" id="inputEmail3" placeholder="请输入手机号码" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
+                                            data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageCode" class="col-sm-3 control-label">验证码</label>
+                                    <div class="col-sm-9 input-container">
+                                        <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
+                                            ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
+                                        <span class="getMsgCode">
+                                            <button id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button">点击获取</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName" class="col-sm-3 control-label">用户名</label>
+                                    <div class="col-sm-9 input-container">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="请输入用户名" ms-duplex="@userName" data-required-message="userName-请输入用户名"
+                                            data-message="userName-请输入正确的用户名" ms-rules="{required:true}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-sm-3 control-label">密码</label>
+                                    <div class="col-sm-9 input-container">
+                                        <input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" ms-duplex="@password" data-required-message="password-请输入密码"
+                                            data-message="password-请输入正确的密码" ms-rules="{required:true,min:6,max:15}">
+                                    </div>
+                                </div>
+                                <div id="sub-reg" class="form-group" style="margin-top: 100px">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <button type="submit" class="btn btn-default">提交</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xs-12 col-md-7 right-form">
+                                <h5>手持身份证照片要求</h5>
+                                <ol>
+                                    <li>手持本人身份证，将身份证的手臂和上半身拍进照片，脸部清晰且不能被遮挡；</li>
+                                    <li>确保身份证上的信息清晰可见、完整（没有被遮挡或被手指捏住）</li>
+                                    <li>照片内容要求真实有效，不得做任何修改；</li>
+                                    <li>仅支持jpg、jpeg、png、gif的照片格式，图片大小不超过500k</li>
+                                    <li class="camera">
+                                        <img src="/themes/dorawhite/images/camera-notice.jpg" />
+                                    </li>
+                                </ol>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-1 col-md-1">&nbsp;</div>
+        </div>
+    </div>
+</div>
+<script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        initialCountry: "cn",
+        utilsScript: "/plugins/intlTelInput/js/utils.js"
+    });
+</script>
+<script>
+    var sendMsgErr = "短信发送失败，请重试";
+    var msgNumErr = "短信次数超过限制";
+    var mobileErr = "请输入正确的手机号";
+    var messageCodeErr = "请输入正确的验证码";
+    var walletErr = "请填写正确的钱包地址";
+    var normalErr = "您输入的信息有误，请重试";
+    var timeoutErr = "页面已过期";
+    var iptErr = "您的访问次数已超过限制，请稍后重试";
+
+    var pmobile = '请输入手机号';
+    var msgCodeLable = '验证码';
+    var sendBtnTxt = '点击获取';
+    var reSendBtnTxt = '重新发送';
+    var lateResendTxt = ' 秒后重发';
+    if ($('body').hasClass('type-en')) {
+        cpSuccess = "Copy success!";
+        cpInfo = "Please manually select the content copy of the input box!";
+
+        sendMsgErr = "SMS sent failed, please try again";
+        msgNumErr = "Number of short messages exceeded the limit";
+        mobileErr = "Please enter the correct cell phone number";
+        messageCodeErr = "Please enter the correct verification code";
+        walletErr = "Please fill in the correct wallet address";
+        normalErr = "The information you entered is incorrect, please try again";
+        timeoutErr = "Page expired";
+        iptErr = "The number of visits you have had exceeded the limit. Please try again later"
+
+        pmobile = 'Please enter the cell phone number';
+        msgCodeLable = 'PAC';
+        sendBtnTxt = 'Send';
+        reSendBtnTxt = 'Try Again';
+        lateResendTxt = ' left';
+
+
+    }
+    var regVm = avalon.define({
+        $id: 'register',
+        mobileno: '',
+        msgCode: '',
+        userName: "",
+        password: "",
+        sendMsgCode: function () {
+            if (!regVm.mobileno) {
+                alert(mobileErr)
+            } else {
+                if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(regVm.mobileno)) {
+                    alert(mobileErr)
+                } else {
+                    var areaInfo = $('.selected-flag').attr('title');
+                    var areano = areaInfo.split('+')[1];
+                    var mstr = '000';
+                    if (areano.length < 4) {
+                        areano = mstr.substring(0, 4 - areano.length) + areano;
+                    }
+                    // 开始发短信
+                    var smsParams = {
+                        mobile: areano + '-' + regVm.mobileno
+                    }
+                    $.ajax({
+                        type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                        traditional: true,
+                        data: JSON.stringify(smsParams),
+                        url: '/api/secVerify/postMessage',
+                        success: function (data) {
+                            console.log('success:', data)
+                            if (data.state == 'success') {
+                                console.log('发送成功');
+                                var mytask = setInterval(function () {
+                                    $('#sendMsgTxt').html(--regVm.basetime + lateResendTxt);
+                                }, 1000)
+                                var xx = setTimeout(function () {
+                                    clearInterval(mytask)
+                                    $('#sendMsg').removeAttr('disabled');
+                                    $('#sendMsgTxt').html(reSendBtnTxt);
+                                    regVm.basetime = 120
+                                }, 1000 * regVm.basetime);
+                                $('#sendMsg').prop(', ')
+                            } else {
+                                regVm.showErr = true;
+                                regVm.message = data.message;
+                                regVm.giveCurrentNotice(data.message)
+                            }
+                        },
+                        error: function (d) {
+                            console.log('error:', d)
+                        }
+                    })
+                }
+            }
+
+        },
+        giveCurrentNotice: function (msg) {
+            if (msg) {
+                var currentErr = normalErr,
+                    timeout = false;
+                if (msg < 0) {
+                    currentErr = sendMsgErr;
+                } else if (msg.indexOf('msgNum-') >= 0) {
+                    currentErr = msgNumErr;
+                } else if (msg.indexOf('mobile-') >= 0) {
+                    currentErr = mobileErr;
+                } else if (msg.indexOf('messageCode-') >= 0) {
+                    currentErr = messageCodeErr;
+                } else if (msg.indexOf('wallet-') >= 0) {
+                    currentErr = walletErr;
+                } else if (msg.indexOf('timeout-') >= 0) {
+                    timeout = true;
+                    currentErr = timeoutErr;
+                } else if (msg == 'forbiddenIP') {
+                    currentErr = iptErr;
+                }
+                alert(currentErr);
+                timeout && window
+                    .location
+                    .reload();
+
+            }
+        },
+        validate: {
+            onError: function (reasons) {
+                reasons.forEach(function (reason) {
+                    console.log(reason.getMessage())
+                    regVm.message = reason.getMessage();
+                })
+            },
+            onValidateAll: function (reasons) {
+                if (reasons.length > 0) {
+                    console.log('有表单没有通过', reasons)
+                    regVm.showErr = true;
+                    regVm.message = reasons[0].message;
+                    regVm.giveCurrentNotice(reasons[0].message);
+                } else {
+                    var areaInfo = $('.selected-flag').attr('title');
+                    var areano = areaInfo.split('+')[1];
+                    var mstr = '000';
+                    if (areano.length < 4) {
+                        areano = mstr.substring(0, 4 - areano.length) + areano;
+                    }
+                    console.log('全部通过');
+                    var params = {
+                        walletAddress: regVm.walletAddress,
+                        msgCode: regVm.msgCode,
+                        mobile: areano + '-' + regVm.mobileno
+                    }
+                    $.ajax({
+                        type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                        traditional: true,
+                        data: JSON.stringify(params),
+                        url: '/api/regCandy/addOne',
+                        success: function (data) {
+                            console.log('success:', data)
+                            if (data.state == 'success') {
+                                window
+                                    .location
+                                    .reload();
+                            } else {
+                                regVm.showErr = true;
+                                regVm.message = data.message;
+                                regVm.giveCurrentNotice(data.message);
+                            }
+                        },
+                        error: function (d) {
+                            console.log('error:', d)
+                        }
+                    })
+                }
+            }
+        }
+    })
+</script> {% endblock %}
