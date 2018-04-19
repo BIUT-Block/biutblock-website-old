@@ -24,6 +24,7 @@ let generalFun = {
     async getDataForRegPage(req, res, next) {
         req.query.tempPage = 'register.html';
         req.query.modules = [
+            { action: 'get_reg_Info' },
             { action: 'get_category_list' },
             { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
         ];

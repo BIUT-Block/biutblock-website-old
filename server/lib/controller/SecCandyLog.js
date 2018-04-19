@@ -374,6 +374,9 @@ class SecCandyLog {
             if (fields.msgCode != req.session.messageCode) {
                 errMsg = 'messageCode-请输入正确的验证码';
             }
+            if (!fields.sImg) {
+                errMsg = 'sImg-请上传身份证照片';
+            }
             let mobileArr = fields.mobile.split('-')
             if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
                 || !validator.isNumeric(mobileArr[1])
@@ -381,11 +384,11 @@ class SecCandyLog {
             ) {
                 errMsg = 'mobile-手机号格式不正确';
             }
-         
+
             if (errMsg) {
                 throw new siteFunc.UserException(errMsg);
             }
-            
+
             try {
                 // 获取手机号
                 let mobileArr = fields.mobile.split('-');

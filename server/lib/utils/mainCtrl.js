@@ -171,6 +171,15 @@ let mainCtrl = {
                 console.log('---req.session.messageCode---', req.session.messageCode);
             } else if (md.action == 'get_adminlogin_Info') {
                 pageData.pageType = 'adminlogin';
+            } else if (md.action == 'get_reg_Info') {
+                // 生成验证码
+                let randomStr = randomstring.generate({
+                    charset: 'numeric'
+                });
+                let currentStr = randomStr.substring(0, 6);
+                pageData.messageCode = currentStr;
+                req.session.messageCode = currentStr;
+                pageData.pageType = 'reg';
             }
         }
 

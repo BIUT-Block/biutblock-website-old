@@ -1,4 +1,6 @@
 {% extends "./public/defaultTemp.html" %} {% block content %}
+<link href="/plugins/webuploader/webuploader.css" rel="stylesheet">
+<script src="/plugins/webuploader/webuploader.min.js"></script>
 <link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
 
 <div class="row reg-panel" ms-controller="register">
@@ -12,17 +14,17 @@
                         <div class="col-xs-8 col-xs-offset-2 col-md-offset-2 col-md-8 line"></div>
                         <li class="col-xs-4 col-md-4">
                             <i class="icon iconfont">&#xe671;</i>
-                            <div class="txt">填写基本信息</div>
+                            <div class="i18n txt" name="process-label-1">填写基本信息</div>
                             <i class="icon iconfont check" style="color: #d3f113">&#xe603;</i>
                         </li>
                         <li class="col-xs-4 col-md-4">
                             <i class="icon iconfont">&#xe672;</i>
-                            <div class="txt">上传手持身份证</div>
+                            <div class="i18n txt" name="process-label-2">上传手持身份证</div>
                             <i class="icon iconfont check">&#xe603;</i>
                         </li>
                         <li class="col-xs-4 col-md-4">
                             <i class="icon iconfont">&#xe673;</i>
-                            <div class="txt">等待审核</div>
+                            <div class="i18n txt" name="process-label-3">等待审核</div>
                             <i class="icon iconfont check">&#xe603;</i>
                         </li>
                     </ul>
@@ -33,15 +35,15 @@
 
                             <div class="col-xs-12 col-md-5 left-form">
                                 <div class="form-group">
-                                    <label for="telnum" class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9 input-container">
-                                        <input id="phone" type="tel" class="form-control" id="inputEmail3" placeholder="请输入手机号码" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
+                                    <label for="telnum" class="i18n col-sm-4 control-label" name='reg-label-phoneNum'>Phone number</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input id="phone" type="tel" class="form-control" id="inputEmail3" placeholder="" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
                                             data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="messageCode" class="col-sm-3 control-label">验证码</label>
-                                    <div class="col-sm-9 input-container">
+                                    <label for="messageCode" class="i18n col-sm-4 control-label" name='reg-label-messageCode'>PAC</label>
+                                    <div class="col-sm-8 input-container">
                                         <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
                                             ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
                                         <span class="getMsgCode">
@@ -50,35 +52,39 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="userName" class="col-sm-3 control-label">用户名</label>
-                                    <div class="col-sm-9 input-container">
-                                        <input type="text" class="form-control" id="inputEmail3" placeholder="请输入用户名" ms-duplex="@userName" data-required-message="userName-请输入用户名"
+                                    <label for="userName" class="i18n col-sm-4 control-label" name='reg-label-userName'>User Name</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="" ms-duplex="@userName" data-required-message="userName-请输入用户名"
                                             data-message="userName-请输入正确的用户名" ms-rules="{required:true}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="col-sm-3 control-label">密码</label>
-                                    <div class="col-sm-9 input-container">
-                                        <input type="password" class="form-control" id="inputPassword3" placeholder="请输入密码" ms-duplex="@password" data-required-message="password-请输入密码"
-                                            data-message="password-请输入正确的密码" ms-rules="{required:true,min:6,max:15}">
+                                    <label for="password" class="i18n col-sm-4 control-label" name='reg-label-password'>Password</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input type="password" class="form-control" id="inputPassword3" placeholder="" ms-duplex="@password" data-required-message="password-请输入密码"
+                                            data-message="password-请输入正确的密码" ms-rules="{required:true}">
                                     </div>
                                 </div>
                                 <div id="sub-reg" class="form-group" style="margin-top: 100px">
-                                    <div class="col-sm-offset-3 col-sm-9">
-                                        <button type="submit" class="btn btn-default">提交</button>
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="i18n btn btn-default" name='submit-wallet-btn'>提交</button>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="col-xs-12 col-md-7 right-form">
-                                <h5>手持身份证照片要求</h5>
+                                <h5 class="i18n" name="camera-notice-title">手持身份证照片要求</h5>
                                 <ol>
-                                    <li>手持本人身份证，将身份证的手臂和上半身拍进照片，脸部清晰且不能被遮挡；</li>
-                                    <li>确保身份证上的信息清晰可见、完整（没有被遮挡或被手指捏住）</li>
-                                    <li>照片内容要求真实有效，不得做任何修改；</li>
-                                    <li>仅支持jpg、jpeg、png、gif的照片格式，图片大小不超过500k</li>
-                                    <li class="camera">
-                                        <img src="/themes/dorawhite/images/camera-notice.jpg" />
+                                    <li class="i18n" name="camera-notice-1">手持本人身份证，将身份证的手臂和上半身拍进照片，脸部清晰且不能被遮挡；</li>
+                                    <li class="i18n" name="camera-notice-2">确保身份证上的信息清晰可见、完整（没有被遮挡或被手指捏住）</li>
+                                    <li class="i18n" name="camera-notice-3">照片内容要求真实有效，不得做任何修改；</li>
+                                    <li class="i18n" name="camera-notice-4">仅支持jpg、jpeg、png、gif的照片格式，图片大小不超过500k</li>
+                                    <li style="list-style-type: none;">
+                                        <div id="uploader-demo">
+                                            <!--用来存放item-->
+                                            <div id="fileList" class="uploader-list"></div>
+                                            <div id="filePicker">选择图片</div>
+                                        </div>
                                     </li>
                                 </ol>
                             </div>
@@ -102,43 +108,143 @@
     var msgNumErr = "短信次数超过限制";
     var mobileErr = "请输入正确的手机号";
     var messageCodeErr = "请输入正确的验证码";
+    var userNameErr = "请输入正确的用户名";
+    var passwordErr = "请输入正确的密码";
     var walletErr = "请填写正确的钱包地址";
     var normalErr = "您输入的信息有误，请重试";
     var timeoutErr = "页面已过期";
     var iptErr = "您的访问次数已超过限制，请稍后重试";
 
     var pmobile = '请输入手机号';
+    var sImgErr = '请上传身份证照片';
     var msgCodeLable = '验证码';
     var sendBtnTxt = '点击获取';
     var reSendBtnTxt = '重新发送';
     var lateResendTxt = ' 秒后重发';
-    if ($('body').hasClass('type-en')) {
-        cpSuccess = "Copy success!";
-        cpInfo = "Please manually select the content copy of the input box!";
+    var regSuccess = "恭喜，注册成功";
+    $(function () {
+        if ($('body').hasClass('type-en')) {
+            cpSuccess = "Copy success!";
+            cpInfo = "Please manually select the content copy of the input box!";
 
-        sendMsgErr = "SMS sent failed, please try again";
-        msgNumErr = "Number of short messages exceeded the limit";
-        mobileErr = "Please enter the correct cell phone number";
-        messageCodeErr = "Please enter the correct verification code";
-        walletErr = "Please fill in the correct wallet address";
-        normalErr = "The information you entered is incorrect, please try again";
-        timeoutErr = "Page expired";
-        iptErr = "The number of visits you have had exceeded the limit. Please try again later"
+            sendMsgErr = "SMS sent failed, please try again";
+            msgNumErr = "Number of short messages exceeded the limit";
+            mobileErr = "Please enter the correct cell phone number";
+            messageCodeErr = "Please enter the correct verification code";
+            userNameErr = "Please enter the correct user name";
+            passwordErr = "Please enter the correct password";
+            walletErr = "Please fill in the correct wallet address";
+            normalErr = "The information you entered is incorrect, please try again";
+            timeoutErr = "Page expired";
+            iptErr = "The number of visits you have had exceeded the limit. Please try again later"
+            sImgErr = "Please upload ID card photo";
+            pmobile = 'Please enter the cell phone number';
+            msgCodeLable = 'PAC';
+            sendBtnTxt = 'Send';
+            reSendBtnTxt = 'Try Again';
+            lateResendTxt = ' left';
+            regSuccess = "Congratulations, success in registration"
 
-        pmobile = 'Please enter the cell phone number';
-        msgCodeLable = 'PAC';
-        sendBtnTxt = 'Send';
-        reSendBtnTxt = 'Try Again';
-        lateResendTxt = ' left';
+        }
+        $('#sendMsgTxt').html(sendBtnTxt);
 
+        // 文件上传
+        // 初始化Web Uploader
+        var $list = $('#fileList')
+        var uploader = WebUploader.create({
 
-    }
+            // 选完文件后，是否自动上传。
+            auto: true,
+
+            // swf文件路径
+            swf: '/plugins/webuploader/Uploader.swf',
+
+            // 文件接收服务端。
+            server: '/system/upload?type=images',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+            var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '</div>'
+            ),
+                $img = $li.find('img');
+            // $list为容器jQuery实例
+            $list.append($li);
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            uploader.makeThumb(file, function (error, src) {
+                if (error) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                $img.attr('src', src);
+            }, 100, 100);
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $('#' + file.id),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<p class="progress"><span></span></p>')
+                    .appendTo($li)
+                    .find('span');
+            }
+
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file, response) {
+            $('#' + file.id).addClass('upload-state-done');
+            regVm.sImg = response._raw
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on('uploadError', function (file) {
+            var $li = $('#' + file.id),
+                $error = $li.find('div.error');
+
+            // 避免重复创建
+            if (!$error.length) {
+                $error = $('<div class="error"></div>').appendTo($li);
+            }
+
+            $error.text('上传失败');
+        });
+
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on('uploadComplete', function (file) {
+            $('#' + file.id).find('.progress').remove();
+
+        });
+    })
     var regVm = avalon.define({
         $id: 'register',
         mobileno: '',
         msgCode: '',
         userName: "",
         password: "",
+        basetime: 120,
+        sendMsgTxt: sendBtnTxt,
+        showErr: false,
+        sImg: '',
         sendMsgCode: function () {
             if (!regVm.mobileno) {
                 alert(mobileErr)
@@ -201,6 +307,12 @@
                     currentErr = mobileErr;
                 } else if (msg.indexOf('messageCode-') >= 0) {
                     currentErr = messageCodeErr;
+                } else if (msg.indexOf('userName-') >= 0) {
+                    currentErr = userNameErr;
+                } else if (msg.indexOf('password-') >= 0) {
+                    currentErr = passwordErr;
+                } else if (msg.indexOf('sImg-') >= 0) {
+                    currentErr = sImgErr;
                 } else if (msg.indexOf('wallet-') >= 0) {
                     currentErr = walletErr;
                 } else if (msg.indexOf('timeout-') >= 0) {
@@ -236,33 +348,37 @@
                     if (areano.length < 4) {
                         areano = mstr.substring(0, 4 - areano.length) + areano;
                     }
-                    console.log('全部通过');
-                    var params = {
-                        walletAddress: regVm.walletAddress,
-                        msgCode: regVm.msgCode,
-                        mobile: areano + '-' + regVm.mobileno
-                    }
-                    $.ajax({
-                        type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
-                        traditional: true,
-                        data: JSON.stringify(params),
-                        url: '/api/regCandy/addOne',
-                        success: function (data) {
-                            console.log('success:', data)
-                            if (data.state == 'success') {
-                                window
-                                    .location
-                                    .reload();
-                            } else {
-                                regVm.showErr = true;
-                                regVm.message = data.message;
-                                regVm.giveCurrentNotice(data.message);
-                            }
-                        },
-                        error: function (d) {
-                            console.log('error:', d)
+                    if (!regVm.sImg) {
+                        alert('Please update photo');
+                    } else {
+                        console.log('全部通过');
+                        var params = {
+                            userName: regVm.userName,
+                            password: regVm.password,
+                            msgCode: regVm.msgCode,
+                            mobile: areano + '-' + regVm.mobileno
                         }
-                    })
+                        $.ajax({
+                            type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                            traditional: true,
+                            data: JSON.stringify(params),
+                            url: '/api/regCandy/addOne',
+                            success: function (data) {
+                                console.log('success:', data)
+                                if (data.state == 'success') {
+                                    alert(regSuccess);
+                                    window.location.href = '/';
+                                } else {
+                                    regVm.showErr = true;
+                                    regVm.message = data.message;
+                                    regVm.giveCurrentNotice(data.message);
+                                }
+                            },
+                            error: function (d) {
+                                console.log('error:', d)
+                            }
+                        })
+                    }
                 }
             }
         }
