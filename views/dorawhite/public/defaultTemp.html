@@ -34,7 +34,7 @@
             {% include "./header.html" %}
         {% endif %}
         {% block content %}{% endblock %}
-        {% if pageType == 'referral' %}
+        {% if (pageType == 'referral') or (pageType == 'reg') %}
         {% elif pageType == 'adminlogin' %}
         {% else %}
             {% include "./footer.html" %}
