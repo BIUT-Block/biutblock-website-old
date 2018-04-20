@@ -241,4 +241,6 @@ $(function () {
     // $('.type-en .submit-txt').attr('href', 'http://cn.mikecrm.com/vsOwP3d')
     $('.type-zh-CN .wplink').attr('href', '/themes/dorawhite/doc/SEC-whitepaper-v3.66.pdf')
     $('.type-en .wplink').attr('href', '/themes/dorawhite/doc/SEC-whitepaper-v3.66-english.pdf')
+    $('.type-zh-CN .conditionlink').attr('href', '/themes/dorawhite/doc/SEC-T-Cs-zh.pdf')
+    $('.type-en .conditionlink').attr('href', '/themes/dorawhite/doc/SEC-T-Cs.pdf')
 });

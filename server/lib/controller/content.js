@@ -7,7 +7,7 @@ const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../.
 const shortid = require('shortid');
 const validator = require('validator')
 const _ = require('lodash')
-
+const xss = require("xss");
 // markdown配置
 const Marked = require('marked');
 const hljs = require('highlight.js');
@@ -296,8 +296,8 @@ class Content {
                 state: fields.state,
                 isTop: fields.isTop,
                 from: fields.from,
-                discription: fields.discription,
-                comments: fields.comments,
+                discription: xss(fields.discription),
+                comments: xss(fields.comments),
                 likeUserIds: []
             }
 
