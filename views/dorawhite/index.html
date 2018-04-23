@@ -76,9 +76,9 @@
                         <div class="conditions-btn">
                             <a href="/themes/{{staticforder}}/doc/SEC-T-Cs.pdf" class="conditionlink i18n" name='purchasing-conditions-btn'>Check the terms and conditions</a>
                         </div>
-                        <div class="accept-conditions">
+                        <div class="accept-conditions" ms-on-click="@checkConditions">
                             <div class="i18n txt" name='pursechain-accept-conditions'>Accept the terms and conditions</div>
-                            <span class="checkme" ms-on-click="@checkConditions">
+                            <span class="checkme">
                                 <i :visible="@checkState" class="icon iconfont">&#xe670;</i>
                             </span>
                         </div>
