@@ -419,7 +419,12 @@ input {
                 }
                 .accept-conditions {
                     margin: 15px auto;
+                    display: block;
+                    a:link,a:visited{
+                        color: #ffffff;
+                    }
                     .txt {
+                        color: #ffffff;
                         display: inline-block;
                         vertical-align: text-bottom;
                     }
@@ -431,6 +436,7 @@ input {
                         margin-left: 10px;
                         position: relative;
                         i {
+                            color: #ffffff;
                             position: absolute;
                             bottom: -5px;
                             left: 0;
