@@ -876,7 +876,7 @@ input {
         }
         button {
             border-radius: 0;
-            padding: 4px 20px;
+            padding: 4px 13px;
             color: #000;
             border-color: #c1dc14;
             background: #c1dc14;
@@ -1595,16 +1595,17 @@ input {
         }
     }
     .reg-panel {
-        .center-logo{
+        .center-logo {
             .reg-container {
                 width: 100%;
                 padding: 0;
             }
-        } 
+        }
         .top-process {
             ul {
                 height: 114px;
                 li {
+                    padding: 1px;
                     .txt {
                         font-size: 11px;
                         min-height: 45px;
@@ -1614,6 +1615,7 @@ input {
         }
         .reg-form {
             padding: 20px 40px;
+            
             .left-form {
                 border: none;
                 padding: 0;
@@ -1647,7 +1649,7 @@ input {
 
 @media (min-width: 1300px) {
     .tokend-distribution {
-        padding: 6rem 0 !important;
+        // padding: 6rem 0 !important;
     }
     .right-pannel {
         width: 254px;

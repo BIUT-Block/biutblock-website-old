@@ -369,29 +369,29 @@ class SecCandyLog {
         const form = new formidable.IncomingForm();
         let myShareId = shortid.generate();
         form.parse(req, async (err, fields, files) => {
-
-            let errMsg = "";
-            if (fields.msgCode != req.session.messageCode) {
-                errMsg = 'messageCode-请输入正确的验证码';
-            }
-            if (!fields.sImg) {
-                errMsg = 'sImg-请上传身份证照片';
-            }
-            let mobileArr = fields.mobile.split('-')
-            if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
-                || !validator.isNumeric(mobileArr[1])
-                || mobileArr[0].length != 4
-            ) {
-                errMsg = 'mobile-手机号格式不正确';
-            }
-
-            if (errMsg) {
-                throw new siteFunc.UserException(errMsg);
-            }
-
             try {
+                let errMsg = "";
+                console.log(fields.msgCode + '------' + req.session.messageCode)
+                if (fields.msgCode != req.session.messageCode) {
+                    errMsg = 'messageCode-请输入正确的验证码';
+                }
+                if (!fields.sImg) {
+                    errMsg = 'sImg-请上传身份证照片';
+                }
+                let mobileArr = fields.mobile.split('-')
+                if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
+                    || !validator.isNumeric(mobileArr[1])
+                    || mobileArr[0].length != 4
+                ) {
+                    errMsg = 'mobile-手机号格式不正确';
+                }
+
+                if (errMsg) {
+                    throw new siteFunc.UserException(errMsg);
+                }
+
+
                 // 获取手机号
-                let mobileArr = fields.mobile.split('-');
                 let isCnMobile = mobileArr[0] == '0086' ? true : false;
                 let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
 
@@ -399,14 +399,24 @@ class SecCandyLog {
                     userName: fields.userName,
                     phoneNum: currentMobile,
                     password: service.encrypt(fields.password, settings.encrypt_key),
+                    logo: fields.sImg
                 }
 
-                let newUser = new UserModel(userObj);
-                await newUser.save();
+                let user = await UserModel.find().or([{ 'phoneNum': fields.phoneNum }, { userName: fields.userName }])
+                if (!_.isEmpty(user)) {
+                    res.send({
+                        state: 'error',
+                        message: 'haduser-邮箱或用户名已存在！'
+                    });
+                } else {
+                    let newUser = new UserModel(userObj);
+                    await newUser.save();
 
-                res.send({
-                    state: 'success'
-                });
+                    res.send({
+                        state: 'success'
+                    });
+                }
+
             } catch (err) {
                 logUtil.error(err, req);
                 res.send({
