@@ -243,4 +243,8 @@ $(function () {
     $('.type-en .wplink').attr('href', '/themes/dorawhite/doc/SEC-whitepaper-v3.66-english.pdf')
     $('.type-zh-CN .conditionlink').attr('href', '/themes/dorawhite/doc/SEC-T-Cs-zh.pdf')
     $('.type-en .conditionlink').attr('href', '/themes/dorawhite/doc/SEC-T-Cs.pdf')
+    $('.type-zh-CN .weiboblog').show();
+    $('.type-en .weiboblog').hide();
+    $('.type-zh-CN .wix').hide();
+    $('.type-en .wix').show();
 });
