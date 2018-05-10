@@ -420,7 +420,8 @@ input {
                 .accept-conditions {
                     margin: 15px auto;
                     display: block;
-                    a:link,a:visited{
+                    a:link,
+                    a:visited {
                         color: #ffffff;
                     }
                     .txt {
@@ -1028,6 +1029,23 @@ input {
     }
 }
 
+.friend-link {
+    background-color: #2d363f;
+    ul {
+        li {
+            color: #ffffff;
+            height: 45px;
+            line-height: 45px;
+            display: inline-block;
+            font-size: 13px;
+            a:link,
+            a:visited {
+                color: #ffffff;
+            }
+        }
+    }
+}
+
 /* referra-page-one */
 
 .top-banner.referra-page-one {
@@ -1621,7 +1639,6 @@ input {
         }
         .reg-form {
             padding: 20px 40px;
-            
             .left-form {
                 border: none;
                 padding: 0;
