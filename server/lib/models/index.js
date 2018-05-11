@@ -28,6 +28,7 @@ db.on('close', function () {
 
 exports.AdminUser = require('./AdminUser');
 exports.User = require('./User');
+exports.UnionUser = require('./UnionUser');
 exports.AdminGroup = require('./AdminGroup');
 exports.AdminResource = require('./AdminResource');
 exports.ContentCategory = require('./ContentCategory');

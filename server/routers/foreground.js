@@ -66,6 +66,8 @@ router.get('/', generalFun.getDataForIndexPage);
 
 router.get('/register.html', generalFun.getDataForRegPage);
 
+router.get('/unionregister.html', generalFun.getDataForUnionRegPage);
+
 // 糖果入口1
 router.get('/referral', async (req, res, next) => {
   if (req.query.code && shortid.isValid(req.query.code)) {
