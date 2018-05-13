@@ -67,6 +67,10 @@
                 <el-input size="small" placeholder="请输入用户名" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                 </el-input>
             </div>
+            <div v-else-if="type === 'unionRegUser'">
+                <el-input size="small" placeholder="请输入用户名" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                </el-input>
+            </div>
             <div v-else-if="type === 'systemOptionLogs'">
                 <el-select size="small" v-model="targetSysLogType" placeholder="请选择日志类别" @change="selectSysLogType">
                     <el-option v-for="item in systemModelTypes" :key="item.value" :label="item.label" :value="item.value">
@@ -186,6 +190,10 @@ export default {
         this.$store.dispatch("getRegUserList", {
           searchkey
         });
+      } else if (this.type == "unionRegUser") {
+        this.$store.dispatch("getUnionRegUserList", {
+          searchkey
+        });
       } else if (this.type == "secCandyCode") {
         this.$store.dispatch("getSecCandyCodeList", {
           searchkey,
@@ -299,6 +307,10 @@ export default {
             return services.deleteRegUser({
               ids
             });
+          } else if (target === "unionRegUser") {
+            return services.deleteUnionRegUser({
+              ids
+            });
           } else if (target === "systemlogs") {
             return services.deleteSystemOptionLogs({
               ids
@@ -315,6 +327,8 @@ export default {
               this.$store.dispatch("getContentMessageList");
             } else if (target === "user") {
               this.$store.dispatch("getRegUserList");
+            } else if (target === "unionRegUser") {
+              this.$store.dispatch("getUnionRegUserList");
             } else if (target === "systemlogs") {
               this.$store.dispatch("getSystemLogsList");
             } else if (target === "systemnotify") {

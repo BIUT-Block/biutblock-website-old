@@ -826,6 +826,7 @@ input {
             width: 70%;
             margin: 0 auto;
             float: none;
+            margin-bottom: 250px;
         }
     }
     .top-process {
@@ -935,6 +936,61 @@ input {
 .reg-union-form .left-form {
     padding: 0;
     border: none;
+}
+
+.reg-success {
+    text-align: center;
+    .title1 {
+        font-size: 30px;
+        color: #d8ff00;
+        font-weight: 700;
+    }
+    button {
+        margin-top: 20px;
+    }
+}
+
+.reg-info {
+    margin-top: 100px;
+    .title1 {
+        font-size: 30px;
+        color: #d8ff00;
+        font-weight: 700;
+        text-align: center;
+    }
+    .title2 {
+        text-align: center;
+    }
+    .my-details {
+        border: 1px solid #d8ff00;
+        border-radius: 5px;
+        ul {
+            li {
+                border-right: 1px solid #d8ff00;
+                margin: 10px 0;
+                span {
+                    display: block;
+                    text-align: center;
+                    color: #d8ff00;
+                }
+                span.sc {
+                    font-size: 20px;
+                    font-weight: 700;
+                }
+            }
+            li:last-child {
+                border: 0;
+            }
+        }
+    }
+    .my-coins {
+        margin-top: 30px;
+        .ci {
+            border: 1px solid #d8ff00;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    }
 }
 
 .footer {

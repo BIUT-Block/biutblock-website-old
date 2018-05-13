@@ -239,6 +239,25 @@ const state = {
             docs: []
         }
     },
+    unionRegUser: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {
+                name: '',
+                userName: '',
+                group: '',
+                email: '',
+                comments: '',
+                phoneNum: '',
+                enable: true
+            }
+        },
+        userList: {
+            pageInfo: {},
+            docs: []
+        }
+    },
     bakDataList: {
         pageInfo: {},
         docs: []
@@ -296,6 +315,18 @@ const state = {
         messageCount: 0
     },
     secCandyCodeList: {
+        formState: {
+            show: false,
+            edit: false,
+            formData: {}
+        },
+        list: {
+            pageInfo: {},
+            docs: [],
+            isLoad: false
+        }
+    },
+    unionShareDetailList: {
         formState: {
             show: false,
             edit: false,
@@ -431,7 +462,7 @@ const mutations = {
         }, config)
     },
     [types.CONTENTCATEGORYS_FORMSTATE](state, formState) {
-        state.contentCategory.formState.show = formState.show;
+        state.contentCategory.formStaunionRegUserte.show = formState.show;
         state.contentCategory.formState.edit = formState.edit;
         state.contentCategory.formState.type = formState.type;
         state.contentCategory.formState.formData = Object.assign({
@@ -534,6 +565,23 @@ const mutations = {
     [types.REGUSERLIST](state, userlist) {
         state.regUser.userList = userlist
     },
+    [types.UNIONREGUSERFORMSTATE](state, formState) {
+        state.unionRegUser.formState.show = formState.show;
+        state.unionRegUser.formState.edit = formState.edit;
+        state.unionRegUser.formState.formData = Object.assign({
+            name: '',
+            userName: '',
+            group: '',
+            email: '',
+            comments: '',
+            phoneNum: '',
+            enable: true
+        }, formState.formData);
+
+    },
+    [types.UNIONREGUSERLIST](state, userlist) {
+        state.unionRegUser.userList = userlist
+    },
     [types.BAKUPDATA_LIST](state, list) {
         state.bakDataList = list
     },
@@ -601,6 +649,11 @@ const mutations = {
         state.secCandyCodeList.formState.edit = formState.edit;
         state.secCandyCodeList.formState.formData = formState.formData;
     },
+    [types.UNIONSHAREDETAILFORMSTATE](state, formState) {
+        state.unionShareDetailList.formState.show = formState.show;
+        state.unionShareDetailList.formState.edit = formState.edit;
+        state.unionShareDetailList.formState.formData = formState.formData;
+    }
 
 }
 

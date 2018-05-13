@@ -12,6 +12,7 @@ const validator = require('validator');
 const _ = require('lodash')
 const fs = require('fs')
 const captcha = require('trek-captcha')
+const axios = require('axios');
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -27,7 +28,7 @@ function checkFormData(req, res, fields) {
     if (fields.phoneNum && !validatorUtil.checkPhoneNum(fields.phoneNum)) {
         errMsg = '请填写正确的手机号码!';
     }
-    if (!validatorUtil.checkEmail(fields.email)) {
+    if (fields.email && !validatorUtil.checkEmail(fields.email)) {
         errMsg = '请填写正确的邮箱!';
     }
     if (!validator.isLength(fields.comments, 5, 30)) {
@@ -38,9 +39,232 @@ function checkFormData(req, res, fields) {
     }
 }
 
-class User {
+function checkCurrentDate(updateTime) {
+    let date = new Date();
+    let Y = date.getFullYear() + '-';
+    let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    let D = date.getDate();
+    let D1 = (date.getDate() + 1);
+    let end = new Date(Y + M + D).getTime()//今天结束时的毫秒数
+    let start = end - 86400000 * 90//三个月开始时的毫秒数
+
+    let userStateTime = new Date(updateTime).getTime(); //用户注册时间
+    if (end - userStateTime > 86400000 * 90) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
+function sendLastCoins(targetWallet, wantCoins) {
+    return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            try {
+                // console.log('----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
+                logUtil.info('补发请求(get)：', settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice)
+                let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
+                logUtil.info('补发结束！', writeState.status);
+                if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
+                    logUtil.info('补发-转账成功！', targetWallet + '--' + writeState.data.txHash)
+                    resolve();
+                } else {
+                    logUtil.info('补发-转账失败！', writeState.data)
+                    resolve();
+                }
+            } catch (error) {
+                logUtil.info(error, {})
+                resolve();
+            }
+        }, 5000)
+    })
+}
+
+function getUnionCoins(unionUsers) {
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < unionUsers.length; i++) {
+            const unionUser = unionUsers[i];
+            let currentTime = checkCurrentDate(unionUser.updateTime);
+            if (currentTime) {
+                setTimeout(async () => {
+                    let checkCoinApi = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xc6689eb9a6d724b8d7b1d923ffd65b7005da1b62&address=${unionUser.wallet}&tag=latest&apikey=%20H3WXGNMRUGU6QD6AVV6FYWFE8KH3PTRJZ7`;
+                    let checkState = await axios.get(checkCoinApi);
+                    if (checkState.status == 200 && checkState.data.status == '1') {
+                        let userleft = checkState.data.result / 1000000000000000000;
+                        if (userleft >= 100000) {
+                            await sendLastCoins(unionUser.wallet, 100);
+                        }
+                    }
+                }, 2000)
+            }
+        }
+    })
+}
+
+
+
+class UnionUser {
     constructor() {
         // super()
+    }
+
+    async unionReg(req, res, next) {
+        let _this = this;
+        const form = new formidable.IncomingForm();
+        let myShareId = shortid.generate();
+        form.parse(req, async (err, fields, files) => {
+            try {
+                let errMsg = "";
+                console.log(fields.msgCode + '------' + req.session.messageCode)
+                if (fields.msgCode != req.session.messageCode) {
+                    errMsg = 'messageCode-请输入正确的验证码';
+                }
+
+                if (!fields.invitationCode || !shortid.isValid(fields.invitationCode)) {
+                    errMsg = 'invitationCode-请输入正确的邀请码';
+                }
+
+                let mobileArr = fields.mobile.split('-')
+                if (mobileArr.length == 1 || !validator.isNumeric(mobileArr[0])
+                    || !validator.isNumeric(mobileArr[1])
+                    || mobileArr[0].length != 4
+                ) {
+                    errMsg = 'mobile-手机号格式不正确';
+                }
+
+                if (errMsg) {
+                    throw new siteFunc.UserException(errMsg);
+                }
+
+
+                // 获取手机号
+                let isCnMobile = mobileArr[0] == '0086' ? true : false;
+                let currentMobile = isCnMobile ? mobileArr[1] : (mobileArr[0] + mobileArr[1]);
+
+                const userObj = {
+                    userName: fields.userName,
+                    phoneNum: currentMobile,
+                    password: service.encrypt(fields.password, settings.encrypt_key),
+                    // invitationCode: fields.invitationCode
+                }
+
+                let parentUser = await UnionUserModel.findOne({ invitationCode: fields.invitationCode });
+                if (_.isEmpty(parentUser)) {
+                    throw new siteFunc.UserException('invitationCode-请输入正确的邀请码');
+                }
+                let user = await UnionUserModel.find({ $or: [{ 'phoneNum': currentMobile }, { userName: fields.userName }] })
+                console.log('--user----', user);
+                if (!_.isEmpty(user)) {
+                    throw new siteFunc.UserException('haduser-邮箱或用户名已存在！');
+                } else {
+                    console.log('---parentUser---', parentUser)
+                    let myExtendCode = [];
+                    // 存联合推荐人信息
+                    myExtendCode.push((parentUser.extendCode)[0]);
+                    // 存父推荐人信息
+                    myExtendCode.push(fields.invitationCode);
+                    userObj.extendCode = myExtendCode;
+                    console.log('----userObj--', userObj);
+                    let newUser = new UnionUserModel(userObj);
+                    let currentUser = await newUser.save();
+                    console.log('----currentUser----', currentUser);
+                    // 将cookie存入缓存
+                    let auth_token = currentUser._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
+                    res.cookie(settings.auth_cookie_name, auth_token,
+                        { path: '/', maxAge: 1000 * 60 * 60 * 24 * 30, signed: true, httpOnly: true }); //cookie 有效期30天
+                    res.send({
+                        state: 'success'
+                    });
+                }
+
+            } catch (err) {
+                logUtil.error(err, req);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_IN_SAVE_DATA',
+                    message: err,
+                })
+            }
+        })
+    }
+
+    async addWallet(req, res, next) {
+        const form = new formidable.IncomingForm();
+        let userInfo = req.session.user;
+        console.log('---req.session.user---', req.session.user);
+        form.parse(req, async (err, fields, files) => {
+            try {
+                let errMsg = "";
+                if (!fields.wallet || !/^[a-zA-Z0-9]{42,43}$/.test(fields.wallet) || (fields.wallet).indexOf('0x') < 0) {
+                    errMsg = 'wallet-请填写正确的钱包地址!';
+                }
+                if (errMsg) {
+                    throw new siteFunc.UserException(errMsg);
+                }
+
+                console.log('----1111--', fields)
+                let shareId = shortid.generate();
+                await UnionUserModel.findOneAndUpdate({ _id: userInfo._id }, { $set: { wallet: fields.wallet, invitationCode: shareId } });
+                req.session.user.invitationCode = shareId;
+                res.send({
+                    state: 'success'
+                })
+            } catch (error) {
+                logUtil.error(error, req);
+                res.send({
+                    state: 'error',
+                    type: 'ERROR_IN_SAVE_DATA',
+                    message: error,
+                })
+            }
+        })
+    }
+
+    async getUnoinUserInfo(req, res, next) {
+        try {
+
+            let user = req.session.user;
+            let queryObj = {};
+            // let reKey = new RegExp(user.invitationCode, 'i')
+            queryObj.extendCode = user.invitationCode;
+
+            // 1、查询我旗下的会员
+            let squery = Object.assign({}, queryObj, { group: '1' });
+            let myUsers = await UnionUserModel.count(squery);
+
+            // 2、查询我旗下的创始人
+            let bquery = Object.assign({}, queryObj, { group: '0' });
+            let myUnionUsers = await UnionUserModel.count(bquery);
+
+            // 3、查询我的货币总数
+            let myInfo = UnionUserModel.findOne({ _id: user._id });
+
+            res.send({
+                state: 'success',
+                data: {
+                    myUserNum: myUsers,
+                    myUnionUserNum: myUnionUsers,
+                    myCoins: myInfo.coins || 0
+                }
+            })
+        } catch (error) {
+            logUtil.error(error, req);
+            res.send({
+                state: 'error',
+                type: 'ERROR_IN_SAVE_DATA',
+                message: error,
+            })
+        }
+    }
+
+    async taskforUnionUserCoins() {
+        try {
+            // 查出所有联合创始人
+            let unionUsers = await UnionUserModel.find({ group: '0' });
+            getUnionCoins(unionUsers);
+        } catch (error) {
+            logUtil.error(error, {});
+        }
     }
 
     async getImgCode(req, res) {
@@ -64,9 +288,29 @@ class User {
 
             const Users = await UnionUserModel.find(queryObj, { password: 0 }).sort({ date: -1 }).skip(Number(pageSize) * (Number(current) - 1)).limit(Number(pageSize));
             const totalItems = await UnionUserModel.count(queryObj);
+
+
+            let newUsers = JSON.parse(JSON.stringify(Users));
+            let newUsersArr = [];
+            for (let i = 0; i < newUsers.length; i++) {
+                const targetUser = newUsers[i];
+                let suObj = { invitationCode: { $ne: targetUser.invitationCode } };
+                // let reKey = new RegExp(targetUser.invitationCode, 'i')
+                suObj.extendCode = targetUser.invitationCode;
+
+                // 1、查询我旗下的会员
+                let squery = Object.assign({}, suObj);
+                let myUsers = await UnionUserModel.find(squery).populate([{
+                    path: 'extendCode',
+                    select: 'userName id _id wallet'
+                }])
+                targetUser.myUsers = myUsers;
+                newUsersArr.push(targetUser);
+            }
+
             res.send({
                 state: 'success',
-                docs: Users,
+                docs: newUsersArr,
                 pageInfo: {
                     totalItems,
                     current: Number(current) || 1,
@@ -103,20 +347,28 @@ class User {
                 return
             }
 
-            const userObj = {
-                userName: fields.userName,
-                name: fields.name || '',
-                email: fields.email,
-                logo: fields.logo,
-                phoneNum: fields.phoneNum || '',
-                confirm: fields.confirm,
-                group: fields.group
-            }
-            if (fields.password) {
-                userObj.password = service.encrypt(fields.password, settings.encrypt_key);
-            }
-            const item_id = fields._id;
+            const userObj = {}
 
+            if (fields.userName) {
+                userObj.userName = fields.userName;
+            }
+
+            if (fields.phoneNum) {
+                userObj.phoneNum = fields.phoneNum;
+            }
+
+            if (fields.group) {
+                userObj.group = fields.group;
+            }
+
+            if (fields.comments) {
+                userObj.comments = fields.comments;
+            }
+
+            userObj.enable = fields.enable;
+            userObj.updateTime = new Date();
+            const item_id = fields._id;
+            console.log('----userObj---', userObj);
             try {
                 await UnionUserModel.findOneAndUpdate({ _id: item_id }, { $set: userObj });
                 // 更新缓存
@@ -331,4 +583,4 @@ class User {
 
 }
 
-module.exports = new User();
+module.exports = new UnionUser();

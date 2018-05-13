@@ -41,6 +41,35 @@ let generalFun = {
         await mainCtrl.getPageData(req, res, next);
     },
 
+    async getDataForRegSuccessPage(req, res, next) {
+        req.query.tempPage = 'registerSuccess.html';
+        req.query.modules = [
+            { action: 'get_reg_Info' },
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+    async getDataForRegInfoPage(req, res, next) {
+        req.query.tempPage = 'registerInfo.html';
+        req.query.modules = [
+            { action: 'get_reg_Info' },
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+
+    async getDataForRegWalletPage(req, res, next) {
+        req.query.tempPage = 'registerWallet.html';
+        req.query.modules = [
+            { action: 'get_reg_Info' },
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+
     async getDataForReferralPage(req, res, next) {
         req.query.tempPage = 'referral.html';
         req.query.modules = [

@@ -17,7 +17,7 @@ const {
 const validator = require('validator')
 const authUser = require('../../utils/middleware/authUser');
 
-const { AdminUser, ContentCategory, Content, ContentTag, User, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog, WalletsLogs } = require('../lib/controller');
+const { AdminUser, ContentCategory, Content, ContentTag, User, UnionUser, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog, WalletsLogs } = require('../lib/controller');
 const _ = require('lodash');
 const qr = require('qr-image')
 const randomstring = require('randomstring');
@@ -33,6 +33,14 @@ function getClientIp(req) {
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
 };
+
+function checkUserSession(req, res, next) {
+  if (!_.isEmpty(req.session.user)) {
+    next()
+  } else {
+    res.redirect("/");
+  }
+}
 
 function redisfirewall(req) {
   return new Promise((resolve, reject) => {
@@ -64,15 +72,6 @@ function redisfirewall(req) {
 
 }
 
-
-
-function checkUserSession(req, res, next) {
-  if (!_.isEmpty(req.session.user)) {
-    next()
-  } else {
-    res.redirect("/");
-  }
-}
 
 // 查询站点地图需要的信息
 router.get('/sitemap/getList', (req, res, next) => {
@@ -189,6 +188,12 @@ router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }
 // router.post('/secCandy/addOne', SecCandyLog.addSecCandyLog);
 
 router.post('/regCandy/addOne', SecCandyLog.regCandy);
+
+router.post('/unionReg/addUser', UnionUser.unionReg);
+
+router.post('/unionReg/addWallet', checkUserSession, UnionUser.addWallet);
+
+router.get('/unionReg/getUnoinUserInfo', checkUserSession, UnionUser.getUnoinUserInfo);
 
 function checkSecFormData(req, res, fields) {
   let errMsg = '';

@@ -5,7 +5,7 @@ let settings = require('../settings');
 let siteFunc = require('../siteFunc');
 
 //用户实体类
-const { User, UserNotify } = require('../../server/lib/controller');
+const { User, UserNotify, UnionUser } = require('../../server/lib/controller');
 
 exports.auth = function (req, res, next) {
 
@@ -21,7 +21,7 @@ exports.auth = function (req, res, next) {
         } else {
             let auth = auth_token.split('$$$$');
             let user_id = auth[0], currentUser = {};
-            User.getOneUserByParams(req, res, { '_id': user_id })
+            UnionUser.getOneUserByParams(req, res, { '_id': user_id })
                 .then((user) => {
                     if (!user) {
                         return next();

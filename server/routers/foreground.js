@@ -9,7 +9,14 @@ const generalFun = require('../../utils/generalFun');
 const { ContentCategory, Content, SystemConfig, SecCandyLog } = require('../lib/controller');
 const moment = require('moment');
 const shortid = require('shortid');
-
+const _ = require("lodash")
+function checkUserSession(req, res, next) {
+  if (!_.isEmpty(req.session.user)) {
+    next()
+  } else {
+    res.redirect("/");
+  }
+}
 
 //配置站点地图和robots抓取
 router.get('/sitemap.xml', (req, res, next) => {
@@ -67,6 +74,25 @@ router.get('/', generalFun.getDataForIndexPage);
 router.get('/register.html', generalFun.getDataForRegPage);
 
 router.get('/unionregister.html', generalFun.getDataForUnionRegPage);
+
+router.get('/registerWallet.html', checkUserSession, generalFun.getDataForRegWalletPage);
+
+router.get('/registerSuccess.html', checkUserSession, (req, res, next) => {
+  if (req.session.user.invitationCode) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+}, generalFun.getDataForRegSuccessPage);
+
+router.get('/registerInfo.html', checkUserSession, (req, res, next) => {
+  // if (req.session.user.enable) {
+  //   next();
+  // } else {
+  //   res.redirect('/registerSuccess.html');
+  // }
+  next();
+}, generalFun.getDataForRegInfoPage);
 
 // 糖果入口1
 router.get('/referral', async (req, res, next) => {

@@ -247,7 +247,7 @@ $(function () {
     $('.type-en .wix').show();
     $('.type-en .friend-link').hide();
 });
-
+var cpSuccess = "复制成功!";
 var sendMsgErr = "短信发送失败，请重试";
 var msgNumErr = "短信次数超过限制";
 var mobileErr = "请输入正确的手机号";
@@ -255,6 +255,7 @@ var messageCodeErr = "请输入正确的验证码";
 var userNameErr = "请输入正确的用户名";
 var passwordErr = "请输入正确的密码";
 var walletErr = "请填写正确的钱包地址";
+var invitationCodeErr = "请填写正确的邀请码";
 var normalErr = "您输入的信息有误，请重试";
 var timeoutErr = "页面已过期";
 var iptErr = "您的访问次数已超过限制，请稍后重试";
@@ -279,6 +280,7 @@ if ($('body').hasClass('type-en')) {
     userNameErr = "Please enter the correct user name";
     passwordErr = "Please enter the correct password";
     walletErr = "Please fill in the correct wallet address";
+    invitationCodeErr = "Please enter the correct invitation code";
     normalErr = "The information you entered is incorrect, please try again";
     timeoutErr = "Page expired";
     iptErr = "The number of visits you have had exceeded the limit. Please try again later"
@@ -292,7 +294,7 @@ if ($('body').hasClass('type-en')) {
     regHasUser = "The username or cell phone number has already existed";
 }
 
-var regVm = avalon.define({
+var unionRegisterVm = avalon.define({
     $id: 'unionRegister',
     mobileno: '',
     msgCode: '',
@@ -304,13 +306,13 @@ var regVm = avalon.define({
     showErr: false,
     sImg: '',
     sendMsgCode: function () {
-        if (regVm.basetime != 120) {
+        if (unionRegisterVm.basetime != 120) {
             return false;
         }
-        if (!regVm.mobileno) {
+        if (!unionRegisterVm.mobileno) {
             alert(mobileErr)
         } else {
-            if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(regVm.mobileno)) {
+            if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(unionRegisterVm.mobileno)) {
                 alert(mobileErr)
             } else {
                 var areaInfo = $('.selected-flag').attr('title');
@@ -321,7 +323,7 @@ var regVm = avalon.define({
                 }
                 // 开始发短信
                 var smsParams = {
-                    mobile: areano + '-' + regVm.mobileno
+                    mobile: areano + '-' + unionRegisterVm.mobileno
                 }
                 $.ajax({
                     type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
@@ -333,19 +335,19 @@ var regVm = avalon.define({
                         if (data.state == 'success') {
                             console.log('发送成功');
                             var mytask = setInterval(function () {
-                                $('#sendMsgTxt').html(--regVm.basetime + lateResendTxt);
+                                $('#sendMsgTxt').html(--unionRegisterVm.basetime + lateResendTxt);
                             }, 1000)
                             var xx = setTimeout(function () {
                                 clearInterval(mytask)
                                 $('#sendMsg').removeAttr('disabled');
                                 $('#sendMsgTxt').html(reSendBtnTxt);
-                                regVm.basetime = 120
-                            }, 1000 * regVm.basetime);
+                                unionRegisterVm.basetime = 120
+                            }, 1000 * unionRegisterVm.basetime);
                             $('#sendMsg').prop(', ')
                         } else {
-                            regVm.showErr = true;
-                            regVm.message = data.message;
-                            regVm.giveCurrentNotice(data.message)
+                            unionRegisterVm.showErr = true;
+                            unionRegisterVm.message = data.message;
+                            unionRegisterVm.giveCurrentNotice(data.message)
                         }
                     },
                     error: function (d) {
@@ -357,6 +359,9 @@ var regVm = avalon.define({
 
     },
     giveCurrentNotice: function (msg) {
+        if (typeof msg == 'object') {
+            msg = msg.message;
+        }
         if (msg) {
             var currentErr = normalErr,
                 timeout = false;
@@ -376,6 +381,8 @@ var regVm = avalon.define({
                 currentErr = sImgErr;
             } else if (msg.indexOf('wallet-') >= 0) {
                 currentErr = walletErr;
+            } else if (msg.indexOf('invitationCode-') >= 0) {
+                currentErr = invitationCodeErr;
             } else if (msg.indexOf('timeout-') >= 0) {
                 timeout = true;
                 currentErr = timeoutErr;
@@ -395,15 +402,15 @@ var regVm = avalon.define({
         onError: function (reasons) {
             reasons.forEach(function (reason) {
                 console.log(reason.getMessage())
-                regVm.message = reason.getMessage();
+                unionRegisterVm.message = reason.getMessage();
             })
         },
         onValidateAll: function (reasons) {
             if (reasons.length > 0) {
                 console.log('有表单没有通过', reasons)
-                regVm.showErr = true;
-                regVm.message = reasons[0].message;
-                regVm.giveCurrentNotice(reasons[0].message);
+                unionRegisterVm.showErr = true;
+                unionRegisterVm.message = reasons[0].message;
+                unionRegisterVm.giveCurrentNotice(reasons[0].message);
             } else {
                 var areaInfo = $('.selected-flag').attr('title');
                 var areano = areaInfo.split('+')[1];
@@ -411,39 +418,108 @@ var regVm = avalon.define({
                 if (areano.length < 4) {
                     areano = mstr.substring(0, 4 - areano.length) + areano;
                 }
-                if (!regVm.sImg) {
-                    alert(sImgErr);
-                } else {
-                    console.log('全部通过');
-                    var params = {
-                        userName: regVm.userName,
-                        password: regVm.password,
-                        msgCode: regVm.msgCode,
-                        mobile: areano + '-' + regVm.mobileno,
-                        sImg: regVm.sImg
-                    }
-                    $.ajax({
-                        type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
-                        traditional: true,
-                        data: JSON.stringify(params),
-                        url: '/api/regCandy/addOne',
-                        success: function (data) {
-                            console.log('success:', data)
-                            if (data.state == 'success') {
-                                alert(regSuccess);
-                                window.location.href = '/';
-                            } else {
-                                regVm.showErr = true;
-                                regVm.message = data.message;
-                                regVm.giveCurrentNotice(data.message);
-                            }
-                        },
-                        error: function (d) {
-                            console.log('error:', d)
-                        }
-                    })
+                var params = {
+                    userName: unionRegisterVm.userName,
+                    password: unionRegisterVm.password,
+                    msgCode: unionRegisterVm.msgCode,
+                    mobile: areano + '-' + unionRegisterVm.mobileno,
+                    invitationCode: unionRegisterVm.invitationCode
                 }
+                $.ajax({
+                    type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                    traditional: true,
+                    data: JSON.stringify(params),
+                    url: '/api/unionReg/addUser',
+                    success: function (data) {
+                        console.log('success:', data)
+                        if (data.state == 'success') {
+                            alert(regSuccess);
+                            window.location.href = '/registerWallet.html';
+                        } else {
+                            unionRegisterVm.showErr = true;
+                            unionRegisterVm.message = data.message;
+                            unionRegisterVm.giveCurrentNotice(data.message);
+                        }
+                    },
+                    error: function (d) {
+                        console.log('error:', d)
+                    }
+                })
+
             }
         }
     }
+})
+
+var walletRegisterVm = avalon.define({
+    $id: 'walletRegister',
+    wallet: '',
+    showErr: false,
+    sImg: '',
+    giveCurrentNotice: function (msg) {
+        if (typeof msg == 'object') {
+            msg = msg.message;
+        }
+        if (msg) {
+            var currentErr = normalErr;
+            if (msg < 0) {
+                currentErr = sendMsgErr;
+            } else if (msg.indexOf('wallet-') >= 0) {
+                currentErr = walletErr;
+            }
+            alert(currentErr);
+        }
+    },
+    validate: {
+        onError: function (reasons) {
+            reasons.forEach(function (reason) {
+                console.log(reason.getMessage())
+                walletRegisterVm.message = reason.getMessage();
+            })
+        },
+        onValidateAll: function (reasons) {
+            if (reasons.length > 0) {
+                console.log('有表单没有通过', reasons)
+                walletRegisterVm.showErr = true;
+                walletRegisterVm.message = reasons[0].message;
+                walletRegisterVm.giveCurrentNotice(reasons[0].message);
+            } else {
+                console.log('全部通过');
+                var params = {
+                    wallet: walletRegisterVm.wallet
+                }
+                $.ajax({
+                    type: 'POST', contentType: 'application/json; charset=utf-8', // 很重要
+                    traditional: true,
+                    data: JSON.stringify(params),
+                    url: '/api/unionReg/addWallet',
+                    success: function (data) {
+                        console.log('success:', data)
+                        if (data.state == 'success') {
+                            window.location.href = '/registerSuccess.html';
+                        } else {
+                            walletRegisterVm.showErr = true;
+                            walletRegisterVm.message = data.message;
+                            walletRegisterVm.giveCurrentNotice(data.message);
+                        }
+                    },
+                    error: function (d) {
+                        console.log('error:', d)
+                    }
+                })
+            }
+        }
+    }
+})
+
+var walletRegisterSuccessVm = avalon.define({
+    $id: 'walletRegisterSuccess',
+    seeDetailInfo: function () {
+        window.location.href = "/registerInfo.html"
+    }
+})
+
+var walletRegisterInfoVm = avalon.define({
+    $id: 'walletRegisterInfo',
+    myInfo: {}
 })

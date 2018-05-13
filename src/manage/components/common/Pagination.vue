@@ -60,6 +60,11 @@ export default {
           current: val,
           searchkey
         });
+      } else if (this.pageType === "unionRegUser") {
+        this.$store.dispatch("getUnionRegUserList", {
+          current: val,
+          searchkey
+        });
       } else if (this.pageType === "backUpData") {
         this.$store.dispatch("getBakDateList", {
           current: val,
