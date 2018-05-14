@@ -75,23 +75,32 @@ router.get('/register.html', generalFun.getDataForRegPage);
 
 router.get('/unionregister.html', generalFun.getDataForUnionRegPage);
 
-router.get('/registerWallet.html', checkUserSession, generalFun.getDataForRegWalletPage);
+router.get('/unionlogin.html', generalFun.getDataForUnionLogPage);
+
+router.get('/registerWallet.html', checkUserSession, (req, res, next) => {
+  if (req.session.user.enable) {
+    res.redirect('/registerSuccess.html');
+  } else {
+    next();
+  }
+}, generalFun.getDataForRegWalletPage);
 
 router.get('/registerSuccess.html', checkUserSession, (req, res, next) => {
-  if (req.session.user.invitationCode) {
+  if (req.session.user.enable) {
     next();
   } else {
-    res.redirect('/');
+    res.redirect('/registerWallet.html');
   }
 }, generalFun.getDataForRegSuccessPage);
 
 router.get('/registerInfo.html', checkUserSession, (req, res, next) => {
-  // if (req.session.user.enable) {
-  //   next();
-  // } else {
-  //   res.redirect('/registerSuccess.html');
-  // }
-  next();
+  // console.log('----req.session.user-----', req.session.user);
+  if (req.session.user.enable) {
+    next();
+  } else {
+    res.redirect('/registerWallet.html');
+  }
+  // next();
 }, generalFun.getDataForRegInfoPage);
 
 // 糖果入口1

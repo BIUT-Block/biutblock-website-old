@@ -8,7 +8,7 @@
         </div>
         <div class="navs">
             <ul>
-                {% if (pageType != 'referral') and (pageType != 'reg') %}
+                {% if (pageType != 'referral') and (pageType != 'reg') and (pageType != 'union') %}
                 <li>
                     <a href="#" class="i18n" name='home'>home</a>
                 </li>
@@ -35,6 +35,12 @@
                 </li>
                 <li>
                     <a href="#contact" class="i18n" name='contact-us'>contact us</a>
+                </li>
+
+                {% endif %} {% if pageType == 'reg' %}
+                <li>
+                    <a href="/unionlogin.html" target="_blank">登录</a>&nbsp;|&nbsp;
+                    <a href="/unionregister.html" target="_blank">注册</a>
                 </li>
                 {% endif %}
                 <li class="swich-language">

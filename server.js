@@ -147,8 +147,8 @@ app.use(session(sessionConfig));
 // 鉴权用户
 app.use(authUser.auth);
 // 开启定时任务
-schedule.scheduleJob('0 0 23 * * *', function () {
-    // UnionUser.taskforUnionUserCoins();
+schedule.scheduleJob('0 21 14 * * *', function () {
+    UnionUser.taskforUnionUserCoins();
 });
 
 // 初始化日志目录

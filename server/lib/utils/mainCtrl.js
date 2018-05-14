@@ -192,7 +192,7 @@ let mainCtrl = {
         pageData.cateInfo = '';
 
         // pageData.layout = settings.SYSTEMTEMPFORDER + 'public/defaultTemp.html';
-        // console.log('---pageData.userInfo----', pageData.userInfo, '-----', pageData.logined);
+        console.log('---pageData.userInfo----', pageData.userInfo);
         res.render(settings.SYSTEMTEMPFORDER + req.query.tempPage, pageData);
     }
 

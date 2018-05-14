@@ -41,6 +41,16 @@ let generalFun = {
         await mainCtrl.getPageData(req, res, next);
     },
 
+    async getDataForUnionLogPage(req, res, next) {
+        req.query.tempPage = 'unionlogin.html';
+        req.query.modules = [
+            { action: 'get_reg_Info' },
+            { action: 'get_category_list' },
+            { action: 'get_site_info', params: { modal: 'simple', title: '首页' } }
+        ];
+        await mainCtrl.getPageData(req, res, next);
+    },
+
     async getDataForRegSuccessPage(req, res, next) {
         req.query.tempPage = 'registerSuccess.html';
         req.query.modules = [

@@ -294,6 +294,45 @@ if ($('body').hasClass('type-en')) {
     regHasUser = "The username or cell phone number has already existed";
 }
 
+function giveCurrentNotice(msg, callback) {
+    if (typeof msg == 'object') {
+        msg = msg.message;
+    }
+    if (msg) {
+        var currentErr = normalErr,
+            timeout = false;
+        if (msg < 0) {
+            currentErr = sendMsgErr;
+        } else if (msg.indexOf('msgNum-') >= 0) {
+            currentErr = msgNumErr;
+        } else if (msg.indexOf('mobile-') >= 0) {
+            currentErr = mobileErr;
+        } else if (msg.indexOf('messageCode-') >= 0) {
+            currentErr = messageCodeErr;
+        } else if (msg.indexOf('userName-') >= 0) {
+            currentErr = userNameErr;
+        } else if (msg.indexOf('password-') >= 0) {
+            currentErr = passwordErr;
+        } else if (msg.indexOf('sImg-') >= 0) {
+            currentErr = sImgErr;
+        } else if (msg.indexOf('wallet-') >= 0) {
+            currentErr = walletErr;
+        } else if (msg.indexOf('invitationCode-') >= 0) {
+            currentErr = invitationCodeErr;
+        } else if (msg.indexOf('timeout-') >= 0) {
+            timeout = true;
+            currentErr = timeoutErr;
+        } else if (msg == 'forbiddenIP') {
+            currentErr = iptErr;
+        } else if (msg.indexOf('haduser-') >= 0) {
+            currentErr = regHasUser;
+        }
+        alert(currentErr);
+        callback && callback();
+
+    }
+}
+
 var unionRegisterVm = avalon.define({
     $id: 'unionRegister',
     mobileno: '',
@@ -522,4 +561,58 @@ var walletRegisterSuccessVm = avalon.define({
 var walletRegisterInfoVm = avalon.define({
     $id: 'walletRegisterInfo',
     myInfo: {}
+})
+
+var loginVm = avalon.define({
+    $id: 'userlogin',
+    password: '',
+    moblieOrUsername: '',
+    message: '',
+    showErr: false,
+    validate: {
+        onError: function (reasons) {
+            reasons.forEach(function (reason) {
+                console.log(reason.getMessage())
+            })
+        },
+        onValidateAll: function (reasons) {
+            if (reasons.length) {
+                console.log('有表单没有通过', reasons)
+                loginVm.showErr = true;
+                loginVm.message = reasons[0].message;
+                giveCurrentNotice(reasons[0].message);
+            } else {
+                console.log('全部通过');
+                var params = {
+                    moblieOrUsername: loginVm.moblieOrUsername,
+                    password: loginVm.password
+                }
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8', // 很重要
+                    traditional: true,
+                    data: JSON.stringify(params),
+                    url: '/api/unionReg/doLogin',
+                    success: function (data) {
+                        console.log('success:', data)
+                        if (data.state == 'success') {
+                            if (data.data.enable) {
+
+                                window.location.href = "/registerSuccess.html";
+                            } else {
+                                window.location.href = "/registerWallet.html";
+                            }
+                        } else {
+                            loginVm.showErr = true;
+                            loginVm.message = data.message;
+                            giveCurrentNotice(data.message);
+                        }
+                    },
+                    error: function (d) {
+                        console.log('error:', d)
+                    }
+                })
+            }
+        }
+    }
 })

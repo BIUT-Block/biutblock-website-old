@@ -13,6 +13,9 @@ const _ = require('lodash')
 const fs = require('fs')
 const captcha = require('trek-captcha')
 const axios = require('axios');
+const ObjectId = require('mongodb').ObjectId;
+const mongoose = require('mongoose');
+
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -67,8 +70,10 @@ function sendLastCoins(targetWallet, wantCoins) {
                 logUtil.info('补发结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
                     logUtil.info('补发-转账成功！', targetWallet + '--' + writeState.data.txHash)
+                    await UnionUserModel.findOneAndUpdate({ _id: unionUser._id }, { '$inc': { 'coins': wantCoins } });
                     resolve();
                 } else {
+                    await UnionUserModel.findOneAndUpdate({ _id: unionUser._id }, { '$inc': { 'coins': wantCoins } });
                     logUtil.info('补发-转账失败！', writeState.data)
                     resolve();
                 }
@@ -85,13 +90,19 @@ function getUnionCoins(unionUsers) {
         for (let i = 0; i < unionUsers.length; i++) {
             const unionUser = unionUsers[i];
             let currentTime = checkCurrentDate(unionUser.updateTime);
+            // console.log('--currentTime------', currentTime);
             if (currentTime) {
                 setTimeout(async () => {
                     let checkCoinApi = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xc6689eb9a6d724b8d7b1d923ffd65b7005da1b62&address=${unionUser.wallet}&tag=latest&apikey=%20H3WXGNMRUGU6QD6AVV6FYWFE8KH3PTRJZ7`;
                     let checkState = await axios.get(checkCoinApi);
+                    // console.log('----checkState----', checkState)
                     if (checkState.status == 200 && checkState.data.status == '1') {
                         let userleft = checkState.data.result / 1000000000000000000;
-                        if (userleft >= 100000) {
+                        console.log('----userleft----', userleft)
+                        // 更新用户数据
+                        console.log('--准备更新--', unionUser._id);
+                        await UnionUserModel.findOneAndUpdate({ _id: unionUser._id }, { $set: { 'coins': Number(userleft) } });
+                        if (userleft >= 100) {
                             await sendLastCoins(unionUser.wallet, 100);
                         }
                     }
@@ -106,6 +117,19 @@ function getUnionCoins(unionUsers) {
 class UnionUser {
     constructor() {
         // super()
+    }
+
+    async addOneUnion(req, res, next) {
+        try {
+            let user1 = { wallet: '0x2ed28eDEbD296Bf085C582f5187E4F987e6214e6', invitationCode: 'H1Yg79BIz', userName: 'doramart', phoneNum: '17665365092', extendCode: ['H1Yg79BIz', 'H1Yg79BIz'], enable: true, group: '0', coins: 0, password: 'c27eee88b48fc504' };
+            let user1Obj = new UnionUserModel(user1);
+            await user1Obj.save();
+            res.send({
+                state: 'success'
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async unionReg(req, res, next) {
@@ -202,10 +226,11 @@ class UnionUser {
                     throw new siteFunc.UserException(errMsg);
                 }
 
-                console.log('----1111--', fields)
+                // console.log('----1111--', fields)
                 let shareId = shortid.generate();
                 await UnionUserModel.findOneAndUpdate({ _id: userInfo._id }, { $set: { wallet: fields.wallet, invitationCode: shareId } });
                 req.session.user.invitationCode = shareId;
+                req.session.user.wallet = fields.wallet;
                 res.send({
                     state: 'success'
                 })
@@ -237,13 +262,13 @@ class UnionUser {
             let myUnionUsers = await UnionUserModel.count(bquery);
 
             // 3、查询我的货币总数
-            let myInfo = UnionUserModel.findOne({ _id: user._id });
-
+            let myInfo = await UnionUserModel.findOne({ _id: user._id });
+            // console.log('--myInfo----', myInfo);
             res.send({
                 state: 'success',
                 data: {
                     myUserNum: myUsers,
-                    myUnionUserNum: myUnionUsers,
+                    myUnionUserNum: myUnionUsers - 1,
                     myCoins: myInfo.coins || 0
                 }
             })
@@ -260,7 +285,8 @@ class UnionUser {
     async taskforUnionUserCoins() {
         try {
             // 查出所有联合创始人
-            let unionUsers = await UnionUserModel.find({ group: '0' });
+            let unionUsers = await UnionUserModel.find({ group: '0', enable: true });
+            // console.log('---unionUsers--', unionUsers);
             getUnionCoins(unionUsers);
         } catch (error) {
             logUtil.error(error, {});
@@ -428,11 +454,9 @@ class UnionUser {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err, fields, files) => {
             try {
-                let newPsd = service.encrypt(fields.password, settings.encrypt_key);
+                // let newPsd = service.encrypt(fields.password, settings.encrypt_key);
                 let errMsg = '';
-                if (!validatorUtil.checkEmail(fields.email)) {
-                    errMsg = '请输入正确的邮箱'
-                } else if (!validatorUtil.checkPwd(fields.password)) {
+                if (!validatorUtil.checkPwd(fields.password)) {
                     errMsg = '请输入正确的密码'
                 }
                 if (errMsg) {
@@ -448,31 +472,37 @@ class UnionUser {
                 return;
             }
             const userObj = {
-                email: fields.email,
+                userName: fields.moblieOrUsername,
                 password: service.encrypt(fields.password, settings.encrypt_key),
             }
+
+            if (validator.isNumeric(fields.moblieOrUsername)) {
+                userObj = {
+                    phoneNum: fields.phoneNum,
+                    password: service.encrypt(fields.password, settings.encrypt_key),
+                }
+            }
+
             try {
                 let user = await UnionUserModel.findOne(userObj);
                 if (user) {
-                    if (!user.enable) {
-                        res.send({
-                            state: 'error',
-                            message: "您已被限制登录，请稍后重试"
-                        });
-                    }
+                    req.session.user = "";
                     // 将cookie存入缓存
                     let auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
                     res.cookie(settings.auth_cookie_name, auth_token,
                         { path: '/', maxAge: 1000 * 60 * 60 * 24 * 30, signed: true, httpOnly: true }); //cookie 有效期30天
 
                     res.send({
-                        state: 'success'
+                        state: 'success',
+                        data: {
+                            enable: user.enable
+                        }
                     });
                 } else {
                     logUtil.error(err, req);
                     res.send({
                         state: 'error',
-                        message: "用户名或密码错误"
+                        message: "登录信息有误，请稍后重试"
                     });
                 }
             } catch (err) {

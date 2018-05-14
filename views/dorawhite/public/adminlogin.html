@@ -1,5 +1,5 @@
 <!--用户登录模块-->
-<div class="loginBoard" ms-controller="userlogin">
+<div class="loginBoard" ms-controller="adminuserlogin">
     <form name="loginForm" ms-validate="@validate">
         <h3>管理员登录 &nbsp;
             <small class="text-danger" :visible="@showErr" ms-html="@message"></small>
@@ -19,8 +19,8 @@
 </div>
 
 <script>
-    var loginVm = avalon.define({
-        $id: 'userlogin',
+    var adminloginVm = avalon.define({
+        $id: 'adminuserlogin',
         password: '',
         userName: '',
         message: '',
@@ -34,13 +34,13 @@
             onValidateAll: function (reasons) {
                 if (reasons.length) {
                     console.log('有表单没有通过', reasons)
-                    loginVm.showErr = true;
-                    loginVm.message = reasons[0].message;
+                    adminloginVm.showErr = true;
+                    adminloginVm.message = reasons[0].message;
                 } else {
                     console.log('全部通过');
                     var params = {
-                        userName: loginVm.userName,
-                        password: CryptoJS.MD5('dora'+loginVm.password).toString()
+                        userName: adminloginVm.userName,
+                        password: CryptoJS.MD5('dora' + adminloginVm.password).toString()
                     }
                     $.ajax({
                         type: 'POST',
@@ -53,8 +53,8 @@
                             if (data.state == 'success') {
                                 window.location.href = "/manage";
                             } else {
-                                loginVm.showErr = true;
-                                loginVm.message = data.message;
+                                adminloginVm.showErr = true;
+                                adminloginVm.message = data.message;
                             }
                         },
                         error: function (d) {
