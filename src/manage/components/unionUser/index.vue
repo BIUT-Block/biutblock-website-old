@@ -1,6 +1,5 @@
 <template>
     <div class="regUser">
-        {{shareFormState}}
         <ShareDetail :dialogState="shareFormState"></ShareDetail>
         <UserForm :dialogState="formState"></UserForm>
         <el-row class="dr-datatable">

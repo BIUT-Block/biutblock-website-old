@@ -34,13 +34,15 @@
                                     <i class="icon iconfont">&#xe670;</i>
                                     <span class="i18n" name="reg-unionuser-success-title">恭喜您完成注册</span>
                                 </p>
+                                <p class="i18n" style="font-size: 20px;color: #d8ff00;" name="reg-unionuser-success-waitAuth"></p>
+                                {% if userInfo.group == '0' %}
                                 <p class="i18n title2" name="reg-unionuser-success-notice">尊敬的用户，您已成功注册SEC社交电商俱乐部联合创始人</p>
+                                {% else %}
+                                <p class="i18n title2" name="reg-unionuser-success-notice1">尊敬的用户，您已成功注册SEC社交电商俱乐部联合创始人</p>
+                                {% endif %}
+                                <p class="i18n" name="submit-wallet-btn-waitValidatenotice"></p>
                             </div>
-                            <div id="sub-reg" class="form-group" style="margin-top: 10px">
-                                <div class="col-sm-12">
-                                    <button ms-on-click="@seeDetailInfo" class="i18n btn btn-default" name='watch-union-user-info'>查看信息</button>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="col-xs-1 col-md-3"></div>
                     </div>

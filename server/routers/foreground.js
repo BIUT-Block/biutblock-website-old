@@ -79,7 +79,7 @@ router.get('/unionlogin.html', generalFun.getDataForUnionLogPage);
 
 router.get('/registerWallet.html', checkUserSession, (req, res, next) => {
   if (req.session.user.enable) {
-    res.redirect('/registerSuccess.html');
+    res.redirect('/registerInfo.html');
   } else {
     next();
   }
@@ -87,9 +87,9 @@ router.get('/registerWallet.html', checkUserSession, (req, res, next) => {
 
 router.get('/registerSuccess.html', checkUserSession, (req, res, next) => {
   if (req.session.user.enable) {
-    next();
+    res.redirect('/registerInfo.html');
   } else {
-    res.redirect('/registerWallet.html');
+    next();
   }
 }, generalFun.getDataForRegSuccessPage);
 
@@ -98,7 +98,7 @@ router.get('/registerInfo.html', checkUserSession, (req, res, next) => {
   if (req.session.user.enable) {
     next();
   } else {
-    res.redirect('/registerWallet.html');
+    res.redirect('/registerSuccess.html');
   }
   // next();
 }, generalFun.getDataForRegInfoPage);

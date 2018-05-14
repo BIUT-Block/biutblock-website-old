@@ -45,3 +45,4 @@ exports.AdsItems = require('./AdsItems');
 exports.SecCandyLog = require('./SecCandyLog');
 exports.Wallets = require('./Wallets');
 exports.WalletsLogs = require('./WalletsLogs');
+exports.UnionUserSendLog = require('./UnionUserSendLog');

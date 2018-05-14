@@ -938,7 +938,7 @@ input {
         .control-label {
             // width: auto;
         }
-        button {
+        button,.input-group-addon {
             border-radius: 0;
             padding: 4px 13px;
             color: #000;
@@ -997,9 +997,12 @@ input {
 .reg-success {
     text-align: center;
     .title1 {
-        font-size: 30px;
+        font-size: 25px;
         color: #d8ff00;
         font-weight: 700;
+        i{
+            font-size: 30px;
+        }
     }
     button {
         margin-top: 20px;
@@ -1009,10 +1012,13 @@ input {
 .reg-info {
     margin-top: 100px;
     .title1 {
-        font-size: 30px;
+        font-size: 25px;
         color: #d8ff00;
         font-weight: 700;
         text-align: center;
+        i{
+            font-size: 30px;
+        }
     }
     .title2 {
         text-align: center;

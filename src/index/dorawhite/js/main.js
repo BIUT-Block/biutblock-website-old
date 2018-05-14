@@ -598,9 +598,9 @@ var loginVm = avalon.define({
                         if (data.state == 'success') {
                             if (data.data.enable) {
 
-                                window.location.href = "/registerSuccess.html";
+                                window.location.href = "/registerInfo.html";
                             } else {
-                                window.location.href = "/registerWallet.html";
+                                window.location.href = "/registerSuccess.html";
                             }
                         } else {
                             loginVm.showErr = true;

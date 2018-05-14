@@ -5,6 +5,7 @@ const NotifyModel = require("../models").Notify;
 const UserNotifyModel = require("../models").UserNotify;
 const AdminUserModel = require("../models").AdminUser;
 const SystemConfigModel = require("../models").SystemConfig;
+const UnionUserSendLogModel = require("../models").UnionUserSendLog;
 const formidable = require('formidable');
 const { service, settings, validatorUtil, logUtil, siteFunc } = require('../../../utils');
 const shortid = require('shortid');
@@ -15,7 +16,7 @@ const captcha = require('trek-captcha')
 const axios = require('axios');
 const ObjectId = require('mongodb').ObjectId;
 const mongoose = require('mongoose');
-
+const moment = require('moment')
 
 function checkFormData(req, res, fields) {
     let errMsg = '';
@@ -60,17 +61,24 @@ function checkCurrentDate(updateTime) {
 
 }
 
-function sendLastCoins(targetWallet, wantCoins) {
+function sendLastCoins(unionUser, wantCoins) {
     return new Promise((resolve, reject) => {
         setTimeout(async () => {
             try {
+                let targetWallet = unionUser.wallet;
                 // console.log('----targetWallet------' + targetWallet + '--code---' + code + '---wantCoins---' + wantCoins);
-                logUtil.info('补发请求(get)：', settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice)
+                logUtil.info('联盟发放请求(get)：', settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice)
                 let writeState = await axios.get(settings.coinServer + targetWallet + '/' + wantCoins + '/' + settings.gasPrice);
-                logUtil.info('补发结束！', writeState.status);
+                logUtil.info('联盟发放结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
-                    logUtil.info('补发-转账成功！', targetWallet + '--' + writeState.data.txHash)
+                    logUtil.info('联盟发放-转账成功！', targetWallet + '--' + writeState.data.txHash)
                     await UnionUserModel.findOneAndUpdate({ _id: unionUser._id }, { '$inc': { 'coins': wantCoins } });
+                    let sendlog = new UnionUserSendLogModel({
+                        user: unionUser._id,
+                        getCoins: wantCoins,
+                        logs: '联盟会员每天发放'
+                    });
+                    await sendlog.save();
                     resolve();
                 } else {
                     await UnionUserModel.findOneAndUpdate({ _id: unionUser._id }, { '$inc': { 'coins': wantCoins } });
@@ -90,20 +98,29 @@ function getUnionCoins(unionUsers) {
         for (let i = 0; i < unionUsers.length; i++) {
             const unionUser = unionUsers[i];
             let currentTime = checkCurrentDate(unionUser.updateTime);
-            // console.log('--currentTime------', currentTime);
             if (currentTime) {
                 setTimeout(async () => {
                     let checkCoinApi = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xc6689eb9a6d724b8d7b1d923ffd65b7005da1b62&address=${unionUser.wallet}&tag=latest&apikey=%20H3WXGNMRUGU6QD6AVV6FYWFE8KH3PTRJZ7`;
                     let checkState = await axios.get(checkCoinApi);
-                    // console.log('----checkState----', checkState)
                     if (checkState.status == 200 && checkState.data.status == '1') {
                         let userleft = checkState.data.result / 1000000000000000000;
-                        console.log('----userleft----', userleft)
                         // 更新用户数据
-                        console.log('--准备更新--', unionUser._id);
                         await UnionUserModel.findOneAndUpdate({ _id: unionUser._id }, { $set: { 'coins': Number(userleft) } });
-                        if (userleft >= 100) {
-                            await sendLastCoins(unionUser.wallet, 100);
+
+                        // let nearlogs = [0];
+                        let nearlogs = UnionUserSendLogModel.find({ user: unionUser._id }).sort({ date: -1 });
+                        let currentDate = moment(new Date()).format("YYYYMMDD");
+                        console.log('--currentDate---', currentDate);
+                        if (nearlogs.length > 0) {
+                            console.log(currentDate + '------' + nearlogs[0].date);
+                            if (currentDate != nearlogs[0].date && userleft >= 100) {
+                                logUtil.info('符合条件，准备发放！', currentDate + '------' + nearlogs[0].date + '----' + userleft)
+                                await sendLastCoins(unionUser, 100);
+                            }
+                        } else {
+                            if (userleft >= 100000) {
+                                await sendLastCoins(unionUser, 100);
+                            }
                         }
                     }
                 }, 2000)
@@ -139,7 +156,7 @@ class UnionUser {
         form.parse(req, async (err, fields, files) => {
             try {
                 let errMsg = "";
-                console.log(fields.msgCode + '------' + req.session.messageCode)
+                // console.log(fields.msgCode + '------' + req.session.messageCode)
                 if (fields.msgCode != req.session.messageCode) {
                     errMsg = 'messageCode-请输入正确的验证码';
                 }
@@ -188,10 +205,11 @@ class UnionUser {
                     // 存父推荐人信息
                     myExtendCode.push(fields.invitationCode);
                     userObj.extendCode = myExtendCode;
-                    console.log('----userObj--', userObj);
+                    // console.log('----userObj--', userObj);
                     let newUser = new UnionUserModel(userObj);
                     let currentUser = await newUser.save();
-                    console.log('----currentUser----', currentUser);
+                    req.session.user = "";
+                    // console.log('----currentUser----', currentUser);
                     // 将cookie存入缓存
                     let auth_token = currentUser._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
                     res.cookie(settings.auth_cookie_name, auth_token,
@@ -268,7 +286,7 @@ class UnionUser {
                 state: 'success',
                 data: {
                     myUserNum: myUsers,
-                    myUnionUserNum: myUnionUsers - 1,
+                    myUnionUserNum: myUnionUsers > 0 ? myUnionUsers - 1 : 0,
                     myCoins: myInfo.coins || 0
                 }
             })
