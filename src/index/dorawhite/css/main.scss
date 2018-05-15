@@ -91,6 +91,11 @@ input {
     .navs {
         float: right;
         padding-right: 80px;
+        .login-menu {
+            a {
+                padding: 2px 5px;
+            }
+        }
         .swich-language .button-group {
             background-color: #4c5468;
             border-radius: 10px;
@@ -938,7 +943,8 @@ input {
         .control-label {
             // width: auto;
         }
-        button,.input-group-addon {
+        button,
+        .input-group-addon {
             border-radius: 0;
             padding: 4px 13px;
             color: #000;
@@ -1000,7 +1006,7 @@ input {
         font-size: 25px;
         color: #d8ff00;
         font-weight: 700;
-        i{
+        i {
             font-size: 30px;
         }
     }
@@ -1016,7 +1022,7 @@ input {
         color: #d8ff00;
         font-weight: 700;
         text-align: center;
-        i{
+        i {
             font-size: 30px;
         }
     }
@@ -1360,7 +1366,7 @@ input {
                 ul li {
                     display: block;
                     .button-group {
-                        right: 0;
+                        right: 20px;
                     }
                 }
             }

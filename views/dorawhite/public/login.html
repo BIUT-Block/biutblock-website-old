@@ -1,12 +1,13 @@
 <!--用户登录模块-->
 <div class="loginBoard" ms-controller="userlogin">
     <form name="loginForm" ms-validate="@validate">
-        <h3><span class="i18n" name="reg-label-login">登录</span> &nbsp;
+        <h3>
+            <span class="i18n" name="reg-label-login">登录</span> &nbsp;
             <small class="i18n login-tip" name="reg-label-login-bar">SEC社交电商国际俱乐部</small>
         </h3>
         <div class="form-group">
-            <input type="text" id="moblieOrUsername" class="form-control" name="moblieOrUsername" ms-duplex="@moblieOrUsername" placeholder="请输入手机或用户名" ms-rules="{required:true}"
-                data-required-message="moblieOrUsername-请输入手机号或用户名" data-message="moblieOrUsername-请填写正确的手机号或用户名">
+            <input type="text" id="moblieOrUsername" class="form-control" name="moblieOrUsername" ms-duplex="@moblieOrUsername" placeholder="请输入手机或用户名"
+                ms-rules="{required:true}" data-required-message="moblieOrUsername-请输入手机号或用户名" data-message="moblieOrUsername-请填写正确的手机号或用户名">
         </div>
         <div class="form-group">
             <input type="password" id="mypwd" class="form-control" name="password" placeholder="请输入密码" ms-duplex="@password" ms-rules="{required: true,pattern: /(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{5,}/}"
@@ -17,14 +18,14 @@
         </div>
         <div class="other-opt">
             <span>
-                <a href="/unionregister.html" class="i18n" name="reg-label-register">注册</a>
+                <a href="/unionregister.html" class="i18n" name="reg-label-register" style="padding: 5px 10px;">注册</a>
             </span>
         </div>
     </form>
 </div>
 
 <script>
-    $(function(){
+    $(function () {
         var mypwd = '请输入密码';
         var moblieOrUsername = '请输入手机或用户名';
         if ($('body').hasClass('type-en')) {
