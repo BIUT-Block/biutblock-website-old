@@ -190,7 +190,7 @@ router.get('/ads/getAll', (req, res, next) => { req.query.state = true; next() }
 router.post('/regCandy/addOne', SecCandyLog.regCandy);
 
 // 手动添加原始数据
-router.get('/unionReg/addOneUnion', UnionUser.addOneUnion);
+// router.get('/unionReg/addOneUnion', UnionUser.addOneUnion);
 
 // 用户登录
 router.post('/unionReg/doLogin', UnionUser.loginAction);
