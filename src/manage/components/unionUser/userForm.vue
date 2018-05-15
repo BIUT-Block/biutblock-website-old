@@ -6,7 +6,7 @@
                     <el-input size="small" v-model="dialogState.formData.userName"></el-input>
                 </el-form-item>
                 <el-form-item label="类型" prop="group">
-                  <el-select size="small" v-model="dialogState.formData.group" placeholder="请选择">
+                  <el-select :disabled="dialogState.formData.lock" size="small" v-model="dialogState.formData.group" placeholder="请选择">
                   <el-option
                     v-for="item in groupOptions"
                     :key="item.value"
@@ -16,7 +16,7 @@
                 </el-select>                
                 </el-form-item>
                 <el-form-item label="有效" prop="enable">
-                    <el-switch on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
+                    <el-switch :disabled="dialogState.formData.lock" on-text="是" off-text="否" v-model="dialogState.formData.enable"></el-switch>
                 </el-form-item>
                 <el-form-item label="电话" prop="phoneNum">
                     <el-input size="small" v-model.number="dialogState.formData.phoneNum"></el-input>

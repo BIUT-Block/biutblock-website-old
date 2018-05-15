@@ -138,7 +138,7 @@ class UnionUser {
 
     async addOneUnion(req, res, next) {
         try {
-            let user1 = { wallet: '0x2ed28eDEbD296Bf085C582f5187E4F987e6214e6', invitationCode: 'H1Yg79BIz', userName: 'doramart', phoneNum: '17665365092', extendCode: ['H1Yg79BIz', 'H1Yg79BIz'], enable: true, group: '0', coins: 0, password: 'c27eee88b48fc504' };
+            let user1 = { wallet: '0x2ed28eDEbD296Bf085C582f5187E4F987e6214e6', invitationCode: 'H1Yg79BIz', userName: 'doramart', phoneNum: '17665365092', extendCode: ['H1Yg79BIz', 'H1Yg79BIz'], enable: true, group: '0', coins: 0, password: 'c27eee88b48fc504', lock: true };
             let user1Obj = new UnionUserModel(user1);
             await user1Obj.save();
             res.send({
@@ -240,11 +240,15 @@ class UnionUser {
                 if (!fields.wallet || !/^[a-zA-Z0-9]{42,43}$/.test(fields.wallet) || (fields.wallet).indexOf('0x') < 0) {
                     errMsg = 'wallet-请填写正确的钱包地址!';
                 }
+                // 绑定钱包不可重复
+                let targetUser = await UnionUserModel.findOne({ wallet: fields.wallet });
+                if (!_.isEmpty(targetUser) && targetUser._id) {
+                    errMsg = 'wallet-钱包地址已被注册!';
+                }
                 if (errMsg) {
                     throw new siteFunc.UserException(errMsg);
                 }
 
-                // console.log('----1111--', fields)
                 let shareId = shortid.generate();
                 await UnionUserModel.findOneAndUpdate({ _id: userInfo._id }, { $set: { wallet: fields.wallet, invitationCode: shareId } });
                 req.session.user.invitationCode = shareId;
@@ -411,6 +415,8 @@ class UnionUser {
 
             userObj.enable = fields.enable;
             userObj.updateTime = new Date();
+            // 修改后添加信息锁
+            userObj.lock = true;
             const item_id = fields._id;
             console.log('----userObj---', userObj);
             try {

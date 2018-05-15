@@ -256,11 +256,14 @@ var userNameErr = "请输入正确的用户名";
 var passwordErr = "请输入正确的密码";
 var walletErr = "请填写正确的钱包地址";
 var invitationCodeErr = "请填写正确的邀请码";
+var moblieOrUsernameErr = "请填写正确的手机号或用户名";
 var normalErr = "您输入的信息有误，请重试";
 var timeoutErr = "页面已过期";
 var iptErr = "您的访问次数已超过限制，请稍后重试";
 
 var pmobile = '请输入手机号';
+var mypwd = '请输入密码';
+var moblieOrUsername = '请输入手机或用户名';
 var sImgErr = '请上传身份证照片';
 var msgCodeLable = '验证码';
 var sendBtnTxt = '点击获取';
@@ -281,11 +284,14 @@ if ($('body').hasClass('type-en')) {
     passwordErr = "Please enter the correct password";
     walletErr = "Please fill in the correct wallet address";
     invitationCodeErr = "Please enter the correct invitation code";
+    moblieOrUsernameErr = "Please fill in the correct phone number or username";
     normalErr = "The information you entered is incorrect, please try again";
     timeoutErr = "Page expired";
     iptErr = "The number of visits you have had exceeded the limit. Please try again later"
     sImgErr = "Please upload ID card photo";
     pmobile = 'Please enter the cell phone number';
+    mypwd = 'Please input a password';
+    moblieOrUsername = 'Please enter a cell phone or username';
     msgCodeLable = 'PAC';
     sendBtnTxt = 'Send';
     reSendBtnTxt = 'Try Again';
@@ -293,6 +299,9 @@ if ($('body').hasClass('type-en')) {
     regSuccess = "Congratulations, success in registration"
     regHasUser = "The username or cell phone number has already existed";
 }
+
+
+
 
 function giveCurrentNotice(msg, callback) {
     if (typeof msg == 'object') {
@@ -319,6 +328,8 @@ function giveCurrentNotice(msg, callback) {
             currentErr = walletErr;
         } else if (msg.indexOf('invitationCode-') >= 0) {
             currentErr = invitationCodeErr;
+        } else if (msg.indexOf('moblieOrUsername-') >= 0) {
+            currentErr = moblieOrUsernameErr;
         } else if (msg.indexOf('timeout-') >= 0) {
             timeout = true;
             currentErr = timeoutErr;

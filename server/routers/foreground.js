@@ -80,6 +80,7 @@ router.get('/unionlogin.html', generalFun.getDataForUnionLogPage);
 router.get('/registerWallet.html', checkUserSession, (req, res, next) => {
   if (req.session.user.enable) {
     res.redirect('/registerInfo.html');
+    // next();
   } else {
     next();
   }

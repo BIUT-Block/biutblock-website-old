@@ -17,6 +17,8 @@
             </el-table-column>
             <el-table-column prop="phoneNum" label="手机号" show-overflow-tooltip>
             </el-table-column>
+            <el-table-column prop="coins" label="币数" show-overflow-tooltip>
+            </el-table-column>
             <el-table-column prop="date" label="注册时间" show-overflow-tooltip>
             </el-table-column>
             <el-table-column label="操作" width="150">

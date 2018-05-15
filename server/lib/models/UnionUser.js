@@ -36,7 +36,8 @@ var UnionUserSchema = new Schema({
     wallet: "", // 钱包地址
     invitationCode: '', //邀请码
     extendCode: [{ type: String, ref: 'UnionUser' }],// 邀请码关系
-    coins: { type: Number, default: 0 } //我的货币总数
+    coins: { type: Number, default: 0 }, //我的货币总数
+    lock: { type: Boolean, default: false } // 信息修改锁
 });
 
 UnionUserSchema.set('toJSON', { getters: true, virtuals: true });
