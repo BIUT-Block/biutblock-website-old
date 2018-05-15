@@ -73,36 +73,36 @@ router.get('/', generalFun.getDataForIndexPage);
 
 router.get('/register.html', generalFun.getDataForRegPage);
 
-router.get('/unionregister.html', generalFun.getDataForUnionRegPage);
+// router.get('/unionregister.html', generalFun.getDataForUnionRegPage);
 
-router.get('/unionlogin.html', generalFun.getDataForUnionLogPage);
+// router.get('/unionlogin.html', generalFun.getDataForUnionLogPage);
 
-router.get('/registerWallet.html', checkUserSession, (req, res, next) => {
-  if (req.session.user.enable) {
-    res.redirect('/registerInfo.html');
-    // next();
-  } else {
-    next();
-  }
-}, generalFun.getDataForRegWalletPage);
+// router.get('/registerWallet.html', checkUserSession, (req, res, next) => {
+//   if (req.session.user.enable) {
+//     res.redirect('/registerInfo.html');
+//     // next();
+//   } else {
+//     next();
+//   }
+// }, generalFun.getDataForRegWalletPage);
 
-router.get('/registerSuccess.html', checkUserSession, (req, res, next) => {
-  if (req.session.user.enable) {
-    res.redirect('/registerInfo.html');
-  } else {
-    next();
-  }
-}, generalFun.getDataForRegSuccessPage);
+// router.get('/registerSuccess.html', checkUserSession, (req, res, next) => {
+//   if (req.session.user.enable) {
+//     res.redirect('/registerInfo.html');
+//   } else {
+//     next();
+//   }
+// }, generalFun.getDataForRegSuccessPage);
 
-router.get('/registerInfo.html', checkUserSession, (req, res, next) => {
-  // console.log('----req.session.user-----', req.session.user);
-  if (req.session.user.enable) {
-    next();
-  } else {
-    res.redirect('/registerSuccess.html');
-  }
-  // next();
-}, generalFun.getDataForRegInfoPage);
+// router.get('/registerInfo.html', checkUserSession, (req, res, next) => {
+//   // console.log('----req.session.user-----', req.session.user);
+//   if (req.session.user.enable) {
+//     next();
+//   } else {
+//     res.redirect('/registerSuccess.html');
+//   }
+//   // next();
+// }, generalFun.getDataForRegInfoPage);
 
 // 糖果入口1
 router.get('/referral', async (req, res, next) => {

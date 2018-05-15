@@ -153,13 +153,13 @@ schedule.scheduleJob('0 0 1 * * *', function () {
 
 // 初始化日志目录
 logUtil.initPath();
-console.log('---50秒后启动数据查询---');
-setTimeout(() => {
-    // SecCandyLog.getJobSecCandyList();
-    // redis 查询
-    SecCandyLog.getJobSecCandyFromRedis();
-    WalletsLogs.addJobForScanWalletLogs();
-}, 10 * 5000)
+// console.log('---50秒后启动数据查询---');
+// setTimeout(() => {
+//     // SecCandyLog.getJobSecCandyList();
+//     // redis 查询
+//     SecCandyLog.getJobSecCandyFromRedis();
+//     WalletsLogs.addJobForScanWalletLogs();
+// }, 10 * 5000)
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')))
