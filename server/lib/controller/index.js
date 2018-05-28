@@ -8,6 +8,7 @@ exports.Message = require('./message');
 exports.UserNotify = require('./userNotify');
 exports.Notify = require('./notify');
 exports.User = require('./user');
+exports.UnionUser = require('./unionUser');
 exports.SystemConfig = require('./systemConfig');
 exports.DataOptionLog = require('./dataOptionLog');
 exports.SystemOptionLog = require('./systemOptionLog');

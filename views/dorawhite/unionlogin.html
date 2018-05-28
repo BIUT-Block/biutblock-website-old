@@ -1,0 +1,29 @@
+{% extends "./public/defaultTemp.html" %} {% block content %}
+<link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
+
+<div class="row reg-panel">
+    <div class="center-logo">
+        <div class="row" style="margin:0;">
+            <div class="particles-js" id="particles-js"></div>
+            <div class="col-xs-12 col-md-12 reg-container" style="margin-bottom: 600px;">
+                <div class="login-container login-page">
+                    {% include "./public/login.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        initialCountry: "cn",
+        utilsScript: "/plugins/intlTelInput/js/utils.js"
+    });
+</script>
+<script>
+
+    $(function () {
+
+        $('#sendMsgTxt').html(sendBtnTxt);
+    })
+</script> {% endblock %}

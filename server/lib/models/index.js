@@ -28,6 +28,7 @@ db.on('close', function () {
 
 exports.AdminUser = require('./AdminUser');
 exports.User = require('./User');
+exports.UnionUser = require('./UnionUser');
 exports.AdminGroup = require('./AdminGroup');
 exports.AdminResource = require('./AdminResource');
 exports.ContentCategory = require('./ContentCategory');
@@ -44,3 +45,4 @@ exports.AdsItems = require('./AdsItems');
 exports.SecCandyLog = require('./SecCandyLog');
 exports.Wallets = require('./Wallets');
 exports.WalletsLogs = require('./WalletsLogs');
+exports.UnionUserSendLog = require('./UnionUserSendLog');

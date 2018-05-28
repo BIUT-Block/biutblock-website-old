@@ -315,6 +315,33 @@ export default {
         })
     },
 
+    showUnionRegUserForm: ({
+        commit
+    }, params = {
+        edit: false,
+        formData: {}
+    }) => {
+        commit(types.UNIONREGUSERFORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideUnionRegUserForm: ({
+        commit
+    }) => {
+        commit(types.UNIONREGUSERFORMSTATE, {
+            show: false
+        })
+    },
+    getUnionRegUserList({
+        commit
+    }, params = {}) {
+        services.unionRegUserList(params).then((result) => {
+            commit(types.UNIONREGUSERLIST, result.data)
+        })
+    },
+
     getBakDateList({
         commit
     }, params = {}) {
@@ -430,6 +457,25 @@ export default {
         commit
     }) => {
         commit(types.SECCANDYCODEDETAILFORMSTATE, {
+            show: false
+        })
+    },
+    showUnionShareForm: ({
+        commit
+    }, params = {
+        edit: false,
+        formData: {}
+    }) => {
+        commit(types.UNIONSHAREDETAILFORMSTATE, {
+            show: true,
+            edit: params.edit,
+            formData: params.formData
+        })
+    },
+    hideUnionShareForm: ({
+        commit
+    }) => {
+        commit(types.UNIONSHAREDETAILFORMSTATE, {
             show: false
         })
     }

@@ -10,6 +10,7 @@ const {
   Content,
   ContentTag,
   User,
+  UnionUser,
   Message,
   SystemConfig,
   DataOptionLog,
@@ -148,6 +149,15 @@ router.get('/regUser/getList', authToken, authPower, User.getUsers)
 router.post('/regUser/updateOne', authToken, authPower, User.updateUser)
 
 router.get('/regUser/deleteUser', authToken, authPower, User.delUser)
+
+/**
+ * 联合会员注册用户管理
+ */
+router.get('/unionRegUser/getList', authToken, authPower, UnionUser.getUsers)
+
+router.post('/unionRegUser/updateOne', authToken, authPower, UnionUser.updateUser)
+
+router.get('/unionRegUser/deleteUser', authToken, authPower, UnionUser.delUser)
 
 
 /**

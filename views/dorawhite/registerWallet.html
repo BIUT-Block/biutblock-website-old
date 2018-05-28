@@ -1,0 +1,83 @@
+{% extends "./public/defaultTemp.html" %} {% block content %}
+<div class="row reg-panel" ms-controller="walletRegister">
+    <div class="center-logo">
+        <div class="row" style="margin:0;">
+            <div class="particles-js" id="particles-js"></div>
+
+            <div class="col-xs-12 col-md-12 reg-container">
+                <div class="top-process">
+                    <ul>
+                        <div class="col-xs-8 col-xs-offset-2 col-md-offset-2 col-md-8 line"></div>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe671;</i>
+                            <div class="i18n txt" name="union-process-label-1">注册</div>
+                            <i class="icon iconfont check">&#xe603;</i>
+                        </li>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe674;</i>
+                            <div class="i18n txt" name="union-process-label-2">绑定钱包地址</div>
+                            <i class="icon iconfont check" style="color: #d3f113">&#xe603;</i>
+                        </li>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe672;</i>
+                            <div class="i18n txt" name="union-process-label-3">等待审核</div>
+                            <i class="icon iconfont check">&#xe603;</i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reg-form reg-union-form">
+                    <div class="row">
+                        <form class="form-horizontal" ms-validate="@validate">
+                            <div class="col-xs-1 col-md-3"></div>
+                            <div class="col-xs-10 col-md-6 left-form">
+                                {% if userInfo.wallet %}
+                                <div class="form-group">
+                                    <div class="i18n col-sm-12" style="font-weight: 700;text-align: center;margin:10px auto;font-size:18px;" name="union-writewallet-title">输入以太坊(ETH)钱包地址</div>
+                                    <div class="col-sm-12 input-container">
+                                        <input style="border-radius: 10px;border-color: #c1dc14;" type="text" class="form-control" placeholder="" value="{{userInfo.wallet}}">
+                                    </div>
+                                </div>
+                                <div id="sub-reg" class="form-group" style="margin-top: 10px">
+                                    <div class="col-sm-12" style="text-align: center;">
+                                        <button disabled type="submit" class="i18n btn btn-default" name='submit-wallet-btn-waitValidate'>申请成功，等待审核</button>
+                                    </div>
+                                    <p style="margin-top: 10px;text-align: center;" class="i18n" name="submit-wallet-btn-waitValidatenotice">预计审核将在48小时内完成，请耐心等待</p>
+                                </div>
+                                {% else %}
+                                <div class="form-group">
+                                    <div class="i18n col-sm-12" style="font-weight: 700;text-align: center;margin:10px auto;" name="union-writewallet-title">输入以太坊(ETH)钱包地址</div>
+                                    <div class="col-sm-12 input-container">
+                                        <input style="border-radius: 10px;border-color: #c1dc14;" type="text" class="form-control" placeholder="" ms-duplex="@wallet" data-required-message="invitationCode-请输入钱包地址"
+                                            data-message="password-请输入正确的钱包地址" ms-rules="{required:true}">
+                                    </div>
+                                </div>
+                                <div id="sub-reg" class="form-group" style="margin-top: 10px">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="i18n btn btn-default" name='submit-wallet-btn'>提交</button>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-1 col-md-3"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        initialCountry: "cn",
+        utilsScript: "/plugins/intlTelInput/js/utils.js"
+    });
+</script>
+<script>
+
+    $(function () {
+
+        $('#sendMsgTxt').html(sendBtnTxt);
+    })
+</script> {% endblock %}

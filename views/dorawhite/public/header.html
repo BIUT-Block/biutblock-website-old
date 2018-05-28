@@ -1,5 +1,4 @@
 <!--头部模板-->
-<script src="/javascripts/avalon.js"></script>
 <div class="row top-menu">
     <div class="col-xs-1 col-md-1">&nbsp;</div>
     <div class="col-xs-10 col-md-10 ">
@@ -9,7 +8,7 @@
         </div>
         <div class="navs">
             <ul>
-                {% if (pageType != 'referral') and (pageType != 'reg') %}
+                {% if (pageType != 'referral') and (pageType != 'reg') and (pageType != 'union') %}
                 <li>
                     <a href="#" class="i18n" name='home'>home</a>
                 </li>
@@ -37,6 +36,7 @@
                 <li>
                     <a href="#contact" class="i18n" name='contact-us'>contact us</a>
                 </li>
+
                 {% endif %}
                 <li class="swich-language">
                     <div class="button-group">

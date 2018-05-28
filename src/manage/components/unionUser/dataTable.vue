@@ -1,0 +1,120 @@
+<template>
+    <div>
+        <el-table align="center" v-loading="loading" ref="multipleTable" :data="dataList" tooltip-effect="dark" style="width: 100%" @selection-change="handleUserSelect">
+            <el-table-column type="selection" width="55">
+            </el-table-column>
+            <el-table-column prop="userName" label="用户名" width="120">
+            </el-table-column>
+            <el-table-column prop="enable" label="审核状态" show-overflow-tooltip>
+                <template slot-scope="scope">
+                    <i :class="scope.row.enable ? 'fa fa-check-circle' : 'fa fa-minus-circle'" :style="scope.row.enable ? green : red"></i>
+                </template>
+            </el-table-column>
+            <el-table-column prop="enable" label="用户类型" show-overflow-tooltip>
+                <template slot-scope="scope">
+                    <span>{{scope.row.group == '0' ? '联合创始人':'普通会员'}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="phoneNum" label="手机号" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column prop="coins" label="币数" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column prop="date" label="注册时间" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="操作" width="150">
+                <template slot-scope="scope">
+                    <el-button size="mini" type="primary" plain round @click="editUserInfo(scope.$index, dataList)"><i class="fa fa-edit"></i></el-button>
+                    <el-button size="mini" type="danger" plain round icon="el-icon-delete" @click="deleteUser(scope.$index, dataList)"></el-button>
+                    <el-button size="mini" type="info" plain round @click="showUsers(scope.$index, dataList)"><i class="fa fa-users"></i></el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</template>
+
+<script>
+import services from "../../store/services.js";
+export default {
+  props: {
+    dataList: Array,
+    pageInfo: Object
+  },
+  data() {
+    return {
+      loading: false,
+      tableData3: this.$store.getters.regUserList.docs,
+      multipleSelection: [],
+      green: { color: "#13CE66" },
+      red: { color: "#FF4949" }
+    };
+  },
+
+  methods: {
+    handleUserSelect(val) {
+      if (val && val.length > 0) {
+        let ids = val.map((item, index) => {
+          return item._id;
+        });
+        this.multipleSelection = ids;
+        this.$emit("changeUserSelectList", ids);
+      }
+    },
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    editUserInfo(index, rows) {
+      let rowData = rows[index];
+      console.log("-rowData---", rowData);
+      this.$store.dispatch("showUnionRegUserForm", {
+        edit: true,
+        formData: rowData
+      });
+    },
+    deleteUser(index, rows) {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          return services.deleteRegUser({
+            ids: rows[index]._id
+          });
+        })
+        .then(result => {
+          if (result.data.state === "success") {
+            this.$store.dispatch("getRegUserList", this.pageInfo);
+            this.$message({
+              message: "删除成功",
+              type: "success"
+            });
+          } else {
+            this.$message.error(result.data.message);
+          }
+        })
+        .catch(err => {
+          this.$message({
+            type: "info",
+            message: "删除失败" + err
+          });
+        });
+    },
+    showUsers(index, rows) {
+      let rowData = rows[index];
+      this.$store.dispatch("showUnionShareForm", {
+        edit: true,
+        formData: rowData
+      });
+    }
+  }
+};
+</script>

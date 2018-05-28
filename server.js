@@ -19,13 +19,14 @@ const _ = require('lodash')
 const Telegraf = require('telegraf')
 const { reply } = Telegraf
 const shortid = require('shortid');
+const schedule = require('node-schedule');
 const randomstring = require('randomstring');
 const resolve = file => path.resolve(__dirname, file)
 
 
 const { service, settings, authSession, logUtil, siteFunc } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
-const { AdminResource, SecCandyLog, WalletsLogs } = require('./server/lib/controller');
+const { AdminResource, SecCandyLog, WalletsLogs, UnionUser } = require('./server/lib/controller');
 
 // 引入 api 路由
 const routes = require('./server/routers/api')
@@ -145,15 +146,20 @@ if (settings.openRedis) {
 app.use(session(sessionConfig));
 // 鉴权用户
 app.use(authUser.auth);
+// 开启定时任务
+schedule.scheduleJob('0 0 1 * * *', function () {
+    UnionUser.taskforUnionUserCoins();
+});
+
 // 初始化日志目录
 logUtil.initPath();
-console.log('---50秒后启动数据查询---');
-setTimeout(() => {
-    // SecCandyLog.getJobSecCandyList();
-    // redis 查询
-    SecCandyLog.getJobSecCandyFromRedis();
-    WalletsLogs.addJobForScanWalletLogs();
-}, 10 * 5000)
+// console.log('---50秒后启动数据查询---');
+// setTimeout(() => {
+//     // SecCandyLog.getJobSecCandyList();
+//     // redis 查询
+//     SecCandyLog.getJobSecCandyFromRedis();
+//     WalletsLogs.addJobForScanWalletLogs();
+// }, 10 * 5000)
 // 设置 express 根目录
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')))

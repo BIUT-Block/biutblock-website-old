@@ -154,6 +154,18 @@ export default {
         return reqJsonData('manage/regUser/deleteUser', params, 'get')
     },
 
+    unionRegUserList(params) {
+        return reqJsonData('manage/unionRegUser/getList', params, 'get')
+    },
+
+    updateUnionRegUser(params) {
+        return reqJsonData('manage/unionRegUser/updateOne', params)
+    },
+
+    deleteUnionRegUser(params) {
+        return reqJsonData('manage/unionRegUser/deleteUser', params, 'get')
+    },
+
     getBakDataList(params) {
         return reqJsonData('manage/backupDataManage/getBakList', params, 'get')
     },

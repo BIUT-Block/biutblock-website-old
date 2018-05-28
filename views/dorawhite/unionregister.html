@@ -1,0 +1,102 @@
+{% extends "./public/defaultTemp.html" %} {% block content %}
+<link rel="stylesheet" href="/plugins/intlTelInput/css/intlTelInput.css">
+
+<div class="row reg-panel" ms-controller="unionRegister">
+    <div class="center-logo">
+        <div class="row" style="margin:0;">
+            <div class="particles-js" id="particles-js"></div>
+
+            <div class="col-xs-12 col-md-12 reg-container" style="margin-bottom: 600px;">
+                <div class="top-process">
+                    <ul>
+                        <div class="col-xs-8 col-xs-offset-2 col-md-offset-2 col-md-8 line"></div>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe671;</i>
+                            <div class="i18n txt" name="union-process-label-1">注册</div>
+                            <i class="icon iconfont check" style="color: #d3f113">&#xe603;</i>
+                        </li>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe674;</i>
+                            <div class="i18n txt" name="union-process-label-2">绑定钱包地址</div>
+                            <i class="icon iconfont check">&#xe603;</i>
+                        </li>
+                        <li class="col-xs-4 col-md-4">
+                            <i class="icon iconfont">&#xe672;</i>
+                            <div class="i18n txt" name="union-process-label-3">等待审核</div>
+                            <i class="icon iconfont check">&#xe603;</i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reg-form reg-union-form">
+                    <div class="row">
+                        <p style="color:#c0c2c6;text-align: center;" class="i18n" name="reg-label-welcome-tip">欢迎您注册SEC社交电商国际俱乐部会员/联合创始人</p>
+                        <form class="form-horizontal" ms-validate="@validate">
+                            <div class="col-xs-1 col-md-3"></div>
+                            <div class="col-xs-10 col-md-6 left-form">
+                                <div class="form-group">
+                                    <label for="telnum" class="i18n col-sm-4 control-label" name='reg-label-phoneNum'>Phone number</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input id="phone" type="tel" class="form-control" id="inputEmail3" placeholder="" ms-duplex="@mobileno" data-required-message="mobile-请输入手机号"
+                                            data-message="mobile-请输入正确的手机号" ms-rules="{required:true,number:true }">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageCode" class="i18n col-sm-4 control-label" name='reg-label-messageCode'>PAC</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input type="text" class="form-control" ms-duplex="@msgCode" data-required-message="messageCode-请输入短信验证码" data-message="messageCode-请输入正确的短信验证码"
+                                            ms-rules="{required:true,number:true,minlength:6,maxlength:6}">
+                                        <span class="getMsgCode">
+                                            <button id="sendMsgTxt" class="btn s-btn-default" ms-on-click="@sendMsgCode" type="button">点击获取</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName" class="i18n col-sm-4 control-label" name='reg-label-userName'>User Name</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="" ms-duplex="@userName" data-required-message="userName-请输入用户名"
+                                            data-message="userName-请输入正确的用户名" ms-rules="{required:true}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="i18n col-sm-4 control-label" name='reg-label-password'>Password</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input type="password" class="form-control" id="inputPassword3" placeholder="" ms-duplex="@password" data-required-message="password-请输入密码"
+                                            data-message="password-请输入正确的密码" ms-rules="{required:true}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="i18n col-sm-4 control-label" name='reg-label-invitationCode'>Password</label>
+                                    <div class="col-sm-8 input-container">
+                                        <input type="text" class="form-control" placeholder="" ms-duplex="@invitationCode" data-required-message="invitationCode-请输入邀请码"
+                                            data-message="password-请输入正确的邀请码" ms-rules="{required:true}">
+                                    </div>
+                                </div>
+                                <div id="sub-reg" class="form-group" style="margin-top: 10px">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="i18n btn btn-default" name='submit-wallet-btn'>提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1 col-md-3"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/plugins/intlTelInput/js/intlTelInput.js"></script>
+<script>
+    $("#phone").intlTelInput({
+        initialCountry: "cn",
+        utilsScript: "/plugins/intlTelInput/js/utils.js"
+    });
+</script>
+<script>
+
+    $(function () {
+
+        $('#sendMsgTxt').html(sendBtnTxt);
+    })
+</script> {% endblock %}
