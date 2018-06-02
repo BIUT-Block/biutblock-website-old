@@ -106,6 +106,11 @@ export default {
           current: val,
           searchkey
         });
+      } else if (this.pageType === "activeUsers") {
+        this.$store.dispatch("getActiveUsersList", {
+          current: val,
+          searchkey
+        });
       }
     }
   },

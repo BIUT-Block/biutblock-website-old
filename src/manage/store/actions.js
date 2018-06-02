@@ -434,6 +434,13 @@ export default {
             commit(types.SECCANDYWALLETLIST, result.data)
         })
     },
+    getActiveUsersList({
+        commit
+    }, params = {}) {
+        services.activeUsersList(params).then((result) => {
+            commit(types.ACTIVEUSERLIST, result.data)
+        })
+    },
     getSecCandyWalletLogsList({
         commit
     }, params = {}) {

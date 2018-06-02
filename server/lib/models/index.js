@@ -46,3 +46,4 @@ exports.SecCandyLog = require('./SecCandyLog');
 exports.Wallets = require('./Wallets');
 exports.WalletsLogs = require('./WalletsLogs');
 exports.UnionUserSendLog = require('./UnionUserSendLog');
+exports.ActivityUser = require('./ActivityUser');

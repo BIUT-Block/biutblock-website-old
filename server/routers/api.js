@@ -17,7 +17,7 @@ const {
 const validator = require('validator')
 const authUser = require('../../utils/middleware/authUser');
 
-const { AdminUser, ContentCategory, Content, ContentTag, User, UnionUser, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog, WalletsLogs } = require('../lib/controller');
+const { AdminUser, ContentCategory, Content, ContentTag, User, UnionUser, Message, SystemConfig, UserNotify, Ads, SecCandyLog, SystemOptionLog, WalletsLogs, ActivityUser } = require('../lib/controller');
 const _ = require('lodash');
 const qr = require('qr-image')
 const randomstring = require('randomstring');
@@ -311,7 +311,7 @@ router.post('/secVerify/postMessage', (req, res, next) => {
 //   })
 // })
 
-
+router.get('/readcsv', ActivityUser.importActivityUsers)
 
 
 

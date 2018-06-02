@@ -344,6 +344,12 @@ const state = {
             docs: []
         }
     },
+    activeUsersList: {
+        list: {
+            pageInfo: {},
+            docs: []
+        }
+    },
     secCandyWalletLogsList: {
         list: {
             pageInfo: {},
@@ -639,6 +645,9 @@ const mutations = {
     },
     [types.SECCANDYWALLETLIST](state, list) {
         state.secCandyWalletList.list = list
+    },
+    [types.ACTIVEUSERLIST](state, list) {
+        state.activeUsersList.list = list
     },
     [types.SECCANDYWALLETLOGSLIST](state, list) {
         console.log('----list-----', list);

@@ -26,7 +26,7 @@ const resolve = file => path.resolve(__dirname, file)
 
 const { service, settings, authSession, logUtil, siteFunc } = require('./utils');
 const authUser = require('./utils/middleware/authUser');
-const { AdminResource, SecCandyLog, WalletsLogs, UnionUser } = require('./server/lib/controller');
+const { AdminResource, SecCandyLog, WalletsLogs, UnionUser, ActivityUser } = require('./server/lib/controller');
 
 // 引入 api 路由
 const routes = require('./server/routers/api')
@@ -77,8 +77,8 @@ botClient.on('text', async ({ message, replyWithHTML }) => {
     }
 })
 // Set telegram webhook
-let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
-botClient.telegram.setWebhook(settings.BASE_URL + '/' + webhookToken)
+// let webhookToken = settings.WEBHOOK_TOKEN || randomstring.generate(16);
+// botClient.telegram.setWebhook(settings.BASE_URL + '/' + webhookToken)
 
 const app = express()
 
@@ -147,9 +147,9 @@ app.use(session(sessionConfig));
 // 鉴权用户
 app.use(authUser.auth);
 // 开启定时任务
-schedule.scheduleJob('0 0 1 * * *', function () {
-    UnionUser.taskforUnionUserCoins();
-});
+// schedule.scheduleJob('0 10 0 * * *', function () {
+//     ActivityUser.taskforActivityCoins();
+// });
 
 // 初始化日志目录
 logUtil.initPath();
@@ -175,7 +175,7 @@ app.use('/', foreground);
 app.use('/api', routes);
 app.use('/users', users);
 app.use('/system', system);
-app.use(botClient.webhookCallback('/' + webhookToken))
+// app.use(botClient.webhookCallback('/' + webhookToken))
 
 // 机器人抓取
 app.get('/robots.txt', function (req, res, next) {

@@ -250,4 +250,8 @@ export default {
         return reqJsonData('manage/secCandy/getWalletLogs', params, 'get')
     },
 
+    activeUsersList(params) {
+        return reqJsonData('manage/activityUser/getList', params, 'get')
+    },
+
 }

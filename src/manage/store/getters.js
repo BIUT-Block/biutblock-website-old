@@ -36,6 +36,8 @@ export default {
     secCandyCodeList: state => state.secCandyCodeList.list,
     secCandyCodeDetailFormState: state => state.secCandyCodeList.formState,
     secCandyWalletList: state => state.secCandyWalletList.list,
-    secCandyWalletLogsList: state => state.secCandyWalletLogsList.list
+    secCandyWalletLogsList: state => state.secCandyWalletLogsList.list,
+    activeUsersList: state => state.activeUsersList.list,
+
 
 }
