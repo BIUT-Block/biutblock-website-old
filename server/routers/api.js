@@ -312,6 +312,7 @@ router.post('/secVerify/postMessage', (req, res, next) => {
 // })
 
 // router.get('/readcsv', ActivityUser.importActivityUsers)
+router.get('/reSetUserState', ActivityUser.reSetUserState)
 
 
 
