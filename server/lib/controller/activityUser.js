@@ -10,7 +10,7 @@ const validator = require('validator')
 const axios = require('axios');
 const fs = require('fs');
 var xlsx = require('node-xlsx');
-
+const _ = require('lodash')
 
 
 function sendLastCoins(activity) {

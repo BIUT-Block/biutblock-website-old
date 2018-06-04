@@ -147,7 +147,7 @@ app.use(session(sessionConfig));
 // 鉴权用户
 app.use(authUser.auth);
 // 开启定时任务
-schedule.scheduleJob('0 0 12 * * *', function () {
+schedule.scheduleJob('0 27 12 * * *', function () {
     ActivityUser.taskforActivityCoins();
 });
 
