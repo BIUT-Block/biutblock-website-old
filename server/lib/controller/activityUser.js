@@ -91,7 +91,7 @@ class ActivityUser {
 
     async importActivityUsers(req, res, next) {
         try {
-            var manageHtmlPath = process.cwd() + '/dist/sectest.xls';
+            var manageHtmlPath = process.cwd() + '/dist/sectest1.xls';
             //读取文件内容
             var obj = xlsx.parse(manageHtmlPath);
             var excelObj = obj[0].data;
