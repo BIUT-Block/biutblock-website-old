@@ -24,7 +24,7 @@ function sendLastCoins(activity) {
                 logUtil.info('sec520活动发放结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
                     logUtil.info('sec520活动发放-转账成功！', targetWallet + '--' + writeState.data.txHash)
-                    await ActivityUserModel.findOneAndUpdate({ _id: activity._id }, { $set: { 'getCoins': wantCoins } });
+                    await ActivityUserModel.findOneAndUpdate({ _id: activity._id }, { $set: { 'hadGrant': true } });
                     resolve();
                 } else {
                     logUtil.info('补发-转账失败！', writeState.data)
@@ -147,9 +147,9 @@ class ActivityUser {
 
     async taskforActivityCoins() {
         try {
-            // 查出所有联合创始人
             let activityUsers = await ActivityUserModel.find({ hadGrant: false });
             // console.log('---1111---', activityUsers.length);
+            logUtil.info('sec520准备发币人数', activityUsers.length);
             for (let i = 0; i < activityUsers.length; i++) {
                 const activityUser = activityUsers[i];
                 // console.log('---2222---', activityUser);
