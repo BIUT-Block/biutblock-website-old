@@ -20,7 +20,7 @@
                     <i :class="scope.row.hadGrant ? 'fa fa-check-circle' : 'fa fa-minus-circle'" :style="scope.row.hadGrant ? green : red"></i>
                 </template>
             </el-table-column>
-            <el-table-column prop="winTime" label="更新时间">
+            <el-table-column prop="date" label="更新时间">
             </el-table-column>
         </el-table>
     </div>
