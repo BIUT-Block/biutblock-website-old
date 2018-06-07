@@ -24,7 +24,7 @@ function sendLastCoins(activity) {
                 logUtil.info('sec520活动发放结束！', writeState.status);
                 if (writeState.status == 200 && !_.isEmpty(writeState.data) && writeState.data.status == 'success') {
                     logUtil.info('sec520活动发放-转账成功！', targetWallet + '--' + writeState.data.txHash)
-                    await ActivityUserModel.findOneAndUpdate({ _id: activity._id }, { $set: { 'hadGrant': true } });
+                    await ActivityUserModel.findOneAndUpdate({ _id: activity._id }, { $set: { 'hadGrant': true, winTime: new Date() } });
                     resolve();
                 } else {
                     logUtil.info('补发-转账失败！', writeState.data)
