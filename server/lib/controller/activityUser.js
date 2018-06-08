@@ -61,6 +61,13 @@ class ActivityUser {
             let current = req.query.current || 1;
             let pageSize = req.query.pageSize || 10;
             let hadGrant = req.query.hadGrant, queryObj = {};
+            let searchkey = req.query.searchkey;
+
+            if (searchkey) {
+                let reKey = new RegExp(searchkey, 'i')
+                queryObj.userName = { $regex: reKey }
+            }
+
             if (hadGrant) {
                 hadGrant.hadGrant = hadGrant;
             }

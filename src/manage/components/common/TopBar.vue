@@ -71,6 +71,10 @@
                 <el-input size="small" placeholder="请输入用户名" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
                 </el-input>
             </div>
+            <div v-else-if="type === 'activeUsers'">
+                <el-input size="small" placeholder="请输入用户名" v-model="pageInfo.searchkey" suffix-icon="el-icon-search" @keyup.enter.native="searchResult" :on-icon-click="searchResult">
+                </el-input>
+            </div>
             <div v-else-if="type === 'systemOptionLogs'">
                 <el-select size="small" v-model="targetSysLogType" placeholder="请选择日志类别" @change="selectSysLogType">
                     <el-option v-for="item in systemModelTypes" :key="item.value" :label="item.label" :value="item.value">
@@ -192,6 +196,10 @@ export default {
         });
       } else if (this.type == "unionRegUser") {
         this.$store.dispatch("getUnionRegUserList", {
+          searchkey
+        });
+      }else if (this.type == "activeUsers") {
+        this.$store.dispatch("getActiveUsersList", {
           searchkey
         });
       } else if (this.type == "secCandyCode") {
