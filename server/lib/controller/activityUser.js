@@ -65,7 +65,7 @@ class ActivityUser {
 
             if (searchkey) {
                 let reKey = new RegExp(searchkey, 'i')
-                queryObj.userName = { $regex: reKey }
+                queryObj.name = { $regex: reKey }
             }
 
             if (hadGrant) {
