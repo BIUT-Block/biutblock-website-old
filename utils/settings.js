@@ -42,7 +42,7 @@ module.exports = {
     // 站点基础信息配置
     secblockAPI: 'http://api.html-js.cn', // 系统服务提供商
     SYSTEMTEMPFORDER: process.cwd() + '/views/dorawhite/', // 系统模板安装目录
-    SYSTEMLOGPATH: '/home/doraData/logsdir/secblock', // 服务器日志保存目录
+    SYSTEMLOGPATH: '/home/sec/logsdir/secblock', // 服务器日志保存目录
 
     // 邮件相关设置
     email_findPsd: 'findPsd',
